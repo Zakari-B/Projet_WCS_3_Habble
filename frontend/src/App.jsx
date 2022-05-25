@@ -6,10 +6,6 @@ function App() {
   return (
     <div className="App">
       <Home />
-      <Box bg="pink.lighter">Welcome</Box>
-      <Button variant="solid_PrimaryColor">coucou</Button>
-      <Button variant="solid_SecondaryColor">coucou</Button>
-      <p>coucou</p>
     </div>
   );
 }
