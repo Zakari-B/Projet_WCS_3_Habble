@@ -16,10 +16,15 @@ import {
   Box,
   Grid,
   GridItem,
+  ScaleFade,
 } from "@chakra-ui/react";
 
 function Mission() {
   const { isOpen, onOpen, onClose } = useDisclosure();
+
+  const coFond1 = useDisclosure();
+  const coFond2 = useDisclosure();
+
   return (
     <div>
       <Flex>
@@ -276,21 +281,43 @@ function Mission() {
           <Heading>Fonctionnalités et principes clés</Heading>
           <Text>BLa</Text>
         </Flex>
-        <Grid templateColumns="repeat(9, 1fr)" templateRows="repeat(8, 1fr)">
+        <Grid
+          templateColumns="repeat(9, 1fr)"
+          templateRows="repeat(8, 1fr)"
+          gap="2"
+        >
           <GridItem colStart={2} colEnd={3} rowStart={1} rowEnd={2}>
-            <Button bgColor="yellow">
-              <Image src="" alt="" />
-            </Button>
+            <Button
+              border="1px solid #a7197f"
+              bgColor="white"
+              bgRepeat="no-repeat"
+              bgSize="65px"
+              bgPosition="center"
+              bgImage="https://s3-us-west-2.amazonaws.com/s.cdpn.io/598117/icon-1.svg"
+              _hover="none"
+            />
           </GridItem>
           <GridItem colStart={5} colEnd={6} rowStart={1} rowEnd={2}>
-            <Button bgColor="blue">
-              <Image src="" alt="" />
-            </Button>
+            <Button
+              border="1px solid #a7197f"
+              bgColor="white"
+              bgRepeat="no-repeat"
+              bgSize="30px"
+              bgPosition="center"
+              bgImage="https://s3-us-west-2.amazonaws.com/s.cdpn.io/598117/icon-2.svg"
+              _hover="none"
+            />
           </GridItem>
           <GridItem colStart={8} colEnd={9} rowStart={1} rowEnd={2}>
-            <Button bgColor="red">
-              <Image src="" alt="" />
-            </Button>
+            <Button
+              border="1px solid #a7197f"
+              bgColor="white"
+              bgRepeat="no-repeat"
+              bgSize="30px"
+              bgPosition="center"
+              bgImage="https://s3-us-west-2.amazonaws.com/s.cdpn.io/598117/icon-3.svg"
+              _hover="none"
+            />
           </GridItem>
           <GridItem colStart={1} colEnd={4} rowStart={2} rowEnd={3}>
             Trouver un professionnel
@@ -301,17 +328,74 @@ function Mission() {
           <GridItem colStart={7} colEnd={10} rowStart={2} rowEnd={3}>
             Garanties
           </GridItem>
-          <GridItem colStart={2} colEnd={4} rowStart={3} rowEnd={5}>
-            <Image
-              src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/598117/top-left.svg"
-              w="100%"
-            />
-          </GridItem>
+          <GridItem
+            colStart={2}
+            colEnd={4}
+            rowStart={3}
+            rowEnd={5}
+            bgImage="https://s3-us-west-2.amazonaws.com/s.cdpn.io/598117/top-left.svg"
+            bgRepeat="no-repeat"
+            bgPosition="top"
+          />
+          <GridItem
+            colStart={4}
+            colEnd={7}
+            rowStart={3}
+            rowEnd={4}
+            bgImage="https://s3-us-west-2.amazonaws.com/s.cdpn.io/598117/top.svg"
+            bgRepeat="no-repeat"
+            bgPosition="top"
+          />
+          <GridItem
+            colStart={7}
+            colEnd={9}
+            rowStart={3}
+            rowEnd={5}
+            bgImage="https://s3-us-west-2.amazonaws.com/s.cdpn.io/598117/top-right.svg"
+            bgRepeat="no-repeat"
+            bgPosition="top"
+          />
           <GridItem colStart={4} colEnd={7} rowStart={4} rowEnd={6}>
-            <Box bgColor="pink" borderRadius="100%" w="50%" h="100%" m="auto">
-              Habble
-            </Box>
+            <Flex
+              color="white"
+              bgColor="#a7197f"
+              borderRadius="100%"
+              w="50%"
+              h="100%"
+              m="auto"
+            >
+              <Text color="white" alignSelf="center" m="auto">
+                Habble
+              </Text>
+            </Flex>
           </GridItem>
+          <GridItem
+            colStart={2}
+            colEnd={4}
+            rowStart={5}
+            rowEnd={7}
+            bgImage="https://s3-us-west-2.amazonaws.com/s.cdpn.io/598117/bottom-left.svg"
+            bgRepeat="no-repeat"
+            bgPosition="bottom"
+          />
+          <GridItem
+            colStart={4}
+            colEnd={7}
+            rowStart={6}
+            rowEnd={7}
+            bgImage="https://s3-us-west-2.amazonaws.com/s.cdpn.io/598117/bottom.svg"
+            bgRepeat="no-repeat"
+            bgPosition="bottom"
+          />
+          <GridItem
+            colStart={7}
+            colEnd={9}
+            rowStart={5}
+            rowEnd={7}
+            bgImage="https://s3-us-west-2.amazonaws.com/s.cdpn.io/598117/bottom-right.svg"
+            bgRepeat="no-repeat"
+            bgPosition="bottom"
+          />
           <GridItem colStart={1} colEnd={4} rowStart={7} rowEnd={8}>
             Informations, conseils
           </GridItem>
@@ -322,21 +406,112 @@ function Mission() {
             Objectif, gouvernance
           </GridItem>
           <GridItem colStart={2} colEnd={3} rowStart={8} rowEnd={9}>
-            <Button bgColor="yellow">
-              <Image src="" alt="" />
-            </Button>
+            <Button
+              border="1px solid #a7197f"
+              bgColor="white"
+              bgRepeat="no-repeat"
+              bgSize="65px"
+              bgPosition="center"
+              bgImage="https://s3-us-west-2.amazonaws.com/s.cdpn.io/598117/icon-4.svg"
+              _hover="none"
+            />
           </GridItem>
           <GridItem colStart={5} colEnd={6} rowStart={8} rowEnd={9}>
-            <Button bgColor="blue">
-              <Image src="" alt="" />
-            </Button>
+            <Button
+              border="1px solid #a7197f"
+              bgColor="white"
+              bgRepeat="no-repeat"
+              bgSize="65px"
+              bgPosition="center"
+              bgImage="https://s3-us-west-2.amazonaws.com/s.cdpn.io/598117/icon-5.svg"
+              _hover="none"
+            />
           </GridItem>
           <GridItem colStart={8} colEnd={9} rowStart={8} rowEnd={9}>
-            <Button bgColor="red">
-              <Image src="" alt="" />
-            </Button>
+            <Button
+              border="1px solid #a7197f"
+              bgColor="white"
+              bgRepeat="no-repeat"
+              bgSize="30px"
+              bgPosition="center"
+              bgImage="	https://s3-us-west-2.amazonaws.com/s.cdpn.io/598117/icon-6.svg"
+              _hover="none"
+            />
           </GridItem>
         </Grid>
+      </Flex>
+      <Flex>
+        <Heading>Les fondateurs</Heading>
+        <Flex>
+          <Flex>
+            <Box
+              bgImage="https://app.habble.fr/wp-content/uploads/2020/02/patrice-warembourg-550.jpg"
+              onClick={coFond1.onToggle}
+              bgSize="cover"
+            >
+              <ScaleFade initialScale={0.9} in={coFond1.isOpen}>
+                <Box
+                  opacity="0.5"
+                  p="40px"
+                  color="white"
+                  bg="#a7197f"
+                  z-index="1"
+                  h="100%"
+                >
+                  <Text>
+                    Conseiller en innovation sociale, ancien directeur médico
+                    social.
+                  </Text>
+                  <Link href="envoie mail">
+                    <Image src="" />
+                  </Link>
+                  <Link href="https://www.linkedin.com/in/patrice-warembourg-44109319/">
+                    <Image src="" />
+                  </Link>
+                </Box>
+              </ScaleFade>
+            </Box>
+            <Text>Patrice Warembourg</Text>
+            <Text>Co-fondateur</Text>
+            <Text>Stratégie et Développement</Text>
+          </Flex>
+          <Flex>
+            <Box
+              bgImage="	https://app.habble.fr/wp-content/uploads/2020/01/francois-duforest.jpg"
+              onClick={coFond2.onToggle}
+              bgSize="cover"
+            >
+              <ScaleFade initialScale={0.9} in={coFond2.isOpen}>
+                <Box
+                  opacity="0.5"
+                  p="40px"
+                  color="white"
+                  bg="#a7197f"
+                  z-index="1"
+                  h="100%"
+                >
+                  <Text>Consultant digital</Text>
+                  <Link href="envoie mail">
+                    <Image src="" />
+                  </Link>
+                  <Link href="https://www.linkedin.com/in/francois-duforest/">
+                    <Image src="" />
+                  </Link>
+                </Box>
+              </ScaleFade>
+            </Box>
+            <Text>François Duforest</Text>
+            <Text>Co-fondateur</Text>
+            <Text>François Duforest</Text>
+          </Flex>
+        </Flex>
+      </Flex>
+      <Flex>
+        <Heading>Partenaires et Soutiens</Heading>
+        <Flex>
+          <Image src="" />
+          <Image src="" />
+        </Flex>
       </Flex>
     </div>
   );
