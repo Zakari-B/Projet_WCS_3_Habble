@@ -285,22 +285,7 @@ function Mission() {
                     service
                   </Text>
                   <Link href="https://www.paypal.com/donate/?hosted_button_id=ANWRC6DX6X56U">
-                    <Button
-                      bgGradient={[
-                        "linear(60deg, #4d1582, #a7197f, #f25f61)",
-                        "linear(60deg, #a65ff2, #f25fd0, #f25f61)",
-                      ]}
-                      bgSize="400% 400%"
-                      animation=" 15s ease ininite"
-                      _hover={{
-                        bgGradient:
-                          "linear(60deg, #4d1582, #a7197f, #f25f61); linear(60deg, #a65ff2, #f25fd0, #f25f61)",
-                        animation: "alternate 4s infinite",
-                        bgSize: "300% 300%",
-                      }}
-                    >
-                      Faire un don
-                    </Button>
+                    <Button>Faire un don</Button>
                   </Link>
                 </Flex>
               </Flex>
@@ -335,13 +320,48 @@ function Mission() {
           </Box>
         )}
         {service.isOpen && (
-          <ScaleFade initialScale={0.9} in={service.isOpen}>
-            <Box bgColor="pink" z-index="5" h="100%" w="100vw">
-              <CloseIcon alignSelf="right" onClick={service.onClose} />
-              <Heading>Inscrivez vous et partagez vos compétences</Heading>
+          <ScaleFade
+            initialScale={0.9}
+            in={service.isOpen}
+            justifyContent="center"
+          >
+            <Flex
+              flexDirection="column"
+              justifyContent="space-around"
+              bgColor="white"
+              z-index="1"
+              h="40vh"
+              w="98vw"
+              border="2px solid #4d1582"
+              alignItems="center"
+            >
+              <CloseIcon
+                onClick={service.onClose}
+                alignSelf="flex-end"
+                m="0.5rem"
+                color="#4d1582"
+                boxSize={4}
+              />
+              <Text
+                whiteSpace="pre-wrap"
+                color="#4d1582"
+                _hover={{
+                  bgGradient: "linear(45deg, #4d1582 0%, #a7197f 50%)",
+                  bgClip: "text",
+                }}
+                fontSize="2xl"
+                w="90%"
+                fontWeight="bold"
+              >
+                Inscrivez vous et partagez vos compétences
+              </Text>
               <Image src={hServiceWorkers} alt="hServiceWorkers" w="60px" />
-              <Flex>
-                <Flex>
+              <Flex justifyContent="space-between" w="90%">
+                <Flex
+                  flexDirection="column"
+                  w="40%"
+                  justifyContent="space-around"
+                >
                   <Text>
                     Renseignez vos disponibilités et trouvez des missions
                   </Text>
@@ -349,7 +369,11 @@ function Mission() {
                     <Button>M'incrire maintenant</Button>
                   </Link>
                 </Flex>
-                <Flex>
+                <Flex
+                  flexDirection="column"
+                  w="40%"
+                  justifyContent="space-around"
+                >
                   <Text>
                     N'hésitez pas également à soutenir le développement de notre
                     service
@@ -359,7 +383,7 @@ function Mission() {
                   </Link>
                 </Flex>
               </Flex>
-            </Box>
+            </Flex>
           </ScaleFade>
         )}
         {!family.isOpen && !service.isOpen && !building.isOpen && (
@@ -390,15 +414,48 @@ function Mission() {
           </Box>
         )}
         {building.isOpen && (
-          <ScaleFade initialScale={0.9} in={building.isOpen}>
-            <Box bgColor="blue" z-index="5" h="100%" w="100vw">
-              <CloseIcon alignSelf="right" onClick={building.onClose} />
-              <Heading>
+          <ScaleFade
+            initialScale={0.9}
+            in={building.isOpen}
+            justifyContent="center"
+          >
+            <Flex
+              flexDirection="column"
+              justifyContent="space-around"
+              bgColor="white"
+              z-index="1"
+              h="40vh"
+              w="98vw"
+              border="2px solid #4d1582"
+              alignItems="center"
+            >
+              <CloseIcon
+                onClick={building.onClose}
+                alignSelf="flex-end"
+                m="0.5rem"
+                color="#4d1582"
+                boxSize={4}
+              />
+              <Text
+                whiteSpace="pre-wrap"
+                color="#4d1582"
+                _hover={{
+                  bgGradient: "linear(45deg, #4d1582 0%, #a7197f 50%)",
+                  bgClip: "text",
+                }}
+                fontSize="2xl"
+                w="90%"
+                fontWeight="bold"
+              >
                 Valorisez votre offre de service, de prestations ou de vente.
-              </Heading>
+              </Text>
               <Image src={hBuilding} alt="hBuilding" w="60px" />
-              <Flex>
-                <Flex>
+              <Flex justifyContent="space-between" w="90%">
+                <Flex
+                  flexDirection="column"
+                  w="40%"
+                  justifyContent="space-around"
+                >
                   <Text>
                     Inscrivez-vous et détaillez vos prestations et services.
                   </Text>
@@ -406,7 +463,11 @@ function Mission() {
                     <Button>M'incrire maintenant</Button>
                   </Link>
                 </Flex>
-                <Flex>
+                <Flex
+                  flexDirection="column"
+                  w="40%"
+                  justifyContent="space-around"
+                >
                   <Text>
                     Vous souhaitez créer votre propre plateforme, nous sommes là
                     pour vous accompagner.
@@ -416,18 +477,33 @@ function Mission() {
                   </Link>
                 </Flex>
               </Flex>
-            </Box>
+            </Flex>
           </ScaleFade>
         )}
       </Flex>
-      <Flex flexDirection="column">
-        <Heading>Pourquoi s'inscrire ?</Heading>
-        <Text>
+      <Flex
+        flexDirection="column"
+        justifyContent="space-between"
+        pb="2rem"
+        textAlign="start"
+        w="80%"
+        m="auto"
+      >
+        <Text
+          bgGradient="linear(45deg, #4d1582 0%, #a7197f 20%)"
+          bgClip="text"
+          textAlign="left"
+          fontSize="4xl"
+          mb="1rem"
+        >
+          Pourquoi s'inscrire ?
+        </Text>
+        <Text mb="1rem" fontSize="sm">
           Notre service de mise en relation est gratuit. Dès votre inscription
           il vous est possible de déposer votre annonce ou de trouver un
           intervenant.
         </Text>
-        <Text>
+        <Text mb="1rem" fontSize="sm">
           Pour les professionnels, notre site vous aide à développer votre
           visibilité et faciliter la mise en relation. L’inscription est
           gratuite et aucun frais ne vous sera demandé pour être présent dans
@@ -438,9 +514,24 @@ function Mission() {
           <Button>M'inscrire maintenant</Button>
         </Link>
       </Flex>
-      <Flex>
-        <Heading>Pourquoi nous aider ?</Heading>
-        <Text>
+      <Flex
+        flexDirection="column"
+        justifyContent="space-between"
+        pb="2rem"
+        textAlign="start"
+        w="80%"
+        m="auto"
+      >
+        <Text
+          bgGradient="linear(45deg, #4d1582 0%, #a7197f 20%)"
+          bgClip="text"
+          textAlign="left"
+          fontSize="4xl"
+          mb="1rem"
+        >
+          Pourquoi nous aider ?
+        </Text>
+        <Text mb="1rem" fontSize="sm">
           Aujourd’hui en France, plus de 12 000 000 de personnes souffrent d'un
           handicap ou d'un problème de santé. Plus de 50 000 sont sans solution
           d’accompagnement. Certaines doivent parfois attendre près de 10 ans
@@ -456,10 +547,15 @@ function Mission() {
           <Button>Faire un don</Button>
         </Link>
       </Flex>
-      <Flex>
-        <Flex>
+      <Flex bgColor="#5f3984">
+        <Flex flexDirection="column" w="50%">
           <Heading>Fonctionnalités et principes clés</Heading>
-          <Text>BLa</Text>
+          <Text>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum
+            voluptatem accusamus est, necessitatibus optio quo qui? Officia,
+            quibusdam libero consequuntur cum quia accusamus. Vitae blanditiis
+            quae est, obcaecati inventore magni.
+          </Text>
         </Flex>
         <Grid
           templateColumns="repeat(9, 1fr)"
