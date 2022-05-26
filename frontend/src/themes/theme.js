@@ -84,9 +84,21 @@ const theme = extendTheme({
           fontSize: "sm",
           fontWeight: "extrabold",
         }),
+        titleH4: () => ({
+          fontSize: "md",
+          fontWeight: "extrabold",
+        }),
+        titleH5: () => ({
+          fontSize: "22px",
+          fontWeight: "extrabold",
+        }),
         corps: () => ({
           fontSize: "sm",
           fontWeight: "normal",
+        }),
+        corpsBold: () => ({
+          fontSize: "10px",
+          fontWeight: "extrabold",
         }),
       },
     },
