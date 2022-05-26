@@ -1,3 +1,9 @@
+import ProAccueil from "./ProAccueil";
+
 export default function Home() {
-  return <div />;
+  return (
+    <div>
+      <ProAccueil />;
+    </div>
+  );
 }
