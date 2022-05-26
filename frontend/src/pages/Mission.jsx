@@ -198,9 +198,9 @@ function Mission() {
           de soutien.
         </Text>
       </Flex>
-      <Flex h="auto" justifyContent="space-between">
+      <Flex h="auto" justifyContent="center" gap="2">
         {!family.isOpen && !service.isOpen && !building.isOpen && (
-          <Box w="33%" h="30vh" onClick={family.onToggle}>
+          <Box w="32%" h="30vh" onClick={family.onToggle}>
             <Button
               flexDirection="column"
               justifyContent="space-around"
@@ -265,19 +265,42 @@ function Mission() {
               </Text>
               <Image src={hFamily} alt="hFamily" w="60px" />
               <Flex justifyContent="space-between" w="90%">
-                <Flex flexDirection="column" w="40%">
-                  <Text>Inscrivez vous et décrivez votre besoin</Text>
+                <Flex
+                  flexDirection="column"
+                  w="40%"
+                  justifyContent="space-around"
+                >
+                  <Text> Inscrivez vous et décrivez votre besoin</Text>
                   <Link href="/SignupForm">
                     <Button>M'incrire maintenant</Button>
                   </Link>
                 </Flex>
-                <Flex flexDirection="column" w="40%">
+                <Flex
+                  flexDirection="column"
+                  w="40%"
+                  justifyContent="space-around"
+                >
                   <Text>
                     N'hésitez pas également à soutenir le développement de notre
                     service
                   </Text>
                   <Link href="https://www.paypal.com/donate/?hosted_button_id=ANWRC6DX6X56U">
-                    <Button>Faire un don</Button>
+                    <Button
+                      bgGradient={[
+                        "linear(60deg, #4d1582, #a7197f, #f25f61)",
+                        "linear(60deg, #a65ff2, #f25fd0, #f25f61)",
+                      ]}
+                      bgSize="400% 400%"
+                      animation=" 15s ease ininite"
+                      _hover={{
+                        bgGradient:
+                          "linear(60deg, #4d1582, #a7197f, #f25f61); linear(60deg, #a65ff2, #f25fd0, #f25f61)",
+                        animation: "alternate 4s infinite",
+                        bgSize: "300% 300%",
+                      }}
+                    >
+                      Faire un don
+                    </Button>
                   </Link>
                 </Flex>
               </Flex>
@@ -285,7 +308,7 @@ function Mission() {
           </ScaleFade>
         )}
         {!family.isOpen && !service.isOpen && !building.isOpen && (
-          <Box w="33%" h="30vh" onClick={service.onToggle}>
+          <Box w="32%" h="30vh" onClick={service.onToggle}>
             <Button
               flexDirection="column"
               justifyContent="space-around"
@@ -340,7 +363,7 @@ function Mission() {
           </ScaleFade>
         )}
         {!family.isOpen && !service.isOpen && !building.isOpen && (
-          <Box w="33%" h="30vh" onClick={building.onToggle}>
+          <Box w="32%" h="30vh" onClick={building.onToggle}>
             <Button
               flexDirection="column"
               justifyContent="space-around"
