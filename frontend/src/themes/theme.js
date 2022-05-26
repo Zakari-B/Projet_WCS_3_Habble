@@ -58,9 +58,6 @@ const theme = extendTheme({
           bgGradient:
             "linear-gradient(to-r, #a7197f 0%, #4d1582 51%, #a7197f 100%)",
           bgSize: "200%",
-          _hover: {
-            animation: "slide",
-          },
           color: "white",
           borderRadius: "2px",
           height: "3rem",

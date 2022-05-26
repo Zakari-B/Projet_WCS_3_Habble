@@ -9,12 +9,12 @@ import {
   usePrefersReducedMotion,
 } from "@chakra-ui/react";
 
-function ProAccueil() {
-  const slide = keyframes`0% {background-position: 0% 0%} 100% {background-position: 100% 0%} 100% {background-position: 50% 0%}`;
+const slideIn = keyframes`0% {background-position: 0% 0%} 50% {background-position: 100% 0%} 100% {background-position: 0% 0%}`;
 
+function ProAccueil() {
   const prefersReducedMotion = usePrefersReducedMotion();
 
-  const animation = prefersReducedMotion ? undefined : `${slide} 0.5s linear`;
+  const animation = prefersReducedMotion ? undefined : `${slideIn} 2s linear`;
 
   return (
     <Box marginLeft="1.5rem" marginRight="1.5rem">
@@ -60,7 +60,7 @@ function ProAccueil() {
           fontWeight: "semibold",
         }}
       />
-      <Button variant="gradient" animation={animation}>
+      <Button variant="gradient" _hover={{ animation }}>
         Je m'inscris maintenant
       </Button>
       <Flex direction="column" align="center" marginTop="4.5rem">
