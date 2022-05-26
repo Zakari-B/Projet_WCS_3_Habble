@@ -121,9 +121,24 @@ function Mission() {
         </Flex>
         <Image src={listingProsIphone} alt="listingProsIphone" maxH="90%" />
       </Flex>
-      <Flex>
-        <Heading>Notre mission</Heading>
-        <Text>
+      <Flex
+        flexDirection="column"
+        justifyContent="space-between"
+        pb="2rem"
+        textAlign="start"
+        w="80%"
+        m="auto"
+      >
+        <Text
+          bgGradient="linear(45deg, #4d1582 0%, #a7197f 20%)"
+          bgClip="text"
+          textAlign="left"
+          fontSize="4xl"
+          mb="1rem"
+        >
+          Notre mission
+        </Text>
+        <Text mb="1rem" fontSize="sm">
           L’objectif de notre service est de favoriser la qualité de vie des
           personnes en situation de handicap ou atteintes de problèmes de santé.
           Il vise à proposer des solutions de répit, d'accompagnement, de soin
@@ -131,29 +146,38 @@ function Mission() {
           l’accompagnement : information,aides humaines, techniques et
           technologiques.
         </Text>
-        <UnorderedList>
+        <Text mb="1rem" fontSize="sm">
+          {" "}
           Habble propose deux services complémentaires :
-          <ListItem>
-            Habble, application pour faciliter l'autonomie et le droit au repit
-            des personnes en situation de handicap et/ou connaissant des
-            problèmes de santé. Présentée sous forme d'annuaire, elle permet de
-            trouver des intervenants disponibles et compétents pour les
-            accompagner ponctuellement ou durablement : garde, aide aux devoirs,
-            aide administrative, repas, transport, bien-être... Pour les
+        </Text>
+        <UnorderedList m="0">
+          <ListItem mb="1rem" fontSize="sm">
+            <strong Style="background: linear-gradient(45deg, #4d1582 0%, #a7197f 100%); background-clip: text; -webkit-background-clip: text; color: transparent;">
+              Habble
+            </strong>
+            , application pour faciliter l'autonomie et le droit au repit des
+            personnes en situation de handicap et/ou connaissant des problèmes
+            de santé. Présentée sous forme d'annuaire, elle permet de trouver
+            des intervenants disponibles et compétents pour les accompagner
+            ponctuellement ou durablement : garde, aide aux devoirs, aide
+            administrative, repas, transport, bien-être... Pour les
             professionnels (libéraux, autoentrepreneurs, société,
             association,...), elle permet de mettre en avant leur savoir faire
             et de faire connaître leur offre de services.
           </ListItem>
-          <ListItem>
-            Handiplanner, plateforme de services coordonnés dédiée aux acteurs
-            du médico social et des services à la personne. Elle vise à
-            valoriser leur offre et coordonner les interventions. Elle facilite
-            la continuité des accompagnements ainsi que le soutien auprès des
-            aidants. Elle est interopérable avec les dossiers de l'usager et les
-            outils de gestion préexistants.
+          <ListItem mb="1rem" fontSize="sm">
+            <strong Style="background: linear-gradient(45deg, #4d1582 0%, #a7197f 100%); background-clip: text; -webkit-background-clip: text; color: transparent;">
+              Handiplanner
+            </strong>
+            , plateforme de services coordonnés dédiée aux acteurs du médico
+            social et des services à la personne. Elle vise à valoriser leur
+            offre et coordonner les interventions. Elle facilite la continuité
+            des accompagnements ainsi que le soutien auprès des aidants. Elle
+            est interopérable avec les dossiers de l'usager et les outils de
+            gestion préexistants.
           </ListItem>
         </UnorderedList>
-        <Text>
+        <Text mb="1rem" fontSize="sm">
           Notre solution permet aux personnes en situation de handicap,
           atteintes de problèmes de santé et à leurs proches de trouver
           simplement une solution d'aide ou de répit adaptée à leur besoins.
@@ -166,13 +190,14 @@ function Mission() {
           corollaire aux travailleurs sociaux, médico sociaux et pédagogiques de
           proposer leur offre de service de manière simple et accessible.
         </Text>
-        <Text>
-          Les services proposés doivent ainsi permettre sans délai la définition
-          d’un plan de compensation en adéquation avec les besoins et capacités
-          de la personne en situation de handicap ou atteinte de problèmes de
-          santé. Ceux-ci doivent permettre un accompagnement adapté, simple et
-          sans délai et enfin faciliter le quotidien de la personne et de son
-          proche de soutien.
+        <Text mb="1rem" fontSize="sm">
+          Les services proposés doivent ainsi{" "}
+          <strong>permettre sans délai</strong> la définition d’un plan de
+          compensation en adéquation avec les besoins et capacités de la
+          personne en situation de handicap ou atteinte de problèmes de santé.
+          Ceux-ci doivent permettre un accompagnement adapté, simple et sans
+          délai et enfin faciliter le quotidien de la personne et de son proche
+          de soutien.
         </Text>
       </Flex>
       <Flex>
