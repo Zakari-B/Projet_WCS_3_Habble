@@ -1,6 +1,21 @@
-import { Text, Input, Button, Image, Box, Flex } from "@chakra-ui/react";
+import {
+  Text,
+  Input,
+  Button,
+  Image,
+  Box,
+  Flex,
+  keyframes,
+  usePrefersReducedMotion,
+} from "@chakra-ui/react";
 
 function ProAccueil() {
+  const slide = keyframes`0% {background-position: 0% 0%} 100% {background-position: 100% 0%} 100% {background-position: 50% 0%}`;
+
+  const prefersReducedMotion = usePrefersReducedMotion();
+
+  const animation = prefersReducedMotion ? undefined : `${slide} 0.5s linear`;
+
   return (
     <Box marginLeft="1.5rem" marginRight="1.5rem">
       <Text align="left" variant="titleH1" marginBottom="2rem">
@@ -45,7 +60,9 @@ function ProAccueil() {
           fontWeight: "semibold",
         }}
       />
-      <Button variant="gradient">Je m'inscris maintenant</Button>
+      <Button variant="gradient" animation={animation}>
+        Je m'inscris maintenant
+      </Button>
       <Flex direction="column" align="center" marginTop="4.5rem">
         <Image
           boxSize="2.3rem"
@@ -62,7 +79,7 @@ function ProAccueil() {
           dans notre annuaire.
         </Text>
         <Box
-          bgImage="linear-gradient(to right, #a7197f 0%, #4d1582 51%, #a7197f 100%)"
+          bgGradient="linear-gradient(to-r, #4d1582 0%, #a7197f 51%, #4d1582 100%)"
           bgSize="200%"
           height="10px"
           width="100%"

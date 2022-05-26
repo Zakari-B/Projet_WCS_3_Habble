@@ -55,9 +55,12 @@ const theme = extendTheme({
           borderColor: "black",
         }),
         gradient: () => ({
-          bgImage:
-            "linear-gradient(to right, #a7197f 0%, #4d1582 51%, #a7197f 100%)",
+          bgGradient:
+            "linear-gradient(to-r, #a7197f 0%, #4d1582 51%, #a7197f 100%)",
           bgSize: "200%",
+          _hover: {
+            animation: "slide",
+          },
           color: "white",
           borderRadius: "2px",
           height: "3rem",
