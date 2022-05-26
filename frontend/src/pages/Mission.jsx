@@ -19,6 +19,19 @@ import {
   ScaleFade,
 } from "@chakra-ui/react";
 
+import admin from "../assets/admin.svg";
+import care from "../assets/care.svg";
+import education from "../assets/education.svg";
+import hBuilding from "../assets/h-building.svg";
+import hFamily from "../assets/h-family.svg";
+import hServiceWorkers from "../assets/h-service-workers.svg";
+import house from "../assets/house.svg";
+import listingProsIphone from "../assets/listing-pros-iphone-600x575-2.png";
+import reseauEntreprendre from "../assets/logo_horizontal_re_couleur_nord.png";
+import evident from "../assets/logo-evident.png";
+import psychologyHead from "../assets/psychology-head.svg";
+import wheelchairTransport from "../assets/wheelchair_transport.svg";
+
 function Mission() {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -27,45 +40,49 @@ function Mission() {
 
   return (
     <div>
-      <Flex>
-        <Flex>
+      <Flex h="60vh" justifyContent="space-between">
+        <Flex flexDirection="column" h="40%">
           <Heading> Habble : votre pouvoir d'agir</Heading>
           <Text>
             La première plateforme de services gratuite de professionnels du
             handicap et du soin.
           </Text>
-          <Flex>
+          <Flex flexDirection="column" h="60%">
             <Flex>
-              <Flex>
-                <Image src="" alt="" />
+              <Flex flexDirection="column" alignItems="center">
+                <Image src={house} alt="house" width="60px" />
                 <Text>Soutien a domicile</Text>
               </Flex>
-              <Flex>
-                <Image src="" alt="" />
+              <Flex flexDirection="column" alignItems="center">
+                <Image src={care} alt="care" width="60px" />
                 <Text>Santé</Text>
               </Flex>
-              <Flex>
-                <Image src="" alt="" />
+              <Flex flexDirection="column" alignItems="center">
+                <Image src={psychologyHead} alt="psychologyHead" width="60px" />
                 <Text>Bien être</Text>
               </Flex>
             </Flex>
             <Flex>
-              <Flex>
-                <Image src="" alt="" />
+              <Flex flexDirection="column" alignItems="center">
+                <Image src={education} alt="education" width="60px" />
                 <Text>Enseignement, Education</Text>
               </Flex>
-              <Flex>
-                <Image src="" alt="" />
+              <Flex flexDirection="column" alignItems="center">
+                <Image
+                  src={wheelchairTransport}
+                  alt="wheelchairTransport"
+                  width="60px"
+                />
                 <Text>Transport, Aides techniques</Text>
               </Flex>
-              <Flex>
-                <Image src="" alt="" />
+              <Flex flexDirection="column" alignItems="center">
+                <Image src={admin} alt="admin" width="60px" />
                 <Text>Administratif et Social</Text>
               </Flex>
             </Flex>
           </Flex>
         </Flex>
-        <Image />
+        <Image src={listingProsIphone} alt="listingProsIphone" maxH="90%" />
       </Flex>
       <Flex>
         <Heading>Notre mission</Heading>
@@ -124,7 +141,7 @@ function Mission() {
       <Flex>
         <Box>
           <Button onClick={onOpen}>
-            <Image src="" alt="" />
+            <Image src={hFamily} alt="hFamily" />
             <Text>
               Vous êtes en situation de handicap, avec un problème santé ou un
               proche aidant
@@ -139,7 +156,7 @@ function Mission() {
                   Trouvez tous les professionnels du handicap de votre secteur
                   susceptibles de vous accompagner.
                 </Heading>
-                <Image src="" />
+                <Image src={hFamily} alt="hFamily" />
                 <Flex>
                   <Flex>
                     <Text>Inscrivez vous et décrivez votre besoin</Text>
@@ -163,7 +180,7 @@ function Mission() {
         </Box>
         <Box>
           <Button onClick={onOpen}>
-            <Image src="" alt="" />
+            <Image src={hServiceWorkers} alt="hServiceWorkers" />
             <Text>
               Vous êtes un travailleur social, professionnel de santé en libéral
               ou auto-entrepreneur
@@ -175,7 +192,7 @@ function Mission() {
               <ModalCloseButton />
               <ModalBody>
                 <Heading>Inscrivez vous et partagez vos compétences</Heading>
-                <Image src="" />
+                <Image src={hServiceWorkers} alt="hServiceWorkers" />
                 <Flex>
                   <Flex>
                     <Text>
@@ -201,7 +218,7 @@ function Mission() {
         </Box>
         <Box>
           <Button onClick={onOpen}>
-            <Image src="" alt="" />
+            <Image src={hBuilding} alt="hBuilding" />
             <Text>
               Vous êtes un établissement médico social, un service à domicile,
               un fabricant ou distributeur de matériel
@@ -215,7 +232,7 @@ function Mission() {
                 <Heading>
                   Valorisez votre offre de service, de prestations ou de vente.
                 </Heading>
-                <Image src="" />
+                <Image src={hBuilding} alt="hBuilding" />
                 <Flex>
                   <Flex>
                     <Text>
@@ -509,8 +526,8 @@ function Mission() {
       <Flex>
         <Heading>Partenaires et Soutiens</Heading>
         <Flex>
-          <Image src="" />
-          <Image src="" />
+          <Image src={evident} alt="logo evident" />
+          <Image src={reseauEntreprendre} alt="logo reseau entreprendre" />
         </Flex>
       </Flex>
     </div>
