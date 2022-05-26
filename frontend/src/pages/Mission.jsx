@@ -40,34 +40,66 @@ function Mission() {
 
   return (
     <div>
-      <Flex h="60vh" justifyContent="space-between">
-        <Flex flexDirection="column" h="40%">
-          <Heading> Habble : votre pouvoir d'agir</Heading>
-          <Text>
+      <Flex justifyContent="space-between" pl="1rem" pb="2rem">
+        <Flex flexDirection="column" justifyContent="space-around" p="1rem">
+          <Heading
+            bgGradient="linear(45deg, #4d1582 0%, #a7197f 100%)"
+            bgClip="text"
+            textAlign="left"
+            lineHeight="1.5"
+          >
+            Habble : votre pouvoir d'agir
+          </Heading>
+          <Text w="90%" fontSize="2xl" textAlign="left">
             La première plateforme de services gratuite de professionnels du
             handicap et du soin.
           </Text>
-          <Flex flexDirection="column" h="60%">
-            <Flex>
-              <Flex flexDirection="column" alignItems="center">
+          <Flex flexDirection="column" justifyContent="space-around" h="50%">
+            <Flex justifyContent="space-around">
+              <Flex
+                flexDirection="column"
+                alignItems="center"
+                justifyContent="space-between"
+                w="30%"
+              >
                 <Image src={house} alt="house" width="60px" />
                 <Text>Soutien a domicile</Text>
               </Flex>
-              <Flex flexDirection="column" alignItems="center">
+              <Flex
+                flexDirection="column"
+                alignItems="center"
+                justifyContent="space-between"
+                w="30%"
+              >
                 <Image src={care} alt="care" width="60px" />
                 <Text>Santé</Text>
               </Flex>
-              <Flex flexDirection="column" alignItems="center">
+              <Flex
+                flexDirection="column"
+                alignItems="center"
+                justifyContent="space-between"
+                w="30%"
+              >
                 <Image src={psychologyHead} alt="psychologyHead" width="60px" />
                 <Text>Bien être</Text>
               </Flex>
             </Flex>
-            <Flex>
-              <Flex flexDirection="column" alignItems="center">
+            <Flex justifyContent="space-around">
+              <Flex
+                flexDirection="column"
+                alignItems="center"
+                justifyContent="space-between"
+                w="30%"
+              >
                 <Image src={education} alt="education" width="60px" />
                 <Text>Enseignement, Education</Text>
               </Flex>
-              <Flex flexDirection="column" alignItems="center">
+              <Flex
+                flexDirection="column"
+                alignItems="center"
+                justifyContent="space-between"
+                w="30%"
+              >
                 <Image
                   src={wheelchairTransport}
                   alt="wheelchairTransport"
@@ -75,7 +107,12 @@ function Mission() {
                 />
                 <Text>Transport, Aides techniques</Text>
               </Flex>
-              <Flex flexDirection="column" alignItems="center">
+              <Flex
+                flexDirection="column"
+                alignItems="center"
+                justifyContent="space-between"
+                w="30%"
+              >
                 <Image src={admin} alt="admin" width="60px" />
                 <Text>Administratif et Social</Text>
               </Flex>
