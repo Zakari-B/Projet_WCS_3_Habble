@@ -1,4 +1,6 @@
 import Home from "@pages/Home";
+import SignupForm from "@components/SignupForm";
+import LoginForm from "@components/LoginForm";
 
 import "./App.css";
 
@@ -7,6 +9,8 @@ function App() {
     <div className="App">
       <Home />
       <p>coucou</p>
+      <LoginForm />
+      <SignupForm />
     </div>
   );
 }
