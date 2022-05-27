@@ -54,6 +54,23 @@ const theme = extendTheme({
           border: "2px solid",
           borderColor: "black",
         }),
+        outlineWhitePink: () => ({
+          bg: "white",
+          border: "1px solid",
+          borderColor: "white",
+          color: "pink.light",
+          borderRadius: "2px",
+          height: "3rem",
+          width: "100%",
+          justifyContent: "flex-start",
+          fontSize: "0.7rem",
+          _hover: {
+            bg: "pink.light",
+            color: "white",
+            transition: "1s background-color",
+            animation: "moveGradient2 4s alternate infinite",
+          },
+        }),
         gradient: () => ({
           bgGradient:
             "linear-gradient(to-r, #a7197f 0%, #4d1582 51%, #a7197f 100%)",

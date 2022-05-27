@@ -3,7 +3,7 @@ import ProAccueil from "./ProAccueil";
 export default function Home() {
   return (
     <div>
-      <ProAccueil />;
+      <ProAccueil />
     </div>
   );
 }
