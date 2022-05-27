@@ -12,14 +12,8 @@ import {
 import { SearchIcon } from "@chakra-ui/icons";
 
 import HomeImg from "../assets/habble-bkg-1024x684.jpg";
-import AideDomicile from "../assets/aide-a-domicile.jpg";
-import ConseilInformation from "../assets/conseil et information handicap.jpg";
-import ConseilsEduc from "../assets/conseils-educatifs.jpg";
-import Courses from "../assets/courses-repas.jpg";
-import Demarches from "../assets/demarches-1.jpg";
-import Activites from "../assets/garde-enfant.png";
-import GardeEnf from "../assets/habble-background-right-1024x540.jpg";
-import Menage from "../assets/menage-jardinage.jpeg";
+
+import LandingData from "../services/LandingData";
 
 export default function LandingPage() {
   return (
@@ -37,7 +31,7 @@ export default function LandingPage() {
       >
         <Box
           w="25%"
-          h="50%"
+          h="70%"
           p="1.938rem 2.5rem 2.625rem 2.25rem"
           ml="25rem"
           bgColor="white"
@@ -45,7 +39,7 @@ export default function LandingPage() {
           color="black"
           textAlign="left"
         >
-          <Heading as="h1" font-size="calc(1.5rem + 1.5vw)" pb="1rem">
+          <Heading as="h1" fontSize="calc(1.5rem + 1.5vw)" pb="1rem">
             Trouvez un <span>professionnel</span> du <span>handicap</span> ou du{" "}
             <span>soin</span>, de confiance près de chez vous
           </Heading>
@@ -72,31 +66,37 @@ export default function LandingPage() {
         <Heading as="h2" m="2rem 0 2rem 0" color="#342c50">
           Top services sur Habble
         </Heading>
-        <Center>
-          <Box
-            maxW="25%"
-            minH="29.3vh"
-            borderRadius="0.625rem"
-            boxShadow="0 1px 1px 0 rgb(69 43 65 / 14%), 0 2px 1px -1px rgb(69 43 65 / 12%), 0 1px 3px 0 rgb(69 43 65 / 20%)"
-            _hover={{
-              boxShadow:
-                "0 6px 10px 0 rgb(69 43 65 / 14%), 0 1px 18px 0 rgb(69 43 65 / 12%), 0 3px 5px -1px rgb(69 43 65 / 20%)",
-            }}
-            overflow="hidden"
-          >
-            <Image src={ConseilsEduc} borderRadius="0.625rem 0.625rem 0 0" />
-            <Text
-              mt="1rem"
-              fontSize="xl"
-              fontWeight="bold"
-              lineHeight="28px"
-              color="#2F1D2C"
-              textAlign="center"
+        {LandingData.map((data) => (
+          <Center key={data.id}>
+            <Box
+              w="25%"
+              h="29.3vh"
+              borderRadius="0.625rem"
+              boxShadow="0 1px 1px 0 rgb(69 43 65 / 14%), 0 2px 1px -1px rgb(69 43 65 / 12%), 0 1px 3px 0 rgb(69 43 65 / 20%)"
+              _hover={{
+                boxShadow:
+                  "0 6px 10px 0 rgb(69 43 65 / 14%), 0 1px 18px 0 rgb(69 43 65 / 12%), 0 3px 5px -1px rgb(69 43 65 / 20%)",
+              }}
             >
-              Conseils éducatifs
-            </Text>
-          </Box>
-        </Center>
+              <Image
+                src={data.image}
+                borderRadius="0.625rem 0.625rem 0 0"
+                h="55%"
+                w="100%"
+              />
+              <Text
+                mt="1rem"
+                fontSize="xl"
+                fontWeight="bold"
+                lineHeight="28px"
+                color="#2F1D2C"
+                textAlign="center"
+              >
+                {data.title}
+              </Text>
+            </Box>
+          </Center>
+        ))}
       </Box>
     </>
   );
