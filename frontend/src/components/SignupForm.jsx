@@ -1,5 +1,12 @@
 import React, { useState } from "react";
-import { Stack, Button, FormControl, Input } from "@chakra-ui/react";
+import {
+  Stack,
+  Button,
+  FormControl,
+  Input,
+  Divider,
+  Link,
+} from "@chakra-ui/react";
 import "../App.css";
 
 const signupForm = () => {
@@ -15,8 +22,8 @@ const signupForm = () => {
       <Stack
         className="noAccount"
         spacing={6}
-        width="50vw"
-        maxWidth="768px"
+        width="90vw"
+        maxWidth="540px"
         margin="auto"
       >
         <h2>Créer un compte gratuitement</h2>
@@ -89,16 +96,25 @@ const signupForm = () => {
         </Button>
         <p>
           En m'inscrivant pour créer un compte, j'accepte les{" "}
-          <a href="CGU">
+          <Link
+            href="CGU"
+            fontWeight="bold"
+            color="#A7197F"
+            _hover={{ textDecoration: "none" }}
+          >
             Conditions générales d'utilisation et de confidentialité
-          </a>
+          </Link>
         </p>
-        <div
-          className="linebreak"
-          style={{ borderTop: "1px solid lightgrey" }}
-        />
+        <Divider />
         <p>
-          Vous avez déjà un compte ?&nbsp;<a href="LOGIN FORM">Se connecter</a>
+          Vous avez déjà un compte ?&nbsp;
+          <Link
+            href="LOGIN FORM"
+            color="#A7197F"
+            _hover={{ textDecoration: "none" }}
+          >
+            Se connecter
+          </Link>
         </p>
       </Stack>
     </div>
