@@ -1,0 +1,19 @@
+.header {
+    position: sticky;
+    top: 0; 
+    transition: all 0.2s ease-in-out;
+    height: auto;
+    background-color:transparent;  
+  }
+
+  .active{
+    background-image: none;
+    background-color: white;
+    box-shadow: 0 2px 18px 0 rgb(20 72 98 / 10%) !important;
+  }
+
+  .not-active{
+    background-image: linear-gradient(rgba(0, 0, 0, .3), transparent);
+    background-color: transparent;
+
+  }
