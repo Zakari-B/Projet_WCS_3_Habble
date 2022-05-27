@@ -16,6 +16,10 @@ const theme = extendTheme({
       average: "#342C50",
       dark: "#150A33",
     },
+    gradient: {
+      purplePink:
+        "linear-gradient(90deg, rgba(103,63,192,1) 0%, rgba(212,51,150,1) 100%)",
+    },
   },
   components: {
     Button: {
