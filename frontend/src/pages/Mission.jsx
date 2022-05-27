@@ -14,6 +14,8 @@ import {
   ScaleFade,
 } from "@chakra-ui/react";
 
+import { useState } from "react";
+
 import { CloseIcon } from "@chakra-ui/icons";
 
 import admin from "../assets/admin.svg";
@@ -35,6 +37,273 @@ function Mission() {
   const building = useDisclosure();
   const coFond1 = useDisclosure();
   const coFond2 = useDisclosure();
+
+  const pro = (
+    <Flex
+      flexDirection="column"
+      justifyContent="space-between"
+      pb="2rem"
+      textAlign="start"
+      w="90%"
+      m="auto"
+    >
+      <Text
+        fontWeight="bold"
+        textAlign="left"
+        fontSize="xl"
+        mb="1rem"
+        color="white"
+      >
+        Trouver un professionnel de santé ou du soutien spécialisé dans le
+        handicap
+      </Text>
+      <Text mb="1rem" fontSize="sm" color="white">
+        Vous avez besoin de l'aide d'un professionnel du handicap rapidement ?
+        De materiel ou un logiciel ? Vous cherchez une structure dédiée ?
+        Trouvez toutes les ressources dont vous avez besoin sont sur Habble :
+      </Text>
+      <UnorderedList ml="2rem">
+        <ListItem mb="1rem" fontSize="sm" color="white">
+          Professionnels sélectionnés qualifiés et certifiés (éducateurs
+          spécialisés, enseignants spécialisés, auxiliaire de vie, assistantes
+          sociale, paramédicaux, médecins libéraux et spécialisés, transport
+          spécialisé, hébergement,…);
+        </ListItem>
+        <ListItem mb="1rem" fontSize="sm" color="white">
+          Services médico-sociaux et à la personne : établissements, services,
+          dispositifs;
+        </ListItem>
+        <ListItem mb="1rem" fontSize="sm" color="white">
+          Fabricants et distributeurs de matériel spécialisé, points de revente,
+          éditeurs de logiciels.
+        </ListItem>
+      </UnorderedList>
+      <Text mb="1rem" fontSize="sm" color="white">
+        Echangez par messagerie ou chat en ligne sur ce dont vous avez besoin et
+        à quel moment et payez la prestation directement sur la plateforme en
+        toute sécurité. Ayez l'esprit tranquille, nous vérifions les
+        qualifications des intervenants !
+      </Text>
+    </Flex>
+  );
+  const demarche = (
+    <Flex
+      flexDirection="column"
+      justifyContent="space-between"
+      pb="2rem"
+      textAlign="start"
+      w="90%"
+      m="auto"
+    >
+      <Text
+        fontWeight="bold"
+        textAlign="left"
+        fontSize="xl"
+        mb="1rem"
+        color="white"
+      >
+        Démarches en ligne : faites vous accompagner dans le montage de votre
+        dossier administratif
+      </Text>
+      <Text mb="1rem" fontSize="sm" color="white">
+        Consultez en ligne une assistante sociale ou trouver les aides
+        auxquelles vous avez droit en toute sérénité :
+      </Text>
+      <UnorderedList ml="2rem">
+        <ListItem mb="1rem" fontSize="sm" color="white">
+          Définition du plan d’aides;
+        </ListItem>
+        <ListItem mb="1rem" fontSize="sm" color="white">
+          Aide aux démarches administrives.
+        </ListItem>
+      </UnorderedList>
+    </Flex>
+  );
+  const guarentee = (
+    <Flex
+      flexDirection="column"
+      justifyContent="space-between"
+      pb="2rem"
+      textAlign="start"
+      w="90%"
+      m="auto"
+    >
+      <Text
+        fontWeight="bold"
+        textAlign="left"
+        fontSize="xl"
+        mb="1rem"
+        color="white"
+      >
+        Garanties et paiement sécurisé avec un arbitrage pour les litiges
+      </Text>
+      <Text mb="1rem" fontSize="sm" color="white">
+        Nous assurons une sélection drastique des professionnels pour garantir
+        leurs compétences et leur fiabilité afin d'assurer une haute qualité de
+        service.
+      </Text>
+      <Text mb="1rem" fontSize="sm" color="white">
+        Lorsqu’un utilisateur demande notre assistance, le paiement au
+        professionnel est momentanément suspendu jusqu’à résolution du problème.
+      </Text>
+    </Flex>
+  );
+
+  const info = (
+    <Flex
+      flexDirection="column"
+      justifyContent="space-between"
+      pb="2rem"
+      textAlign="start"
+      w="90%"
+      m="auto"
+    >
+      <Text
+        fontWeight="bold"
+        textAlign="left"
+        fontSize="xl"
+        mb="1rem"
+        color="white"
+      >
+        Informations, conseils
+      </Text>
+      <Text mb="1rem" fontSize="sm" color="white">
+        Notre blog vous permet d'accéder aux dernières actualités du secteur:
+        les droits applicables, des dossiers thématiques, des informations sur
+        les modalités d'accompagnement, ... Enfin, un espace vous permet
+        d'échanger simplement sur vos besoins et de recevoir des conseils
+        d'autres personnes sensibilisées à votre problématique.
+      </Text>
+      <UnorderedList ml="2rem">
+        <ListItem mb="1rem" fontSize="sm" color="white">
+          Information de qualité actualisée;
+        </ListItem>
+        <ListItem mb="1rem" fontSize="sm" color="white">
+          Echanges entre pairs.
+        </ListItem>
+      </UnorderedList>
+    </Flex>
+  );
+  const coordination = (
+    <Flex
+      flexDirection="column"
+      justifyContent="space-between"
+      pb="2rem"
+      textAlign="start"
+      w="90%"
+      m="auto"
+    >
+      <Text
+        fontWeight="bold"
+        textAlign="left"
+        fontSize="xl"
+        mb="1rem"
+        color="white"
+      >
+        Coordination de services
+      </Text>
+      <Text mb="1rem" fontSize="sm" color="white">
+        Vous recourez à plusieurs intervenants? Simplifiez vous la vie en
+        suivant leur programmation sur un même agenda.
+      </Text>
+      <Text mb="1rem" fontSize="sm" color="white">
+        Nous mettons à votre disposition un tableau de bord pour suivre votre
+        projet personnalisé.
+      </Text>
+      <Text mb="1rem" fontSize="sm" color="white">
+        Vous choississez les informations que vous souhaitez partager avec les
+        professionnels et vous conservez un accès permanent à l'ensemble de vos
+        données.
+      </Text>
+      <Text mb="1rem" fontSize="sm" color="white">
+        Notre vise donc à faciliter le maintien à domicile de la personne, à
+        garantir une qualité d’accompagnement ainsi qu’à alléger voire supprimer
+        la charge des proches aidants (parents, amis, ...).
+      </Text>
+    </Flex>
+  );
+  const goal = (
+    <Flex
+      flexDirection="column"
+      justifyContent="space-between"
+      pb="2rem"
+      textAlign="start"
+      w="90%"
+      m="auto"
+    >
+      <Text
+        fontWeight="bold"
+        textAlign="left"
+        fontSize="xl"
+        mb="1rem"
+        color="white"
+      >
+        Objectifs et gouvernance
+      </Text>
+      <Text mb="1rem" fontSize="sm" color="white">
+        Habble est un acteur de l'économie sociale et solidaire. Nous sommes une
+        société d'utilité sociale régit par des valeurs et une charte éthique.
+        Notre but est de changer le regard sur le handicap.
+      </Text>
+      <Text mb="1rem" fontSize="sm" color="white">
+        Notre fonctionnement est simple: toutes les personnes concernées par
+        notre service méritent notre écoute et sont invitées à nous faire
+        connaître leurs souhaits d'évolution. Nous avons la conviction que
+        l'intelligence collective est bien plus efficace qu'une organisation
+        pyramidale. Notre structure est autonome et son coût de fonctionnement
+        est garantie par les frais d'assurance qualité et nos prestations
+        d'éditeurs.
+      </Text>
+      <Text mb="1rem" fontSize="sm" color="white">
+        Notre politique est de vous offrir la meilleure expérience possible au
+        juste coût. C'est pourquoi nos frais de gestion sont limités au stricte
+        minimum.
+      </Text>
+      <Text mb="1rem" fontSize="sm" color="white">
+        Nous sommes également engagés pour la planète, notre société veille à
+        préserver l'environnement en appliquant notamment une politique 0
+        papier.
+      </Text>
+      <Text mb="1rem" fontSize="sm" color="white">
+        Le choix d'une structure solidaire nous a donc paru évident ; ce statut
+        reflêtant les valeurs que nous souhaitons porter :
+      </Text>
+      <UnorderedList ml="2rem">
+        <ListItem mb="1rem" fontSize="sm" color="white">
+          Démocratie, égalité des membres, laïcité
+        </ListItem>
+        <ListItem mb="1rem" fontSize="sm" color="white">
+          Solidarité, Economie sociale et solidaire
+        </ListItem>
+        <ListItem mb="1rem" fontSize="sm" color="white">
+          Responsabilité sociétale des entreprises, intelligence collective
+        </ListItem>
+        <ListItem mb="1rem" fontSize="sm" color="white">
+          Utilité et impact social
+        </ListItem>
+        <ListItem mb="1rem" fontSize="sm" color="white">
+          Liberté d’actions
+        </ListItem>
+        <ListItem mb="1rem" fontSize="sm" color="white">
+          Amélioration des conditions d’existence
+        </ListItem>
+        <ListItem mb="1rem" fontSize="sm" color="white">
+          Épanouissement de la personne humaine
+        </ListItem>
+        <ListItem mb="1rem" fontSize="sm" color="white">
+          Lutte contre les injustices
+        </ListItem>
+        <ListItem mb="1rem" fontSize="sm" color="white">
+          Responsabilité, formation des individus
+        </ListItem>
+        <ListItem mb="1rem" fontSize="sm" color="white">
+          Innovation économique et sociale
+        </ListItem>
+      </UnorderedList>
+    </Flex>
+  );
+
+  const [text, setText] = useState(pro);
 
   return (
     <div>
@@ -547,174 +816,184 @@ function Mission() {
           <Button>Faire un don</Button>
         </Link>
       </Flex>
-      <Flex bgColor="#5f3984">
-        <Flex flexDirection="column" w="50%">
-          <Heading>Fonctionnalités et principes clés</Heading>
-          <Text>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum
-            voluptatem accusamus est, necessitatibus optio quo qui? Officia,
-            quibusdam libero consequuntur cum quia accusamus. Vitae blanditiis
-            quae est, obcaecati inventore magni.
-          </Text>
+      <Flex
+        bgColor="#5f3984"
+        flexDirection="column"
+        justifyContent="space-between"
+      >
+        <Heading textAlign="left" color="white" fontSize="3xl" m="1rem">
+          Fonctionnalités et principes clés
+        </Heading>
+        <Flex justifyContent="space-around" m="1rem">
+          <Box w="50%">{text}</Box>
+          <Grid
+            alignSelf="center"
+            w="580px"
+            h="410px"
+            templateColumns="repeat(9, 1fr)"
+            templateRows="repeat(8, 1fr)"
+            gap="2"
+          >
+            <GridItem colStart={2} colEnd={3} rowStart={1} rowEnd={2}>
+              <Button
+                onClick={() => setText(pro)}
+                border="1px solid #a7197f"
+                bgColor="white"
+                bgRepeat="no-repeat"
+                bgSize="65px"
+                bgPosition="center"
+                bgImage="https://s3-us-west-2.amazonaws.com/s.cdpn.io/598117/icon-1.svg"
+                _hover="none"
+              />
+            </GridItem>
+            <GridItem colStart={5} colEnd={6} rowStart={1} rowEnd={2}>
+              <Button
+                onClick={() => setText(demarche)}
+                border="1px solid #a7197f"
+                bgColor="white"
+                bgRepeat="no-repeat"
+                bgSize="30px"
+                bgPosition="center"
+                bgImage="https://s3-us-west-2.amazonaws.com/s.cdpn.io/598117/icon-2.svg"
+                _hover="none"
+              />
+            </GridItem>
+            <GridItem colStart={8} colEnd={9} rowStart={1} rowEnd={2}>
+              <Button
+                onClick={() => setText(guarentee)}
+                border="1px solid #a7197f"
+                bgColor="white"
+                bgRepeat="no-repeat"
+                bgSize="30px"
+                bgPosition="center"
+                bgImage="https://s3-us-west-2.amazonaws.com/s.cdpn.io/598117/icon-3.svg"
+                _hover="none"
+              />
+            </GridItem>
+            <GridItem colStart={1} colEnd={4} rowStart={2} rowEnd={3}>
+              Trouver un professionnel
+            </GridItem>
+            <GridItem colStart={4} colEnd={7} rowStart={2} rowEnd={3}>
+              Démarches
+            </GridItem>
+            <GridItem colStart={7} colEnd={10} rowStart={2} rowEnd={3}>
+              Garanties
+            </GridItem>
+            <GridItem
+              colStart={2}
+              colEnd={4}
+              rowStart={3}
+              rowEnd={5}
+              bgImage="https://s3-us-west-2.amazonaws.com/s.cdpn.io/598117/top-left.svg"
+              bgRepeat="no-repeat"
+              bgPosition="top"
+            />
+            <GridItem
+              colStart={4}
+              colEnd={7}
+              rowStart={3}
+              rowEnd={4}
+              bgImage="https://s3-us-west-2.amazonaws.com/s.cdpn.io/598117/top.svg"
+              bgRepeat="no-repeat"
+              bgPosition="top"
+            />
+            <GridItem
+              colStart={7}
+              colEnd={9}
+              rowStart={3}
+              rowEnd={5}
+              bgImage="https://s3-us-west-2.amazonaws.com/s.cdpn.io/598117/top-right.svg"
+              bgRepeat="no-repeat"
+              bgPosition="top"
+            />
+            <GridItem colStart={4} colEnd={7} rowStart={4} rowEnd={6}>
+              <Flex
+                color="white"
+                bgColor="#a7197f"
+                borderRadius="100%"
+                w="50%"
+                h="100%"
+                m="auto"
+              >
+                <Text color="white" alignSelf="center" m="auto">
+                  Habble
+                </Text>
+              </Flex>
+            </GridItem>
+            <GridItem
+              colStart={2}
+              colEnd={4}
+              rowStart={5}
+              rowEnd={7}
+              bgImage="https://s3-us-west-2.amazonaws.com/s.cdpn.io/598117/bottom-left.svg"
+              bgRepeat="no-repeat"
+              bgPosition="bottom"
+            />
+            <GridItem
+              colStart={4}
+              colEnd={7}
+              rowStart={6}
+              rowEnd={7}
+              bgImage="https://s3-us-west-2.amazonaws.com/s.cdpn.io/598117/bottom.svg"
+              bgRepeat="no-repeat"
+              bgPosition="bottom"
+            />
+            <GridItem
+              colStart={7}
+              colEnd={9}
+              rowStart={5}
+              rowEnd={7}
+              bgImage="https://s3-us-west-2.amazonaws.com/s.cdpn.io/598117/bottom-right.svg"
+              bgRepeat="no-repeat"
+              bgPosition="bottom"
+            />
+            <GridItem colStart={1} colEnd={4} rowStart={7} rowEnd={8}>
+              Informations, conseils
+            </GridItem>
+            <GridItem colStart={4} colEnd={7} rowStart={7} rowEnd={8}>
+              Coordination
+            </GridItem>
+            <GridItem colStart={7} colEnd={10} rowStart={7} rowEnd={8}>
+              Objectif, gouvernance
+            </GridItem>
+            <GridItem colStart={2} colEnd={3} rowStart={8} rowEnd={9}>
+              <Button
+                onClick={() => setText(info)}
+                border="1px solid #a7197f"
+                bgColor="white"
+                bgRepeat="no-repeat"
+                bgSize="65px"
+                bgPosition="center"
+                bgImage="https://s3-us-west-2.amazonaws.com/s.cdpn.io/598117/icon-4.svg"
+                _hover="none"
+              />
+            </GridItem>
+            <GridItem colStart={5} colEnd={6} rowStart={8} rowEnd={9}>
+              <Button
+                onClick={() => setText(coordination)}
+                border="1px solid #a7197f"
+                bgColor="white"
+                bgRepeat="no-repeat"
+                bgSize="65px"
+                bgPosition="center"
+                bgImage="https://s3-us-west-2.amazonaws.com/s.cdpn.io/598117/icon-5.svg"
+                _hover="none"
+              />
+            </GridItem>
+            <GridItem colStart={8} colEnd={9} rowStart={8} rowEnd={9}>
+              <Button
+                onClick={() => setText(goal)}
+                border="1px solid #a7197f"
+                bgColor="white"
+                bgRepeat="no-repeat"
+                bgSize="30px"
+                bgPosition="center"
+                bgImage="	https://s3-us-west-2.amazonaws.com/s.cdpn.io/598117/icon-6.svg"
+                _hover="none"
+              />
+            </GridItem>
+          </Grid>
         </Flex>
-        <Grid
-          templateColumns="repeat(9, 1fr)"
-          templateRows="repeat(8, 1fr)"
-          gap="2"
-        >
-          <GridItem colStart={2} colEnd={3} rowStart={1} rowEnd={2}>
-            <Button
-              border="1px solid #a7197f"
-              bgColor="white"
-              bgRepeat="no-repeat"
-              bgSize="65px"
-              bgPosition="center"
-              bgImage="https://s3-us-west-2.amazonaws.com/s.cdpn.io/598117/icon-1.svg"
-              _hover="none"
-            />
-          </GridItem>
-          <GridItem colStart={5} colEnd={6} rowStart={1} rowEnd={2}>
-            <Button
-              border="1px solid #a7197f"
-              bgColor="white"
-              bgRepeat="no-repeat"
-              bgSize="30px"
-              bgPosition="center"
-              bgImage="https://s3-us-west-2.amazonaws.com/s.cdpn.io/598117/icon-2.svg"
-              _hover="none"
-            />
-          </GridItem>
-          <GridItem colStart={8} colEnd={9} rowStart={1} rowEnd={2}>
-            <Button
-              border="1px solid #a7197f"
-              bgColor="white"
-              bgRepeat="no-repeat"
-              bgSize="30px"
-              bgPosition="center"
-              bgImage="https://s3-us-west-2.amazonaws.com/s.cdpn.io/598117/icon-3.svg"
-              _hover="none"
-            />
-          </GridItem>
-          <GridItem colStart={1} colEnd={4} rowStart={2} rowEnd={3}>
-            Trouver un professionnel
-          </GridItem>
-          <GridItem colStart={4} colEnd={7} rowStart={2} rowEnd={3}>
-            Démarches
-          </GridItem>
-          <GridItem colStart={7} colEnd={10} rowStart={2} rowEnd={3}>
-            Garanties
-          </GridItem>
-          <GridItem
-            colStart={2}
-            colEnd={4}
-            rowStart={3}
-            rowEnd={5}
-            bgImage="https://s3-us-west-2.amazonaws.com/s.cdpn.io/598117/top-left.svg"
-            bgRepeat="no-repeat"
-            bgPosition="top"
-          />
-          <GridItem
-            colStart={4}
-            colEnd={7}
-            rowStart={3}
-            rowEnd={4}
-            bgImage="https://s3-us-west-2.amazonaws.com/s.cdpn.io/598117/top.svg"
-            bgRepeat="no-repeat"
-            bgPosition="top"
-          />
-          <GridItem
-            colStart={7}
-            colEnd={9}
-            rowStart={3}
-            rowEnd={5}
-            bgImage="https://s3-us-west-2.amazonaws.com/s.cdpn.io/598117/top-right.svg"
-            bgRepeat="no-repeat"
-            bgPosition="top"
-          />
-          <GridItem colStart={4} colEnd={7} rowStart={4} rowEnd={6}>
-            <Flex
-              color="white"
-              bgColor="#a7197f"
-              borderRadius="100%"
-              w="50%"
-              h="100%"
-              m="auto"
-            >
-              <Text color="white" alignSelf="center" m="auto">
-                Habble
-              </Text>
-            </Flex>
-          </GridItem>
-          <GridItem
-            colStart={2}
-            colEnd={4}
-            rowStart={5}
-            rowEnd={7}
-            bgImage="https://s3-us-west-2.amazonaws.com/s.cdpn.io/598117/bottom-left.svg"
-            bgRepeat="no-repeat"
-            bgPosition="bottom"
-          />
-          <GridItem
-            colStart={4}
-            colEnd={7}
-            rowStart={6}
-            rowEnd={7}
-            bgImage="https://s3-us-west-2.amazonaws.com/s.cdpn.io/598117/bottom.svg"
-            bgRepeat="no-repeat"
-            bgPosition="bottom"
-          />
-          <GridItem
-            colStart={7}
-            colEnd={9}
-            rowStart={5}
-            rowEnd={7}
-            bgImage="https://s3-us-west-2.amazonaws.com/s.cdpn.io/598117/bottom-right.svg"
-            bgRepeat="no-repeat"
-            bgPosition="bottom"
-          />
-          <GridItem colStart={1} colEnd={4} rowStart={7} rowEnd={8}>
-            Informations, conseils
-          </GridItem>
-          <GridItem colStart={4} colEnd={7} rowStart={7} rowEnd={8}>
-            Coordination
-          </GridItem>
-          <GridItem colStart={7} colEnd={10} rowStart={7} rowEnd={8}>
-            Objectif, gouvernance
-          </GridItem>
-          <GridItem colStart={2} colEnd={3} rowStart={8} rowEnd={9}>
-            <Button
-              border="1px solid #a7197f"
-              bgColor="white"
-              bgRepeat="no-repeat"
-              bgSize="65px"
-              bgPosition="center"
-              bgImage="https://s3-us-west-2.amazonaws.com/s.cdpn.io/598117/icon-4.svg"
-              _hover="none"
-            />
-          </GridItem>
-          <GridItem colStart={5} colEnd={6} rowStart={8} rowEnd={9}>
-            <Button
-              border="1px solid #a7197f"
-              bgColor="white"
-              bgRepeat="no-repeat"
-              bgSize="65px"
-              bgPosition="center"
-              bgImage="https://s3-us-west-2.amazonaws.com/s.cdpn.io/598117/icon-5.svg"
-              _hover="none"
-            />
-          </GridItem>
-          <GridItem colStart={8} colEnd={9} rowStart={8} rowEnd={9}>
-            <Button
-              border="1px solid #a7197f"
-              bgColor="white"
-              bgRepeat="no-repeat"
-              bgSize="30px"
-              bgPosition="center"
-              bgImage="	https://s3-us-west-2.amazonaws.com/s.cdpn.io/598117/icon-6.svg"
-              _hover="none"
-            />
-          </GridItem>
-        </Grid>
       </Flex>
       <Flex>
         <Heading>Les fondateurs</Heading>
