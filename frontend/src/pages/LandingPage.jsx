@@ -3,7 +3,6 @@ import {
   Heading,
   Input,
   Flex,
-  Center,
   Text,
   Image,
   InputRightElement,
@@ -17,7 +16,7 @@ import LandingData from "../services/LandingData";
 
 export default function LandingPage() {
   return (
-    <>
+    <div>
       <Box
         w="100%"
         h="82.0021299254526vh"
@@ -62,15 +61,16 @@ export default function LandingPage() {
           </InputGroup>
         </Box>
       </Box>
-      <Box w="55vw" mb="5rem" ml="auto" mr="auto">
+      <Box w="55vw" mb="5rem" ml="auto" mr="auto" border="2px solid red">
         <Heading as="h2" m="2rem 0 2rem 0" color="#342c50">
           Top services sur Habble
         </Heading>
         {LandingData.map((data) => (
-          <Center key={data.id}>
+          <Box key={data.id}>
             <Box
-              w="25%"
+              maxW="25%"
               h="29.3vh"
+              mb="1rem"
               borderRadius="0.625rem"
               boxShadow="0 1px 1px 0 rgb(69 43 65 / 14%), 0 2px 1px -1px rgb(69 43 65 / 12%), 0 1px 3px 0 rgb(69 43 65 / 20%)"
               _hover={{
@@ -81,8 +81,8 @@ export default function LandingPage() {
               <Image
                 src={data.image}
                 borderRadius="0.625rem 0.625rem 0 0"
-                h="55%"
-                w="100%"
+                // h="55%"
+                // w="100%"
               />
               <Text
                 mt="1rem"
@@ -95,9 +95,9 @@ export default function LandingPage() {
                 {data.title}
               </Text>
             </Box>
-          </Center>
+          </Box>
         ))}
       </Box>
-    </>
+    </div>
   );
 }
