@@ -3,11 +3,11 @@ import PropTypes from "prop-types";
 import LogoImgDegrade from "../assets/logo-habble-degrade.svg";
 import LogoImgWhite from "../assets/logo-habble-white.svg";
 
-export default function Logo({ onDark = false }) {
+export default function Logo({ onDark }) {
   return (
     <a href="/">
       <Img
-        src={onDark ? LogoImgDegrade : LogoImgWhite}
+        src={onDark ? LogoImgWhite : LogoImgDegrade}
         minW="130px"
         h="auto"
         marginRight="50px"
