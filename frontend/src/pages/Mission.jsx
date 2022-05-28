@@ -307,7 +307,7 @@ function Mission() {
 
   return (
     <div>
-      <Flex justifyContent="space-between" pl="1rem" pb="2rem">
+      <Flex justifyContent="space-between" pl="1rem" h="fit-content">
         <Flex flexDirection="column" justifyContent="space-around" p="1rem">
           <Heading
             bgGradient="linear(45deg, #4d1582 0%, #a7197f 100%)"
@@ -391,7 +391,7 @@ function Mission() {
       <Flex
         flexDirection="column"
         justifyContent="space-between"
-        pb="2rem"
+        h="fit-content"
         textAlign="start"
         w="80%"
         m="auto"
@@ -467,7 +467,7 @@ function Mission() {
           de soutien.
         </Text>
       </Flex>
-      <Flex h="auto" justifyContent="center" gap="2">
+      <Flex h="fit-content" justifyContent="center" gap="2" my="1rem">
         {!family.isOpen && !service.isOpen && !building.isOpen && (
           <Box w="32%" h="30vh" onClick={family.onToggle}>
             <Button
@@ -753,7 +753,7 @@ function Mission() {
       <Flex
         flexDirection="column"
         justifyContent="space-between"
-        pb="2rem"
+        h="fit-content"
         textAlign="start"
         w="80%"
         m="auto"
@@ -820,252 +820,376 @@ function Mission() {
         bgColor="#5f3984"
         flexDirection="column"
         justifyContent="space-between"
+        h="fit-content"
       >
         <Heading textAlign="left" color="white" fontSize="3xl" m="1rem">
           Fonctionnalités et principes clés
         </Heading>
         <Flex justifyContent="space-around" m="1rem">
-          <Box w="50%">{text}</Box>
-          <Grid
-            alignSelf="center"
-            w="580px"
-            h="410px"
-            templateColumns="repeat(9, 1fr)"
-            templateRows="repeat(8, 1fr)"
-            gap="2"
-          >
-            <GridItem colStart={2} colEnd={3} rowStart={1} rowEnd={2}>
-              <Button
-                onClick={() => setText(pro)}
-                border="1px solid #a7197f"
-                bgColor="white"
-                bgRepeat="no-repeat"
-                bgSize="65px"
-                bgPosition="center"
-                bgImage="https://s3-us-west-2.amazonaws.com/s.cdpn.io/598117/icon-1.svg"
-                _hover="none"
-              />
-            </GridItem>
-            <GridItem colStart={5} colEnd={6} rowStart={1} rowEnd={2}>
-              <Button
-                onClick={() => setText(demarche)}
-                border="1px solid #a7197f"
-                bgColor="white"
-                bgRepeat="no-repeat"
-                bgSize="30px"
-                bgPosition="center"
-                bgImage="https://s3-us-west-2.amazonaws.com/s.cdpn.io/598117/icon-2.svg"
-                _hover="none"
-              />
-            </GridItem>
-            <GridItem colStart={8} colEnd={9} rowStart={1} rowEnd={2}>
-              <Button
-                onClick={() => setText(guarentee)}
-                border="1px solid #a7197f"
-                bgColor="white"
-                bgRepeat="no-repeat"
-                bgSize="30px"
-                bgPosition="center"
-                bgImage="https://s3-us-west-2.amazonaws.com/s.cdpn.io/598117/icon-3.svg"
-                _hover="none"
-              />
-            </GridItem>
-            <GridItem colStart={1} colEnd={4} rowStart={2} rowEnd={3}>
-              Trouver un professionnel
-            </GridItem>
-            <GridItem colStart={4} colEnd={7} rowStart={2} rowEnd={3}>
-              Démarches
-            </GridItem>
-            <GridItem colStart={7} colEnd={10} rowStart={2} rowEnd={3}>
-              Garanties
-            </GridItem>
-            <GridItem
-              colStart={2}
-              colEnd={4}
-              rowStart={3}
-              rowEnd={5}
-              bgImage="https://s3-us-west-2.amazonaws.com/s.cdpn.io/598117/top-left.svg"
-              bgRepeat="no-repeat"
-              bgPosition="top"
-            />
-            <GridItem
-              colStart={4}
-              colEnd={7}
-              rowStart={3}
-              rowEnd={4}
-              bgImage="https://s3-us-west-2.amazonaws.com/s.cdpn.io/598117/top.svg"
-              bgRepeat="no-repeat"
-              bgPosition="top"
-            />
-            <GridItem
-              colStart={7}
-              colEnd={9}
-              rowStart={3}
-              rowEnd={5}
-              bgImage="https://s3-us-west-2.amazonaws.com/s.cdpn.io/598117/top-right.svg"
-              bgRepeat="no-repeat"
-              bgPosition="top"
-            />
-            <GridItem colStart={4} colEnd={7} rowStart={4} rowEnd={6}>
-              <Flex
-                color="white"
-                bgColor="#a7197f"
-                borderRadius="100%"
-                w="50%"
-                h="100%"
-                m="auto"
+          <Box w="45%">{text}</Box>
+          <Box w="45%">
+            <Grid
+              textColor="white"
+              alignSelf="center"
+              w="100%"
+              h="100%"
+              templateColumns=" repeat(3, 40px 70px 40px)"
+              templateRows="70px 20px 40px 40px 70px 40px 40px 20px 70px"
+              gap="1"
+              placeContent="center"
+            >
+              <GridItem colStart={2} colEnd={3} rowStart={1} rowEnd={2}>
+                <Button
+                  onClick={() => setText(pro)}
+                  border="1px solid #a7197f"
+                  bgColor="white"
+                  bgRepeat="no-repeat"
+                  bgSize="150%"
+                  w="100%"
+                  h="100%"
+                  bgPosition="center"
+                  bgImage="https://s3-us-west-2.amazonaws.com/s.cdpn.io/598117/icon-1.svg"
+                  _hover="none"
+                />
+              </GridItem>
+              <GridItem colStart={5} colEnd={6} rowStart={1} rowEnd={2}>
+                <Button
+                  onClick={() => setText(demarche)}
+                  border="1px solid #a7197f"
+                  bgColor="white"
+                  bgRepeat="no-repeat"
+                  bgSize="70%"
+                  w="100%"
+                  h="100%"
+                  bgPosition="center"
+                  bgImage="https://s3-us-west-2.amazonaws.com/s.cdpn.io/598117/icon-2.svg"
+                  _hover="none"
+                />
+              </GridItem>
+              <GridItem colStart={8} colEnd={9} rowStart={1} rowEnd={2}>
+                <Button
+                  onClick={() => setText(guarentee)}
+                  border="1px solid #a7197f"
+                  bgColor="white"
+                  bgRepeat="no-repeat"
+                  bgSize="70%"
+                  w="100%"
+                  h="100%"
+                  bgPosition="center"
+                  bgImage="https://s3-us-west-2.amazonaws.com/s.cdpn.io/598117/icon-3.svg"
+                  _hover="none"
+                />
+              </GridItem>
+              <GridItem
+                colStart={1}
+                colEnd={4}
+                rowStart={2}
+                rowEnd={3}
+                fontSize="sm"
               >
-                <Text color="white" alignSelf="center" m="auto">
-                  Habble
-                </Text>
-              </Flex>
-            </GridItem>
-            <GridItem
-              colStart={2}
-              colEnd={4}
-              rowStart={5}
-              rowEnd={7}
-              bgImage="https://s3-us-west-2.amazonaws.com/s.cdpn.io/598117/bottom-left.svg"
-              bgRepeat="no-repeat"
-              bgPosition="bottom"
-            />
-            <GridItem
-              colStart={4}
-              colEnd={7}
-              rowStart={6}
-              rowEnd={7}
-              bgImage="https://s3-us-west-2.amazonaws.com/s.cdpn.io/598117/bottom.svg"
-              bgRepeat="no-repeat"
-              bgPosition="bottom"
-            />
-            <GridItem
-              colStart={7}
-              colEnd={9}
-              rowStart={5}
-              rowEnd={7}
-              bgImage="https://s3-us-west-2.amazonaws.com/s.cdpn.io/598117/bottom-right.svg"
-              bgRepeat="no-repeat"
-              bgPosition="bottom"
-            />
-            <GridItem colStart={1} colEnd={4} rowStart={7} rowEnd={8}>
-              Informations, conseils
-            </GridItem>
-            <GridItem colStart={4} colEnd={7} rowStart={7} rowEnd={8}>
-              Coordination
-            </GridItem>
-            <GridItem colStart={7} colEnd={10} rowStart={7} rowEnd={8}>
-              Objectif, gouvernance
-            </GridItem>
-            <GridItem colStart={2} colEnd={3} rowStart={8} rowEnd={9}>
-              <Button
-                onClick={() => setText(info)}
-                border="1px solid #a7197f"
-                bgColor="white"
+                Trouver un professionnel
+              </GridItem>
+              <GridItem
+                colStart={4}
+                colEnd={7}
+                rowStart={2}
+                rowEnd={3}
+                fontSize="sm"
+              >
+                Démarches
+              </GridItem>
+              <GridItem
+                colStart={7}
+                colEnd={10}
+                rowStart={2}
+                rowEnd={3}
+                fontSize="sm"
+              >
+                Garanties
+              </GridItem>
+              <GridItem
+                colStart={2}
+                colEnd={6}
+                rowStart={3}
+                rowEnd={5}
+                bgImage="https://s3-us-west-2.amazonaws.com/s.cdpn.io/598117/top-left.svg"
                 bgRepeat="no-repeat"
-                bgSize="65px"
-                bgPosition="center"
-                bgImage="https://s3-us-west-2.amazonaws.com/s.cdpn.io/598117/icon-4.svg"
-                _hover="none"
+                bgPosition="top"
+                // mr="4rem"
               />
-            </GridItem>
-            <GridItem colStart={5} colEnd={6} rowStart={8} rowEnd={9}>
-              <Button
-                onClick={() => setText(coordination)}
-                border="1px solid #a7197f"
-                bgColor="white"
+              <GridItem
+                colStart={4}
+                colEnd={7}
+                rowStart={3}
+                rowEnd={4}
+                bgImage="https://s3-us-west-2.amazonaws.com/s.cdpn.io/598117/top.svg"
                 bgRepeat="no-repeat"
-                bgSize="65px"
-                bgPosition="center"
-                bgImage="https://s3-us-west-2.amazonaws.com/s.cdpn.io/598117/icon-5.svg"
-                _hover="none"
+                bgPosition="top"
               />
-            </GridItem>
-            <GridItem colStart={8} colEnd={9} rowStart={8} rowEnd={9}>
-              <Button
-                onClick={() => setText(goal)}
-                border="1px solid #a7197f"
-                bgColor="white"
+              <GridItem
+                colStart={7}
+                colEnd={9}
+                rowStart={3}
+                rowEnd={5}
+                bgImage="https://s3-us-west-2.amazonaws.com/s.cdpn.io/598117/top-right.svg"
                 bgRepeat="no-repeat"
-                bgSize="30px"
-                bgPosition="center"
-                bgImage="	https://s3-us-west-2.amazonaws.com/s.cdpn.io/598117/icon-6.svg"
-                _hover="none"
+                bgPosition="top"
               />
-            </GridItem>
-          </Grid>
+              <GridItem colStart={4} colEnd={7} rowStart={4} rowEnd={7}>
+                <Flex
+                  color="white"
+                  bgColor="#a7197f"
+                  borderRadius="100%"
+                  w="100%"
+                  h="100%"
+                  m="auto"
+                >
+                  <Text color="white" alignSelf="center" m="auto">
+                    Habble
+                  </Text>
+                </Flex>
+              </GridItem>
+              <GridItem
+                colStart={2}
+                colEnd={4}
+                rowStart={6}
+                rowEnd={8}
+                bgImage="https://s3-us-west-2.amazonaws.com/s.cdpn.io/598117/bottom-left.svg"
+                bgRepeat="no-repeat"
+                bgPosition="bottom"
+              />
+              <GridItem
+                colStart={4}
+                colEnd={7}
+                rowStart={7}
+                rowEnd={8}
+                bgImage="https://s3-us-west-2.amazonaws.com/s.cdpn.io/598117/bottom.svg"
+                bgRepeat="no-repeat"
+                bgPosition="bottom"
+              />
+              <GridItem
+                colStart={7}
+                colEnd={9}
+                rowStart={6}
+                rowEnd={8}
+                bgImage="https://s3-us-west-2.amazonaws.com/s.cdpn.io/598117/bottom-right.svg"
+                bgRepeat="no-repeat"
+                bgPosition="bottom"
+              />
+              <GridItem
+                colStart={1}
+                colEnd={4}
+                rowStart={8}
+                rowEnd={9}
+                fontSize="sm"
+              >
+                Informations, conseils
+              </GridItem>
+              <GridItem
+                colStart={4}
+                colEnd={7}
+                rowStart={8}
+                rowEnd={9}
+                fontSize="sm"
+              >
+                Coordination
+              </GridItem>
+              <GridItem
+                colStart={7}
+                colEnd={10}
+                rowStart={8}
+                rowEnd={9}
+                fontSize="sm"
+              >
+                Objectif, gouvernance
+              </GridItem>
+              <GridItem colStart={2} colEnd={3} rowStart={9} rowEnd={10}>
+                <Button
+                  onClick={() => setText(info)}
+                  border="1px solid #a7197f"
+                  bgColor="white"
+                  bgRepeat="no-repeat"
+                  bgSize="150%"
+                  w="100%"
+                  h="100%"
+                  bgPosition="center"
+                  bgImage="https://s3-us-west-2.amazonaws.com/s.cdpn.io/598117/icon-4.svg"
+                  _hover="none"
+                />
+              </GridItem>
+              <GridItem colStart={5} colEnd={6} rowStart={9} rowEnd={10}>
+                <Button
+                  onClick={() => setText(coordination)}
+                  border="1px solid #a7197f"
+                  bgColor="white"
+                  bgRepeat="no-repeat"
+                  bgSize="150%"
+                  w="100%"
+                  h="100%"
+                  bgPosition="center"
+                  bgImage="https://s3-us-west-2.amazonaws.com/s.cdpn.io/598117/icon-5.svg"
+                  _hover="none"
+                />
+              </GridItem>
+              <GridItem colStart={8} colEnd={9} rowStart={9} rowEnd={10}>
+                <Button
+                  onClick={() => setText(goal)}
+                  border="1px solid #a7197f"
+                  bgColor="white"
+                  bgRepeat="no-repeat"
+                  bgSize="70%"
+                  w="100%"
+                  h="100%"
+                  bgPosition="center"
+                  bgImage="	https://s3-us-west-2.amazonaws.com/s.cdpn.io/598117/icon-6.svg"
+                  _hover="none"
+                />
+              </GridItem>
+            </Grid>
+          </Box>
         </Flex>
       </Flex>
-      <Flex>
-        <Heading>Les fondateurs</Heading>
-        <Flex>
-          <Flex>
+      <Flex
+        flexDirection="column"
+        justifyContent="space-between"
+        h="fit-content"
+        textAlign="start"
+        w="80%"
+        m="auto"
+        mt="2rem"
+      >
+        <Text
+          bgGradient="linear(45deg, #4d1582 0%, #a7197f 20%)"
+          bgClip="text"
+          textAlign="left"
+          fontSize="4xl"
+          mb="1rem"
+        >
+          Les fondateurs
+        </Text>
+        <Flex
+          justifyContent="center"
+          alignSelf="center"
+          flexWrap="wrap"
+          gap="3"
+        >
+          <Flex
+            flexDirection="column"
+            alignItems="center"
+            h="fit-content"
+            w="fit-content"
+          >
             <Box
+              h="300px"
+              w="350px"
               bgImage="https://app.habble.fr/wp-content/uploads/2020/02/patrice-warembourg-550.jpg"
               onClick={coFond1.onToggle}
               bgSize="cover"
             >
-              <ScaleFade initialScale={0.9} in={coFond1.isOpen}>
-                <Box
-                  opacity="0.5"
-                  p="40px"
+              <ScaleFade in={coFond1.isOpen}>
+                <Flex
+                  flexDir="column"
+                  h="300px"
+                  w="350px"
+                  opacity="0.7"
+                  position="absolute"
                   color="white"
                   bg="#a7197f"
                   z-index="1"
-                  h="100%"
                 >
-                  <Text>
+                  <Text textAlign="center">
                     Conseiller en innovation sociale, ancien directeur médico
                     social.
                   </Text>
-                  <Link href="envoie mail">
-                    <Image src="" />
-                  </Link>
-                  <Link href="https://www.linkedin.com/in/patrice-warembourg-44109319/">
-                    <Image src="" />
-                  </Link>
-                </Box>
+                  <Flex>
+                    <Link href="envoie mail">
+                      <Image src="" />
+                    </Link>
+                    <Link href="https://www.linkedin.com/in/patrice-warembourg-44109319/">
+                      <Image src="" />
+                    </Link>
+                  </Flex>
+                </Flex>
               </ScaleFade>
             </Box>
-            <Text>Patrice Warembourg</Text>
-            <Text>Co-fondateur</Text>
-            <Text>Stratégie et Développement</Text>
+            <Text color="#342c50">Patrice Warembourg</Text>
+            <Text color="#a5a5a5">Co-fondateur</Text>
+            <Text color="#342c50">Stratégie et Développement</Text>
           </Flex>
-          <Flex>
+          <Flex
+            flexDirection="column"
+            w="fit-content"
+            alignItems="center"
+            h="fit-content"
+          >
             <Box
+              h="300px"
+              w="350px"
               bgImage="	https://app.habble.fr/wp-content/uploads/2020/01/francois-duforest.jpg"
               onClick={coFond2.onToggle}
               bgSize="cover"
             >
-              <ScaleFade initialScale={0.9} in={coFond2.isOpen}>
-                <Box
-                  opacity="0.5"
-                  p="40px"
+              <ScaleFade initialScale={0.1} in={coFond2.isOpen}>
+                <Flex
+                  flexDir="column"
+                  h="300px"
+                  w="350px"
+                  opacity="0.7"
+                  position="absolute"
                   color="white"
                   bg="#a7197f"
                   z-index="1"
-                  h="100%"
                 >
-                  <Text>Consultant digital</Text>
-                  <Link href="envoie mail">
-                    <Image src="" />
-                  </Link>
-                  <Link href="https://www.linkedin.com/in/francois-duforest/">
-                    <Image src="" />
-                  </Link>
-                </Box>
+                  <Text textAlign="center">Consultant digital</Text>
+                  <Flex>
+                    <Link href="envoie mail">
+                      <Image src="" />
+                    </Link>
+                    <Link href="https://www.linkedin.com/in/francois-duforest/">
+                      <Image src="" />
+                    </Link>
+                  </Flex>
+                </Flex>
               </ScaleFade>
             </Box>
-            <Text>François Duforest</Text>
-            <Text>Co-fondateur</Text>
-            <Text>François Duforest</Text>
+            <Text color="#342c50">François Duforest</Text>
+            <Text color="#a5a5a5">Co-fondateur</Text>
+            <Text color="#342c50">François Duforest</Text>
           </Flex>
         </Flex>
       </Flex>
-      <Flex>
-        <Heading>Partenaires et Soutiens</Heading>
-        <Flex>
-          <Image src={evident} alt="logo evident" />
-          <Image src={reseauEntreprendre} alt="logo reseau entreprendre" />
+      <Flex
+        flexDirection="column"
+        justifyContent="space-between"
+        h="fit-content"
+        textAlign="start"
+        w="80%"
+        m="auto"
+        mt="2rem"
+      >
+        <Text
+          bgGradient="linear(45deg, #4d1582 0%, #a7197f 20%)"
+          bgClip="text"
+          textAlign="left"
+          fontSize="4xl"
+          mb="1rem"
+        >
+          Partenaires et Soutiens
+        </Text>
+        <Flex
+          justifyContent="space-around"
+          alignSelf="center"
+          flexWrap="wrap"
+          w="90%"
+        >
+          <Image src={evident} alt="logo evident" w="200px" m="1rem" />
+          <Image
+            alignSelf="center"
+            src={reseauEntreprendre}
+            alt="logo reseau entreprendre"
+            h="56px"
+            m="1rem"
+          />
         </Flex>
       </Flex>
     </div>
