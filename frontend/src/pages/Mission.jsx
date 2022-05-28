@@ -480,8 +480,9 @@ function Mission() {
               borderLeft="2px solid #4d1582"
               borderRadius="0"
             >
-              <Image src={hFamily} alt="hFamily" w="60px" />
+              <Image src={hFamily} alt="hFamily" w="100px" bcolor="#4d1582" />
               <Text
+                h="30%"
                 whiteSpace="pre-wrap"
                 color="#4d1582"
                 _hover={{
@@ -532,15 +533,24 @@ function Mission() {
                 Trouvez tous les professionnels du handicap de votre secteur
                 susceptibles de vous accompagner.
               </Text>
-              <Image src={hFamily} alt="hFamily" w="60px" />
+              <Image src={hFamily} alt="hFamily" w="100px" />
               <Flex justifyContent="space-between" w="90%">
                 <Flex
                   flexDirection="column"
                   w="40%"
                   justifyContent="space-around"
                 >
-                  <Text> Inscrivez vous et décrivez votre besoin</Text>
-                  <Link href="/SignupForm">
+                  <Text
+                    fontWeight="bold"
+                    color="white"
+                    _hover={{
+                      bgGradient: "linear(45deg, #4d1582 0%, #a7197f 50%)",
+                      bgClip: "text",
+                    }}
+                  >
+                    Inscrivez vous et décrivez votre besoin
+                  </Text>
+                  <Link href="/register/?role=employer">
                     <Button>M'incrire maintenant</Button>
                   </Link>
                 </Flex>
@@ -549,7 +559,14 @@ function Mission() {
                   w="40%"
                   justifyContent="space-around"
                 >
-                  <Text>
+                  <Text
+                    fontWeight="bold"
+                    color="white"
+                    _hover={{
+                      bgGradient: "linear(45deg, #4d1582 0%, #a7197f 50%)",
+                      bgClip: "text",
+                    }}
+                  >
                     N'hésitez pas également à soutenir le développement de notre
                     service
                   </Text>
@@ -573,8 +590,9 @@ function Mission() {
               borderLeft="2px solid #4d1582"
               borderRadius="0"
             >
-              <Image src={hServiceWorkers} alt="hServiceWorkers" w="60px" />
+              <Image src={hServiceWorkers} alt="hServiceWorkers" w="100px" />
               <Text
+                h="30%"
                 whiteSpace="pre-wrap"
                 color="#4d1582"
                 _hover={{
@@ -624,17 +642,24 @@ function Mission() {
               >
                 Inscrivez vous et partagez vos compétences
               </Text>
-              <Image src={hServiceWorkers} alt="hServiceWorkers" w="60px" />
+              <Image src={hServiceWorkers} alt="hServiceWorkers" w="100px" />
               <Flex justifyContent="space-between" w="90%">
                 <Flex
                   flexDirection="column"
                   w="40%"
                   justifyContent="space-around"
                 >
-                  <Text>
+                  <Text
+                    fontWeight="bold"
+                    color="white"
+                    _hover={{
+                      bgGradient: "linear(45deg, #4d1582 0%, #a7197f 50%)",
+                      bgClip: "text",
+                    }}
+                  >
                     Renseignez vos disponibilités et trouvez des missions
                   </Text>
-                  <Link href="/SignupForm">
+                  <Link href="/register/?role=freelancer">
                     <Button>M'incrire maintenant</Button>
                   </Link>
                 </Flex>
@@ -643,7 +668,14 @@ function Mission() {
                   w="40%"
                   justifyContent="space-around"
                 >
-                  <Text>
+                  <Text
+                    fontWeight="bold"
+                    color="white"
+                    _hover={{
+                      bgGradient: "linear(45deg, #4d1582 0%, #a7197f 50%)",
+                      bgClip: "text",
+                    }}
+                  >
                     N'hésitez pas également à soutenir le développement de notre
                     service
                   </Text>
@@ -667,8 +699,9 @@ function Mission() {
               borderLeft="2px solid #4d1582"
               borderRadius="0"
             >
-              <Image src={hBuilding} alt="hBuilding" w="60px" />
+              <Image src={hBuilding} alt="hBuilding" w="100px" />
               <Text
+                h="30%"
                 whiteSpace="pre-wrap"
                 color="#4d1582"
                 _hover={{
@@ -718,17 +751,24 @@ function Mission() {
               >
                 Valorisez votre offre de service, de prestations ou de vente.
               </Text>
-              <Image src={hBuilding} alt="hBuilding" w="60px" />
+              <Image src={hBuilding} alt="hBuilding" w="100px" />
               <Flex justifyContent="space-between" w="90%">
                 <Flex
                   flexDirection="column"
                   w="40%"
                   justifyContent="space-around"
                 >
-                  <Text>
+                  <Text
+                    fontWeight="bold"
+                    color="white"
+                    _hover={{
+                      bgGradient: "linear(45deg, #4d1582 0%, #a7197f 50%)",
+                      bgClip: "text",
+                    }}
+                  >
                     Inscrivez-vous et détaillez vos prestations et services.
                   </Text>
-                  <Link href="/SignupForm">
+                  <Link href="/register/?role=freelancer">
                     <Button>M'incrire maintenant</Button>
                   </Link>
                 </Flex>
@@ -737,11 +777,18 @@ function Mission() {
                   w="40%"
                   justifyContent="space-around"
                 >
-                  <Text>
+                  <Text
+                    fontWeight="bold"
+                    color="white"
+                    _hover={{
+                      bgGradient: "linear(45deg, #4d1582 0%, #a7197f 50%)",
+                      bgClip: "text",
+                    }}
+                  >
                     Vous souhaitez créer votre propre plateforme, nous sommes là
                     pour vous accompagner.
                   </Text>
-                  <Link href="/Contact">
+                  <Link href="/contact">
                     <Button> Demande de rendez-vous</Button>
                   </Link>
                 </Flex>
@@ -849,7 +896,9 @@ function Mission() {
                   h="100%"
                   bgPosition="center"
                   bgImage="https://s3-us-west-2.amazonaws.com/s.cdpn.io/598117/icon-1.svg"
-                  _hover="none"
+                  opacity="0.5"
+                  _focus={{ opacity: "1" }}
+                  _hover={{ opacity: "1" }}
                 />
               </GridItem>
               <GridItem colStart={5} colEnd={6} rowStart={1} rowEnd={2}>
@@ -863,7 +912,9 @@ function Mission() {
                   h="100%"
                   bgPosition="center"
                   bgImage="https://s3-us-west-2.amazonaws.com/s.cdpn.io/598117/icon-2.svg"
-                  _hover="none"
+                  opacity="0.5"
+                  _focus={{ opacity: "1" }}
+                  _hover={{ opacity: "1" }}
                 />
               </GridItem>
               <GridItem colStart={8} colEnd={9} rowStart={1} rowEnd={2}>
@@ -877,7 +928,9 @@ function Mission() {
                   h="100%"
                   bgPosition="center"
                   bgImage="https://s3-us-west-2.amazonaws.com/s.cdpn.io/598117/icon-3.svg"
-                  _hover="none"
+                  opacity="0.5"
+                  _focus={{ opacity: "1" }}
+                  _hover={{ opacity: "1" }}
                 />
               </GridItem>
               <GridItem
@@ -909,33 +962,38 @@ function Mission() {
               </GridItem>
               <GridItem
                 colStart={2}
-                colEnd={6}
+                colEnd={5}
                 rowStart={3}
-                rowEnd={5}
+                rowEnd={6}
                 bgImage="https://s3-us-west-2.amazonaws.com/s.cdpn.io/598117/top-left.svg"
                 bgRepeat="no-repeat"
                 bgPosition="top"
-                // mr="4rem"
               />
               <GridItem
                 colStart={4}
                 colEnd={7}
                 rowStart={3}
-                rowEnd={4}
+                rowEnd={5}
                 bgImage="https://s3-us-west-2.amazonaws.com/s.cdpn.io/598117/top.svg"
                 bgRepeat="no-repeat"
                 bgPosition="top"
               />
               <GridItem
-                colStart={7}
+                colStart={6}
                 colEnd={9}
                 rowStart={3}
-                rowEnd={5}
+                rowEnd={6}
                 bgImage="https://s3-us-west-2.amazonaws.com/s.cdpn.io/598117/top-right.svg"
                 bgRepeat="no-repeat"
                 bgPosition="top"
               />
-              <GridItem colStart={4} colEnd={7} rowStart={4} rowEnd={7}>
+              <GridItem
+                colStart={4}
+                colEnd={7}
+                rowStart={4}
+                rowEnd={7}
+                zIndex="1"
+              >
                 <Flex
                   color="white"
                   bgColor="#a7197f"
@@ -944,15 +1002,21 @@ function Mission() {
                   h="100%"
                   m="auto"
                 >
-                  <Text color="white" alignSelf="center" m="auto">
+                  <Text
+                    color="white"
+                    alignSelf="center"
+                    m="auto"
+                    fontWeight="bold"
+                    fontSize="4xl"
+                  >
                     Habble
                   </Text>
                 </Flex>
               </GridItem>
               <GridItem
                 colStart={2}
-                colEnd={4}
-                rowStart={6}
+                colEnd={5}
+                rowStart={5}
                 rowEnd={8}
                 bgImage="https://s3-us-west-2.amazonaws.com/s.cdpn.io/598117/bottom-left.svg"
                 bgRepeat="no-repeat"
@@ -961,16 +1025,16 @@ function Mission() {
               <GridItem
                 colStart={4}
                 colEnd={7}
-                rowStart={7}
+                rowStart={6}
                 rowEnd={8}
                 bgImage="https://s3-us-west-2.amazonaws.com/s.cdpn.io/598117/bottom.svg"
                 bgRepeat="no-repeat"
                 bgPosition="bottom"
               />
               <GridItem
-                colStart={7}
+                colStart={6}
                 colEnd={9}
-                rowStart={6}
+                rowStart={5}
                 rowEnd={8}
                 bgImage="https://s3-us-west-2.amazonaws.com/s.cdpn.io/598117/bottom-right.svg"
                 bgRepeat="no-repeat"
@@ -1014,7 +1078,9 @@ function Mission() {
                   h="100%"
                   bgPosition="center"
                   bgImage="https://s3-us-west-2.amazonaws.com/s.cdpn.io/598117/icon-4.svg"
-                  _hover="none"
+                  opacity="0.5"
+                  _focus={{ opacity: "1" }}
+                  _hover={{ opacity: "1" }}
                 />
               </GridItem>
               <GridItem colStart={5} colEnd={6} rowStart={9} rowEnd={10}>
@@ -1028,7 +1094,9 @@ function Mission() {
                   h="100%"
                   bgPosition="center"
                   bgImage="https://s3-us-west-2.amazonaws.com/s.cdpn.io/598117/icon-5.svg"
-                  _hover="none"
+                  opacity="0.5"
+                  _focus={{ opacity: "1" }}
+                  _hover={{ opacity: "1" }}
                 />
               </GridItem>
               <GridItem colStart={8} colEnd={9} rowStart={9} rowEnd={10}>
@@ -1042,7 +1110,9 @@ function Mission() {
                   h="100%"
                   bgPosition="center"
                   bgImage="	https://s3-us-west-2.amazonaws.com/s.cdpn.io/598117/icon-6.svg"
-                  _hover="none"
+                  opacity="0.5"
+                  _focus={{ opacity: "1" }}
+                  _hover={{ opacity: "1" }}
                 />
               </GridItem>
             </Grid>
@@ -1091,7 +1161,7 @@ function Mission() {
                   flexDir="column"
                   h="300px"
                   w="350px"
-                  opacity="0.7"
+                  opacity="0.8"
                   position="absolute"
                   color="white"
                   bg="#a7197f"
@@ -1134,7 +1204,7 @@ function Mission() {
                   flexDir="column"
                   h="300px"
                   w="350px"
-                  opacity="0.7"
+                  opacity="0.8"
                   position="absolute"
                   color="white"
                   bg="#a7197f"
