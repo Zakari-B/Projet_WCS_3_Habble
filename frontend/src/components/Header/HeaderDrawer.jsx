@@ -23,7 +23,7 @@ export default function HeaderDrawer() {
   const btnRef = useRef();
 
   return (
-    <Box display={{ sm: "flex", lg: "none" }}>
+    <Box display={{ base: "flex", md: "none", lg: "none" }}>
       <IconButton
         ref={btnRef}
         variant="solid_PrimaryColor"
@@ -32,11 +32,13 @@ export default function HeaderDrawer() {
         icon={<HamburgerIcon />}
       />
       <Drawer
+        closeOnEsc
+        closeOnOverlayClick={false}
         isOpen={isOpen}
         placement="left"
         onClose={onClose}
         finalFocusRef={btnRef}
-        size="lg"
+        size="sm"
       >
         <DrawerOverlay />
         <DrawerContent>
@@ -47,9 +49,9 @@ export default function HeaderDrawer() {
             </DrawerHeader>
           </Flex>
 
-          <DrawerBody>
-            <Flex direction="column" align="center" w="100%">
-              <Link to="/le-projet">
+          <DrawerBody w="100%">
+            <Flex direction="column" align="flex-start" w="100%" gap="16px">
+              <Link to="/le-projet" w="-webkit-fill-available%">
                 <Text
                   color="purple.dark"
                   w="100%"
@@ -69,26 +71,30 @@ export default function HeaderDrawer() {
               </Link>
               <Flex
                 justify="space-between"
-                align="center"
+                align="flex-start"
                 gap="16px"
                 direction="column"
                 w="100%"
               >
-                <Link to="/professionnel-handicap" w="100%">
-                  <Button variant="outline_Purple_Gradient" w="100%">
+                <Link
+                  to="/professionnel-handicap"
+                  minW="-webkit-fill-available%"
+                >
+                  <Button variant="outline_Purple_Gradient" w="300px" h="50px">
                     Je suis un professionnel
                   </Button>
                 </Link>
-                <Link to="/login" w="100%">
-                  <Button variant="outline_Purple" w="100%">
+                <Link to="/login" w="100%" minW="-webkit-fill-available%">
+                  <Button variant="outline_Purple" w="300px" h="50px">
                     Connexion
                   </Button>
                 </Link>
-                <Link to="/register" w="100%">
+                <Link to="/register">
                   <Button
                     variant="solid_PrimaryColor"
                     borderColor="pink.light"
-                    w="100%"
+                    h="50px"
+                    w="300px"
                   >
                     Inscription
                   </Button>

@@ -13,7 +13,6 @@ export default function Footer() {
       <Flex
         direction={{ lg: "row", base: "column" }}
         justify="center"
-        // wrap={{ lg: "wrap", xl: "nowrap" }}
         w="970px"
         gap="10px"
         alignItems="center"
@@ -34,22 +33,22 @@ export default function Footer() {
             <Text color="white">À propos</Text>
           </Link>
           <Text color="white">|</Text>
-          <Link to="/le-projet">
+          <Link to="/contact">
             <Text color="white">Contact</Text>
           </Link>
           <Text color="white">|</Text>
-          <Link to="/le-projet">
+          <Link to="/mentions-legales">
             <Text color="white">Mentions légales</Text>
           </Link>
           <Text color="white">|</Text>
-          <Link to="/le-projet">
+          <Link to="/confidentialite">
             <Text color="white">Confidentialité</Text>
           </Link>
           <Text color="white">|</Text>
-          <Link to="/le-projet">
+          <Link to="/contact">
             <Text color="white">Signaler un abus</Text>
           </Link>
-          <Text color="white">© 2021 Habble Tous droits réservés.</Text>
+          <Text color="gray.light">© 2021 Habble Tous droits réservés.</Text>
         </HStack>
       </Flex>
     </Flex>

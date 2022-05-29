@@ -25,13 +25,13 @@ export default function Header({ onDark = false, isSticky = false }) {
       bgColor={isSticky === false && "white"}
       w="100vw"
     >
-      <Flex w="100%" alignItems="center" justify={{ sm: "space-between" }}>
+      <Flex w="100%" alignItems="center" justify="space-between">
         <Logo onDark={isSticky && scrollPosition <= 50 ? onDark : false} />
         <Flex
           justify="space-between"
           align="center"
           w="100%"
-          display={{ sm: "none", lg: "flex" }}
+          display={{ base: "none", md: "flex", lg: "flex" }}
         >
           <Link to="/le-projet">
             <Text
