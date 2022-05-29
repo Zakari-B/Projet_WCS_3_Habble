@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { Flex, Text, Button } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
-
+import HeaderDrawer from "./HeaderDrawer";
 import Logo from "../Logo";
 import "./header.css";
 
@@ -20,14 +20,19 @@ export default function Header({ onDark = false, isSticky = false }) {
       className={isSticky && scrollPosition <= 50 ? "not-active" : "active"}
       position={isSticky ? "fixed" : "relative"}
       paddingX="5%"
-      transition="all 0.2s ease-in-out"
+      // transition="all 0.2s ease-in-out"
       paddingY="30px"
       bgColor={isSticky === false && "white"}
       w="100vw"
     >
-      <Flex w="100%">
-        <Logo onDark={isSticky && scrollPosition <= 50 ? onDark : ""} />
-        <Flex justify="space-between" align="center" w="100%">
+      <Flex w="100%" alignItems="center" justify={{ sm: "space-between" }}>
+        <Logo onDark={isSticky && scrollPosition <= 50 ? onDark : false} />
+        <Flex
+          justify="space-between"
+          align="center"
+          w="100%"
+          display={{ sm: "none", lg: "flex" }}
+        >
           <Link to="/le-projet">
             <Text
               color={isSticky && scrollPosition <= 50 ? "white" : "purple.dark"}
@@ -79,6 +84,7 @@ export default function Header({ onDark = false, isSticky = false }) {
             </Link>
           </Flex>
         </Flex>
+        <HeaderDrawer />
       </Flex>
     </Flex>
   );

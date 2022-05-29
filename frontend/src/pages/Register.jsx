@@ -9,16 +9,14 @@ import {
 } from "@chakra-ui/react";
 
 import Header from "../components/Header/Header";
+import Footer from "../components/Footer";
 
 export default function Register() {
   return (
     <Box h="100vh">
       <Header onDark={false} isSticky={false} />
-      <Flex
-        bgColor="background.gray"
-        alignItems="center"
-        h="-webkit-fill-available"
-      >
+
+      <Flex bgColor="background.gray" alignItems="center">
         <Flex
           direction="column"
           bgColor="white"
@@ -26,8 +24,12 @@ export default function Register() {
           m="auto"
           alignItems="center"
           boxShadow="0px 1px 1px 0px rgb(185 184 184 / 75%)"
+          padding="40px 0px 0px 0px"
+          marginTop="100px"
         >
-          <Heading>Que cherchez vous ?</Heading>
+          <Heading as="h2" size="md" color="purple.average">
+            Que cherchez vous ?
+          </Heading>
           <HStack
             paddingY="60px"
             justify="center"
@@ -38,8 +40,8 @@ export default function Register() {
               w={{ sm: "100%", md: "40%" }}
               p="20px"
               alignItems="center"
-              borderRight={{ sm: "none", md: "1px solid #eee" }}
-              borderBottom={{ sm: "1px solid #eee", md: "none" }}
+              borderRight={{ base: "none", md: "1px solid #eee" }}
+              borderBottom={{ base: "1px solid #eee", md: "none" }}
             >
               <Text color="#415161" fontWeight="600">
                 Une aide
@@ -64,6 +66,7 @@ export default function Register() {
           </HStack>
         </Flex>
       </Flex>
+      <Footer />
     </Box>
   );
 }
