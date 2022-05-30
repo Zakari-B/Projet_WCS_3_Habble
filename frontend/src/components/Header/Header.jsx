@@ -20,7 +20,7 @@ export default function Header({ onDark = false, isSticky = false }) {
       className={isSticky && scrollPosition <= 50 ? "not-active" : "active"}
       position={isSticky ? "fixed" : "relative"}
       paddingX={{ base: "2%", md: "2%", lg: "5%" }}
-      // transition="all 0.2s ease-in-out"
+      transition="all 0.2s ease-in-out"
       paddingY="30px"
       bgColor={isSticky === false && "white"}
       w="100vw"

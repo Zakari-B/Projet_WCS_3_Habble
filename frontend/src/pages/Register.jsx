@@ -95,23 +95,3 @@ export default function Register() {
     </Box>
   );
 }
-
-// const Register() => (
-//   const param = useSearchParam()
-
-//   if not param or param not in ("freelancer", "employeer"):
-//     return (
-//       <Button linkTo="/register?param=freelancer">Subribe Freelancer</Button>
-//       <Button linkTo="/register?param=employeer">Subribe Employer</Button>
-//     )
-
-//   onSubmit() => (
-//     axios.post(data, userType=param)
-//   )
-
-//   return (
-//     <form onSubmit=onSubmit>
-
-//     </form>
-//   )
-// )
