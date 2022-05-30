@@ -6,6 +6,7 @@ import {
   Text,
   Image,
   Button,
+  SimpleGrid,
   InputRightElement,
   InputGroup,
 } from "@chakra-ui/react";
@@ -14,6 +15,11 @@ import { SearchIcon } from "@chakra-ui/icons";
 import HomeImg from "../assets/habble-bkg-1024x684.jpg";
 import Chat from "../assets/chat.svg";
 import Care from "../assets/access-care-network.png";
+import SoutienDomicile from "../assets/house.svg";
+import Education from "../assets/education.svg";
+import Sante from "../assets/care.svg";
+import BienEtre from "../assets/psychology-head.svg";
+import Transport from "../assets/wheelchair_transport.svg";
 
 import LandingData from "../services/LandingData";
 
@@ -296,6 +302,156 @@ export default function LandingPage() {
               Tous les professionels indépendants sont couverts par une
               assurance tous risques pour garantir la tranquillité d'esprit pour
               vous et votre famille.
+            </Text>
+          </Box>
+        </Flex>
+      </Box>
+      <Box w="55vw" mb="5rem" ml="auto" mr="auto">
+        <Flex>
+          <Box w="50%" mr="1.5rem">
+            <SimpleGrid columns={3} spacingX={10} spacingY="6rem">
+              <Box
+                w="100%"
+                h="80px"
+                display="flex"
+                flexDir="column"
+                alignItems="center"
+              >
+                <Image src={SoutienDomicile} alt="Soutien à domicile" w="50%" />
+                <Text
+                  fontSize="0.8rem"
+                  mt="1.875rem"
+                  color="#150A33"
+                  fontWeight="500"
+                >
+                  Soutien à domicile
+                </Text>
+              </Box>
+              <Box
+                w="100%"
+                h="80px"
+                display="flex"
+                flexDir="column"
+                alignItems="center"
+              >
+                <Image src={Sante} alt="Santé" w="50%" />
+                <Text
+                  textAlign="center"
+                  fontSize="0.8rem"
+                  mt="1.875rem"
+                  color="#150A33"
+                  fontWeight="500"
+                >
+                  Santé
+                </Text>
+              </Box>
+              <Box
+                w="100%"
+                h="80px"
+                display="flex"
+                flexDir="column"
+                alignItems="center"
+              >
+                <Image src={BienEtre} alt="Bien être" w="50%" />
+                <Text
+                  textAlign="center"
+                  fontSize="0.8rem"
+                  mt="1.875rem"
+                  color="#150A33"
+                  fontWeight="500"
+                >
+                  Bien être
+                </Text>
+              </Box>
+              <Box
+                w="100%"
+                h="80px"
+                display="flex"
+                flexDir="column"
+                alignItems="center"
+              >
+                <Image src={Education} alt="Enseignement, Education" w="50%" />
+                <Text
+                  textAlign="center"
+                  fontSize="0.8rem"
+                  mt="1.875rem"
+                  color="#150A33"
+                  fontWeight="500"
+                >
+                  Enseignement, Education
+                </Text>
+              </Box>
+              <Box
+                w="100%"
+                h="80px"
+                display="flex"
+                flexDir="column"
+                alignItems="center"
+              >
+                <Image
+                  src={Transport}
+                  alt="Transport, Aides techniques"
+                  w="50%"
+                />
+                <Text
+                  textAlign="center"
+                  fontSize="0.8rem"
+                  mt="1.875rem"
+                  color="#150A33"
+                  fontWeight="500"
+                >
+                  Transport, Aides techniques
+                </Text>
+              </Box>
+              <Box
+                w="100%"
+                h="80px"
+                display="flex"
+                flexDir="column"
+                alignItems="center"
+              >
+                <Image
+                  src={SoutienDomicile}
+                  alt="Administratif et Social"
+                  w="50%"
+                />
+                <Text
+                  fontSize="0.8rem"
+                  mt="1.875rem"
+                  color="#150A33"
+                  fontWeight="500"
+                >
+                  Administratif et Social
+                </Text>
+              </Box>
+            </SimpleGrid>
+          </Box>
+          <Box w="50%">
+            <Heading
+              as="h3"
+              fontSize="2rem"
+              lineHeight="3rem"
+              color="#150A33"
+              mt="1.563"
+              mb="1.25rem"
+            >
+              Concevez la solution qui vous convient
+            </Heading>
+            <Text
+              color="#656565"
+              m="0 0 0.625rem"
+              mt="2rem"
+              mb="1rem"
+              fontSize="md"
+            >
+              Trouver des spécialistes du soin et du soutien adaptés à votre
+              situation est facile avec Habble. Effectuez vos recherches en
+              fonction de ce qui compte le plus pour vous et votre famille.
+              <br />
+              <br />
+              Réglez directement, mobilisez des aides (mutuelles, assurances,
+              CAF, CCAS, Prestation de compensation du handicap,...). La plupart
+              des services sont éligibles au crédit d'impôt.
             </Text>
           </Box>
         </Flex>
