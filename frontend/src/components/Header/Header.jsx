@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import HeaderDrawer from "./HeaderDrawer";
 import Logo from "../Logo";
-import "./header.css";
+import "../../styles/header.css";
 
 export default function Header({ onDark = false, isSticky = false }) {
   const [scrollPosition, setScrollPosition] = useState(0);
@@ -19,7 +19,7 @@ export default function Header({ onDark = false, isSticky = false }) {
     <Flex
       className={isSticky && scrollPosition <= 50 ? "not-active" : "active"}
       position={isSticky ? "fixed" : "relative"}
-      paddingX="5%"
+      paddingX={{ base: "2%", md: "2%", lg: "5%" }}
       // transition="all 0.2s ease-in-out"
       paddingY="30px"
       bgColor={isSticky === false && "white"}
@@ -49,7 +49,11 @@ export default function Header({ onDark = false, isSticky = false }) {
               Notre Mission
             </Text>
           </Link>
-          <Flex justify="space-between" align="center" gap="16px">
+          <Flex
+            justify="space-between"
+            align="center"
+            gap={{ base: "8px", md: "8px", lg: "16px" }}
+          >
             <Link to="/professionnel-handicap">
               <Button
                 variant={

@@ -10,7 +10,7 @@ export default function Logo({ onDark }) {
         src={onDark ? LogoImgWhite : LogoImgDegrade}
         minW="130px"
         h="auto"
-        marginRight="50px"
+        marginRight={{ sm: "12px", md: "12px", lg: "50px" }}
       />
     </a>
   );
