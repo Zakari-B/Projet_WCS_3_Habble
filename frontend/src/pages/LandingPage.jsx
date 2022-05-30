@@ -13,10 +13,11 @@ import { SearchIcon } from "@chakra-ui/icons";
 
 import HomeImg from "../assets/habble-bkg-1024x684.jpg";
 import Chat from "../assets/chat.svg";
+import Care from "../assets/access-care-network.png";
 
 import LandingData from "../services/LandingData";
 
-import theme from "../themes/theme";
+// import theme from "../themes/theme";
 
 export default function LandingPage() {
   return (
@@ -63,6 +64,7 @@ export default function LandingPage() {
               w="15%"
               bgColor="#a7197f"
               _hover={{ bgColor: "#342c50" }}
+              // eslint-disable-next-line react/no-children-prop
               children={<SearchIcon color="white" />}
             />
             *
@@ -111,7 +113,7 @@ export default function LandingPage() {
           </Box>
         ))}
       </Box>
-      <Box w="55vw" mb="5rem" ml="auto" mr="auto" border="2px solid red">
+      <Box w="55vw" mb="5rem" ml="auto" mr="auto">
         <Heading
           as="h2"
           m="2rem 0 2rem 0"
@@ -120,7 +122,7 @@ export default function LandingPage() {
         >
           Deux moyens de trouver un professionnel du handicap
         </Heading>
-        <Flex justifyContent="space-around" wrap="wrap">
+        <Flex justifyContent="space-around" flexWrap="wrap">
           <Box
             w="22.61vw"
             p="0.938rem"
@@ -129,6 +131,7 @@ export default function LandingPage() {
             lineHeight="1.5"
             _hover={{
               boxShadow: "0px 18px 37px rgb(212 50 151 / 20%)",
+              color: "#a7197f",
             }}
           >
             <Flex flexDir="column" alignItems="center">
@@ -138,7 +141,7 @@ export default function LandingPage() {
                 w="5rem"
                 // background="linear-gradient(to right, #6541c1 0%, #d43396 98%, #d43396 100%)"
               />
-              <Heading as="h3" mt="2rem" fontSize="1.5rem">
+              <Heading as="h4" mt="2rem" fontSize="1.5rem" fontWeight="500">
                 Déposez une annonce
               </Heading>
               <Text
@@ -162,6 +165,7 @@ export default function LandingPage() {
             color="black"
             _hover={{
               boxShadow: "0px 18px 37px rgb(212 50 151 / 20%)",
+              color: "#a7197f",
             }}
           >
             <Flex flexDir="column" alignItems="center">
@@ -171,7 +175,7 @@ export default function LandingPage() {
                 w="5rem"
                 // background="linear-gradient(to right, #6541c1 0%, #d43396 98%, #d43396 100%)"
               />
-              <Heading as="h3" mt="2rem" fontSize="1.5rem">
+              <Heading as="h4" mt="2rem" fontSize="1.5rem" fontWeight="500">
                 Contactez en direct
               </Heading>
               <Text
@@ -190,7 +194,110 @@ export default function LandingPage() {
           </Box>
         </Flex>
         <Flex justifyContent="center">
-          <Button>Trouver un professionnel du handicap</Button>
+          <Button h="auto" p="0.625rem 1.375rem" borderReadius="4px">
+            Trouver un professionnel du handicap
+          </Button>
+        </Flex>
+      </Box>
+      <Box w="55vw" mb="5rem" ml="auto" mr="auto">
+        <Flex alignItems="center">
+          <Box w="50%">
+            <Heading
+              as="h2"
+              m="2rem 0 2rem 0"
+              color="#342c50"
+              fontSize="calc(1.25rem + 1.5vw)"
+              lineHeight="1.1"
+              fontWeight="500"
+            >
+              Accédez à un réseau de soin et de soutien spécialisé dans le
+              handicap simple, sûr et disponible.
+            </Heading>
+            <Text
+              color="#656565"
+              m="0 0 0.625rem"
+              mt="2rem"
+              mb="1rem"
+              fontSize="md"
+            >
+              Appréciez la tranquillité d'esprit pour vous et votre famille,
+              grâce à notre réseau de professionnels et de structures
+              spécialisés dans le handicap, les soins et le soutien quotidien.
+            </Text>
+          </Box>
+          <Image src={Care} alt="Access a safe network" w="50%" />
+        </Flex>
+      </Box>
+      <Box w="55vw" mb="5rem" ml="auto" mr="auto">
+        <Flex>
+          <Box w="33%" textAlign="center">
+            <Heading
+              as="h4"
+              mt="2rem"
+              fontSize="1.5rem"
+              color="#342c50"
+              fontWeight="500"
+            >
+              Contactez en direct
+            </Heading>
+            <Text
+              color="#656565"
+              m="0 0 0.625rem"
+              mt="2rem"
+              mb="1rem"
+              fontSize="md"
+            >
+              Notre service est gratuit, pas d'abonnement coûteux ! Nos frais
+              sont réduits au strict minimum pour respecter votre pouvoir
+              d'achat.
+            </Text>
+          </Box>
+          <Box w="33%" textAlign="center">
+            <Heading
+              as="h4"
+              mt="2rem"
+              fontSize="1.5rem"
+              color="#342c50"
+              fontWeight="500"
+            >
+              La sécurité : notre priorité
+            </Heading>
+            <Text
+              color="#656565"
+              m="0 0 0.625rem"
+              mt="2rem"
+              mb="1rem"
+              fontSize="md"
+            >
+              Les professionnels indépendants et services spécialisés répondent
+              à des critères stricts : références, qualifications,... Nous
+              vérifions les agréments pour plus de sureté et sécurité. <br />
+              <br />
+              Un contact disponible en cas d'urgence.
+            </Text>
+          </Box>
+          <Box w="33%" textAlign="center">
+            <Heading
+              as="h4"
+              mt="2rem"
+              fontSize="1.5rem"
+              color="#342c50"
+              fontWeight="500"
+            >
+              Assurance tous risques
+            </Heading>
+            <Text
+              color="#656565"
+              m="0 0 0.625rem"
+              mt="2rem"
+              mb="1rem"
+              fontSize="md"
+            >
+              Tous les professionels indépendants sont couverts par une
+              assurance tous risques pour garantir la tranquillité d'esprit pour
+              vous et votre famille.
+            </Text>
+          </Box>
         </Flex>
       </Box>
     </div>
