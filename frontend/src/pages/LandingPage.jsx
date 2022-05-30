@@ -20,6 +20,7 @@ import Education from "../assets/education.svg";
 import Sante from "../assets/care.svg";
 import BienEtre from "../assets/psychology-head.svg";
 import Transport from "../assets/wheelchair_transport.svg";
+import LandingBg from "../assets/landing_bg.png";
 
 import LandingData from "../services/LandingData";
 
@@ -455,6 +456,50 @@ export default function LandingPage() {
             </Text>
           </Box>
         </Flex>
+      </Box>
+      <Box
+        w="100%"
+        bgColor="#5f3984"
+        bgImage={LandingBg}
+        bgPosition="right"
+        bgRepeat="no-repeat"
+        bgSize="70%"
+        overflow="hidden"
+      >
+        <Box w="30%" m="2.5rem" ml="20rem">
+          <Heading
+            as="h3"
+            fontSize="calc(1rem + 1vw)"
+            lineHeight="3rem"
+            color="#f9f9f9"
+            mt="1.563"
+            mb="1.25rem"
+          >
+            Vous êtes un professionnel du handicap ou du soin ?
+          </Heading>
+          <Text
+            color="#f9f9f9"
+            m="0 0 0.625rem"
+            mt="2rem"
+            mb="1rem"
+            fontSize="md"
+          >
+            Faites-vous connaître, choisissez les missions qui vous
+            correspondent et développez votre activité !
+          </Text>
+          <Button h="auto" p="0.625rem 1.375rem" borderReadius="4px">
+            Trouver un professionnel du handicap
+          </Button>
+          <Text
+            color="#f9f9f9"
+            m="0 0 0.625rem"
+            mt="2rem"
+            mb="1rem"
+            fontSize="sm"
+          >
+            Inscrivez-vous et détaillez vos services
+          </Text>
+        </Box>
       </Box>
     </div>
   );
