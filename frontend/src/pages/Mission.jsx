@@ -272,7 +272,12 @@ function Mission() {
   return (
     <div>
       <Flex justifyContent="space-between" pl="1rem" h="fit-content">
-        <Flex flexDirection="column" justifyContent="space-around" p="1rem">
+        <Flex
+          flexDirection="column"
+          justifyContent="space-around"
+          p="1rem"
+          h="70vh"
+        >
           <Heading
             bgGradient="linear(45deg, #4d1582 0%, #a7197f 100%)"
             bgClip="text"
@@ -286,21 +291,21 @@ function Mission() {
             handicap et du soin.
           </Text>
           <Flex flexDirection="column" justifyContent="space-around" h="50%">
-            <Flex justifyContent="space-around">
+            <Flex justifyContent="space-around" h="40%">
               <Flex
                 flexDirection="column"
                 alignItems="center"
                 justifyContent="space-between"
-                w="30%"
+                w="33%"
               >
                 <Image src={house} alt="house" width="60px" />
-                <Text>Soutien a domicile</Text>
+                <Text alignSelf="center">Soutien a domicile</Text>
               </Flex>
               <Flex
                 flexDirection="column"
                 alignItems="center"
                 justifyContent="space-between"
-                w="30%"
+                w="33%"
               >
                 <Image src={care} alt="care" width="60px" />
                 <Text>Santé</Text>
@@ -309,18 +314,18 @@ function Mission() {
                 flexDirection="column"
                 alignItems="center"
                 justifyContent="space-between"
-                w="30%"
+                w="33%"
               >
                 <Image src={psychologyHead} alt="psychologyHead" width="60px" />
                 <Text>Bien être</Text>
               </Flex>
             </Flex>
-            <Flex justifyContent="space-around">
+            <Flex justifyContent="space-around" h="40%">
               <Flex
                 flexDirection="column"
                 alignItems="center"
                 justifyContent="space-between"
-                w="30%"
+                w="33%"
               >
                 <Image src={education} alt="education" width="60px" />
                 <Text>Enseignement, Education</Text>
@@ -329,7 +334,7 @@ function Mission() {
                 flexDirection="column"
                 alignItems="center"
                 justifyContent="space-between"
-                w="30%"
+                w="33%"
               >
                 <Image
                   src={wheelchairTransport}
@@ -342,7 +347,7 @@ function Mission() {
                 flexDirection="column"
                 alignItems="center"
                 justifyContent="space-between"
-                w="30%"
+                w="32%"
               >
                 <Image src={admin} alt="admin" width="60px" />
                 <Text>Administratif et Social</Text>
@@ -351,10 +356,12 @@ function Mission() {
           </Flex>
         </Flex>
         <Image
-          display={{ base: "none", lg: "block" }}
+          alignSelf="center"
+          display={{ base: "none", md: "block" }}
           src={listingProsIphone}
           alt="listingProsIphone"
-          maxH="90%"
+          h="80%"
+          maxW="45%"
         />
       </Flex>
       <Flex
@@ -869,8 +876,6 @@ function Mission() {
                 base: "55px 40px 20px 25px 60px 25px 20px 40px 55px",
                 md: "70px 20px 40px 40px 70px 40px 40px 20px 70px",
               }}
-              // templateColumns="repeat(3, 25px 60px 25px)"
-              // templateRows="55px 40px 20px 25px 60px 25px 20px 40px 55px"
               gap="1"
               placeContent="center"
             >
@@ -1001,7 +1006,7 @@ function Mission() {
                     alignSelf="center"
                     m="auto"
                     fontWeight="bold"
-                    fontSize={{ base: "3xl", lg: "4xl" }}
+                    fontSize={{ base: "3xl", md: "4xl" }}
                   >
                     Habble
                   </Text>
