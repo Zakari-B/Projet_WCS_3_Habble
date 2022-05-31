@@ -44,7 +44,7 @@ function Mission() {
       pb="2rem"
       textAlign="start"
       w="90%"
-      m="auto"
+      // m="auto"
     >
       <Text
         fontWeight="bold"
@@ -86,14 +86,7 @@ function Mission() {
     </Flex>
   );
   const demarche = (
-    <Flex
-      flexDirection="column"
-      justifyContent="space-between"
-      pb="2rem"
-      textAlign="start"
-      w="90%"
-      m="auto"
-    >
+    <Flex flexDirection="column" textAlign="start" mr="2rem">
       <Text
         fontWeight="bold"
         textAlign="left"
@@ -119,14 +112,7 @@ function Mission() {
     </Flex>
   );
   const guarentee = (
-    <Flex
-      flexDirection="column"
-      justifyContent="space-between"
-      pb="2rem"
-      textAlign="start"
-      w="90%"
-      m="auto"
-    >
+    <Flex flexDirection="column" textAlign="start" mr="2rem">
       <Text
         fontWeight="bold"
         textAlign="left"
@@ -149,14 +135,7 @@ function Mission() {
   );
 
   const info = (
-    <Flex
-      flexDirection="column"
-      justifyContent="space-between"
-      pb="2rem"
-      textAlign="start"
-      w="90%"
-      m="auto"
-    >
+    <Flex flexDirection="column" textAlign="start" mr="2rem">
       <Text
         fontWeight="bold"
         textAlign="left"
@@ -184,14 +163,7 @@ function Mission() {
     </Flex>
   );
   const coordination = (
-    <Flex
-      flexDirection="column"
-      justifyContent="space-between"
-      pb="2rem"
-      textAlign="start"
-      w="90%"
-      m="auto"
-    >
+    <Flex flexDirection="column" textAlign="start" mr="2rem">
       <Text
         fontWeight="bold"
         textAlign="left"
@@ -222,14 +194,7 @@ function Mission() {
     </Flex>
   );
   const goal = (
-    <Flex
-      flexDirection="column"
-      justifyContent="space-between"
-      pb="2rem"
-      textAlign="start"
-      w="90%"
-      m="auto"
-    >
+    <Flex flexDirection="column" textAlign="start" mr="2rem">
       <Text
         fontWeight="bold"
         textAlign="left"
@@ -883,16 +848,29 @@ function Mission() {
         <Heading textAlign="left" color="white" fontSize="3xl" m="1rem">
           Fonctionnalités et principes clés
         </Heading>
-        <Flex justifyContent="space-around" m="1rem">
-          <Box w="40%">{text}</Box>
-          <Box w="45%">
+        <Flex
+          justifyContent="space-around"
+          m="1rem"
+          flexDirection={{ base: "column", lg: "row" }}
+          alignItems="center"
+        >
+          <Box w={{ base: "90%", lg: "40%" }}>{text}</Box>
+          <Box w={{ base: "90%", lg: "45%" }}>
             <Grid
               textColor="white"
               alignSelf="center"
               w="100%"
               h="100%"
-              templateColumns=" repeat(3, 40px 70px 40px)"
-              templateRows="70px 20px 40px 40px 70px 40px 40px 20px 70px"
+              templateColumns={{
+                base: "repeat(3, 25px 60px 25px)",
+                md: "repeat(3, 40px 70px 40px)",
+              }}
+              templateRows={{
+                base: "55px 40px 20px 25px 60px 25px 20px 40px 55px",
+                md: "70px 20px 40px 40px 70px 40px 40px 20px 70px",
+              }}
+              // templateColumns="repeat(3, 25px 60px 25px)"
+              // templateRows="55px 40px 20px 25px 60px 25px 20px 40px 55px"
               gap="1"
               placeContent="center"
             >
@@ -945,6 +923,7 @@ function Mission() {
                 />
               </GridItem>
               <GridItem
+                alignSelf="center"
                 colStart={1}
                 colEnd={4}
                 rowStart={2}
@@ -954,6 +933,7 @@ function Mission() {
                 Trouver un professionnel
               </GridItem>
               <GridItem
+                alignSelf="center"
                 colStart={4}
                 colEnd={7}
                 rowStart={2}
@@ -963,6 +943,7 @@ function Mission() {
                 Démarches
               </GridItem>
               <GridItem
+                alignSelf="center"
                 colStart={7}
                 colEnd={10}
                 rowStart={2}
@@ -972,6 +953,7 @@ function Mission() {
                 Garanties
               </GridItem>
               <GridItem
+                ml={{ base: "1.5rem", lg: "0" }}
                 colStart={2}
                 colEnd={5}
                 rowStart={3}
@@ -990,6 +972,7 @@ function Mission() {
                 bgPosition="top"
               />
               <GridItem
+                mr={{ base: "1.5rem", lg: "0" }}
                 colStart={6}
                 colEnd={9}
                 rowStart={3}
@@ -1018,13 +1001,14 @@ function Mission() {
                     alignSelf="center"
                     m="auto"
                     fontWeight="bold"
-                    fontSize="4xl"
+                    fontSize={{ base: "3xl", lg: "4xl" }}
                   >
                     Habble
                   </Text>
                 </Flex>
               </GridItem>
               <GridItem
+                ml={{ base: "1.6rem", lg: "0" }}
                 colStart={2}
                 colEnd={5}
                 rowStart={5}
@@ -1043,6 +1027,7 @@ function Mission() {
                 bgPosition="bottom"
               />
               <GridItem
+                mr={{ base: "1.5rem", lg: "0" }}
                 colStart={6}
                 colEnd={9}
                 rowStart={5}
@@ -1052,6 +1037,7 @@ function Mission() {
                 bgPosition="bottom"
               />
               <GridItem
+                alignSelf="center"
                 colStart={1}
                 colEnd={4}
                 rowStart={8}
@@ -1061,6 +1047,7 @@ function Mission() {
                 Informations, conseils
               </GridItem>
               <GridItem
+                alignSelf="center"
                 colStart={4}
                 colEnd={7}
                 rowStart={8}
@@ -1070,6 +1057,7 @@ function Mission() {
                 Coordination
               </GridItem>
               <GridItem
+                alignSelf="center"
                 colStart={7}
                 colEnd={10}
                 rowStart={8}
