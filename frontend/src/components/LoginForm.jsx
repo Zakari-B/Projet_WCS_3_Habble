@@ -8,6 +8,7 @@ import {
   Checkbox,
   Divider,
   Link,
+  Flex,
 } from "@chakra-ui/react";
 
 const loginForm = () => {
@@ -16,7 +17,7 @@ const loginForm = () => {
   const [rememberMe, setRememberMe] = useState(false);
 
   return (
-    <div className="loginForm">
+    <Flex className="loginForm" padding={{ base: "0", lg: "50px" }}>
       <Stack
         className="loginConnexion"
         spacing={6}
@@ -77,6 +78,8 @@ const loginForm = () => {
           Mot de passe oublié ?
         </Link>
         <Link
+          padding="10px"
+          fontWeight="500"
           bgColor="transparent"
           borderRadius="4px"
           color="#342c50"
@@ -88,7 +91,7 @@ const loginForm = () => {
           Pas encore inscrit ?
         </Link>
       </Stack>
-    </div>
+    </Flex>
   );
 };
 

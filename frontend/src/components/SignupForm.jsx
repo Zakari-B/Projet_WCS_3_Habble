@@ -6,6 +6,7 @@ import {
   Input,
   Divider,
   Link,
+  Flex,
 } from "@chakra-ui/react";
 import "../App.css";
 
@@ -18,7 +19,7 @@ const signupForm = () => {
   const [signupPasswordRepeat, setSignupPasswordRepeat] = useState("");
 
   return (
-    <div className="signupForm">
+    <Flex className="signupForm" padding={{ base: "0", lg: "50px" }}>
       <Stack
         className="noAccount"
         spacing={6}
@@ -117,7 +118,7 @@ const signupForm = () => {
           </Link>
         </p>
       </Stack>
-    </div>
+    </Flex>
   );
 };
 
