@@ -2,6 +2,7 @@ import { Route, Routes } from "react-router-dom";
 import LandingPage from "./pages/LandingPage";
 import Register from "./pages/Register";
 import MentionsLegales from "./pages/MentionsLegales";
+import Confidentialite from "./pages/Confidentialite";
 
 import "./App.css";
 
@@ -14,7 +15,7 @@ function App() {
         <Route path="/contact" element={<Contact />} /> */}
         {/* <Route path="/professionnel-handicap" element={<ProAccueil />} /> */}
         <Route path="/mentions-legales" element={<MentionsLegales />} />
-        {/* <Route path="/confidentialite" element={<Confidentialite />} /> */}
+        <Route path="/confidentialite" element={<Confidentialite />} />
         <Route path="/register" element={<Register />} />
         {/* <Route path="/login" element={<LoginForm />} /> */}
         {/* <Route path="*" element={<Error />} /> */}

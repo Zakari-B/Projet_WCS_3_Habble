@@ -17,7 +17,7 @@ export default function MentionsLegales() {
         <Heading
           as="h2"
           p="4rem 0"
-          fontWeight="300"
+          fontWeight="400"
           fontSize="22px"
           align="left"
           w="80%"
