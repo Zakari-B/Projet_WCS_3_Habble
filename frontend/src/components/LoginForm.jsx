@@ -9,6 +9,7 @@ import {
   Divider,
   Link,
   Flex,
+  Heading,
 } from "@chakra-ui/react";
 
 const loginForm = () => {
@@ -25,7 +26,9 @@ const loginForm = () => {
         maxWidth="540px"
         margin="auto"
       >
-        <h2>Connectez vous à votre compte</h2>
+        <Heading as="h2" fontSize="1.6rem" fontWeight="700">
+          Connectez vous à votre compte
+        </Heading>
         <FormControl>
           <FormLabel htmlFor="loginEmail">Pseudo ou Email</FormLabel>
           <Input

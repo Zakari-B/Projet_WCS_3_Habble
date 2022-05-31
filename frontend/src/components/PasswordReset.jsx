@@ -7,6 +7,7 @@ import {
   Divider,
   Link,
   Flex,
+  Heading,
 } from "@chakra-ui/react";
 
 const passwordReset = () => {
@@ -21,7 +22,9 @@ const passwordReset = () => {
         maxWidth="482px"
         margin="auto"
       >
-        <h2>Réinitialisez votre mot de passe</h2>
+        <Heading as="h2" fontSize="1.6rem" fontWeight="700">
+          Réinitialisez votre mot de passe
+        </Heading>
         <p>
           Saisissez votre adresse e-mail ci-dessous. Nous chercherons votre
           compte et vous enverrons un e-mail de réinitialisation de mot de

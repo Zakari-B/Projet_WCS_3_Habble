@@ -7,6 +7,7 @@ import {
   Divider,
   Link,
   Flex,
+  Heading,
 } from "@chakra-ui/react";
 import "../App.css";
 
@@ -27,7 +28,9 @@ const signupForm = () => {
         maxWidth="540px"
         margin="auto"
       >
-        <h2>Créer un compte gratuitement</h2>
+        <Heading as="h2" fontSize="1.6rem" fontWeight="700">
+          Créer un compte gratuitement
+        </Heading>
         <FormControl>
           <Input
             type="text"
