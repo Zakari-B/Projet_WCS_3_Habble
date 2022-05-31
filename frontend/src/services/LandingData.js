@@ -1,5 +1,5 @@
 import AideDomicile from "../assets/aide-a-domicile.jpg";
-import ConseilInformation from "../assets/conseil et information handicap.jpg";
+import ConseilInformation from "../assets/conseil-et-information-handicap.jpg";
 import ConseilsEduc from "../assets/conseils-educatifs.jpg";
 import Courses from "../assets/courses-repas.jpg";
 import Demarches from "../assets/demarches-1.jpg";

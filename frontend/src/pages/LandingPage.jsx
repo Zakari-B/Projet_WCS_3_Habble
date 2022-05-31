@@ -55,13 +55,25 @@ export default function LandingPage() {
           color="black"
           textAlign="left"
         >
-          <Heading as="h1" fontSize="calc(1.5rem + 1.5vw)" pb="1rem">
+          <Heading
+            as="h1"
+            fontSize="calc(1.5rem + 1.5vw)"
+            pb="1rem"
+            fontWeight="500"
+          >
             Trouvez un{" "}
-            {/* <span style={{ color: theme.gradient.purplePink }}> */}
-            professionnel
-            {/* </span>{" "} */}
-            du <span>handicap</span> ou du <span>soin</span>, de confiance près
-            de chez vous
+            <span Style="background: linear-gradient(45deg, #4d1582 0%, #a7197f 100%); background-clip: text; -webkit-background-clip: text; color: transparent;">
+              professionnel
+            </span>{" "}
+            du{" "}
+            <span Style="background: linear-gradient(45deg, #4d1582 0%, #a7197f 100%); background-clip: text; -webkit-background-clip: text; color: transparent;">
+              handicap
+            </span>{" "}
+            ou du{" "}
+            <span Style="background: linear-gradient(45deg, #4d1582 0%, #a7197f 100%); background-clip: text; -webkit-background-clip: text; color: transparent;">
+              soin
+            </span>
+            , de confiance près de chez vous
           </Heading>
           <InputGroup borderRadius="4px 0 0 4px" size="lg">
             <Input
@@ -79,11 +91,10 @@ export default function LandingPage() {
               // eslint-disable-next-line react/no-children-prop
               children={<SearchIcon color="white" />}
             />
-            *
           </InputGroup>
         </Box>
       </Box>
-      <Box w="55vw" mb="5rem" ml="auto" mr="auto" border="2px solid red">
+      <Box w="60%" maxW="1170px" mb="5rem" ml="auto" mr="auto">
         <Heading
           as="h2"
           m="2rem 0 2rem 0"
@@ -92,40 +103,51 @@ export default function LandingPage() {
         >
           Top services sur Habble
         </Heading>
-        {LandingData.map((data) => (
-          <Box key={data.id}>
-            <Box
-              maxW="25%"
-              h="29.3vh"
-              mb="1rem"
-              borderRadius="0.625rem"
-              boxShadow="0 1px 1px 0 rgb(69 43 65 / 14%), 0 2px 1px -1px rgb(69 43 65 / 12%), 0 1px 3px 0 rgb(69 43 65 / 20%)"
-              _hover={{
-                boxShadow:
-                  "0 6px 10px 0 rgb(69 43 65 / 14%), 0 1px 18px 0 rgb(69 43 65 / 12%), 0 3px 5px -1px rgb(69 43 65 / 20%)",
-              }}
-            >
-              <Image
-                src={data.image}
-                borderRadius="0.625rem 0.625rem 0 0"
-                // h="55%"
-                // w="100%"
-              />
-              <Text
-                mt="1rem"
-                fontSize="xl"
-                fontWeight="bold"
-                lineHeight="28px"
-                color="#2F1D2C"
-                textAlign="center"
+        <Flex
+          wrap="wrap"
+          w="100%"
+          justifyContent="space-between"
+          alignItems="center"
+        >
+          {LandingData.map((data) => (
+            <Box key={data.id}>
+              <Box
+                w="12vw"
+                h="29.3vh"
+                mb="1rem"
+                borderRadius="0.625rem"
+                boxShadow="0 1px 1px 0 rgb(69 43 65 / 14%), 0 2px 1px -1px rgb(69 43 65 / 12%), 0 1px 3px 0 rgb(69 43 65 / 20%)"
+                _hover={{
+                  boxShadow:
+                    "0 6px 10px 0 rgb(69 43 65 / 14%), 0 1px 18px 0 rgb(69 43 65 / 12%), 0 3px 5px -1px rgb(69 43 65 / 20%)",
+                }}
               >
-                {data.title}
-              </Text>
+                <Box
+                  bgImage={data.image}
+                  bgPos="center"
+                  bgRepeat="no-repeat"
+                  bgSize="cover"
+                  borderRadius="0.625rem 0.625rem 0 0"
+                  h="55%"
+                />
+                <Text
+                  w="100%"
+                  p="0.5rem"
+                  mt="1rem"
+                  fontSize="xl"
+                  fontWeight="bold"
+                  lineHeight="28px"
+                  color="#2F1D2C"
+                  textAlign="center"
+                >
+                  {data.title}
+                </Text>
+              </Box>
             </Box>
-          </Box>
-        ))}
+          ))}
+        </Flex>
       </Box>
-      <Box w="55vw" mb="5rem" ml="auto" mr="auto">
+      <Box w="60%" maxW="1170px" mb="5rem" ml="auto" mr="auto">
         <Heading
           as="h2"
           m="2rem 0 2rem 0"
@@ -206,12 +228,12 @@ export default function LandingPage() {
           </Box>
         </Flex>
         <Flex justifyContent="center">
-          <Button h="auto" p="0.625rem 1.375rem" borderReadius="4px">
+          <Button h="auto" p="0.625rem 1.375rem" borderRadius="4px">
             Trouver un professionnel du handicap
           </Button>
         </Flex>
       </Box>
-      <Box w="55vw" mb="5rem" ml="auto" mr="auto">
+      <Box w="60%" maxW="1170px" mb="5rem" ml="auto" mr="auto">
         <Flex alignItems="center">
           <Box w="50%">
             <Heading
@@ -240,7 +262,7 @@ export default function LandingPage() {
           <Image src={Care} alt="Access a safe network" w="50%" />
         </Flex>
       </Box>
-      <Box w="55vw" mb="5rem" ml="auto" mr="auto">
+      <Box w="60%" maxW="1170px" mb="5rem" ml="auto" mr="auto">
         <Flex>
           <Box w="33%" textAlign="center">
             <Heading
@@ -312,7 +334,7 @@ export default function LandingPage() {
           </Box>
         </Flex>
       </Box>
-      <Box w="55vw" mb="5rem" ml="auto" mr="auto">
+      <Box w="60%" maxW="1170px" mb="5rem" ml="auto" mr="auto">
         <Flex>
           <Box w="50%" mr="1.5rem">
             <SimpleGrid columns={3} spacingX={10} spacingY="6rem">
@@ -493,7 +515,7 @@ export default function LandingPage() {
             Faites-vous connaître, choisissez les missions qui vous
             correspondent et développez votre activité !
           </Text>
-          <Button h="auto" p="0.625rem 1.375rem" borderReadius="4px">
+          <Button h="auto" p="0.625rem 1.375rem" borderRadius="4px">
             Trouver un professionnel du handicap
           </Button>
           <Text
@@ -525,7 +547,7 @@ export default function LandingPage() {
           >
             Partenaires et Soutiens
           </Heading>
-          <HStack gap={40} mb="4rem" justifyContent="center">
+          <HStack spacing={40} mb="4rem" justifyContent="center">
             <Image src={LogoReseau} alt="Logo Réseau Entreprise" />
             <Image src={LogoEvident} alt="Logo Évident" w="10%" />
             <Image src={LogoFrench} alt="Logo French Impact" w="9%" />
