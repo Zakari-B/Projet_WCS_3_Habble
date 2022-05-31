@@ -98,7 +98,7 @@ const signupForm = () => {
         <p>
           En m'inscrivant pour créer un compte, j'accepte les{" "}
           <Link
-            href="CGU"
+            to="/mentions-legales"
             fontWeight="bold"
             color="#A7197F"
             _hover={{ textDecoration: "none" }}
@@ -109,11 +109,7 @@ const signupForm = () => {
         <Divider />
         <p>
           Vous avez déjà un compte ?&nbsp;
-          <Link
-            href="LOGIN FORM"
-            color="#A7197F"
-            _hover={{ textDecoration: "none" }}
-          >
+          <Link to="/login" color="#A7197F" _hover={{ textDecoration: "none" }}>
             Se connecter
           </Link>
         </p>

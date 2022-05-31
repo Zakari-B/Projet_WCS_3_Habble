@@ -78,6 +78,7 @@ const loginForm = () => {
           Mot de passe oublié ?
         </Link>
         <Link
+          to="/register"
           padding="10px"
           fontWeight="500"
           bgColor="transparent"
@@ -86,7 +87,6 @@ const loginForm = () => {
           border="2px solid"
           borderColor="#342c50"
           _hover={{ bgColor: "#342c50", color: "white" }}
-          href="LIEN PAGE SIGNUP"
         >
           Pas encore inscrit ?
         </Link>
