@@ -9,6 +9,7 @@ import {
   SimpleGrid,
   InputRightElement,
   InputGroup,
+  HStack,
 } from "@chakra-ui/react";
 import { SearchIcon } from "@chakra-ui/icons";
 
@@ -20,7 +21,11 @@ import Education from "../assets/education.svg";
 import Sante from "../assets/care.svg";
 import BienEtre from "../assets/psychology-head.svg";
 import Transport from "../assets/wheelchair_transport.svg";
-import LandingBg from "../assets/landing_bg.png";
+import LandingBg1 from "../assets/landing_bg.png";
+import LandingBg2 from "../assets/section-bg-hero3.png";
+import LogoReseau from "../assets/logo_horizontal_re_couleur_nord.png";
+import LogoEvident from "../assets/logo-evident.png";
+import LogoFrench from "../assets/Logo_communaute.png";
 
 import LandingData from "../services/LandingData";
 
@@ -435,6 +440,7 @@ export default function LandingPage() {
               color="#150A33"
               mt="1.563"
               mb="1.25rem"
+              fontWeight="500"
             >
               Concevez la solution qui vous convient
             </Heading>
@@ -460,7 +466,7 @@ export default function LandingPage() {
       <Box
         w="100%"
         bgColor="#5f3984"
-        bgImage={LandingBg}
+        bgImage={LandingBg1}
         bgPosition="right"
         bgRepeat="no-repeat"
         bgSize="70%"
@@ -500,6 +506,31 @@ export default function LandingPage() {
             Inscrivez-vous et détaillez vos services
           </Text>
         </Box>
+      </Box>
+      <Box
+        w="100%"
+        h="auto"
+        bgColor="white"
+        bgImage={LandingBg2}
+        bgSize="cover"
+      >
+        <Flex alignItems="center" flexDir="column">
+          <Heading
+            as="h3"
+            fontSize="calc(1.25rem + 1.5vw)"
+            lineHeight="3rem"
+            color="#150A33"
+            m="2rem 0 2rem 0"
+            fontWeight="500"
+          >
+            Partenaires et Soutiens
+          </Heading>
+          <HStack gap={40} mb="4rem" justifyContent="center">
+            <Image src={LogoReseau} alt="Logo Réseau Entreprise" />
+            <Image src={LogoEvident} alt="Logo Évident" w="10%" />
+            <Image src={LogoFrench} alt="Logo French Impact" w="9%" />
+          </HStack>
+        </Flex>
       </Box>
     </div>
   );
