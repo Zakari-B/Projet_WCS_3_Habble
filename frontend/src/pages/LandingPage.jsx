@@ -9,7 +9,6 @@ import {
   SimpleGrid,
   InputRightElement,
   InputGroup,
-  HStack,
 } from "@chakra-ui/react";
 import { SearchIcon } from "@chakra-ui/icons";
 
@@ -36,8 +35,8 @@ export default function LandingPage() {
     <div>
       <Box
         w="100%"
-        h="82.0021299254526vh"
-        bgImage={HomeImg}
+        h={{ base: "auto", lg: "82.0021299254526vh" }}
+        bgImage={{ base: "none", lg: HomeImg }}
         objectFit="contain"
         bgRepeat="no-repeat"
         bgSize="cover"
@@ -46,12 +45,12 @@ export default function LandingPage() {
         bgPos="center"
       >
         <Box
-          w="26.6%"
-          h="70%"
+          w={{ base: "100vw", lg: "40%", "2xl": "26.6%" }}
+          h="auto"
           p="1.938rem 2.5rem 2.625rem 2.25rem"
-          ml="25rem"
-          bgColor="white"
-          borderRadius="21px"
+          ml={{ base: "none", lg: "25rem" }}
+          bgColor={{ base: "rgba(167, 25, 127, 0.2)", lg: "white" }}
+          borderRadius={{ base: "none", lg: "21px" }}
           color="black"
           textAlign="left"
         >
@@ -78,6 +77,7 @@ export default function LandingPage() {
           <InputGroup borderRadius="4px 0 0 4px" size="lg">
             <Input
               placeholder="Entrez votre code postal"
+              bgColor={{ base: "white", md: "none" }}
               _placeholder={{
                 color: "gray.300",
                 fontWeight: "semibold",
@@ -111,15 +111,15 @@ export default function LandingPage() {
           Top services sur Habble
         </Heading>
         <Flex
-          wrap="wrap"
           w="100%"
           justifyContent="space-between"
           alignItems="center"
+          wrap="wrap"
         >
           {LandingData.map((data) => (
             <Box key={data.id} cursor="pointer">
               <Box
-                w={{ base: "20vw", xl: "14vw" }}
+                w={{ base: "95vw", md: "45vw", lg: "20vw", xl: "14vw" }}
                 h="29.3vh"
                 mb="1rem"
                 borderRadius="0.625rem"
@@ -290,7 +290,7 @@ export default function LandingPage() {
           <Image
             src={Care}
             alt="Access a safe network"
-            w={{ base: "100%", lg: "50%" }}
+            w={{ base: "75%", lg: "50%" }}
           />
         </Flex>
       </Box>
@@ -510,13 +510,13 @@ export default function LandingPage() {
               </Box>
             </SimpleGrid>
           </Box>
-          <Box w={{ base: "100%", lg: "50%" }} mt={{ base: "4rem", md: "0" }}>
+          <Box w={{ base: "100%", lg: "50%" }}>
             <Heading
               as="h3"
               fontSize="2rem"
               lineHeight="3rem"
               color="#150A33"
-              mt={{ base: "4rem", md: "0" }}
+              mt={{ base: "4rem", lg: "0" }}
               mb="1.25rem"
               fontWeight="500"
             >
@@ -542,22 +542,27 @@ export default function LandingPage() {
         </Flex>
       </Box>
       <Box
-        w="100%"
+        w="100vw"
         bgColor="#5f3984"
         bgImage={{ base: "none", lg: LandingBg1 }}
         bgPosition="right"
         bgRepeat="no-repeat"
         bgSize="70%"
-        overflow="hidden"
       >
-        <Box w="30%" m="2.5rem" ml="20rem">
+        <Box
+          w={{ base: "100%", "2xl": "50%" }}
+          pl={{ base: "1rem", "2xl": "20rem" }}
+          pb="2rem"
+          pt="2rem"
+        >
           <Heading
             as="h3"
             fontSize="calc(1rem + 1vw)"
             lineHeight="3rem"
             color="#f9f9f9"
-            mt="1.563"
+            mt="1.563rem"
             mb="1.25rem"
+            fontWeight="500"
           >
             Vous êtes un professionnel du handicap ou du soin ?
           </Heading>
@@ -574,13 +579,7 @@ export default function LandingPage() {
           <Button h="auto" p="0.625rem 1.375rem" borderRadius="4px">
             Trouver un professionnel du handicap
           </Button>
-          <Text
-            color="#f9f9f9"
-            m="0 0 0.625rem"
-            mt="2rem"
-            mb="1rem"
-            fontSize="sm"
-          >
+          <Text color="#f9f9f9" mt="2rem" fontSize="sm">
             Inscrivez-vous et détaillez vos services
           </Text>
         </Box>
@@ -589,7 +588,7 @@ export default function LandingPage() {
         w="100%"
         h="auto"
         bgColor="white"
-        bgImage={LandingBg2}
+        bgImage={{ base: "none", md: LandingBg2 }}
         bgSize="cover"
       >
         <Flex alignItems="center" flexDir="column">
@@ -603,11 +602,28 @@ export default function LandingPage() {
           >
             Partenaires et Soutiens
           </Heading>
-          <HStack spacing={40} mb="4rem" justifyContent="center">
-            <Image src={LogoReseau} alt="Logo Réseau Entreprise" />
-            <Image src={LogoEvident} alt="Logo Évident" w="10%" />
-            <Image src={LogoFrench} alt="Logo French Impact" w="9%" />
-          </HStack>
+          <Flex
+            gap={{ base: 10, md: 40 }}
+            mb="4rem"
+            justifyContent="center"
+            alignItems="center"
+          >
+            <Image
+              src={LogoReseau}
+              alt="Logo Réseau Entreprise"
+              w={{ base: "25%", sm: "none" }}
+            />
+            <Image
+              src={LogoEvident}
+              alt="Logo Évident"
+              w={{ base: "17%", md: "10%" }}
+            />
+            <Image
+              src={LogoFrench}
+              alt="Logo French Impact"
+              w={{ base: "17%", md: "10%" }}
+            />
+          </Flex>
         </Flex>
       </Box>
     </div>
