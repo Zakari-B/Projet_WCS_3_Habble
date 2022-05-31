@@ -6,7 +6,6 @@ const theme = extendTheme({
     transparent: "transparent",
     black: "#000",
     white: "#fff",
-
     pink: {
       lighter: "#BE8DBE",
       light: "#A7197F",
