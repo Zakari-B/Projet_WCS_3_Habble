@@ -87,6 +87,7 @@ export default function LandingPage() {
               borderRadius="0 4px 4px 0"
               w="15%"
               bgColor="#a7197f"
+              cursor="pointer"
               _hover={{ bgColor: "#342c50" }}
               // eslint-disable-next-line react/no-children-prop
               children={<SearchIcon color="white" />}
@@ -94,7 +95,13 @@ export default function LandingPage() {
           </InputGroup>
         </Box>
       </Box>
-      <Box w="60%" maxW="1170px" mb="5rem" ml="auto" mr="auto">
+      <Box
+        w={{ base: "95%", xl: "60%" }}
+        maxW="1170px"
+        mb="5rem"
+        ml="auto"
+        mr="auto"
+      >
         <Heading
           as="h2"
           m="2rem 0 2rem 0"
@@ -110,9 +117,9 @@ export default function LandingPage() {
           alignItems="center"
         >
           {LandingData.map((data) => (
-            <Box key={data.id}>
+            <Box key={data.id} cursor="pointer">
               <Box
-                w="12vw"
+                w={{ base: "20vw", xl: "14vw" }}
                 h="29.3vh"
                 mb="1rem"
                 borderRadius="0.625rem"
@@ -124,6 +131,7 @@ export default function LandingPage() {
               >
                 <Box
                   bgImage={data.image}
+                  alt={data.title}
                   bgPos="center"
                   bgRepeat="no-repeat"
                   bgSize="cover"
@@ -147,7 +155,14 @@ export default function LandingPage() {
           ))}
         </Flex>
       </Box>
-      <Box w="60%" maxW="1170px" mb="5rem" ml="auto" mr="auto">
+      <Box
+        w={{ base: "95%", xl: "60%" }}
+        maxW="1170px"
+        mb="5rem"
+        ml="auto"
+        mr="auto"
+        cursor="pointer"
+      >
         <Heading
           as="h2"
           m="2rem 0 2rem 0"
@@ -156,9 +171,12 @@ export default function LandingPage() {
         >
           Deux moyens de trouver un professionnel du handicap
         </Heading>
-        <Flex justifyContent="space-around" flexWrap="wrap">
+        <Flex
+          flexDir={{ base: "column", lg: "row" }}
+          justifyContent="space-around"
+        >
           <Box
-            w="22.61vw"
+            w={{ base: "100%", xl: "22.61vw" }}
             p="0.938rem"
             borderRadius="21px"
             color="black"
@@ -169,12 +187,7 @@ export default function LandingPage() {
             }}
           >
             <Flex flexDir="column" alignItems="center">
-              <Image
-                src={Chat}
-                pos="relative"
-                w="5rem"
-                // background="linear-gradient(to right, #6541c1 0%, #d43396 98%, #d43396 100%)"
-              />
+              <Image src={Chat} pos="relative" w="5rem" />
               <Heading as="h4" mt="2rem" fontSize="1.5rem" fontWeight="500">
                 Déposez une annonce
               </Heading>
@@ -193,7 +206,7 @@ export default function LandingPage() {
             </Flex>
           </Box>
           <Box
-            w="22.61vw"
+            w={{ base: "100%", xl: "22.61vw" }}
             p="0.938rem"
             borderRadius="21px"
             color="black"
@@ -228,14 +241,29 @@ export default function LandingPage() {
           </Box>
         </Flex>
         <Flex justifyContent="center">
-          <Button h="auto" p="0.625rem 1.375rem" borderRadius="4px">
+          <Button
+            h="auto"
+            p="0.625rem 1.375rem"
+            borderRadius="4px"
+            m="3.125rem"
+          >
             Trouver un professionnel du handicap
           </Button>
         </Flex>
       </Box>
-      <Box w="60%" maxW="1170px" mb="5rem" ml="auto" mr="auto">
-        <Flex alignItems="center">
-          <Box w="50%">
+      <Box
+        w={{ base: "95%", xl: "60%" }}
+        maxW="1170px"
+        mb="5rem"
+        ml="auto"
+        mr="auto"
+        cursor="pointer"
+      >
+        <Flex
+          alignItems="center"
+          flexDir={{ base: "column-reverse", lg: "row" }}
+        >
+          <Box w={{ base: "100%", lg: "50%" }}>
             <Heading
               as="h2"
               m="2rem 0 2rem 0"
@@ -259,12 +287,22 @@ export default function LandingPage() {
               spécialisés dans le handicap, les soins et le soutien quotidien.
             </Text>
           </Box>
-          <Image src={Care} alt="Access a safe network" w="50%" />
+          <Image
+            src={Care}
+            alt="Access a safe network"
+            w={{ base: "100%", lg: "50%" }}
+          />
         </Flex>
       </Box>
-      <Box w="60%" maxW="1170px" mb="5rem" ml="auto" mr="auto">
-        <Flex>
-          <Box w="33%" textAlign="center">
+      <Box
+        w={{ base: "95%", xl: "60%" }}
+        maxW="1170px"
+        mb="5rem"
+        ml="auto"
+        mr="auto"
+      >
+        <Flex flexDir={{ base: "column", lg: "row" }}>
+          <Box w={{ base: "100%", lg: "33%" }} textAlign="center">
             <Heading
               as="h4"
               mt="2rem"
@@ -286,7 +324,7 @@ export default function LandingPage() {
               d'achat.
             </Text>
           </Box>
-          <Box w="33%" textAlign="center">
+          <Box w={{ base: "100%", lg: "33%" }} textAlign="center">
             <Heading
               as="h4"
               mt="2rem"
@@ -310,7 +348,7 @@ export default function LandingPage() {
               Un contact disponible en cas d'urgence.
             </Text>
           </Box>
-          <Box w="33%" textAlign="center">
+          <Box w={{ base: "100%", lg: "33%" }} textAlign="center">
             <Heading
               as="h4"
               mt="2rem"
@@ -334,9 +372,15 @@ export default function LandingPage() {
           </Box>
         </Flex>
       </Box>
-      <Box w="60%" maxW="1170px" mb="5rem" ml="auto" mr="auto">
-        <Flex>
-          <Box w="50%" mr="1.5rem">
+      <Box
+        w={{ base: "95%", xl: "60%" }}
+        maxW="1170px"
+        mb="5rem"
+        ml="auto"
+        mr="auto"
+      >
+        <Flex flexDir={{ base: "column", lg: "row" }}>
+          <Box w={{ base: "100%", lg: "50%" }} mr="1.5rem">
             <SimpleGrid columns={3} spacingX={10} spacingY="6rem">
               <Box
                 w="100%"
@@ -345,7 +389,11 @@ export default function LandingPage() {
                 flexDir="column"
                 alignItems="center"
               >
-                <Image src={SoutienDomicile} alt="Soutien à domicile" w="50%" />
+                <Image
+                  src={SoutienDomicile}
+                  alt="Soutien à domicile"
+                  w={{ base: "30%", lg: "50%" }}
+                />
                 <Text
                   fontSize="0.8rem"
                   mt="1.875rem"
@@ -362,7 +410,7 @@ export default function LandingPage() {
                 flexDir="column"
                 alignItems="center"
               >
-                <Image src={Sante} alt="Santé" w="50%" />
+                <Image src={Sante} alt="Santé" w={{ base: "30%", lg: "50%" }} />
                 <Text
                   textAlign="center"
                   fontSize="0.8rem"
@@ -380,7 +428,11 @@ export default function LandingPage() {
                 flexDir="column"
                 alignItems="center"
               >
-                <Image src={BienEtre} alt="Bien être" w="50%" />
+                <Image
+                  src={BienEtre}
+                  alt="Bien être"
+                  w={{ base: "30%", lg: "50%" }}
+                />
                 <Text
                   textAlign="center"
                   fontSize="0.8rem"
@@ -398,7 +450,11 @@ export default function LandingPage() {
                 flexDir="column"
                 alignItems="center"
               >
-                <Image src={Education} alt="Enseignement, Education" w="50%" />
+                <Image
+                  src={Education}
+                  alt="Enseignement, Education"
+                  w={{ base: "30%", lg: "50%" }}
+                />
                 <Text
                   textAlign="center"
                   fontSize="0.8rem"
@@ -419,7 +475,7 @@ export default function LandingPage() {
                 <Image
                   src={Transport}
                   alt="Transport, Aides techniques"
-                  w="50%"
+                  w={{ base: "30%", lg: "50%" }}
                 />
                 <Text
                   textAlign="center"
@@ -441,7 +497,7 @@ export default function LandingPage() {
                 <Image
                   src={SoutienDomicile}
                   alt="Administratif et Social"
-                  w="50%"
+                  w={{ base: "30%", lg: "50%" }}
                 />
                 <Text
                   fontSize="0.8rem"
@@ -454,13 +510,13 @@ export default function LandingPage() {
               </Box>
             </SimpleGrid>
           </Box>
-          <Box w="50%">
+          <Box w={{ base: "100%", lg: "50%" }} mt={{ base: "4rem", md: "0" }}>
             <Heading
               as="h3"
               fontSize="2rem"
               lineHeight="3rem"
               color="#150A33"
-              mt="1.563"
+              mt={{ base: "4rem", md: "0" }}
               mb="1.25rem"
               fontWeight="500"
             >
@@ -488,7 +544,7 @@ export default function LandingPage() {
       <Box
         w="100%"
         bgColor="#5f3984"
-        bgImage={LandingBg1}
+        bgImage={{ base: "none", lg: LandingBg1 }}
         bgPosition="right"
         bgRepeat="no-repeat"
         bgSize="70%"
