@@ -70,10 +70,10 @@ const loginForm = () => {
         </Button>
         <Divider />
         <Link
+          to="/forgot-password"
           textDecoration="underline"
           color="#342c50"
           _hover={{ color: "#A7197F" }}
-          href="PAGE MDP OUBLIE"
         >
           Mot de passe oublié ?
         </Link>
