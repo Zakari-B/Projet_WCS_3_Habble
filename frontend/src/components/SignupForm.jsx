@@ -100,19 +100,18 @@ const signupForm = () => {
         </Button>
         <p>
           En m'inscrivant pour créer un compte, j'accepte les{" "}
-          <Link
-            to="/mentions-legales"
-            fontWeight="bold"
-            color="#A7197F"
-            _hover={{ textDecoration: "none" }}
-          >
+          <Link to="/mentions-legales" fontWeight="bold" color="#A7197F">
             Conditions générales d'utilisation et de confidentialité
           </Link>
         </p>
         <Divider />
         <p>
           Vous avez déjà un compte ?&nbsp;
-          <Link to="/login" color="#A7197F" _hover={{ textDecoration: "none" }}>
+          <Link
+            to="/login"
+            color="#342c50"
+            _hover={{ textDecoration: "none", color: "#A7197F" }}
+          >
             Se connecter
           </Link>
         </p>
