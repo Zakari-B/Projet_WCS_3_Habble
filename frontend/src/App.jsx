@@ -17,6 +17,7 @@ function App() {
         <Route path="/register" element={<Register />} />
         {/* <Route path="/login" element={<LoginForm />} /> */}
         {/* <Route path="*" element={<Error />} /> */}
+        {/* <Route path="/forgot-password" element={<PasswordReset />} /> */}
       </Routes>
     </div>
   );
