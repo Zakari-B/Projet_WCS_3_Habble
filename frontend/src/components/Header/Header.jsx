@@ -13,7 +13,7 @@ export default function Header({ onDark = false, isSticky = false }) {
   };
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
-    return () => setScrollPosition(0);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
