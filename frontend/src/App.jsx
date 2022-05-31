@@ -9,7 +9,6 @@ function App() {
     <div className="App">
       {/* <Home /> */}
       <Mission />
-      <p>coucou</p>
     </div>
   );
 }

@@ -26,6 +26,7 @@ import hFamily from "../assets/h-family.svg";
 import hServiceWorkers from "../assets/h-service-workers.svg";
 import house from "../assets/house.svg";
 import listingProsIphone from "../assets/listing-pros-iphone-600x575-2.png";
+import LogoCommunaute from "../assets/Logo_communaute.png";
 import reseauEntreprendre from "../assets/logo_horizontal_re_couleur_nord.png";
 import evident from "../assets/logo-evident.png";
 import psychologyHead from "../assets/psychology-head.svg";
@@ -35,8 +36,6 @@ function Mission() {
   const family = useDisclosure();
   const service = useDisclosure();
   const building = useDisclosure();
-  const coFond1 = useDisclosure();
-  const coFond2 = useDisclosure();
 
   const pro = (
     <Flex
@@ -386,7 +385,12 @@ function Mission() {
             </Flex>
           </Flex>
         </Flex>
-        <Image src={listingProsIphone} alt="listingProsIphone" maxH="90%" />
+        <Image
+          display={{ base: "none", lg: "block" }}
+          src={listingProsIphone}
+          alt="listingProsIphone"
+          maxH="90%"
+        />
       </Flex>
       <Flex
         flexDirection="column"
@@ -467,9 +471,15 @@ function Mission() {
           de soutien.
         </Text>
       </Flex>
-      <Flex h="fit-content" justifyContent="center" gap="2" my="1rem">
+      <Flex
+        h="fit-content"
+        justifyContent="center"
+        gap="2"
+        my="1rem"
+        direction="column"
+      >
         {!family.isOpen && !service.isOpen && !building.isOpen && (
-          <Box w="32%" h="30vh" onClick={family.onToggle}>
+          <Box w="32%" minW="300px" h="40vh" onClick={family.onToggle}>
             <Button
               flexDirection="column"
               justifyContent="space-around"
@@ -511,6 +521,7 @@ function Mission() {
               w="98vw"
               border="2px solid #4d1582"
               alignItems="center"
+              role="group"
             >
               <CloseIcon
                 onClick={family.onClose}
@@ -522,7 +533,7 @@ function Mission() {
               <Text
                 whiteSpace="pre-wrap"
                 color="#4d1582"
-                _hover={{
+                _groupHover={{
                   bgGradient: "linear(45deg, #4d1582 0%, #a7197f 50%)",
                   bgClip: "text",
                 }}
@@ -543,7 +554,7 @@ function Mission() {
                   <Text
                     fontWeight="bold"
                     color="white"
-                    _hover={{
+                    _groupHover={{
                       bgGradient: "linear(45deg, #4d1582 0%, #a7197f 50%)",
                       bgClip: "text",
                     }}
@@ -562,7 +573,7 @@ function Mission() {
                   <Text
                     fontWeight="bold"
                     color="white"
-                    _hover={{
+                    _groupHover={{
                       bgGradient: "linear(45deg, #4d1582 0%, #a7197f 50%)",
                       bgClip: "text",
                     }}
@@ -873,7 +884,7 @@ function Mission() {
           Fonctionnalités et principes clés
         </Heading>
         <Flex justifyContent="space-around" m="1rem">
-          <Box w="45%">{text}</Box>
+          <Box w="40%">{text}</Box>
           <Box w="45%">
             <Grid
               textColor="white"
@@ -1138,93 +1149,104 @@ function Mission() {
           Les fondateurs
         </Text>
         <Flex
-          justifyContent="center"
+          direction={{ base: "column", md: "row" }}
+          justifyContent="space-around"
+          alignItems="center"
           alignSelf="center"
-          flexWrap="wrap"
-          gap="3"
+          w={{ base: "100%", lg: "90%" }}
         >
           <Flex
+            p="10px"
             flexDirection="column"
             alignItems="center"
             h="fit-content"
             w="fit-content"
           >
             <Box
-              h="300px"
-              w="350px"
+              role="group"
+              h="240px"
+              w="293px"
               bgImage="https://app.habble.fr/wp-content/uploads/2020/02/patrice-warembourg-550.jpg"
-              onClick={coFond1.onToggle}
               bgSize="cover"
+              position="relative"
             >
-              <ScaleFade in={coFond1.isOpen}>
-                <Flex
-                  flexDir="column"
-                  h="300px"
-                  w="350px"
-                  opacity="0.8"
-                  position="absolute"
-                  color="white"
-                  bg="#a7197f"
-                  z-index="1"
-                >
-                  <Text textAlign="center">
-                    Conseiller en innovation sociale, ancien directeur médico
-                    social.
-                  </Text>
-                  <Flex>
-                    <Link href="envoie mail">
-                      <Image src="" />
-                    </Link>
-                    <Link href="https://www.linkedin.com/in/patrice-warembourg-44109319/">
-                      <Image src="" />
-                    </Link>
-                  </Flex>
+              <Box
+                height="0"
+                w="100%"
+                overflow="hidden"
+                transition="all 0.3s ease-in-out"
+                mt="240px"
+                position="absolute"
+                bgColor="rgba(167, 25, 127, 0.9)"
+                _groupHover={{
+                  height: "100%",
+                  mt: "0",
+                  p: "50px",
+                }}
+              >
+                <Text textAlign="center" color="white">
+                  Conseiller en innovation sociale, ancien directeur médico
+                  social.
+                </Text>
+                <Flex>
+                  <Link href="mailto:patrice@habble.fr">
+                    <Image src="" />
+                  </Link>
+                  <Link href="https://www.linkedin.com/in/patrice-warembourg-44109319/">
+                    <Image src="" />
+                  </Link>
                 </Flex>
-              </ScaleFade>
+              </Box>
             </Box>
             <Text color="#342c50">Patrice Warembourg</Text>
             <Text color="#a5a5a5">Co-fondateur</Text>
             <Text color="#342c50">Stratégie et Développement</Text>
           </Flex>
           <Flex
+            p="10px"
             flexDirection="column"
-            w="fit-content"
             alignItems="center"
             h="fit-content"
+            w="fit-content"
           >
             <Box
-              h="300px"
-              w="350px"
-              bgImage="	https://app.habble.fr/wp-content/uploads/2020/01/francois-duforest.jpg"
-              onClick={coFond2.onToggle}
+              role="group"
+              h="240px"
+              w="293px"
+              bgImage="https://app.habble.fr/wp-content/uploads/2020/01/francois-duforest.jpg"
               bgSize="cover"
+              position="relative"
             >
-              <ScaleFade initialScale={0.1} in={coFond2.isOpen}>
-                <Flex
-                  flexDir="column"
-                  h="300px"
-                  w="350px"
-                  opacity="0.8"
-                  position="absolute"
-                  color="white"
-                  bg="#a7197f"
-                  z-index="1"
-                >
-                  <Text textAlign="center">Consultant digital</Text>
-                  <Flex>
-                    <Link href="envoie mail">
-                      <Image src="" />
-                    </Link>
-                    <Link href="https://www.linkedin.com/in/francois-duforest/">
-                      <Image src="" />
-                    </Link>
-                  </Flex>
+              <Box
+                height="0"
+                w="100%"
+                overflow="hidden"
+                transition="all 0.3s ease-in-out"
+                mt="240px"
+                position="absolute"
+                bgColor="rgba(167, 25, 127, 0.9)"
+                _groupHover={{
+                  height: "100%",
+                  mt: "0",
+                  p: "50px",
+                }}
+              >
+                <Text textAlign="center" color="white">
+                  Consultant digital
+                </Text>
+                <Flex>
+                  <Link href="envoie mail">
+                    <Image src="" />
+                  </Link>
+                  <Link href="https://www.linkedin.com/in/francois-duforest/">
+                    <Image src="" />
+                  </Link>
                 </Flex>
-              </ScaleFade>
+              </Box>
             </Box>
             <Text color="#342c50">François Duforest</Text>
             <Text color="#a5a5a5">Co-fondateur</Text>
-            <Text color="#342c50">François Duforest</Text>
+            <Text color="#342c50">Direction technique</Text>
           </Flex>
         </Flex>
       </Flex>
@@ -1252,14 +1274,24 @@ function Mission() {
           flexWrap="wrap"
           w="90%"
         >
-          <Image src={evident} alt="logo evident" w="200px" m="1rem" />
+          <Image
+            src={evident}
+            alt="logo evident"
+            w="200px"
+            m="1rem"
+            h="100px"
+            alignSelf="center"
+          />
+
           <Image
             alignSelf="center"
             src={reseauEntreprendre}
             alt="logo reseau entreprendre"
+            w="216px"
             h="56px"
             m="1rem"
           />
+          <Image src={LogoCommunaute} alt="logo evident" w="120px" m="1rem" />
         </Flex>
       </Flex>
     </div>
