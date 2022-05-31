@@ -17,11 +17,13 @@ export default function Footer() {
         gap="10px"
         alignItems="center"
       >
-        <Img
-          src={LogoImgWhite}
-          w={{ lg: "150px", base: "90px" }}
-          p={{ lg: "0 50px 0 0", base: "0px" }}
-        />
+        <Link to="/">
+          <Img
+            src={LogoImgWhite}
+            w={{ lg: "150px", base: "90px" }}
+            p={{ lg: "0 50px 0 0", base: "0px" }}
+          />
+        </Link>
         <HStack
           fontSize="sm"
           fontWeight="semibold"

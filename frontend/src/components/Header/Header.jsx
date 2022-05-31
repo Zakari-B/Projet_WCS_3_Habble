@@ -19,8 +19,7 @@ export default function Header({ onDark = false, isSticky = false }) {
     <Flex
       className={isSticky && scrollPosition <= 50 ? "not-active" : "active"}
       position={isSticky ? "fixed" : "relative"}
-      paddingX={{ base: "2%", md: "2%", lg: "5%" }}
-      transition="all 0.2s ease-in-out"
+      paddingX={{ base: "2%", lg: "5%" }}
       paddingY="30px"
       bgColor={isSticky === false && "white"}
       w="100vw"
@@ -31,7 +30,7 @@ export default function Header({ onDark = false, isSticky = false }) {
           justify="space-between"
           align="center"
           w="100%"
-          display={{ base: "none", md: "flex", lg: "flex" }}
+          display={{ base: "none", md: "flex" }}
         >
           <Link to="/le-projet">
             <Text
@@ -52,7 +51,7 @@ export default function Header({ onDark = false, isSticky = false }) {
           <Flex
             justify="space-between"
             align="center"
-            gap={{ base: "8px", md: "8px", lg: "16px" }}
+            gap={{ base: "8px", lg: "16px" }}
           >
             <Link to="/professionnel-handicap">
               <Button
