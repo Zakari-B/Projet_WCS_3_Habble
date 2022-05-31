@@ -10,6 +10,7 @@ import {
   keyframes,
   usePrefersReducedMotion,
 } from "@chakra-ui/react";
+import Header from "../components/Header/Header";
 
 const slideIn = keyframes`0% {background-position: 0% 0%} 50% {background-position: 100% 0%} 100% {background-position: 0% 0%}`;
 
@@ -20,9 +21,12 @@ function ProAccueil() {
 
   return (
     <Box>
+      <Header isSticky="true" />
+
       <Box
         marginLeft={{ md: "3%", lg: "10%" }}
         marginRight={{ md: "5%", lg: "10%" }}
+        paddingTop="8rem"
       >
         <Box
           marginLeft={{ base: "1.5rem", md: "0" }}
