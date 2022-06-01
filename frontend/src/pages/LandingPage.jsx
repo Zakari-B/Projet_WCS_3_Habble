@@ -24,6 +24,8 @@ import BienEtre from "../assets/psychology-head.svg";
 import Transport from "../assets/wheelchair_transport.svg";
 import LandingBg1 from "../assets/landing_bg.png";
 import LandingBg2 from "../assets/section-bg-hero3.png";
+import admin from "../assets/admin.svg";
+
 import LogoReseau from "../assets/logo_horizontal_re_couleur_nord.png";
 import LogoEvident from "../assets/logo-evident.png";
 import LogoFrench from "../assets/Logo_communaute.png";
@@ -32,69 +34,78 @@ import LandingData from "../services/LandingData";
 
 export default function LandingPage() {
   return (
-    <div>
-      <Header onDark isSticky />
+    <Box>
       <Box
-        w="100%"
-        h={{ base: "auto", lg: "82.0021299254526vh" }}
-        bgImage={{ base: "none", lg: HomeImg }}
+        bgImage={{ base: "none", md: HomeImg }}
         objectFit="contain"
         bgRepeat="no-repeat"
         bgSize="cover"
-        display="flex"
-        alignItems="center"
         bgPos="center"
-        pt={{ base: "6rem" }}
       >
+        <Header onDark isSticky />
         <Box
-          w={{ base: "100vw", lg: "40%", "2xl": "26.6%" }}
-          h="auto"
-          p="1.938rem 2.5rem 2.625rem 2.25rem"
-          ml={{ base: "none", lg: "25rem" }}
-          bgColor={{ base: "rgba(167, 25, 127, 0.2)", lg: "white" }}
-          borderRadius={{ base: "none", lg: "21px" }}
-          color="black"
-          textAlign="left"
+          maxW="1280px"
+          w={{ base: "100%", "2xl": "60%" }}
+          display="flex"
+          justifyContent={{ base: "center", lg: "flex-start" }}
+          margin="auto"
+          alignItems="center"
+          pt={{ base: "6rem" }}
         >
-          <Heading
-            as="h1"
-            fontSize="calc(1.5rem + 1.5vw)"
-            pb="1rem"
-            fontWeight="500"
+          <Box
+            w={{ base: "100%", md: "40%", "2xl": "26.6%" }}
+            minW={{ base: "100%", md: "570px", "2xl": "570px" }}
+            h="auto"
+            p="1.938rem 2.5rem 2.625rem 2.25rem"
+            // ml={{ base: "none", md: "auto", lg: "15%" }}
+            // mr={{ base: "none", md: "auto", lg: "none" }}
+            bgColor={{ base: "rgba(167, 25, 127, 0.2)", md: "white" }}
+            borderRadius={{ base: "none", md: "21px" }}
+            color="purple.average"
+            textAlign="left"
+            mt="8%"
+            mb="8%"
           >
-            Trouvez un{" "}
-            <span Style="background: linear-gradient(45deg, #4d1582 0%, #a7197f 100%); background-clip: text; -webkit-background-clip: text; color: transparent;">
-              professionnel
-            </span>{" "}
-            du{" "}
-            <span Style="background: linear-gradient(45deg, #4d1582 0%, #a7197f 100%); background-clip: text; -webkit-background-clip: text; color: transparent;">
-              handicap
-            </span>{" "}
-            ou du{" "}
-            <span Style="background: linear-gradient(45deg, #4d1582 0%, #a7197f 100%); background-clip: text; -webkit-background-clip: text; color: transparent;">
-              soin
-            </span>
-            , de confiance près de chez vous
-          </Heading>
-          <InputGroup borderRadius="4px 0 0 4px" size="lg">
-            <Input
-              placeholder="Entrez votre code postal"
-              bgColor={{ base: "white", md: "none" }}
-              _placeholder={{
-                color: "gray.300",
-                fontWeight: "semibold",
-              }}
-            />
-            <InputRightElement
-              borderRadius="0 4px 4px 0"
-              w="15%"
-              bgColor="#a7197f"
-              cursor="pointer"
-              _hover={{ bgColor: "#342c50" }}
+            <Heading
+              as="h1"
+              fontSize="calc(1.5rem + 1.5vw)"
+              pb="1rem"
+              fontWeight="600"
             >
-              <SearchIcon color="white" />
-            </InputRightElement>
-          </InputGroup>
+              Trouvez un{" "}
+              <span Style="background: linear-gradient(45deg, #4d1582 0%, #a7197f 100%); background-clip: text; -webkit-background-clip: text; color: transparent;">
+                professionnel
+              </span>{" "}
+              du{" "}
+              <span Style="background: linear-gradient(45deg, #4d1582 0%, #a7197f 100%); background-clip: text; -webkit-background-clip: text; color: transparent;">
+                handicap
+              </span>{" "}
+              ou du{" "}
+              <span Style="background: linear-gradient(45deg, #4d1582 0%, #a7197f 100%); background-clip: text; -webkit-background-clip: text; color: transparent;">
+                soin
+              </span>
+              , de confiance près de chez vous
+            </Heading>
+            <InputGroup borderRadius="4px 0 0 4px" size="lg">
+              <Input
+                placeholder="Entrez votre code postal"
+                bgColor={{ base: "white", md: "none" }}
+                _placeholder={{
+                  color: "gray.300",
+                  fontWeight: "semibold",
+                }}
+              />
+              <InputRightElement
+                borderRadius="0 4px 4px 0"
+                w="15%"
+                bgColor="#a7197f"
+                cursor="pointer"
+                _hover={{ bgColor: "#342c50" }}
+              >
+                <SearchIcon color="white" />
+              </InputRightElement>
+            </InputGroup>
+          </Box>
         </Box>
       </Box>
       <Box
@@ -108,7 +119,7 @@ export default function LandingPage() {
           as="h2"
           m="2rem 0 2rem 0"
           color="#342c50"
-          fontSize="calc(1.5rem + 1.5vw)"
+          fontSize="calc(1rem + 1.5vw)"
           fontWeight="500"
         >
           Top services sur Habble
@@ -176,9 +187,9 @@ export default function LandingPage() {
           as="h2"
           m="2rem 0 2rem 0"
           color="#342c50"
-          fontSize="calc(1.5rem + 1.5vw)"
-          fontWeight="500"
-          textAlign={{ base: "center", md: "none" }}
+          fontSize="calc(1rem + 1.5vw)"
+          fontWeight="600"
+          textAlign="center"
         >
           Deux moyens de trouver un professionnel du handicap
         </Heading>
@@ -190,7 +201,7 @@ export default function LandingPage() {
             w={{ base: "100%", xl: "22.61vw" }}
             p="0.938rem"
             borderRadius="21px"
-            color="black"
+            color="purple.average"
             lineHeight="1.5"
             _hover={{
               boxShadow: "0px 18px 37px rgb(212 50 151 / 20%)",
@@ -208,6 +219,7 @@ export default function LandingPage() {
                 mt="2rem"
                 mb="1rem"
                 fontSize="md"
+                align="center"
               >
                 Inscrivez vous gratuitement à Habble et dîtes nous de quel
                 services vous avez besoin et à quel moment. Recevez des
@@ -220,7 +232,7 @@ export default function LandingPage() {
             w={{ base: "100%", xl: "22.61vw" }}
             p="0.938rem"
             borderRadius="21px"
-            color="black"
+            color="purple.average"
             _hover={{
               boxShadow: "0px 18px 37px rgb(212 50 151 / 20%)",
               color: "#a7197f",
@@ -242,6 +254,7 @@ export default function LandingPage() {
                 mt="2rem"
                 mb="1rem"
                 fontSize="md"
+                align="center"
               >
                 Parcourez les profils des professionnels indépendants dans votre
                 région. Ils ont tous été vérifiés pour votre tranquillité
@@ -280,10 +293,10 @@ export default function LandingPage() {
               as="h2"
               m="2rem 0 2rem 0"
               color="#342c50"
-              fontSize="calc(1.25rem + 1.5vw)"
+              fontSize="calc(1rem + 1.5vw)"
               lineHeight="1.1"
               fontWeight="500"
-              textAlign={{ base: "center", md: "none" }}
+              textAlign={{ base: "center", md: "left" }}
             >
               Accédez à un réseau de soin et de soutien spécialisé dans le
               handicap simple, sûr et disponible.
@@ -294,7 +307,7 @@ export default function LandingPage() {
               mt="2rem"
               mb="1rem"
               fontSize="md"
-              textAlign={{ base: "center", md: "none" }}
+              textAlign={{ base: "center", md: "left" }}
             >
               Appréciez la tranquillité d'esprit pour vous et votre famille,
               grâce à notre réseau de professionnels et de structures
@@ -315,24 +328,18 @@ export default function LandingPage() {
         ml="auto"
         mr="auto"
       >
-        <Flex flexDir={{ base: "column", lg: "row" }}>
+        <Flex flexDir={{ base: "column", lg: "row" }} gap="20px">
           <Box w={{ base: "100%", lg: "33%" }} textAlign="center">
             <Heading
               as="h4"
               mt="2rem"
               fontSize="1.5rem"
-              color="#342c50"
+              color="purple.average"
               fontWeight="500"
             >
-              Contactez en direct
+              Pas d'abonnement
             </Heading>
-            <Text
-              color="#656565"
-              m="0 0 0.625rem"
-              mt="2rem"
-              mb="1rem"
-              fontSize="md"
-            >
+            <Text color="#656565" mt="2rem" mb="1rem" fontSize="md">
               Notre service est gratuit, pas d'abonnement coûteux ! Nos frais
               sont réduits au strict minimum pour respecter votre pouvoir
               d'achat.
@@ -343,18 +350,12 @@ export default function LandingPage() {
               as="h4"
               mt="2rem"
               fontSize="1.5rem"
-              color="#342c50"
+              color="purple.average"
               fontWeight="500"
             >
               La sécurité : notre priorité
             </Heading>
-            <Text
-              color="#656565"
-              m="0 0 0.625rem"
-              mt="2rem"
-              mb="1rem"
-              fontSize="md"
-            >
+            <Text color="#656565" mt="2rem" mb="1rem" fontSize="md">
               Les professionnels indépendants et services spécialisés répondent
               à des critères stricts : références, qualifications,... Nous
               vérifions les agréments pour plus de sureté et sécurité. <br />
@@ -367,18 +368,12 @@ export default function LandingPage() {
               as="h4"
               mt="2rem"
               fontSize="1.5rem"
-              color="#342c50"
+              color="purple.average"
               fontWeight="500"
             >
               Assurance tous risques
             </Heading>
-            <Text
-              color="#656565"
-              m="0 0 0.625rem"
-              mt="2rem"
-              mb="1rem"
-              fontSize="md"
-            >
+            <Text color="#656565" mt="2rem" mb="1rem" fontSize="md">
               Tous les professionels indépendants sont couverts par une
               assurance tous risques pour garantir la tranquillité d'esprit pour
               vous et votre famille.
@@ -393,7 +388,7 @@ export default function LandingPage() {
         ml="auto"
         mr="auto"
       >
-        <Flex flexDir={{ base: "column", lg: "row" }}>
+        <Flex flexDir={{ base: "column", lg: "row" }} gap="40px">
           <Box w={{ base: "100%", lg: "50%" }} mr="1.5rem">
             <SimpleGrid columns={3} spacingX={10} spacingY="6rem">
               <Box
@@ -509,7 +504,7 @@ export default function LandingPage() {
                 alignItems="center"
               >
                 <Image
-                  src={SoutienDomicile}
+                  src={admin}
                   alt="Administratif et Social"
                   w={{ base: "30%", lg: "50%" }}
                 />
@@ -533,7 +528,7 @@ export default function LandingPage() {
               mt={{ base: "4rem", lg: "0" }}
               mb="1.25rem"
               fontWeight="500"
-              textAlign={{ base: "center", md: "none" }}
+              textAlign={{ base: "center", md: "left" }}
             >
               Concevez la solution qui vous convient
             </Heading>
@@ -543,7 +538,7 @@ export default function LandingPage() {
               mt="2rem"
               mb="1rem"
               fontSize="md"
-              textAlign={{ base: "center", md: "none" }}
+              textAlign={{ base: "center", md: "left" }}
             >
               Trouver des spécialistes du soin et du soutien adaptés à votre
               situation est facile avec Habble. Effectuez vos recherches en
@@ -579,6 +574,7 @@ export default function LandingPage() {
             mt="1.563rem"
             mb="1.25rem"
             fontWeight="500"
+            textAlign={{ base: "center", md: "left" }}
           >
             Vous êtes un professionnel du handicap ou du soin ?
           </Heading>
@@ -588,22 +584,31 @@ export default function LandingPage() {
             mt="2rem"
             mb="1rem"
             fontSize="md"
+            textAlign={{ base: "center", md: "left" }}
           >
             Faites-vous connaître, choisissez les missions qui vous
             correspondent et développez votre activité !
           </Text>
-          <Button
-            w="90%"
-            h="auto"
-            p="0.625rem 1.375rem"
-            borderRadius="4px"
-            variant="outline_White_Gradient"
-          >
-            En savoir plus
-          </Button>
-          <Text color="#f9f9f9" mt="2rem" fontSize="sm">
-            Inscrivez-vous et détaillez vos services
-          </Text>
+          <Flex direction={{ lg: "column" }} justify={{ lg: "flex-start" }}>
+            <Button
+              w="90%"
+              h="auto"
+              p="0.625rem 1.375rem"
+              borderRadius="4px"
+              variant="outline_White_Gradient"
+              alignItems="left"
+            >
+              En savoir plus
+            </Button>
+            <Text
+              color="#f9f9f9"
+              mt="2rem"
+              fontSize="sm"
+              textAlign={{ base: "center", md: "left" }}
+            >
+              Inscrivez-vous et détaillez vos services
+            </Text>
+          </Flex>
         </Box>
       </Box>
       <Box
@@ -616,10 +621,10 @@ export default function LandingPage() {
         <Flex alignItems="center" flexDir="column">
           <Heading
             as="h3"
-            fontSize="calc(1.25rem + 1.5vw)"
             lineHeight="3rem"
-            color="#150A33"
             m="2rem 0 2rem 0"
+            color="#342c50"
+            fontSize="calc(1rem + 1.5vw)"
             fontWeight="500"
           >
             Partenaires et Soutiens
@@ -650,6 +655,6 @@ export default function LandingPage() {
         </Flex>
       </Box>
       <Footer />
-    </div>
+    </Box>
   );
 }
