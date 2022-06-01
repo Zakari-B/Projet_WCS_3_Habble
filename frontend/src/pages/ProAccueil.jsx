@@ -28,6 +28,7 @@ function ProAccueil() {
         marginLeft={{ md: "3%", lg: "10%" }}
         marginRight={{ md: "5%", lg: "10%" }}
         paddingTop="8rem"
+        color="purple.average"
       >
         <Box
           marginLeft={{ base: "1.5rem", md: "0" }}
@@ -125,7 +126,7 @@ function ProAccueil() {
               <Text variant="titleH3" marginBottom="1rem">
                 Développez votre visibilité
               </Text>
-              <Text variant="corps" marginBottom="2rem">
+              <Text variant="corps" marginBottom="2rem" color="#656565">
                 Aucun frais pour vous rendre visible et accéder directement à
                 notre communauté d'utilisateurs. Dès votre inscription, vous
                 serez référencé dans notre annuaire.
@@ -160,7 +161,7 @@ function ProAccueil() {
               <Text variant="titleH3" marginBottom="1rem">
                 Choisissez vos missions
               </Text>
-              <Text variant="corps" marginBottom="2rem">
+              <Text variant="corps" marginBottom="2rem" color="#656565">
                 Choisissez le type de service à fournir, le public visé, vos
                 heures de travail et votre zone d'intervention. Quoi qu'il
                 arrive c'est vous qui décidez.
@@ -196,7 +197,7 @@ function ProAccueil() {
               <Text variant="titleH3" marginBottom="1rem">
                 L'administratif simplifié
               </Text>
-              <Text variant="corps" marginBottom="2rem">
+              <Text variant="corps" marginBottom="2rem" color="#656565">
                 La plateforme sécurisée Habble gère pour vous l'administratif
                 pour que vous puissiez vous concentrer sur votre travail en
                 toute tranquillité.
@@ -238,7 +239,7 @@ function ProAccueil() {
                 <Text align="left" variant="titleH3">
                   1. Décrivez vos prestations
                 </Text>
-                <Text align="left" variant="corps">
+                <Text align="left" variant="corps" color="#656565">
                   Dites-nous votre spécialité et vos champs d'intervention
                 </Text>
               </Box>
@@ -246,7 +247,7 @@ function ProAccueil() {
                 <Text align="left" variant="titleH3">
                   2. Choisissez
                 </Text>
-                <Text align="left" variant="corps">
+                <Text align="left" variant="corps" color="#656565">
                   Recevez des demandes de personnes ou de services en lien avec
                   vos compétences. Echangez pour affiner les détails de la
                   mission.
@@ -256,7 +257,7 @@ function ProAccueil() {
                 <Text align="left" variant="titleH3">
                   3. Réalisez
                 </Text>
-                <Text align="left" variant="corps">
+                <Text align="left" variant="corps" color="#656565">
                   La plateforme sécurisée Habble gère pour vous l'administratif
                   pour vous permettre de vous consacrer à votre coeur de métier.
                 </Text>
@@ -273,11 +274,16 @@ function ProAccueil() {
                 Rejoignez le 1er réseau spécialisé dans l'accompagnement du
                 handicap et des problèmes de santé.
               </Text>
-              <Text align="left" marginBottom="1rem" variant="corps">
+              <Text
+                align="left"
+                marginBottom="1rem"
+                variant="corps"
+                color="#656565"
+              >
                 Vous êtes engagé pour l'autonomie et l'inclusion des personnes
                 en situation de handicap? Faites-vous connaître.
               </Text>
-              <Text align="left" variant="corps">
+              <Text align="left" variant="corps" color="#656565">
                 Que vous soyez en libéral, auto-entrepreneur, un service à la
                 personne, un distributeur d'aides techniques, une association
                 médico-sociale ou étudiant en santé/social, développez votre
@@ -328,10 +334,16 @@ function ProAccueil() {
               <Text
                 marginBottom={{ base: "0.5rem", md: "0" }}
                 variant="titleH4"
+                align="center"
               >
                 Pas d'abonnement coûteux
               </Text>
-              <Text marginBottom={{ base: "0.8rem", md: "0" }} variant="corps">
+              <Text
+                marginBottom={{ base: "0.8rem", md: "0" }}
+                variant="corps"
+                color="#656565"
+                align="center"
+              >
                 Dès votre inscription, vous êtes référencé sur l'annuaire.
                 <br /> Notre service est gratuit.
               </Text>
@@ -340,10 +352,16 @@ function ProAccueil() {
               <Text
                 marginBottom={{ base: "0.5rem", md: "0" }}
                 variant="titleH4"
+                align="center"
               >
                 Un outil adapté à vos besoins
               </Text>
-              <Text marginBottom={{ base: "0.8rem", md: "0" }} variant="corps">
+              <Text
+                marginBottom={{ base: "0.8rem", md: "0" }}
+                variant="corps"
+                color="#656565"
+                align="center"
+              >
                 Un tableau de bord dédié pour suivre simplement vos prestations
                 : agenda, cahier de liaison, suivi.
               </Text>
@@ -352,10 +370,16 @@ function ProAccueil() {
               <Text
                 marginBottom={{ base: "0.5rem", md: "0" }}
                 variant="titleH4"
+                align="center"
               >
                 C'est vous le patron
               </Text>
-              <Text marginBottom={{ base: "5.5rem", md: "0" }} variant="corps">
+              <Text
+                marginBottom={{ base: "5.5rem", md: "0" }}
+                variant="corps"
+                color="#656565"
+                align="center"
+              >
                 Vous souhaitez développer votre activité ? Vous recherchez des
                 missions, prestations de services, contrats (CDD, gré à
                 gré,...), définissez vous même vos critères.
@@ -466,6 +490,7 @@ function ProAccueil() {
                 marginRight="10%"
                 align="left"
                 marginLeft="8%"
+                color="#656565"
               >
                 Vous cherchez à compléter vos revenus, à valorisez votre offre
                 ou à développer vos missions ? Notre plateforme de mise en

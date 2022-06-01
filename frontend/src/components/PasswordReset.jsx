@@ -21,7 +21,7 @@ const passwordReset = () => {
   return (
     <Box h="100vh">
       <Header onDark={false} isSticky={false} />
-      <Flex bgColor="background.gray" alignItems="center">
+      <Flex bgColor="background.gray" alignItems="center" h="85vh">
         <Flex
           className="loginForm"
           bgColor="white"

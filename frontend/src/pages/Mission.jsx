@@ -14,6 +14,7 @@ import {
   ScaleFade,
   keyframes,
   usePrefersReducedMotion,
+  SimpleGrid,
 } from "@chakra-ui/react";
 
 import { useState } from "react";
@@ -282,94 +283,162 @@ function Mission() {
   return (
     <div>
       <Header onDark={false} isSticky={false} />
-      <Flex justifyContent="space-between" pl="1rem" h="90vh">
+      <Flex
+        justifyContent="space-between"
+        pl="1rem"
+        h="70vh"
+        paddingX={{ base: "15%", lg: "5%" }}
+        backgroundColor="#f9f9f9"
+      >
         <Flex
           alignSelf="center"
           flexDirection="column"
           justifyContent="space-around"
           p="1rem"
           h="90%"
+          mr="5%"
         >
-          <Heading
+          <Text
             bgGradient="linear(45deg, #4d1582 0%, #a7197f 100%)"
             bgClip="text"
             textAlign="left"
-            lineHeight="1.5"
+            lineHeight="1.3"
+            fontSize="5xl"
+            fontWeight="semibold"
           >
             Habble : votre pouvoir d'agir
-          </Heading>
-          <Text w="90%" fontSize="2xl" textAlign="left">
+          </Text>
+          <Text
+            w="90%"
+            fontSize="3xl"
+            textAlign="left"
+            fontWeight="semibold"
+            color="#494848"
+            lineHeight="1.2"
+          >
             La première plateforme de services gratuite de professionnels du
             handicap et du soin.
           </Text>
           <Flex flexDirection="column" justifyContent="space-around" h="50%">
-            <Flex justifyContent="space-around" h="40%">
-              <Flex
-                flexDirection="column"
-                alignItems="center"
-                justifyContent="space-between"
-                w="33%"
+            <Box>
+              <SimpleGrid
+                columns={{ base: "3", md: "3" }}
+                spacing={10}
+                marginBottom={{ base: "3rem" }}
               >
-                <Image src={house} alt="house" width="60px" />
-                <Text alignSelf="center">Soutien a domicile</Text>
-              </Flex>
-              <Flex
-                flexDirection="column"
-                alignItems="center"
-                justifyContent="space-between"
-                w="33%"
-              >
-                <Image src={care} alt="care" width="60px" />
-                <Text>Santé</Text>
-              </Flex>
-              <Flex
-                flexDirection="column"
-                alignItems="center"
-                justifyContent="space-between"
-                w="33%"
-              >
-                <Image src={psychologyHead} alt="psychologyHead" width="60px" />
-                <Text>Bien être</Text>
-              </Flex>
-            </Flex>
-            <Flex justifyContent="space-around" h="40%">
-              <Flex
-                flexDirection="column"
-                alignItems="center"
-                justifyContent="space-between"
-                w="33%"
-              >
-                <Image src={education} alt="education" width="60px" />
-                <Text>Enseignement, Education</Text>
-              </Flex>
-              <Flex
-                flexDirection="column"
-                alignItems="center"
-                justifyContent="space-between"
-                w="33%"
-              >
-                <Image
-                  src={wheelchairTransport}
-                  alt="wheelchairTransport"
-                  width="60px"
-                />
-                <Text>Transport, Aides techniques</Text>
-              </Flex>
-              <Flex
-                flexDirection="column"
-                alignItems="center"
-                justifyContent="space-between"
-                w="32%"
-              >
-                <Image src={admin} alt="admin" width="60px" />
-                <Text>Administratif et Social</Text>
-              </Flex>
-            </Flex>
+                <Flex
+                  direction="column"
+                  align="center"
+                  height="6rem"
+                  width="5rem"
+                  justify="space-between"
+                >
+                  <Image boxSize="3rem" src={house} alt="Soutien domicile" />
+                  <Text
+                    align="center"
+                    fontWeight="semibold"
+                    fontSize="0.7em"
+                    color="#494848"
+                  >
+                    Soutien à domicile
+                  </Text>
+                </Flex>
+                <Flex
+                  direction="column"
+                  align="center"
+                  height="5rem"
+                  width="5rem"
+                  justify="space-between"
+                >
+                  <Image boxSize="3rem" src={care} alt="Santé" />
+                  <Text
+                    align="center"
+                    fontWeight="semibold"
+                    fontSize="0.7em"
+                    color="#494848"
+                  >
+                    Santé
+                  </Text>
+                </Flex>
+                <Flex
+                  direction="column"
+                  align="center"
+                  height="5rem"
+                  width="5rem"
+                  justify="space-between"
+                >
+                  <Image boxSize="3rem" src={psychologyHead} alt="Bien-être" />
+                  <Text
+                    align="center"
+                    fontWeight="semibold"
+                    fontSize="0.7em"
+                    color="#494848"
+                  >
+                    Bien être
+                  </Text>
+                </Flex>
+                <Flex
+                  direction="column"
+                  align="center"
+                  height="6rem"
+                  width="5rem"
+                  justify="space-between"
+                >
+                  <Image boxSize="3rem" src={education} alt="Enseignement" />
+                  <Text
+                    align="center"
+                    fontWeight="semibold"
+                    fontSize="0.7em"
+                    color="#494848"
+                  >
+                    Enseignement, Education
+                  </Text>
+                </Flex>
+                <Flex
+                  direction="column"
+                  align="center"
+                  height="6rem"
+                  width="6rem"
+                  justify="space-between"
+                >
+                  <Image
+                    boxSize="3rem"
+                    src={wheelchairTransport}
+                    alt="Transport"
+                  />
+                  <Text
+                    align="center"
+                    fontWeight="semibold"
+                    fontSize="0.7em"
+                    color="#494848"
+                  >
+                    Transport, Aides techniques
+                  </Text>
+                </Flex>
+                <Flex
+                  direction="column"
+                  align="center"
+                  height="6rem"
+                  width="5rem"
+                  justify="space-between"
+                >
+                  <Image boxSize="3rem" src={admin} alt="Transport" />
+                  <Text
+                    align="center"
+                    fontWeight="semibold"
+                    fontSize="0.7em"
+                    color="#494848"
+                  >
+                    Administratif et Social
+                  </Text>
+                </Flex>
+              </SimpleGrid>
+            </Box>
           </Flex>
         </Flex>
         <Image
           alignSelf="center"
-          display={{ base: "none", md: "block" }}
+          display={{ base: "none", lg: "block" }}
           src={listingProsIphone}
           alt="listingProsIphone"
           maxH="80%"
@@ -381,9 +450,8 @@ function Mission() {
         justifyContent="space-between"
         h="fit-content"
         textAlign="start"
-        w="85%"
-        m="auto"
         pb="6rem"
+        marginX="20%"
       >
         <Text
           bgGradient="linear(45deg, #4d1582 0%, #a7197f 20%)"
@@ -391,6 +459,8 @@ function Mission() {
           textAlign="left"
           fontSize="4xl"
           mb="1rem"
+          fontWeight="semibold"
+          marginY="3rem"
         >
           Notre mission
         </Text>
@@ -538,6 +608,7 @@ function Mission() {
                 fontSize={{ base: "md", md: "2xl" }}
                 w="90%"
                 fontWeight="bold"
+                textAlign="center"
               >
                 Trouvez tous les professionnels du handicap de votre secteur
                 susceptibles de vous accompagner.
@@ -566,6 +637,7 @@ function Mission() {
                       bgGradient: "linear(45deg, #4d1582 0%, #a7197f 50%)",
                       bgClip: "text",
                     }}
+                    textAlign="center"
                   >
                     Inscrivez vous et décrivez votre besoin
                   </Text>
@@ -603,6 +675,7 @@ function Mission() {
                       bgGradient: "linear(45deg, #4d1582 0%, #a7197f 50%)",
                       bgClip: "text",
                     }}
+                    textAlign="center"
                   >
                     N'hésitez pas également à soutenir le développement de notre
                     service
@@ -693,6 +766,7 @@ function Mission() {
                 fontSize={{ base: "md", md: "2xl" }}
                 w="90%"
                 fontWeight="bold"
+                textAlign="center"
               >
                 Inscrivez vous et partagez vos compétences
               </Text>
@@ -720,6 +794,7 @@ function Mission() {
                       bgGradient: "linear(45deg, #4d1582 0%, #a7197f 50%)",
                       bgClip: "text",
                     }}
+                    textAlign="center"
                   >
                     Renseignez vos disponibilités et trouvez des missions
                   </Text>
@@ -757,6 +832,7 @@ function Mission() {
                       bgGradient: "linear(45deg, #4d1582 0%, #a7197f 50%)",
                       bgClip: "text",
                     }}
+                    textAlign="center"
                   >
                     N'hésitez pas également à soutenir le développement de notre
                     service
@@ -847,6 +923,7 @@ function Mission() {
                 fontSize={{ base: "md", md: "2xl" }}
                 w="90%"
                 fontWeight="bold"
+                textAlign="center"
               >
                 Valorisez votre offre de service, de prestations ou de vente.
               </Text>
@@ -874,6 +951,7 @@ function Mission() {
                       bgGradient: "linear(45deg, #4d1582 0%, #a7197f 50%)",
                       bgClip: "text",
                     }}
+                    textAlign="center"
                   >
                     Inscrivez-vous et détaillez vos prestations et services.
                   </Text>
@@ -911,6 +989,7 @@ function Mission() {
                       bgGradient: "linear(45deg, #4d1582 0%, #a7197f 50%)",
                       bgClip: "text",
                     }}
+                    textAlign="center"
                   >
                     Vous souhaitez créer votre propre plateforme, nous sommes là
                     pour vous accompagner.
@@ -932,9 +1011,9 @@ function Mission() {
         justifyContent="space-between"
         h="fit-content"
         textAlign="start"
-        w="80%"
         m="auto"
         pb="2rem"
+        marginX="20%"
       >
         <Text
           bgGradient="linear(45deg, #4d1582 0%, #a7197f 20%)"
@@ -942,6 +1021,8 @@ function Mission() {
           textAlign="left"
           fontSize="4xl"
           mb="1rem"
+          fontWeight="semibold"
+          marginY="3rem"
         >
           Pourquoi s'inscrire ?
         </Text>
@@ -973,8 +1054,8 @@ function Mission() {
         justifyContent="space-between"
         pb="2rem"
         textAlign="start"
-        w="80%"
         m="auto"
+        marginX="20%"
       >
         <Text
           bgGradient="linear(45deg, #4d1582 0%, #a7197f 20%)"
@@ -982,6 +1063,8 @@ function Mission() {
           textAlign="left"
           fontSize="4xl"
           mb="1rem"
+          fontWeight="semibold"
+          marginY="3rem"
         >
           Pourquoi nous aider ?
         </Text>
@@ -1017,7 +1100,13 @@ function Mission() {
         justifyContent="space-between"
         h="fit-content"
       >
-        <Heading textAlign="left" color="white" fontSize="3xl" m="1rem">
+        <Heading
+          paddingLeft="3%"
+          textAlign="left"
+          color="white"
+          fontSize="3xl"
+          m="1rem"
+        >
           Fonctionnalités et principes clés
         </Heading>
         <Flex
@@ -1025,6 +1114,7 @@ function Mission() {
           m="1rem"
           flexDirection={{ base: "column", lg: "row" }}
           alignItems="center"
+          marginBottom="5rem"
         >
           <Box w={{ base: "90%", lg: "40%" }}>{text}</Box>
           <Box w={{ base: "90%", lg: "45%" }}>
@@ -1093,32 +1183,35 @@ function Mission() {
                 />
               </GridItem>
               <GridItem
-                alignSelf="center"
                 colStart={1}
                 colEnd={4}
                 rowStart={2}
                 rowEnd={3}
-                fontSize="sm"
+                fontSize="0.7em"
+                fontWeight="semibold"
+                align="center"
               >
                 Trouver un professionnel
               </GridItem>
               <GridItem
-                alignSelf="center"
                 colStart={4}
                 colEnd={7}
                 rowStart={2}
                 rowEnd={3}
-                fontSize="sm"
+                fontSize="0.7em"
+                fontWeight="semibold"
+                align="center"
               >
                 Démarches
               </GridItem>
               <GridItem
-                alignSelf="center"
                 colStart={7}
                 colEnd={10}
                 rowStart={2}
                 rowEnd={3}
-                fontSize="sm"
+                fontSize="0.7em"
+                fontWeight="semibold"
+                align="center"
               >
                 Garanties
               </GridItem>
@@ -1207,32 +1300,35 @@ function Mission() {
                 bgPosition="bottom"
               />
               <GridItem
-                alignSelf="center"
                 colStart={1}
                 colEnd={4}
                 rowStart={8}
                 rowEnd={9}
-                fontSize="sm"
+                fontSize="0.7em"
+                fontWeight="semibold"
+                align="center"
               >
                 Informations, conseils
               </GridItem>
               <GridItem
-                alignSelf="center"
                 colStart={4}
                 colEnd={7}
                 rowStart={8}
                 rowEnd={9}
-                fontSize="sm"
+                fontSize="0.7em"
+                fontWeight="semibold"
+                align="center"
               >
                 Coordination
               </GridItem>
               <GridItem
-                alignSelf="center"
                 colStart={7}
                 colEnd={10}
                 rowStart={8}
                 rowEnd={9}
-                fontSize="sm"
+                fontSize="0.7em"
+                fontWeight="semibold"
+                align="center"
               >
                 Objectif, gouvernance
               </GridItem>
@@ -1303,6 +1399,8 @@ function Mission() {
           textAlign="left"
           fontSize="4xl"
           mb="1rem"
+          fontWeight="semibold"
+          marginY="3rem"
         >
           Les fondateurs
         </Text>
@@ -1432,6 +1530,8 @@ function Mission() {
           textAlign="left"
           fontSize="4xl"
           mb="1rem"
+          fontWeight="semibold"
+          marginY="3rem"
         >
           Partenaires et Soutiens
         </Text>
