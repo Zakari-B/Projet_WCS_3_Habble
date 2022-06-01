@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import {
   Stack,
   Text,
@@ -19,33 +19,39 @@ const signupForm = () => {
   const [signupNickname, setSignupNickname] = useState("");
   const [signupPassword, setSignupPassword] = useState("");
   const [signupPasswordRepeat, setSignupPasswordRepeat] = useState("");
+  const [searchParams] = useSearchParams();
+  const role = searchParams.get("role");
 
   return (
     <Flex bgColor="background.gray" alignItems="center">
       <Flex
         className="signupForm"
         bgColor="white"
+        maxWidth="482px"
         m="auto"
         alignItems="center"
         boxShadow="0px 1px 1px 0px rgb(185 184 184 / 75%)"
-        marginY="100px"
+        marginTop="100px"
+        marginBottom="30px"
         borderRadius="25px"
-        padding={{ base: "0", lg: "50px" }}
+        padding={{ base: "0", md: "30px", lg: "40px" }}
       >
         <Stack
           className="noAccount"
-          spacing={6}
+          spacing={8}
           width="90vw"
-          maxWidth="540px"
+          maxWidth="482px"
           margin="auto"
         >
           <Heading
             as="h2"
             textAlign="center"
-            fontSize="1.6rem"
+            fontSize="1.4rem"
             fontWeight="700"
           >
-            Créer un compte gratuitement
+            {role === "employer"
+              ? "Créer un compte gratuitement"
+              : "Inscription Professionnels"}
           </Heading>
           <FormControl>
             <Input

@@ -21,6 +21,7 @@ function App() {
         <Route path="/mentions-legales" element={<MentionsLegales />} />
         <Route path="/confidentialite" element={<Confidentialite />} />
         <Route path="/professionnel-handicap" element={<ProAccueil />} />
+        <Route path="/register/?role=:role" element={<Register />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<LoginForm />} />
         {/* <Route path="*" element={<Error />} /> */}

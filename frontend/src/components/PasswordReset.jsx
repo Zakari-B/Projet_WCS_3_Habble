@@ -25,12 +25,14 @@ const passwordReset = () => {
         <Flex
           className="loginForm"
           bgColor="white"
+          maxWidth="482px"
           m="auto"
           alignItems="center"
           boxShadow="0px 1px 1px 0px rgb(185 184 184 / 75%)"
-          marginY="100px"
+          marginTop="100px"
+          marginBottom="30px"
           borderRadius="25px"
-          padding={{ base: "0", lg: "50px" }}
+          padding={{ base: "0", md: "30px", lg: "40px" }}
         >
           <Stack
             className="passwordResetForm"
@@ -42,12 +44,12 @@ const passwordReset = () => {
             <Heading
               as="h2"
               textAlign="center"
-              fontSize="1.6rem"
+              fontSize="1.4rem"
               fontWeight="700"
             >
               Réinitialisez votre mot de passe
             </Heading>
-            <Text textAlign="center">
+            <Text textAlign="center" lineHeight="2">
               Saisissez votre adresse e-mail ci-dessous. Nous chercherons votre
               compte et vous enverrons un e-mail de réinitialisation de mot de
               passe.

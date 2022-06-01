@@ -32,27 +32,30 @@ const loginForm = () => {
           m="auto"
           alignItems="center"
           boxShadow="0px 1px 1px 0px rgb(185 184 184 / 75%)"
-          marginY="100px"
+          marginTop="100px"
+          marginBottom="30px"
           borderRadius="25px"
-          padding={{ base: "0", lg: "50px" }}
+          padding={{ base: "0", md: "20px", lg: "25px" }}
         >
           <Stack
             className="loginConnexion"
-            spacing={6}
+            spacing={12}
             width="90vw"
-            maxWidth="540px"
+            maxWidth="482px"
             margin="auto"
           >
             <Heading
               as="h2"
               textAlign="center"
-              fontSize="1.6rem"
+              fontSize="1.4rem"
               fontWeight="700"
             >
               Connectez vous à votre compte
             </Heading>
             <FormControl>
-              <FormLabel htmlFor="loginEmail">Pseudo ou Email</FormLabel>
+              <FormLabel htmlFor="loginEmail" fontWeight="600">
+                Pseudo ou Email
+              </FormLabel>
               <Input
                 type="text"
                 id="loginEmail"
@@ -64,7 +67,9 @@ const loginForm = () => {
             </FormControl>
 
             <FormControl>
-              <FormLabel htmlFor="loginPassword">Mot de passe</FormLabel>
+              <FormLabel htmlFor="loginPassword" fontWeight="600">
+                Mot de passe
+              </FormLabel>
               <Input
                 type="password"
                 id="loginPassword"
@@ -96,7 +101,6 @@ const loginForm = () => {
             <Divider />
             <Link to="/forgot-password">
               <Text
-                textAlign="center"
                 fontWeight="500"
                 textDecoration="underline"
                 color="#342c50"
