@@ -24,6 +24,7 @@ export default function Header({ onDark = false, isSticky = false }) {
       paddingY="30px"
       bgColor={isSticky === false && "white"}
       w="100vw"
+      zindex="999"
     >
       <Flex w="100%" alignItems="center" justify="space-between">
         <Logo onDark={isSticky && scrollPosition <= 50 ? onDark : false} />
