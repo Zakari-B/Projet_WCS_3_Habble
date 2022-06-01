@@ -9,9 +9,6 @@ export default function Footer() {
       p="20px"
       justify="center"
       wrap={{ lg: "wrap", xl: "nowrap" }}
-      pos="absolute"
-      bottom="0"
-      w="100%"
     >
       <Flex
         direction={{ lg: "row", base: "column" }}

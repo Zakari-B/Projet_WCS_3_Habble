@@ -39,7 +39,12 @@ const signupForm = () => {
           maxWidth="540px"
           margin="auto"
         >
-          <Heading as="h2" fontSize="1.6rem" fontWeight="700">
+          <Heading
+            as="h2"
+            textAlign="center"
+            fontSize="1.6rem"
+            fontWeight="700"
+          >
             Créer un compte gratuitement
           </Heading>
           <FormControl>
@@ -109,8 +114,8 @@ const signupForm = () => {
           >
             S'inscrire
           </Button>
-          <p>
-            En m'inscrivant pour créer un compte, j'accepte les{" "}
+          <Text textAlign="center">
+            En m'inscrivant pour créer un compte, j'accepte les
             <Link to="/mentions-legales">
               <Text
                 fontWeight="bold"
@@ -120,9 +125,10 @@ const signupForm = () => {
                 Conditions générales d'utilisation et de confidentialité
               </Text>
             </Link>
-          </p>
+          </Text>
+
           <Divider />
-          <p>
+          <Text textAlign="center">
             Vous avez déjà un compte ?&nbsp;
             <Link to="/login">
               <Text
@@ -132,7 +138,7 @@ const signupForm = () => {
                 Se connecter
               </Text>
             </Link>
-          </p>
+          </Text>
         </Stack>
       </Flex>
     </Flex>

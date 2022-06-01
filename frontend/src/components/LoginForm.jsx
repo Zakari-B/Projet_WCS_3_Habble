@@ -43,7 +43,12 @@ const loginForm = () => {
             maxWidth="540px"
             margin="auto"
           >
-            <Heading as="h2" fontSize="1.6rem" fontWeight="700">
+            <Heading
+              as="h2"
+              textAlign="center"
+              fontSize="1.6rem"
+              fontWeight="700"
+            >
               Connectez vous à votre compte
             </Heading>
             <FormControl>
@@ -91,6 +96,7 @@ const loginForm = () => {
             <Divider />
             <Link to="/forgot-password">
               <Text
+                textAlign="center"
                 fontWeight="500"
                 textDecoration="underline"
                 color="#342c50"

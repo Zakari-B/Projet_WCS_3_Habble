@@ -39,14 +39,19 @@ const passwordReset = () => {
             maxWidth="482px"
             margin="auto"
           >
-            <Heading as="h2" fontSize="1.6rem" fontWeight="700">
+            <Heading
+              as="h2"
+              textAlign="center"
+              fontSize="1.6rem"
+              fontWeight="700"
+            >
               Réinitialisez votre mot de passe
             </Heading>
-            <p>
+            <Text textAlign="center">
               Saisissez votre adresse e-mail ci-dessous. Nous chercherons votre
               compte et vous enverrons un e-mail de réinitialisation de mot de
               passe.
-            </p>
+            </Text>
             <FormControl>
               <Input
                 type="text"
@@ -66,7 +71,7 @@ const passwordReset = () => {
               Envoyer la réinitialisation du mot de passe
             </Button>
             <Divider />
-            <p>
+            <Text textAlign="center">
               Vous avez déjà un compte ?&nbsp;
               <Link to="/login">
                 <Text
@@ -76,7 +81,7 @@ const passwordReset = () => {
                   Se connecter
                 </Text>
               </Link>
-            </p>
+            </Text>
           </Stack>
         </Flex>
       </Flex>
