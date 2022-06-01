@@ -65,6 +65,34 @@ const theme = extendTheme({
           fontWeight: "500",
           borderColor: "black",
         }),
+        outlineWhitePink: () => ({
+          bg: "white",
+          border: "1px solid",
+          borderColor: "white",
+          color: "pink.light",
+          borderRadius: "2px",
+          height: "3rem",
+          width: "100%",
+          justifyContent: "flex-start",
+          fontSize: "0.7rem",
+          _hover: {
+            bg: "pink.light",
+            color: "white",
+            transition: "1s background-color",
+            animation: "moveGradient2 4s alternate infinite",
+          },
+        }),
+        gradient: () => ({
+          bgGradient:
+            "linear-gradient(to-r, #a7197f 0%, #4d1582 51%, #a7197f 100%)",
+          bgSize: "200%",
+          color: "white",
+          borderRadius: "2px",
+          height: "3rem",
+          width: "100%",
+          justifyContent: "flex-start",
+          fontSize: "0.7rem",
+        }),
         outline_Purple: () => ({
           bg: "transparent",
           border: "2px solid",
@@ -114,6 +142,41 @@ const theme = extendTheme({
             bgPosition: "right center;",
             color: "white",
           },
+        }),
+      },
+    },
+    Text: {
+      baseStyle: {
+        fontSize: "md",
+      },
+      variants: {
+        titleH1: () => ({
+          fontSize: "2xl",
+          fontWeight: "extrabold",
+        }),
+        titleH2: () => ({
+          fontSize: "xl",
+          fontWeight: "normal",
+        }),
+        titleH3: () => ({
+          fontSize: "sm",
+          fontWeight: "extrabold",
+        }),
+        titleH4: () => ({
+          fontSize: "md",
+          fontWeight: "extrabold",
+        }),
+        titleH5: () => ({
+          fontSize: "22px",
+          fontWeight: "extrabold",
+        }),
+        corps: () => ({
+          fontSize: "sm",
+          fontWeight: "normal",
+        }),
+        corpsBold: () => ({
+          fontSize: "10px",
+          fontWeight: "extrabold",
         }),
       },
     },
