@@ -1037,7 +1037,7 @@ function Mission() {
               }}
               templateRows={{
                 base: "55px 40px 20px 25px 60px 25px 20px 40px 55px",
-                md: "70px 20px 40px 40px 70px 40px 40px 20px 70px",
+                md: "70px 30px 40px 40px 70px 40px 40px 30px 70px",
               }}
               gap="1"
               placeContent="center"
