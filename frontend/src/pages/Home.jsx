@@ -1,9 +1,9 @@
-import LandingPage from "./LandingPage";
+import ProAccueil from "./ProAccueil";
 
 export default function Home() {
   return (
-    <header className="App-header">
-      <LandingPage />
-    </header>
+    <div>
+      <ProAccueil />
+    </div>
   );
 }

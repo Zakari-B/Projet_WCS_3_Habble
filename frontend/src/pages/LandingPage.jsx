@@ -11,6 +11,7 @@ import {
   InputGroup,
 } from "@chakra-ui/react";
 import { SearchIcon } from "@chakra-ui/icons";
+import Header from "../components/Header/Header";
 
 import HomeImg from "../assets/habble-bkg-1024x684.jpg";
 import Chat from "../assets/chat.svg";
@@ -33,6 +34,9 @@ import LandingData from "../services/LandingData";
 export default function LandingPage() {
   return (
     <div>
+      <div style={{ height: "110vh" }}>
+        <Header onDark isSticky />
+      </div>
       <Box
         w="100%"
         h={{ base: "auto", lg: "82.0021299254526vh" }}
