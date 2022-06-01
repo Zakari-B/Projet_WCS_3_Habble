@@ -38,7 +38,8 @@ const theme = extendTheme({
   components: {
     Button: {
       baseStyle: {
-        fontWeight: "bold",
+        fontWeight: "500",
+        borderRadius: "4px",
       },
       variants: {
         solid_PrimaryColor: () => ({
@@ -141,7 +142,6 @@ const theme = extendTheme({
           bgSize: "300% 300%",
           transition: "0.5s ease-out",
           animation: "2s linear infinite ",
-
           _hover: {
             bgImage: "linear-gradient(60deg, #4d1582, #a7197f, #f25f61)",
             animationDirection: "alternate",

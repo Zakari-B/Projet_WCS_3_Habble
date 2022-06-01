@@ -12,6 +12,8 @@ import {
   Grid,
   GridItem,
   ScaleFade,
+  keyframes,
+  usePrefersReducedMotion,
 } from "@chakra-ui/react";
 
 import { useState } from "react";
@@ -34,10 +36,15 @@ import evident from "../assets/logo-evident.png";
 import psychologyHead from "../assets/psychology-head.svg";
 import wheelchairTransport from "../assets/wheelchair_transport.svg";
 
+const slideIn = keyframes`0% {background-position: 0% 0%} 50% {background-position: 100% 0%} 100% {background-position: 0% 0%}`;
+
 function Mission() {
   const family = useDisclosure();
   const service = useDisclosure();
   const building = useDisclosure();
+
+  const prefersReducedMotion = usePrefersReducedMotion();
+  const animation = prefersReducedMotion ? undefined : `${slideIn} 2s linear`;
 
   const pro = (
     <Flex
@@ -272,8 +279,8 @@ function Mission() {
 
   return (
     <div>
-      <Header onDark={false} isSticky h="fit-content" zIndex="10" />
-      <Flex justifyContent="space-between" pl="1rem" h="100vh" pt="5rem">
+      <Header onDark={false} isSticky={false} />
+      <Flex justifyContent="space-between" pl="1rem" h="90vh">
         <Flex
           alignSelf="center"
           flexDirection="column"
@@ -454,11 +461,13 @@ function Mission() {
         my="1rem"
         direction={{ base: "column", md: "row" }}
         alignItems="center"
+        pb="3rem"
       >
         {!family.isOpen && !service.isOpen && !building.isOpen && (
           <Box
             w={{ base: "80%", md: "32%" }}
-            h="30vh"
+            role="group"
+            h="35vh"
             onClick={family.onToggle}
           >
             <Button
@@ -477,7 +486,7 @@ function Mission() {
                 h="30%"
                 whiteSpace="pre-wrap"
                 color="#4d1582"
-                _hover={{
+                _groupHover={{
                   bgGradient: "linear(45deg, #4d1582 0%, #a7197f 25%)",
                   bgClip: "text",
                 }}
@@ -499,7 +508,7 @@ function Mission() {
               justifyContent="space-around"
               bgColor="white"
               z-index="1"
-              h="40vh"
+              h={{ base: "60vh", md: "45vh" }}
               w="98vw"
               border="2px solid #4d1582"
               alignItems="center"
@@ -515,27 +524,42 @@ function Mission() {
               <Text
                 whiteSpace="pre-wrap"
                 color="#4d1582"
+                bgGradient={{
+                  base: "linear(45deg, #4d1582 0%, #a7197f 50%)",
+                  lg: "none",
+                }}
+                bgClip="text"
                 _groupHover={{
                   bgGradient: "linear(45deg, #4d1582 0%, #a7197f 50%)",
                   bgClip: "text",
                 }}
-                fontSize="2xl"
+                fontSize={{ base: "md", md: "2xl" }}
                 w="90%"
                 fontWeight="bold"
               >
                 Trouvez tous les professionnels du handicap de votre secteur
                 susceptibles de vous accompagner.
               </Text>
-              <Image src={hFamily} alt="hFamily" w="100px" />
-              <Flex justifyContent="space-between" w="90%">
+              <Image src={hFamily} alt="hFamily" w="60px" />
+              <Flex
+                justifyContent="space-between"
+                w="90%"
+                h={{ base: "40%", md: "32%" }}
+              >
                 <Flex
                   flexDirection="column"
-                  w="40%"
-                  justifyContent="space-around"
+                  w="45%"
+                  justifyContent="space-between"
                 >
                   <Text
+                    fontSize={{ base: "sm", md: "md", lg: "lg" }}
                     fontWeight="bold"
                     color="white"
+                    bgGradient={{
+                      base: "linear(45deg, #4d1582 0%, #a7197f 50%)",
+                      lg: "none",
+                    }}
+                    bgClip="text"
                     _groupHover={{
                       bgGradient: "linear(45deg, #4d1582 0%, #a7197f 50%)",
                       bgClip: "text",
@@ -543,18 +567,36 @@ function Mission() {
                   >
                     Inscrivez vous et décrivez votre besoin
                   </Text>
-                  <Link href="/register/?role=employer">
-                    <Button>M'incrire maintenant</Button>
+                  <Link
+                    _hover={{ textDecor: "none" }}
+                    href="/register/?role=employer"
+                  >
+                    <Button
+                      variant="gradient"
+                      _hover={{
+                        animation,
+                      }}
+                      fontSize={{ base: "sm", md: "md" }}
+                      justifyContent="center"
+                    >
+                      M'incrire maintenant
+                    </Button>
                   </Link>
                 </Flex>
                 <Flex
                   flexDirection="column"
-                  w="40%"
-                  justifyContent="space-around"
+                  w="45%"
+                  justifyContent="space-between"
                 >
                   <Text
+                    fontSize={{ base: "sm", md: "md", lg: "lg" }}
                     fontWeight="bold"
                     color="white"
+                    bgGradient={{
+                      base: "linear(45deg, #4d1582 0%, #a7197f 50%)",
+                      lg: "none",
+                    }}
+                    bgClip="text"
                     _groupHover={{
                       bgGradient: "linear(45deg, #4d1582 0%, #a7197f 50%)",
                       bgClip: "text",
@@ -563,8 +605,13 @@ function Mission() {
                     N'hésitez pas également à soutenir le développement de notre
                     service
                   </Text>
-                  <Link href="https://www.paypal.com/donate/?hosted_button_id=ANWRC6DX6X56U">
-                    <Button>Faire un don</Button>
+                  <Link
+                    _hover={{ textDecor: "none" }}
+                    href="https://www.paypal.com/donate/?hosted_button_id=ANWRC6DX6X56U"
+                  >
+                    <Button h="3rem" w="100%" variant="outline_Purple_Gradient">
+                      Faire un don
+                    </Button>
                   </Link>
                 </Flex>
               </Flex>
@@ -574,7 +621,8 @@ function Mission() {
         {!family.isOpen && !service.isOpen && !building.isOpen && (
           <Box
             w={{ base: "80%", md: "32%" }}
-            h="30vh"
+            role="group"
+            h="35vh"
             onClick={service.onToggle}
           >
             <Button
@@ -593,7 +641,7 @@ function Mission() {
                 h="30%"
                 whiteSpace="pre-wrap"
                 color="#4d1582"
-                _hover={{
+                _groupHover={{
                   bgGradient: "linear(45deg, #4d1582 0%, #a7197f 25%)",
                   bgClip: "text",
                 }}
@@ -615,10 +663,11 @@ function Mission() {
               justifyContent="space-around"
               bgColor="white"
               z-index="1"
-              h="40vh"
+              h={{ base: "60vh", md: "45vh" }}
               w="98vw"
               border="2px solid #4d1582"
               alignItems="center"
+              role="group"
             >
               <CloseIcon
                 onClick={service.onClose}
@@ -630,46 +679,79 @@ function Mission() {
               <Text
                 whiteSpace="pre-wrap"
                 color="#4d1582"
-                _hover={{
+                bgGradient={{
+                  base: "linear(45deg, #4d1582 0%, #a7197f 50%)",
+                  lg: "none",
+                }}
+                bgClip="text"
+                _groupHover={{
                   bgGradient: "linear(45deg, #4d1582 0%, #a7197f 50%)",
                   bgClip: "text",
                 }}
-                fontSize="2xl"
+                fontSize={{ base: "md", md: "2xl" }}
                 w="90%"
                 fontWeight="bold"
               >
                 Inscrivez vous et partagez vos compétences
               </Text>
-              <Image src={hServiceWorkers} alt="hServiceWorkers" w="100px" />
-              <Flex justifyContent="space-between" w="90%">
+              <Image src={hServiceWorkers} alt="hServiceWorkers" w="60px" />
+              <Flex
+                justifyContent="space-between"
+                w="90%"
+                h={{ base: "40%", md: "32%" }}
+              >
                 <Flex
                   flexDirection="column"
-                  w="40%"
-                  justifyContent="space-around"
+                  w="45%"
+                  justifyContent="space-between"
                 >
                   <Text
+                    fontSize={{ base: "sm", md: "md", lg: "lg" }}
                     fontWeight="bold"
                     color="white"
-                    _hover={{
+                    bgGradient={{
+                      base: "linear(45deg, #4d1582 0%, #a7197f 50%)",
+                      lg: "none",
+                    }}
+                    bgClip="text"
+                    _groupHover={{
                       bgGradient: "linear(45deg, #4d1582 0%, #a7197f 50%)",
                       bgClip: "text",
                     }}
                   >
                     Renseignez vos disponibilités et trouvez des missions
                   </Text>
-                  <Link href="/register/?role=freelancer">
-                    <Button>M'incrire maintenant</Button>
+                  <Link
+                    _hover={{ textDecor: "none" }}
+                    href="/register/?role=freelancer"
+                  >
+                    <Button
+                      variant="gradient"
+                      _hover={{
+                        animation,
+                      }}
+                      fontSize="md"
+                      justifyContent="center"
+                    >
+                      M'incrire maintenant
+                    </Button>
                   </Link>
                 </Flex>
                 <Flex
                   flexDirection="column"
-                  w="40%"
-                  justifyContent="space-around"
+                  w="45%"
+                  justifyContent="space-between"
                 >
                   <Text
+                    fontSize={{ base: "sm", md: "md", lg: "lg" }}
                     fontWeight="bold"
                     color="white"
-                    _hover={{
+                    bgGradient={{
+                      base: "linear(45deg, #4d1582 0%, #a7197f 50%)",
+                      lg: "none",
+                    }}
+                    bgClip="text"
+                    _groupHover={{
                       bgGradient: "linear(45deg, #4d1582 0%, #a7197f 50%)",
                       bgClip: "text",
                     }}
@@ -677,8 +759,13 @@ function Mission() {
                     N'hésitez pas également à soutenir le développement de notre
                     service
                   </Text>
-                  <Link href="https://www.paypal.com/donate/?hosted_button_id=ANWRC6DX6X56U">
-                    <Button>Faire un don</Button>
+                  <Link
+                    _hover={{ textDecor: "none" }}
+                    href="https://www.paypal.com/donate/?hosted_button_id=ANWRC6DX6X56U"
+                  >
+                    <Button h="3rem" w="100%" variant="outline_Purple_Gradient">
+                      Faire un don
+                    </Button>
                   </Link>
                 </Flex>
               </Flex>
@@ -688,7 +775,8 @@ function Mission() {
         {!family.isOpen && !service.isOpen && !building.isOpen && (
           <Box
             w={{ base: "80%", md: "32%" }}
-            h="30vh"
+            role="group"
+            h="35vh"
             onClick={building.onToggle}
           >
             <Button
@@ -707,7 +795,7 @@ function Mission() {
                 h="30%"
                 whiteSpace="pre-wrap"
                 color="#4d1582"
-                _hover={{
+                _groupHover={{
                   bgGradient: "linear(45deg, #4d1582 0%, #a7197f 25%)",
                   bgClip: "text",
                 }}
@@ -729,10 +817,11 @@ function Mission() {
               justifyContent="space-around"
               bgColor="white"
               z-index="1"
-              h="40vh"
+              h={{ base: "60vh", md: "45vh" }}
               w="98vw"
               border="2px solid #4d1582"
               alignItems="center"
+              role="group"
             >
               <CloseIcon
                 onClick={building.onClose}
@@ -744,46 +833,79 @@ function Mission() {
               <Text
                 whiteSpace="pre-wrap"
                 color="#4d1582"
-                _hover={{
+                bgGradient={{
+                  base: "linear(45deg, #4d1582 0%, #a7197f 50%)",
+                  lg: "none",
+                }}
+                bgClip="text"
+                _groupHover={{
                   bgGradient: "linear(45deg, #4d1582 0%, #a7197f 50%)",
                   bgClip: "text",
                 }}
-                fontSize="2xl"
+                fontSize={{ base: "md", md: "2xl" }}
                 w="90%"
                 fontWeight="bold"
               >
                 Valorisez votre offre de service, de prestations ou de vente.
               </Text>
-              <Image src={hBuilding} alt="hBuilding" w="100px" />
-              <Flex justifyContent="space-between" w="90%">
+              <Image src={hBuilding} alt="hBuilding" w="60px" />
+              <Flex
+                justifyContent="space-between"
+                w="90%"
+                h={{ base: "40%", md: "32%" }}
+              >
                 <Flex
                   flexDirection="column"
-                  w="40%"
-                  justifyContent="space-around"
+                  w="45%"
+                  justifyContent="space-between"
                 >
                   <Text
+                    fontSize={{ base: "sm", md: "md", lg: "lg" }}
                     fontWeight="bold"
                     color="white"
-                    _hover={{
+                    bgGradient={{
+                      base: "linear(45deg, #4d1582 0%, #a7197f 50%)",
+                      lg: "none",
+                    }}
+                    bgClip="text"
+                    _groupHover={{
                       bgGradient: "linear(45deg, #4d1582 0%, #a7197f 50%)",
                       bgClip: "text",
                     }}
                   >
                     Inscrivez-vous et détaillez vos prestations et services.
                   </Text>
-                  <Link href="/register/?role=freelancer">
-                    <Button>M'incrire maintenant</Button>
+                  <Link
+                    _hover={{ textDecor: "none" }}
+                    href="/register/?role=freelancer"
+                  >
+                    <Button
+                      variant="gradient"
+                      _hover={{
+                        animation,
+                      }}
+                      fontSize={{ base: "sm", md: "md", lg: "lg" }}
+                      justifyContent="center"
+                    >
+                      M'incrire maintenant
+                    </Button>
                   </Link>
                 </Flex>
                 <Flex
                   flexDirection="column"
-                  w="40%"
-                  justifyContent="space-around"
+                  w="45%"
+                  justifyContent="space-between"
                 >
                   <Text
+                    fontSize={{ base: "sm", md: "md", lg: "lg" }}
                     fontWeight="bold"
                     color="white"
-                    _hover={{
+                    bgGradient={{
+                      base: "linear(45deg, #4d1582 0%, #a7197f 50%)",
+                      lg: "none",
+                    }}
+                    bgClip="text"
+                    _groupHover={{
                       bgGradient: "linear(45deg, #4d1582 0%, #a7197f 50%)",
                       bgClip: "text",
                     }}
@@ -791,8 +913,11 @@ function Mission() {
                     Vous souhaitez créer votre propre plateforme, nous sommes là
                     pour vous accompagner.
                   </Text>
-                  <Link href="/contact">
-                    <Button> Demande de rendez-vous</Button>
+                  <Link _hover={{ textDecor: "none" }} href="/contact">
+                    <Button h="3rem" w="100%" variant="outline_Purple_Gradient">
+                      {" "}
+                      Demande de rendez-vous
+                    </Button>
                   </Link>
                 </Flex>
               </Flex>
@@ -807,6 +932,7 @@ function Mission() {
         textAlign="start"
         w="80%"
         m="auto"
+        pb="2rem"
       >
         <Text
           bgGradient="linear(45deg, #4d1582 0%, #a7197f 20%)"
@@ -829,8 +955,15 @@ function Mission() {
           l’annuaire. Nous vous proposons également des services pour vous
           faciliter le quotidien.
         </Text>
-        <Link href="/SignupForm">
-          <Button>M'inscrire maintenant</Button>
+        <Link _hover={{ textDecor: "none" }} href="/SignupForm">
+          <Button
+            variant="gradient"
+            maxW="400px"
+            fontSize="md"
+            justifyContent="center"
+          >
+            M'inscrire maintenant
+          </Button>
         </Link>
       </Flex>
       <Flex
@@ -862,8 +995,18 @@ function Mission() {
           la plateforme et informer les personnes en situation de handicap des
           solutions proposées.
         </Text>
-        <Link href="https://www.paypal.com/donate/?hosted_button_id=ANWRC6DX6X56U">
-          <Button>Faire un don</Button>
+        <Link
+          _hover={{ textDecor: "none" }}
+          href="https://www.paypal.com/donate/?hosted_button_id=ANWRC6DX6X56U"
+        >
+          <Button
+            h="3rem"
+            w="100%"
+            variant="outline_Purple_Gradient"
+            maxW="400px"
+          >
+            Faire un don
+          </Button>
         </Link>
       </Flex>
       <Flex
@@ -1202,10 +1345,16 @@ function Mission() {
                   social.
                 </Text>
                 <Flex>
-                  <Link href="mailto:patrice@habble.fr">
+                  <Link
+                    _hover={{ textDecor: "none" }}
+                    href="mailto:patrice@habble.fr"
+                  >
                     <Image src="" />
                   </Link>
-                  <Link href="https://www.linkedin.com/in/patrice-warembourg-44109319/">
+                  <Link
+                    _hover={{ textDecor: "none" }}
+                    href="https://www.linkedin.com/in/patrice-warembourg-44109319/"
+                  >
                     <Image src="" />
                   </Link>
                 </Flex>
@@ -1248,10 +1397,13 @@ function Mission() {
                   Consultant digital
                 </Text>
                 <Flex>
-                  <Link href="envoie mail">
+                  <Link _hover={{ textDecor: "none" }} href="envoie mail">
                     <Image src="" />
                   </Link>
-                  <Link href="https://www.linkedin.com/in/francois-duforest/">
+                  <Link
+                    _hover={{ textDecor: "none" }}
+                    href="https://www.linkedin.com/in/francois-duforest/"
+                  >
                     <Image src="" />
                   </Link>
                 </Flex>
