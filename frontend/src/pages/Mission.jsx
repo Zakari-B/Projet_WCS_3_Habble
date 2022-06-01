@@ -18,6 +18,8 @@ import { useState } from "react";
 
 import { CloseIcon } from "@chakra-ui/icons";
 
+import Header from "../components/Header/Header";
+
 import admin from "../assets/admin.svg";
 import care from "../assets/care.svg";
 import education from "../assets/education.svg";
@@ -44,7 +46,6 @@ function Mission() {
       pb="2rem"
       textAlign="start"
       w="90%"
-      // m="auto"
     >
       <Text
         fontWeight="bold"
@@ -271,12 +272,14 @@ function Mission() {
 
   return (
     <div>
-      <Flex justifyContent="space-between" pl="1rem" h="fit-content">
+      <Header onDark={false} isSticky h="fit-content" zIndex="10" />
+      <Flex justifyContent="space-between" pl="1rem" h="100vh" pt="5rem">
         <Flex
+          alignSelf="center"
           flexDirection="column"
           justifyContent="space-around"
           p="1rem"
-          h="70vh"
+          h="90%"
         >
           <Heading
             bgGradient="linear(45deg, #4d1582 0%, #a7197f 100%)"
@@ -360,7 +363,7 @@ function Mission() {
           display={{ base: "none", md: "block" }}
           src={listingProsIphone}
           alt="listingProsIphone"
-          h="80%"
+          maxH="80%"
           maxW="45%"
         />
       </Flex>
