@@ -30,6 +30,11 @@ const theme = extendTheme({
     },
   },
   components: {
+    Divider: {
+      baseStyle: {
+        borderColor: "#dbdbdb",
+      },
+    },
     Button: {
       baseStyle: {
         fontWeight: "bold",
