@@ -448,10 +448,15 @@ function Mission() {
         justifyContent="center"
         gap="2"
         my="1rem"
-        direction="column"
+        direction={{ base: "column", md: "row" }}
+        alignItems="center"
       >
         {!family.isOpen && !service.isOpen && !building.isOpen && (
-          <Box w="32%" minW="300px" h="40vh" onClick={family.onToggle}>
+          <Box
+            w={{ base: "80%", md: "32%" }}
+            h="30vh"
+            onClick={family.onToggle}
+          >
             <Button
               flexDirection="column"
               justifyContent="space-around"
@@ -460,6 +465,7 @@ function Mission() {
               _hover={{ background: "white" }}
               borderY="2px solid #4d1582"
               borderLeft="2px solid #4d1582"
+              borderRight={{ base: "2px solid #4d1582", md: "none" }}
               borderRadius="0"
             >
               <Image src={hFamily} alt="hFamily" w="100px" bcolor="#4d1582" />
@@ -562,7 +568,11 @@ function Mission() {
           </ScaleFade>
         )}
         {!family.isOpen && !service.isOpen && !building.isOpen && (
-          <Box w="32%" h="30vh" onClick={service.onToggle}>
+          <Box
+            w={{ base: "80%", md: "32%" }}
+            h="30vh"
+            onClick={service.onToggle}
+          >
             <Button
               flexDirection="column"
               justifyContent="space-around"
@@ -571,6 +581,7 @@ function Mission() {
               _hover={{ background: "white" }}
               borderY="2px solid #4d1582"
               borderLeft="2px solid #4d1582"
+              borderRight={{ base: "2px solid #4d1582", md: "none" }}
               borderRadius="0"
             >
               <Image src={hServiceWorkers} alt="hServiceWorkers" w="100px" />
@@ -671,7 +682,11 @@ function Mission() {
           </ScaleFade>
         )}
         {!family.isOpen && !service.isOpen && !building.isOpen && (
-          <Box w="32%" h="30vh" onClick={building.onToggle}>
+          <Box
+            w={{ base: "80%", md: "32%" }}
+            h="30vh"
+            onClick={building.onToggle}
+          >
             <Button
               flexDirection="column"
               justifyContent="space-around"
@@ -680,6 +695,7 @@ function Mission() {
               _hover={{ background: "white" }}
               borderY="2px solid #4d1582"
               borderLeft="2px solid #4d1582"
+              borderRight={{ base: "2px solid #4d1582", md: "none" }}
               borderRadius="0"
             >
               <Image src={hBuilding} alt="hBuilding" w="100px" />
