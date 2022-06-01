@@ -10,6 +10,7 @@ import {
   keyframes,
   usePrefersReducedMotion,
 } from "@chakra-ui/react";
+
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer";
 
