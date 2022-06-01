@@ -1,5 +1,8 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import {
+  Box,
+  Text,
   Stack,
   Button,
   FormControl,
@@ -7,10 +10,12 @@ import {
   Input,
   Checkbox,
   Divider,
-  Link,
   Flex,
   Heading,
 } from "@chakra-ui/react";
+
+import Header from "./Header/Header";
+import Footer from "./Footer";
 
 const loginForm = () => {
   const [loginEmail, setLoginEmail] = useState("");
@@ -18,83 +23,102 @@ const loginForm = () => {
   const [rememberMe, setRememberMe] = useState(false);
 
   return (
-    <Flex className="loginForm" padding={{ base: "0", lg: "50px" }}>
-      <Stack
-        className="loginConnexion"
-        spacing={6}
-        width="90vw"
-        maxWidth="540px"
-        margin="auto"
-      >
-        <Heading as="h2" fontSize="1.6rem" fontWeight="700">
-          Connectez vous à votre compte
-        </Heading>
-        <FormControl>
-          <FormLabel htmlFor="loginEmail">Pseudo ou Email</FormLabel>
-          <Input
-            type="text"
-            id="loginEmail"
-            name="Pseudo ou Email"
-            placeholder="Email"
-            value={loginEmail}
-            onChange={(e) => setLoginEmail(e.target.value)}
-          />
-        </FormControl>
+    <Box bgColor="background.gray" h="100vh">
+      <Header onDark={false} isSticky={false} />
+      <Flex bgColor="background.gray" alignItems="center">
+        <Flex
+          className="loginForm"
+          bgColor="white"
+          m="auto"
+          alignItems="center"
+          boxShadow="0px 1px 1px 0px rgb(185 184 184 / 75%)"
+          marginY="100px"
+          borderRadius="25px"
+          padding={{ base: "0", lg: "50px" }}
+        >
+          <Stack
+            className="loginConnexion"
+            spacing={6}
+            width="90vw"
+            maxWidth="540px"
+            margin="auto"
+          >
+            <Heading as="h2" fontSize="1.6rem" fontWeight="700">
+              Connectez vous à votre compte
+            </Heading>
+            <FormControl>
+              <FormLabel htmlFor="loginEmail">Pseudo ou Email</FormLabel>
+              <Input
+                type="text"
+                id="loginEmail"
+                name="Pseudo ou Email"
+                placeholder="Email"
+                value={loginEmail}
+                onChange={(e) => setLoginEmail(e.target.value)}
+              />
+            </FormControl>
 
-        <FormControl>
-          <FormLabel htmlFor="loginPassword">Mot de passe</FormLabel>
-          <Input
-            type="password"
-            id="loginPassword"
-            name="Mot de passe"
-            placeholder="Mot de passe"
-            value={loginPassword}
-            onChange={(e) => {
-              setLoginPassword(e.target.value);
-            }}
-          />
-        </FormControl>
-        <Checkbox
-          colorScheme="pink"
-          isChecked={rememberMe}
-          onChange={() => {
-            setRememberMe(!rememberMe);
-          }}
-        >
-          Se rappeler de moi
-        </Checkbox>
+            <FormControl>
+              <FormLabel htmlFor="loginPassword">Mot de passe</FormLabel>
+              <Input
+                type="password"
+                id="loginPassword"
+                name="Mot de passe"
+                placeholder="Mot de passe"
+                value={loginPassword}
+                onChange={(e) => {
+                  setLoginPassword(e.target.value);
+                }}
+              />
+            </FormControl>
+            <Checkbox
+              colorScheme="pink"
+              isChecked={rememberMe}
+              onChange={() => {
+                setRememberMe(!rememberMe);
+              }}
+            >
+              Se rappeler de moi
+            </Checkbox>
 
-        <Button
-          variant="solid_PrimaryColor"
-          type="button"
-          onClick={() => null()}
-        >
-          Se connecter
-        </Button>
-        <Divider />
-        <Link
-          to="/forgot-password"
-          textDecoration="underline"
-          color="#342c50"
-          _hover={{ color: "#A7197F" }}
-        >
-          Mot de passe oublié ?
-        </Link>
-        <Link
-          to="/register"
-          padding="10px"
-          fontWeight="500"
-          bgColor="transparent"
-          borderRadius="4px"
-          color="#342c50"
-          border="2px solid"
-          borderColor="#342c50"
-          _hover={{ bgColor: "#342c50", color: "white" }}
-        >
-          Pas encore inscrit ?
-        </Link>
-      </Stack>
-    </Flex>
+            <Button
+              variant="solid_PrimaryColor"
+              type="button"
+              onClick={() => null()}
+            >
+              Se connecter
+            </Button>
+            <Divider />
+            <Link to="/forgot-password">
+              <Text
+                fontWeight="500"
+                textDecoration="underline"
+                color="#342c50"
+                _hover={{ color: "#A7197F" }}
+              >
+                Mot de passe oublié ?
+              </Text>
+            </Link>
+            <Link to="/register">
+              <Button
+                padding="10px"
+                w="100%"
+                fontWeight="500"
+                bgColor="transparent"
+                borderRadius="4px"
+                color="#342c50"
+                border="2px solid"
+                borderColor="#342c50"
+                _hover={{ bgColor: "#342c50", color: "white" }}
+              >
+                Pas encore inscrit ?
+              </Button>
+            </Link>
+          </Stack>
+        </Flex>
+      </Flex>
+      <Footer />
+    </Box>
   );
 };
 
