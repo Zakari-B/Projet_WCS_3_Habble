@@ -29,6 +29,12 @@ const theme = extendTheme({
       gray: "#f9f9f9",
     },
   },
+  gradient: {
+    purplePink:
+      "linear-gradient(90deg, rgba(103,63,192,1) 0%, rgba(212,51,150,1) 100%)",
+    purpleDark:
+      "linear-gradient(90deg, rgba(103,63,192,1) 0%, rgba(212,51,150,1) 100%)",
+  },
   components: {
     Divider: {
       baseStyle: {
@@ -37,7 +43,7 @@ const theme = extendTheme({
     },
     Button: {
       baseStyle: {
-        fontWeight: "bold",
+        fontWeight: "500",
         borderRadius: "4px",
       },
       variants: {
@@ -141,7 +147,6 @@ const theme = extendTheme({
           bgSize: "300% 300%",
           transition: "0.5s ease-out",
           animation: "2s linear infinite ",
-
           _hover: {
             bgImage: "linear-gradient(60deg, #4d1582, #a7197f, #f25f61)",
             animationDirection: "alternate",
