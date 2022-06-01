@@ -1,0 +1,10 @@
+.active {
+  background-image: none;
+  background-color: white;
+  box-shadow: rgb(0 0 0 / 20%) 0px 2px 6px !important;
+}
+
+.not-active {
+  background-image: linear-gradient(rgba(0, 0, 0, 0.3), transparent);
+  background-color: transparent;
+}
