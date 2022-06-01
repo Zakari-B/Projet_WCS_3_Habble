@@ -22,6 +22,8 @@ import { CloseIcon } from "@chakra-ui/icons";
 
 import Header from "../components/Header/Header";
 
+import Footer from "../components/Footer";
+
 import admin from "../assets/admin.svg";
 import care from "../assets/care.svg";
 import education from "../assets/education.svg";
@@ -1459,6 +1461,7 @@ function Mission() {
           <Image src={LogoCommunaute} alt="logo evident" w="120px" m="1rem" />
         </Flex>
       </Flex>
+      <Footer />
     </div>
   );
 }
