@@ -33,6 +33,7 @@ const theme = extendTheme({
     Button: {
       baseStyle: {
         fontWeight: "bold",
+        borderRadius: "4px",
       },
       variants: {
         solid_PrimaryColor: () => ({
