@@ -36,6 +36,11 @@ const theme = extendTheme({
       "linear-gradient(90deg, rgba(103,63,192,1) 0%, rgba(212,51,150,1) 100%)",
   },
   components: {
+    Divider: {
+      baseStyle: {
+        borderColor: "#dbdbdb",
+      },
+    },
     Button: {
       baseStyle: {
         fontWeight: "500",

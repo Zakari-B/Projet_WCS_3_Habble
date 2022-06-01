@@ -19,7 +19,7 @@ export default function Register() {
   const role = searchParams.get("role");
 
   return (
-    <Box h="100vh">
+    <Box bgColor="background.gray" h="100vh">
       <Header onDark={false} isSticky={false} />
       {role === "freelancer" || role === "employer" ? (
         <SignupForm />
@@ -34,6 +34,7 @@ export default function Register() {
             boxShadow="0px 1px 1px 0px rgb(185 184 184 / 75%)"
             padding="40px 0px 0px 0px"
             marginY="100px"
+            borderRadius="25px"
           >
             <Heading as="h2" size="md" color="purple.average">
               Que cherchez vous ?
