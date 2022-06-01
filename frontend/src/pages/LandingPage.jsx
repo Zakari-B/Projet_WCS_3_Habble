@@ -12,6 +12,7 @@ import {
 } from "@chakra-ui/react";
 import { SearchIcon } from "@chakra-ui/icons";
 import Header from "../components/Header/Header";
+import Footer from "../components/Footer";
 
 import HomeImg from "../assets/habble-bkg-1024x684.jpg";
 import Chat from "../assets/chat.svg";
@@ -29,14 +30,10 @@ import LogoFrench from "../assets/Logo_communaute.png";
 
 import LandingData from "../services/LandingData";
 
-// import theme from "../themes/theme";
-
 export default function LandingPage() {
   return (
     <div>
-      <div style={{ height: "110vh" }}>
-        <Header onDark isSticky />
-      </div>
+      <Header onDark isSticky />
       <Box
         w="100%"
         h={{ base: "auto", lg: "82.0021299254526vh" }}
@@ -47,6 +44,7 @@ export default function LandingPage() {
         display="flex"
         alignItems="center"
         bgPos="center"
+        pt={{ base: "6rem" }}
       >
         <Box
           w={{ base: "100vw", lg: "40%", "2xl": "26.6%" }}
@@ -93,9 +91,9 @@ export default function LandingPage() {
               bgColor="#a7197f"
               cursor="pointer"
               _hover={{ bgColor: "#342c50" }}
-              // eslint-disable-next-line react/no-children-prop
-              children={<SearchIcon color="white" />}
-            />
+            >
+              <SearchIcon color="white" />
+            </InputRightElement>
           </InputGroup>
         </Box>
       </Box>
@@ -111,6 +109,7 @@ export default function LandingPage() {
           m="2rem 0 2rem 0"
           color="#342c50"
           fontSize="calc(1.5rem + 1.5vw)"
+          fontWeight="500"
         >
           Top services sur Habble
         </Heading>
@@ -123,7 +122,13 @@ export default function LandingPage() {
           {LandingData.map((data) => (
             <Box key={data.id} cursor="pointer">
               <Box
-                w={{ base: "95vw", md: "45vw", lg: "20vw", xl: "14vw" }}
+                w={{
+                  base: "95vw",
+                  md: "45vw",
+                  lg: "20vw",
+                  xl: "14vw",
+                  "2xl": "13vw",
+                }}
                 h="29.3vh"
                 mb="1rem"
                 borderRadius="0.625rem"
@@ -172,6 +177,8 @@ export default function LandingPage() {
           m="2rem 0 2rem 0"
           color="#342c50"
           fontSize="calc(1.5rem + 1.5vw)"
+          fontWeight="500"
+          textAlign={{ base: "center", md: "none" }}
         >
           Deux moyens de trouver un professionnel du handicap
         </Heading>
@@ -249,7 +256,8 @@ export default function LandingPage() {
             h="auto"
             p="0.625rem 1.375rem"
             borderRadius="4px"
-            m="3.125rem"
+            mt="3.125rem"
+            variant="solid_PrimaryColor"
           >
             Trouver un professionnel du handicap
           </Button>
@@ -275,6 +283,7 @@ export default function LandingPage() {
               fontSize="calc(1.25rem + 1.5vw)"
               lineHeight="1.1"
               fontWeight="500"
+              textAlign={{ base: "center", md: "none" }}
             >
               Accédez à un réseau de soin et de soutien spécialisé dans le
               handicap simple, sûr et disponible.
@@ -285,6 +294,7 @@ export default function LandingPage() {
               mt="2rem"
               mb="1rem"
               fontSize="md"
+              textAlign={{ base: "center", md: "none" }}
             >
               Appréciez la tranquillité d'esprit pour vous et votre famille,
               grâce à notre réseau de professionnels et de structures
@@ -523,6 +533,7 @@ export default function LandingPage() {
               mt={{ base: "4rem", lg: "0" }}
               mb="1.25rem"
               fontWeight="500"
+              textAlign={{ base: "center", md: "none" }}
             >
               Concevez la solution qui vous convient
             </Heading>
@@ -532,6 +543,7 @@ export default function LandingPage() {
               mt="2rem"
               mb="1rem"
               fontSize="md"
+              textAlign={{ base: "center", md: "none" }}
             >
               Trouver des spécialistes du soin et du soutien adaptés à votre
               situation est facile avec Habble. Effectuez vos recherches en
@@ -546,7 +558,7 @@ export default function LandingPage() {
         </Flex>
       </Box>
       <Box
-        w="100vw"
+        w="100%"
         bgColor="#5f3984"
         bgImage={{ base: "none", lg: LandingBg1 }}
         bgPosition="right"
@@ -555,14 +567,14 @@ export default function LandingPage() {
       >
         <Box
           w={{ base: "100%", "2xl": "50%" }}
-          pl={{ base: "1rem", "2xl": "20rem" }}
+          paddingLeft={{ "2xl": "20rem" }}
           pb="2rem"
-          pt="2rem"
+          pt={{ base: "0.5rem", lg: "2rem" }}
+          textAlign="center"
         >
           <Heading
             as="h3"
             fontSize="calc(1rem + 1vw)"
-            lineHeight="3rem"
             color="#f9f9f9"
             mt="1.563rem"
             mb="1.25rem"
@@ -580,8 +592,14 @@ export default function LandingPage() {
             Faites-vous connaître, choisissez les missions qui vous
             correspondent et développez votre activité !
           </Text>
-          <Button h="auto" p="0.625rem 1.375rem" borderRadius="4px">
-            Trouver un professionnel du handicap
+          <Button
+            w="90%"
+            h="auto"
+            p="0.625rem 1.375rem"
+            borderRadius="4px"
+            variant="outline_White_Gradient"
+          >
+            En savoir plus
           </Button>
           <Text color="#f9f9f9" mt="2rem" fontSize="sm">
             Inscrivez-vous et détaillez vos services
@@ -607,29 +625,31 @@ export default function LandingPage() {
             Partenaires et Soutiens
           </Heading>
           <Flex
+            flexDir={{ base: "column", md: "row" }}
             gap={{ base: 10, md: 40 }}
-            mb="4rem"
             justifyContent="center"
             alignItems="center"
+            m="1rem"
           >
             <Image
               src={LogoReseau}
               alt="Logo Réseau Entreprise"
-              w={{ base: "25%", sm: "none" }}
+              w={{ base: "40%", sm: "15%" }}
             />
             <Image
               src={LogoEvident}
               alt="Logo Évident"
-              w={{ base: "17%", md: "10%" }}
+              w={{ base: "25%", md: "10%" }}
             />
             <Image
               src={LogoFrench}
               alt="Logo French Impact"
-              w={{ base: "17%", md: "10%" }}
+              w={{ base: "25%", md: "10%" }}
             />
           </Flex>
         </Flex>
       </Box>
+      <Footer />
     </div>
   );
 }
