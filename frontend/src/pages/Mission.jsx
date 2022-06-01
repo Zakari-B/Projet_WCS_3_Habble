@@ -372,8 +372,9 @@ function Mission() {
         justifyContent="space-between"
         h="fit-content"
         textAlign="start"
-        w="80%"
+        w="85%"
         m="auto"
+        pb="6rem"
       >
         <Text
           bgGradient="linear(45deg, #4d1582 0%, #a7197f 20%)"
