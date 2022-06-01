@@ -6,7 +6,6 @@ import Confidentialite from "./pages/Confidentialite";
 import ProAccueil from "./pages/ProAccueil";
 import LoginForm from "./components/LoginForm";
 import PasswordReset from "./components/PasswordReset";
-// import MentionsLegales from "./pages/MentionsLegales";
 import "./App.css";
 
 function App() {
