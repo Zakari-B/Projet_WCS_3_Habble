@@ -955,7 +955,7 @@ function Mission() {
           l’annuaire. Nous vous proposons également des services pour vous
           faciliter le quotidien.
         </Text>
-        <Link _hover={{ textDecor: "none" }} href="/SignupForm">
+        <Link _hover={{ textDecor: "none" }} href="/register">
           <Button
             variant="gradient"
             maxW="400px"
