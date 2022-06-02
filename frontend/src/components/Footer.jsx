@@ -20,16 +20,17 @@ export default function Footer() {
         <Link to="/">
           <Img
             src={LogoImgWhite}
-            w={{ lg: "150px", base: "90px" }}
-            p={{ lg: "0 50px 0 0", base: "0px" }}
+            w={{ base: "90px", lg: "120px" }}
+            minW={{ base: "90px", lg: "150px" }}
+            p={{ lg: "0 20px 0 0", base: "0px" }}
           />
         </Link>
         <HStack
           fontSize="sm"
           fontWeight="semibold"
-          minW="fit-content"
+          minW="-webkit-fill-available"
           wrap="wrap"
-          justify="center"
+          justify={{ lg: "flex-start", base: "center" }}
         >
           <Link to="/le-projet">
             <Text color="white">À propos</Text>
@@ -50,7 +51,7 @@ export default function Footer() {
           <Link to="/contact">
             <Text color="white">Signaler un abus</Text>
           </Link>
-          <Text color="gray.light">© 2021 Habble Tous droits réservés.</Text>
+          <Text color="gray.light">© 2022 Habble Tous droits réservés.</Text>
         </HStack>
       </Flex>
     </Flex>
