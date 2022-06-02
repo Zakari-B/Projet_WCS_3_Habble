@@ -51,7 +51,7 @@ export default function Footer() {
           <Link to="/contact">
             <Text color="white">Signaler un abus</Text>
           </Link>
-          <Text color="gray.light">© 2021 Habble Tous droits réservés.</Text>
+          <Text color="gray.light">© 2022 Habble Tous droits réservés.</Text>
         </HStack>
       </Flex>
     </Flex>

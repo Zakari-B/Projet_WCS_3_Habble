@@ -12,6 +12,7 @@ import {
 } from "@chakra-ui/react";
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer";
+import admin from "../assets/admin.svg";
 
 const slideIn = keyframes`0% {background-position: 0% 0%} 50% {background-position: 100% 0%} 100% {background-position: 0% 0%}`;
 
@@ -470,7 +471,11 @@ function ProAccueil() {
                   width="5rem"
                   justify="space-between"
                 >
-                  <img src="" alt="Administratif et Social" />
+                  <Image
+                    src={admin}
+                    boxSize="3rem"
+                    alt="Administratif et Social"
+                  />
                   <Text variant="corpsBold">Administratif et Social</Text>
                 </Flex>
               </SimpleGrid>
@@ -502,7 +507,7 @@ function ProAccueil() {
         </Box>
         <Box>
           <Box>
-            <Text marginTop="6rem" variant="titleH5">
+            <Text marginTop="6rem" variant="titleH5" textAlign="center">
               Fonctionnalités
             </Text>
             {/* carroussel */}
@@ -555,7 +560,12 @@ function ProAccueil() {
           </Box>
         </Flex>
         <Box marginBottom="3rem">
-          <Text variant="titleH5" marginTop="5rem" marginBottom="6rem">
+          <Text
+            variant="titleH5"
+            marginTop="5rem"
+            marginBottom="6rem"
+            textAlign="center"
+          >
             Partenaires et Soutiens
           </Text>
           <Flex

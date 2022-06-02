@@ -294,6 +294,7 @@ function Mission() {
           alignSelf="center"
           flexDirection="column"
           justifyContent="space-around"
+          gap="30px"
           p="1rem"
           h="90%"
           mr="5%"
@@ -303,14 +304,14 @@ function Mission() {
             bgClip="text"
             textAlign="left"
             lineHeight="1.3"
-            fontSize="5xl"
+            fontSize={{ base: "3xl", md: "5xl" }}
             fontWeight="semibold"
           >
             Habble : votre pouvoir d'agir
           </Text>
           <Text
             w="90%"
-            fontSize="3xl"
+            fontSize={{ base: "xl", md: "3xl" }}
             textAlign="left"
             fontWeight="semibold"
             color="#494848"
