@@ -26,12 +26,12 @@ const LandingData = [
   {
     id: 4,
     image: Demarches,
-    title: "Coaching professionnel",
+    title: "Assistance administrative",
   },
   {
     id: 5,
     image: Courses,
-    title: "Compagnie et support social",
+    title: "Aide à domicile",
   },
   {
     id: 6,

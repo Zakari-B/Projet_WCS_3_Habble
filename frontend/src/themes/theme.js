@@ -113,6 +113,14 @@ const theme = extendTheme({
           color: "purple.average",
           _hover: { bgColor: "purple.average", color: "white" },
         }),
+        outline_Pink: () => ({
+          bg: "transparent",
+          border: "2px solid",
+          fontWeight: "500",
+          borderColor: "pink.light",
+          color: "pink.light",
+          _hover: { bgColor: "pink.light", color: "white" },
+        }),
         outline_White_Gradient: () => ({
           bg: "transparent",
           border: "2px solid",

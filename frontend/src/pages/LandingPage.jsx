@@ -178,7 +178,7 @@ export default function LandingPage() {
           color="#342c50"
           fontSize="calc(1.5rem + 1.5vw)"
           fontWeight="500"
-          textAlign={{ base: "center", md: "none" }}
+          textAlign={{ base: "center", md: "left" }}
         >
           Deux moyens de trouver un professionnel du handicap
         </Heading>
@@ -198,9 +198,9 @@ export default function LandingPage() {
             }}
           >
             <Flex flexDir="column" alignItems="center">
-              <Image src={Chat} pos="relative" w="5rem" />
+              <Image src={Chat} w="5rem" />
               <Heading as="h4" mt="2rem" fontSize="1.5rem" fontWeight="500">
-                Déposez une annonce
+                Transmettez nous votre demande
               </Heading>
               <Text
                 color="#656565"
@@ -209,10 +209,14 @@ export default function LandingPage() {
                 mb="1rem"
                 fontSize="md"
               >
-                Inscrivez vous gratuitement à Habble et dîtes nous de quel
-                services vous avez besoin et à quel moment. Recevez des
-                propositions de professionnels, discutez avec eux des détails,
-                choisissez la proposition la plus adaptée puis profitez !
+                Inscrivez-vous gratuitement à Habble et dîtes nous de quel
+                service vous avez besoin et à quel moment : garde, éducation
+                spécialisé, aide administrative, auxiliaire de vie,
+                ergothérapeuthe,..
+                <br />
+                <br /> Recevez des propositions de professionnels, discutez avec
+                eux des détails, choisissez la proposition la plus adaptée puis
+                profitez !
               </Text>
             </Flex>
           </Box>
@@ -243,10 +247,12 @@ export default function LandingPage() {
                 mb="1rem"
                 fontSize="md"
               >
-                Parcourez les profils des professionnels indépendants dans votre
-                région. Ils ont tous été vérifiés pour votre tranquillité
-                d'esprit. Affinez votre recherche avec les options de filtre et
-                de tri : disponibilité, compétences et plus encore.
+                Parcourez les profils des professionnels de votre région. Ils
+                ont tous été vérifiés pour votre tranquillité d'esprit. Affinez
+                votre recherche avec les options de filtre et de tri :
+                disponibilité, compétences et plus encore. <br />
+                <br />
+                Trouver un professionnel du handicap
               </Text>
             </Flex>
           </Box>
@@ -324,7 +330,7 @@ export default function LandingPage() {
               color="#342c50"
               fontWeight="500"
             >
-              Contactez en direct
+              Pas d'abonnement
             </Heading>
             <Text
               color="#656565"
@@ -357,7 +363,7 @@ export default function LandingPage() {
             >
               Les professionnels indépendants et services spécialisés répondent
               à des critères stricts : références, qualifications,... Nous
-              vérifions les agréments pour plus de sureté et sécurité. <br />
+              vérifions les agréments pour plus de sûreté et de sécurité. <br />
               <br />
               Un contact disponible en cas d'urgence.
             </Text>
@@ -589,8 +595,9 @@ export default function LandingPage() {
             mb="1rem"
             fontSize="md"
           >
-            Faites-vous connaître, choisissez les missions qui vous
-            correspondent et développez votre activité !
+            Educ, AES, Ergo, AESH, Enseignant, Auxiliaire de vie,...Faites-vous
+            connaître, choisissez les missions qui vous correspondent et
+            développez votre activité !
           </Text>
           <Button
             w="90%"
