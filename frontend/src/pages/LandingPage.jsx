@@ -57,8 +57,6 @@ export default function LandingPage() {
             minW={{ base: "100%", md: "570px", "2xl": "570px" }}
             h="auto"
             p="1.938rem 2.5rem 2.625rem 2.25rem"
-            // ml={{ base: "none", md: "auto", lg: "15%" }}
-            // mr={{ base: "none", md: "auto", lg: "none" }}
             bgColor={{ base: "rgba(167, 25, 127, 0.2)", md: "white" }}
             borderRadius={{ base: "none", md: "21px" }}
             color="purple.average"
