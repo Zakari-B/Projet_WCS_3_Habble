@@ -29,20 +29,21 @@ const loginForm = () => {
         <Flex
           className="loginForm"
           bgColor="white"
+          maxWidth={{ base: "100vw", md: "482px" }}
           m="auto"
           alignItems="center"
           boxShadow="0px 1px 1px 0px rgb(185 184 184 / 75%)"
-          marginTop="100px"
-          marginBottom="30px"
+          marginTop={{ base: "0", md: "100px" }}
+          marginBottom={{ base: "0", md: "30px" }}
           borderRadius="25px"
           padding={{ base: "0", md: "20px", lg: "25px" }}
         >
           <Stack
             className="loginConnexion"
             spacing={12}
-            width="90vw"
-            maxWidth="482px"
-            margin="auto"
+            w={{ base: "100vw", md: "90vw", lg: "90vw" }}
+            maxWidth={{ base: "100vw", md: "482px" }}
+            margin={{ base: "20px", md: "auto" }}
           >
             <Heading
               as="h2"

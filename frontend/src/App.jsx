@@ -7,6 +7,7 @@ import Confidentialite from "./pages/Confidentialite";
 import ProAccueil from "./pages/ProAccueil";
 import LoginForm from "./components/LoginForm";
 import PasswordReset from "./components/PasswordReset";
+import ProfilPageProfessional from "./pages/ProfilPageProfessional";
 
 import RegisterOnboardingPro from "./pages/RegisterOnboardingPro";
 
@@ -27,7 +28,7 @@ function App() {
         <Route path="/login" element={<LoginForm />} />
         {/* <Route path="*" element={<Error />} /> */}
         <Route path="/forgot-password" element={<PasswordReset />} />
-        {/* <Route path="/profil" element={<ProfilPageProfessional />} /> */}
+        <Route path="/profil" element={<ProfilPageProfessional />} />
         <Route
           path="/register-onboarding-pro"
           element={<RegisterOnboardingPro />}

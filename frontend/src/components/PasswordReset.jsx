@@ -21,25 +21,25 @@ const passwordReset = () => {
   return (
     <Box h="100vh">
       <Header onDark={false} isSticky={false} />
-      <Flex bgColor="background.gray" alignItems="center">
+      <Flex bgColor="background.gray" alignItems="center" h="85vh">
         <Flex
           className="loginForm"
           bgColor="white"
-          maxWidth="482px"
+          maxWidth={{ base: "100vw", md: "482px" }}
           m="auto"
           alignItems="center"
           boxShadow="0px 1px 1px 0px rgb(185 184 184 / 75%)"
-          marginTop="100px"
-          marginBottom="30px"
+          marginTop={{ base: "0", md: "100px" }}
+          marginBottom={{ base: "0", md: "30px" }}
           borderRadius="25px"
           padding={{ base: "0", md: "30px", lg: "40px" }}
         >
           <Stack
             className="passwordResetForm"
             spacing={6}
-            width="90vw"
-            maxWidth="482px"
-            margin="auto"
+            w={{ base: "100vw", md: "90vw", lg: "90vw" }}
+            maxWidth={{ base: "100vw", md: "482px" }}
+            margin={{ base: "20px", md: "auto" }}
           >
             <Heading
               as="h2"
