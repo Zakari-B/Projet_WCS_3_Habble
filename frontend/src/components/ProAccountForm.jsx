@@ -18,6 +18,7 @@ import {
   Textarea,
   Checkbox,
   CheckboxGroup,
+  Link,
 } from "@chakra-ui/react";
 
 export default function ProAccountForm() {
@@ -30,7 +31,7 @@ export default function ProAccountForm() {
         my="5%"
         className="signupForm"
         bgColor="white"
-        maxWidth="700px"
+        maxWidth="900px"
         alignItems="center"
         boxShadow="0px 1px 1px 0px rgb(185 184 184 / 75%)"
         borderRadius="25px"
@@ -46,11 +47,7 @@ export default function ProAccountForm() {
           >
             Mon profil
           </Heading>
-          <Flex
-            justifyContent="space-between"
-            direction={{ base: "column-reverse", md: "row" }}
-            rowGap="5"
-          >
+          <Flex direction={{ base: "column-reverse", md: "row" }} rowGap="5">
             <VStack>
               <FormControl>
                 <FormLabel
@@ -145,7 +142,7 @@ export default function ProAccountForm() {
                 />
               </FormControl>
             </VStack>
-            <VStack align="center" alignSelf="center">
+            <VStack align="center" alignSelf="center" mx="auto">
               <Avatar src="https://bit.ly/broken-link" size="2xl" />
               <Text
                 color="pink.light"
@@ -193,7 +190,14 @@ export default function ProAccountForm() {
               </Text>
             </Flex>
           </FormControl>
-          <FormControl display="flex" justifyContent="left" gap="3">
+          <FormControl
+            display="flex"
+            justifyContent="left"
+            gap="3"
+            flexWrap="wrap"
+            h="fit-content"
+            w="fit-content%"
+          >
             <FormLabel
               htmlFor="amount"
               fontSize="md"
@@ -265,8 +269,13 @@ export default function ProAccountForm() {
               // onChange={(e) => setSignupFirstname(e.target.value)}
             />
           </FormControl>
-          <Checkbox defaultChecked size="sm">
-            Envoyez moi par email les annonces en rapportt avec les services que
+          <Checkbox
+            iconColor="pink.light"
+            colorScheme="white"
+            borderColor="gray"
+            _checked={{ borderColor: "pink.light" }}
+          >
+            Envoyez moi par email les annonces en rapport avec les services que
             je propose
           </Checkbox>
           <Text fontSize="md" fontWeight="800" color="purple.average">
@@ -464,11 +473,16 @@ export default function ProAccountForm() {
           >
             Enregistrer
           </Button>
-          <Button textAlign="left" fontSize="xs" fontWeight="600">
+          <Link
+            href="/"
+            textAlign="left"
+            fontSize="xs"
+            fontWeight="600"
+            w="100px"
+          >
             Annulez
-          </Button>
+          </Link>
           <Divider />
-          Vous avez déjà un compte ?&nbsp;
           <Text
             fontSize="xs"
             fontWeight="800"

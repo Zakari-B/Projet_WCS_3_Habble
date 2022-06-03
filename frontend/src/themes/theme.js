@@ -191,6 +191,19 @@ const theme = extendTheme({
         }),
       },
     },
+    // Checkbox: {
+    //   baseStyle: {
+    //     size: "sm",
+    //   },
+    //   variants: {
+    //     pinkCheck: () => ({
+    //       iconColor: "pink.light",
+    //       colorScheme: "white",
+    //       borderColor: "gray",
+    //       _checked: { borderColor: "pink.light" },
+    //     }),
+    //   },
+    // },
   },
 });
 
