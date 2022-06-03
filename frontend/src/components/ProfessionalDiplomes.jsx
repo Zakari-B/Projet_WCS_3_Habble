@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
+  useDisclosure,
   Box,
   Heading,
   Flex,
@@ -10,21 +11,56 @@ import {
   FormLabel,
   Input,
   Select,
+  Textarea,
+  Collapse,
 } from "@chakra-ui/react";
+import getDropList from "../services/Utils";
 
 function ProfessionalDiplomes() {
-  const [showForm, setShowForm] = useState(false);
+  const [yearList, setYearList] = useState([]);
+  const { isOpen, onToggle } = useDisclosure();
 
-  const formShowed = () => {
-    setShowForm(!showForm);
+  const [title, setTitle] = useState("");
+  const [delivered, setDelivered] = useState("");
+  const [monthDelivered, setMonthDelivered] = useState("");
+  const [yearDelivered, setYearDelivered] = useState("");
+  const [description, setDescription] = useState("");
+
+  const handleSubmit = (event) => event.preventDefault();
+
+  const handleTitleChange = (e) => {
+    e.preventDefault();
+    setTitle(e.target.value);
   };
+  const handleDeliverChange = (e) => {
+    setDelivered(e.target.value);
+  };
+  const handleMonthChange = (e) => {
+    setMonthDelivered(e.target.value);
+  };
+  const handleYearChange = (e) => {
+    setYearDelivered(e.target.value);
+  };
+  const handleDescChange = (e) => {
+    setDescription(e.target.value);
+  };
+  const handleReset = () => {
+    setTitle("");
+    setDelivered("");
+    setMonthDelivered("");
+    setYearDelivered("");
+    setDescription("");
+  };
+
+  useEffect(() => {
+    setYearList(getDropList());
+  }, []);
 
   return (
     <Box
-      w="50%"
+      w="100%"
       h="auto"
       backgroundColor="white"
-      boxShadow="blue 0px 0px 0px 2px inset, rgb(255, 255, 255) 10px -10px 0px -3px, rgb(31, 193, 27) 10px -10px, rgb(255, 255, 255) 20px -20px 0px -3px, rgb(255, 217, 19) 20px -20px, rgb(255, 255, 255) 30px -30px 0px -3px, rgb(255, 156, 85) 30px -30px, rgb(255, 255, 255) 40px -40px 0px -3px, rgb(255, 85, 85) 40px -40px;"
       color="black"
       mt="5rem"
       mb="5rem"
@@ -36,16 +72,27 @@ function ProfessionalDiplomes() {
         <Heading as="h4" mt="2rem" ml="1rem" fontSize="1.5rem" color="#342c50">
           Diplômes, certifications
         </Heading>
-        <Button mt="2rem" mr="1rem" variant="outline_Pink" onClick={formShowed}>
+        <Button mt="2rem" mr="1rem" variant="outline_Pink" onClick={onToggle}>
           Ajouter
         </Button>
       </Flex>
 
-      {showForm && (
-        <FormControl ml="1rem" mt="1rem">
+      <Collapse in={isOpen} animateOpacity>
+        <FormControl ml="1rem" mt="1rem" mb="1rem" onSubmit={handleSubmit}>
           <Flex flexDir="column">
-            <Input placeholder="Nom de la certification" w="65%" />
-            <Input placeholder="Délivré par" w="65%" mt="0.5rem" />
+            <Input
+              placeholder="Nom de la certification"
+              w="65%"
+              onChange={handleTitleChange}
+              value={title}
+            />
+            <Input
+              placeholder="Délivré par"
+              w="65%"
+              mt="0.5rem"
+              onChange={handleDeliverChange}
+              value={delivered}
+            />
             <FormLabel
               htmlFor="date"
               fontSize="xl"
@@ -57,7 +104,12 @@ function ProfessionalDiplomes() {
               Date d'obtention
             </FormLabel>
             <HStack>
-              <Select w="32.1%" placeholder="Mois">
+              <Select
+                w="32.1%"
+                placeholder="Mois"
+                onChange={handleMonthChange}
+                value={monthDelivered}
+              >
                 <option>Janvier</option>
                 <option>Février</option>
                 <option>Mars</option>
@@ -71,15 +123,43 @@ function ProfessionalDiplomes() {
                 <option>Novembre</option>
                 <option>Décembre</option>
               </Select>
-              <Select w="32.1%" placeholder="Année" />
+              <Select
+                w="32.1%"
+                placeholder="Année"
+                onChange={handleYearChange}
+                value={yearDelivered}
+              >
+                {yearList.map((year) => year)}
+              </Select>
             </HStack>
+            <Textarea
+              w="65%"
+              mt="0.5rem"
+              h="15vh"
+              placeholder="Description (optionnel)."
+              onChange={handleDescChange}
+              value={description}
+            />
+            <Button w="65%" mt="1rem" variant="solid_PrimaryColor">
+              Enregistrer
+            </Button>
+            <Button
+              w="65%"
+              mt="1rem"
+              variant="solid_SecondaryColor"
+              onClick={(onToggle, handleReset)}
+            >
+              Annuler
+            </Button>
           </Flex>
         </FormControl>
-      )}
+      </Collapse>
 
-      <Text color="#656565" ml="1rem" pb="1rem" fontSize="md" mt="1rem">
-        Ajoutez une certification professionnelle à votre profil. (optionnel)
-      </Text>
+      {!isOpen && (
+        <Text color="#656565" ml="1rem" pb="1rem" fontSize="md" mt="1rem">
+          Ajoutez une certification professionnelle à votre profil. (optionnel)
+        </Text>
+      )}
     </Box>
   );
 }
