@@ -24,7 +24,7 @@ export default function Register() {
       {role === "freelancer" || role === "employer" ? (
         <SignupForm />
       ) : (
-        <Flex bgColor="background.gray" alignItems="center">
+        <Flex bgColor="background.gray" alignItems="center" h="85vh">
           <Flex
             direction="column"
             bgColor="white"
