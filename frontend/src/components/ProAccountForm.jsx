@@ -24,7 +24,7 @@ import {
 export default function ProAccountForm() {
   return (
     <Flex bgColor="background.gray" direction="column" justify="flex-start">
-      <Flex
+      <FormControl
         alignSelf="center"
         dir="column"
         mx="10%"
@@ -36,6 +36,7 @@ export default function ProAccountForm() {
         boxShadow="0px 1px 1px 0px rgb(185 184 184 / 75%)"
         borderRadius="25px"
         padding="2%"
+        onSubmit="a voir"
       >
         <Stack className="noAccount" spacing={8} width="90vw" margin="auto">
           <Heading
@@ -48,99 +49,93 @@ export default function ProAccountForm() {
             Mon profil
           </Heading>
           <Flex direction={{ base: "column-reverse", md: "row" }} rowGap="5">
-            <VStack>
-              <FormControl>
-                <FormLabel
-                  htmlFor="firstname-lastname"
-                  fontSize="md"
-                  fontWeight="800"
-                  color="purple.average"
-                >
-                  Affichage de votre prénom et nom *
-                </FormLabel>
-                <Input
-                  type="text"
-                  id="formProFirstnameLastname"
-                  name="PrénomNom"
-                  placeholder="Prénom Nom"
-                  _placeholder={{
-                    fontSize: "0.8rem",
-                    fontWeight: "500",
-                    color: "gray",
-                  }}
-                  // value={signupFirstname}
-                  // onChange={(e) => setSignupFirstname(e.target.value)}
-                />
-              </FormControl>
-              <FormControl>
-                <FormLabel
-                  htmlFor="activity"
-                  fontSize="md"
-                  fontWeight="800"
-                  color="purple.average"
-                >
-                  Votre activité *
-                </FormLabel>
-                <Input
-                  type="text"
-                  id="formProActivity"
-                  name="Activity"
-                  placeholder="Titre professionnel"
-                  _placeholder={{
-                    fontSize: "0.8rem",
-                    fontWeight: "500",
-                    color: "gray",
-                  }}
-                  // value={signupFirstname}
-                  // onChange={(e) => setSignupFirstname(e.target.value)}
-                />
-              </FormControl>
-              <FormControl>
-                <FormLabel
-                  htmlFor="city"
-                  fontSize="md"
-                  fontWeight="800"
-                  color="purple.average"
-                >
-                  Code postal de votre lieu d'intervention *
-                </FormLabel>
-                <Input
-                  type="text"
-                  id="formProCity"
-                  name="Activity"
-                  placeholder="Veuillez saisir un code postal et selectionnez une ville dans la liste"
-                  _placeholder={{
-                    fontSize: "0.8rem",
-                    fontWeight: "500",
-                    color: "gray",
-                  }}
-                  // value={signupFirstname}
-                  // onChange={(e) => setSignupFirstname(e.target.value)}
-                />
-              </FormControl>
-              <FormControl>
-                <FormLabel
-                  htmlFor="phone"
-                  fontSize="md"
-                  fontWeight="800"
-                  color="purple.average"
-                >
-                  N° de téléphone
-                </FormLabel>
-                <Input
-                  type="text"
-                  id="formPhone"
-                  name="Phone"
-                  placeholder="Ex: 0672690594"
-                  _placeholder={{
-                    fontSize: "0.8rem",
-                    fontWeight: "500",
-                    color: "gray",
-                  }}
-                  // value={signupFirstname}
-                  // onChange={(e) => setSignupFirstname(e.target.value)}
-                />
-              </FormControl>
+            <VStack alignItems="left">
+              <FormLabel
+                htmlFor="name"
+                fontSize="md"
+                fontWeight="800"
+                color="purple.average"
+              >
+                Affichage de votre prénom et nom *
+              </FormLabel>
+              <Input
+                type="text"
+                id="proFormName"
+                name="name"
+                placeholder="Prénom Nom"
+                _placeholder={{
+                  fontSize: "0.8rem",
+                  fontWeight: "500",
+                  color: "gray",
+                }}
+                // value={signupFirstname}
+                // onChange={(e) => setSignupFirstname(e.target.value)}
+              />
+              <FormLabel
+                htmlFor="activity"
+                fontSize="md"
+                fontWeight="800"
+                color="purple.average"
+              >
+                Votre activité *
+              </FormLabel>
+              <Input
+                type="text"
+                id="proFormActivity"
+                name="activity"
+                placeholder="Titre professionnel"
+                _placeholder={{
+                  fontSize: "0.8rem",
+                  fontWeight: "500",
+                  color: "gray",
+                }}
+                // value={signupFirstname}
+                // onChange={(e) => setSignupFirstname(e.target.value)}
+              />
+
+              <FormLabel
+                htmlFor="city"
+                fontSize="md"
+                fontWeight="800"
+                color="purple.average"
+              >
+                Code postal de votre lieu d'intervention *
+              </FormLabel>
+              <Input
+                type="text"
+                id="proFormCity"
+                name="city"
+                placeholder="Veuillez saisir un code postal et selectionnez une ville dans la liste"
+                _placeholder={{
+                  fontSize: "0.8rem",
+                  fontWeight: "500",
+                  color: "gray",
+                }}
+                // value={signupFirstname}
+                // onChange={(e) => setSignupFirstname(e.target.value)}
+              />
+
+              <FormLabel
+                htmlFor="phone"
+                fontSize="md"
+                fontWeight="800"
+                color="purple.average"
+              >
+                N° de téléphone
+              </FormLabel>
+              <Input
+                type="text"
+                id="proFormPhone"
+                name="phone"
+                placeholder="Ex: 0672690594"
+                _placeholder={{
+                  fontSize: "0.8rem",
+                  fontWeight: "500",
+                  color: "gray",
+                }}
+                // value={signupFirstname}
+                // onChange={(e) => setSignupFirstname(e.target.value)}
+              />
             </VStack>
             <VStack align="center" alignSelf="center" mx="auto">
               <Avatar src="https://bit.ly/broken-link" size="2xl" />
@@ -154,8 +149,7 @@ export default function ProAccountForm() {
               </Text>
             </VStack>
           </Flex>
-          <FormControl
-            display="flex"
+          <Flex
             justifyContent="left"
             gap="3"
             flexWrap="wrap"
@@ -163,7 +157,7 @@ export default function ProAccountForm() {
             w="fit-content%"
           >
             <FormLabel
-              htmlFor="amount"
+              htmlFor="experience"
               fontSize="md"
               fontWeight="800"
               color="purple.average"
@@ -174,7 +168,8 @@ export default function ProAccountForm() {
             <Flex justifyContent="left" gap="3">
               <NumberInput max={50} min={0} w="80px">
                 <NumberInputField
-                  id="amount"
+                  id="proFormexperience"
+                  name="experience"
                   placeholder="7"
                   fontSize="0.9rem"
                   _placeholder={{ fontSize: "0.9rem" }}
@@ -189,9 +184,8 @@ export default function ProAccountForm() {
                 ans d'expérience
               </Text>
             </Flex>
-          </FormControl>
-          <FormControl
-            display="flex"
+          </Flex>
+          <Flex
             justifyContent="left"
             gap="3"
             flexWrap="wrap"
@@ -199,7 +193,7 @@ export default function ProAccountForm() {
             w="fit-content%"
           >
             <FormLabel
-              htmlFor="amount"
+              htmlFor="price"
               fontSize="md"
               fontWeight="800"
               color="purple.average"
@@ -210,7 +204,8 @@ export default function ProAccountForm() {
             <Flex justifyContent="left" gap="3">
               <NumberInput min={0} w="80px">
                 <NumberInputField
-                  id="amount"
+                  id="proFormPrice"
+                  name="price"
                   placeholder="25"
                   fontSize="0.9rem"
                   _placeholder={{ fontSize: "0.9rem" }}
@@ -225,50 +220,48 @@ export default function ProAccountForm() {
                 €/h (indicatif)
               </Text>
             </Flex>
-          </FormControl>
-          <FormControl>
-            <FormLabel
-              htmlFor="city"
-              fontSize="md"
-              fontWeight="800"
-              color="purple.average"
-            >
-              Présentez-vous en quelques mots *
-            </FormLabel>
-            <Textarea
-              placeholder="Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi totam quidem magnam quo cum pariatur laboriosam, exercitationem deserunt. Molestias suscipit facilis voluptates id. Quaerat voluptates debitis magnam a recusandae ab."
-              _placeholder={{
-                fontSize: "0.8rem",
-                fontWeight: "500",
-                color: "gray",
-              }}
-              // value={signupFirstname}
-              // onChange={(e) => setSignupFirstname(e.target.value)}
-            />
-          </FormControl>
-          <FormControl>
-            <FormLabel
-              htmlFor="service"
-              fontSize="md"
-              fontWeight="800"
-              color="purple.average"
-            >
-              Sélectionnez un ou plusieurs services que vous proposez *
-            </FormLabel>
-            <Input
-              type="text"
-              id="formProService"
-              name="Service"
-              placeholder="Choisissez un ou plusieurs services dans la liste, tapez des mots clés pour filtrer"
-              _placeholder={{
-                fontSize: "0.8rem",
-                fontWeight: "500",
-                color: "gray",
-              }}
-              // value={signupFirstname}
-              // onChange={(e) => setSignupFirstname(e.target.value)}
-            />
-          </FormControl>
+          </Flex>
+          <FormLabel
+            htmlFor="presentation"
+            fontSize="md"
+            fontWeight="800"
+            color="purple.average"
+          >
+            Présentez-vous en quelques mots *
+          </FormLabel>
+          <Textarea
+            placeholder="Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi totam quidem magnam quo cum pariatur laboriosam, exercitationem deserunt. Molestias suscipit facilis voluptates id. Quaerat voluptates debitis magnam a recusandae ab."
+            _placeholder={{
+              fontSize: "0.8rem",
+              fontWeight: "500",
+              color: "gray",
+            }}
+            // value={signupFirstname}
+            // onChange={(e) => setSignupFirstname(e.target.value)}
+          />
+
+          <FormLabel
+            htmlFor="services"
+            fontSize="md"
+            fontWeight="800"
+            color="purple.average"
+          >
+            Sélectionnez un ou plusieurs services que vous proposez *
+          </FormLabel>
+          <Input
+            type="text"
+            id="formProService"
+            name="Service"
+            placeholder="Choisissez un ou plusieurs services dans la liste, tapez des mots clés pour filtrer"
+            _placeholder={{
+              fontSize: "0.8rem",
+              fontWeight: "500",
+              color: "gray",
+            }}
+            // value={signupFirstname}
+            // onChange={(e) => setSignupFirstname(e.target.value)}
+          />
+
           <Checkbox
             iconColor="pink.light"
             colorScheme="white"
@@ -278,12 +271,22 @@ export default function ProAccountForm() {
             Envoyez moi par email les annonces en rapport avec les services que
             je propose
           </Checkbox>
-          <Text fontSize="md" fontWeight="800" color="purple.average">
+          <FormLabel
+            htmlFor="expertise"
+            fontSize="md"
+            fontWeight="800"
+            color="purple.average"
+          >
             Champs d'expertises (optionnel)
-          </Text>
-          <Text fontSize="sm" fontWeight="800" color="purple.average">
+          </FormLabel>
+          <FormLabel
+            htmlFor="care"
+            fontSize="sm"
+            fontWeight="800"
+            color="purple.average"
+          >
             Soins aux personnes agées
-          </Text>
+          </FormLabel>
           <CheckboxGroup>
             <Flex
               justifyContent="left"
@@ -301,9 +304,14 @@ export default function ProAccountForm() {
               </Checkbox>
             </Flex>
           </CheckboxGroup>
-          <Text fontSize="sm" fontWeight="800" color="purple.average">
+          <FormLabel
+            htmlFor="chronicDiseases"
+            fontSize="sm"
+            fontWeight="800"
+            color="purple.average"
+          >
             Maladies chroniques
-          </Text>
+          </FormLabel>
           <CheckboxGroup>
             <Flex
               justifyContent="left"
@@ -330,9 +338,14 @@ export default function ProAccountForm() {
               </Checkbox>
             </Flex>
           </CheckboxGroup>
-          <Text fontSize="sm" fontWeight="800" color="purple.average">
+          <FormLabel
+            htmlFor="Disability"
+            fontSize="sm"
+            fontWeight="800"
+            color="purple.average"
+          >
             Handicap
-          </Text>
+          </FormLabel>
           <CheckboxGroup>
             <Flex
               justifyContent="left"
@@ -392,9 +405,14 @@ export default function ProAccountForm() {
               </Checkbox>
             </Flex>
           </CheckboxGroup>
-          <Text fontSize="sm" fontWeight="800" color="purple.average">
+          <FormLabel
+            htmlFor="mentalHealth"
+            fontSize="sm"
+            fontWeight="800"
+            color="purple.average"
+          >
             Santé mentale
-          </Text>
+          </FormLabel>
           <CheckboxGroup>
             <Flex
               justifyContent="left"
@@ -436,32 +454,35 @@ export default function ProAccountForm() {
               </Checkbox>
             </Flex>
           </CheckboxGroup>
-          <Text fontSize="md" fontWeight="800" color="purple.average">
+          <FormLabel
+            htmlFor="company"
+            fontSize="md"
+            fontWeight="800"
+            color="purple.average"
+          >
             Votre entreprise (optionnel)
-          </Text>
-          <FormControl>
-            <FormLabel
-              htmlFor="siret"
-              fontSize="md"
-              fontWeight="800"
-              color="purple.average"
-            >
-              SIRET
-            </FormLabel>
-            <Input
-              type="text"
-              id="formSiret"
-              name="Siret"
-              placeholder="Numéro de 14 chiffres"
-              _placeholder={{
-                fontSize: "0.8rem",
-                fontWeight: "500",
-                color: "gray",
-              }}
-              // value={signupFirstname}
-              // onChange={(e) => setSignupFirstname(e.target.value)}
-            />
-          </FormControl>
+          </FormLabel>
+          <FormLabel
+            htmlFor="siret"
+            fontSize="md"
+            fontWeight="800"
+            color="purple.average"
+          >
+            SIRET
+          </FormLabel>
+          <Input
+            type="text"
+            id="formSiret"
+            name="Siret"
+            placeholder="Numéro de 14 chiffres"
+            _placeholder={{
+              fontSize: "0.8rem",
+              fontWeight: "500",
+              color: "gray",
+            }}
+            // value={signupFirstname}
+            // onChange={(e) => setSignupFirstname(e.target.value)}
+          />
           <Text fontSize="xs" color="gray.light">
             Le numéro de Siret est un identifiant de 14 chiffres (exemple :
             12002701600357)
@@ -492,7 +513,7 @@ export default function ProAccountForm() {
             * Champs obligatoires
           </Text>
         </Stack>
-      </Flex>
+      </FormControl>
     </Flex>
   );
 }
