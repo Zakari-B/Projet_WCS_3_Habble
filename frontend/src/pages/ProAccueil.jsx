@@ -15,7 +15,8 @@ import { VscChevronRight } from "react-icons/vsc";
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer";
 import admin from "../assets/admin.svg";
-import Carousel from "../components/ProAccueil/Carousel";
+import Carousel from "../components/ProAccueil/CarouselImages";
+import CarouselWorking from "../components/ProAccueil/CarouselWorking";
 
 const slideIn = keyframes`0% {background-position: 0% 0%} 50% {background-position: 100% 0%} 100% {background-position: 0% 0%}`;
 
@@ -224,149 +225,52 @@ function ProAccueil() {
             </Flex>
           </Flex>
           <Box>
-            <Text
-              align="left"
-              marginLeft="8%"
-              marginBottom="3.5rem"
-              variant="titleH4"
-            >
-              Comment ça marche ?
-            </Text>
-            <Carousel autoPlay>
-              <div>
-                <img
-                  alt=""
-                  src="http://lorempixel.com/output/cats-q-c-640-480-1.jpg"
-                />
-                <p className="legend">Legend 1</p>
-              </div>
-              <div>
-                <img
-                  alt=""
-                  src="http://lorempixel.com/output/cats-q-c-640-480-2.jpg"
-                />
-                <p className="legend">Legend 2</p>
-              </div>
-              <div>
-                <img
-                  alt=""
-                  src="http://lorempixel.com/output/cats-q-c-640-480-3.jpg"
-                />
-                <p className="legend">Legend 3</p>
-              </div>
-              <div>
-                <img
-                  alt=""
-                  src="http://lorempixel.com/output/cats-q-c-640-480-4.jpg"
-                />
-                <p className="legend">Legend 4</p>
-              </div>
-              <div>
-                <img
-                  alt=""
-                  src="http://lorempixel.com/output/cats-q-c-640-480-5.jpg"
-                />
-                <p className="legend">Legend 5</p>
-              </div>
-              <div>
-                <img
-                  alt=""
-                  src="http://lorempixel.com/output/cats-q-c-640-480-6.jpg"
-                />
-                <p className="legend">Legend 6</p>
-              </div>
-              <div>
-                <img
-                  alt=""
-                  src="http://lorempixel.com/output/cats-q-c-640-480-7.jpg"
-                />
-                <p className="legend">Legend 7</p>
-              </div>
-              <div>
-                <img
-                  alt=""
-                  src="http://lorempixel.com/output/cats-q-c-640-480-8.jpg"
-                />
-                <p className="legend">Legend 8</p>
-              </div>
-              <div>
-                <img
-                  alt=""
-                  src="http://lorempixel.com/output/cats-q-c-640-480-9.jpg"
-                />
-                <p className="legend">Legend 9</p>
-              </div>
-              <div>
-                <img
-                  alt=""
-                  src="http://lorempixel.com/output/cats-q-c-640-480-10.jpg"
-                />
-                <p className="legend">Legend 10</p>
-              </div>
-              <div>
-                <img
-                  alt=""
-                  src="http://lorempixel.com/output/cats-q-c-640-480-11.jpg"
-                />
-                <p className="legend">Legend 11</p>
-              </div>
-              <div>
-                <img
-                  alt=""
-                  src="http://lorempixel.com/output/cats-q-c-640-480-12.jpg"
-                />
-                <p className="legend">Legend 12</p>
-              </div>
-              <div>
-                <img
-                  alt=""
-                  src="http://lorempixel.com/output/cats-q-c-640-480-13.jpg"
-                />
-                <p className="legend">Legend 13</p>
-              </div>
-              <div>
-                <img
-                  alt=""
-                  src="http://lorempixel.com/output/cats-q-c-640-480-14.jpg"
-                />
-                <p className="legend">Legend 14</p>
-              </div>
-            </Carousel>
-            <Flex
-              direction="column"
-              marginLeft="30%"
-              marginRight="10%"
-              marginBottom="7rem"
-              height="20rem"
-              justify="space-between"
-            >
-              <Box>
-                <Text align="left" variant="titleH3">
-                  1. Décrivez vos prestations
-                </Text>
-                <Text align="left" variant="corps" color="#656565">
-                  Dites-nous votre spécialité et vos champs d'intervention
-                </Text>
-              </Box>
-              <Box>
-                <Text align="left" variant="titleH3">
-                  2. Choisissez
-                </Text>
-                <Text align="left" variant="corps" color="#656565">
-                  Recevez des demandes de personnes ou de services en lien avec
-                  vos compétences. Echangez pour affiner les détails de la
-                  mission.
-                </Text>
-              </Box>
-              <Box>
-                <Text align="left" variant="titleH3">
-                  3. Réalisez
-                </Text>
-                <Text align="left" variant="corps" color="#656565">
-                  La plateforme sécurisée Habble gère pour vous l'administratif
-                  pour vous permettre de vous consacrer à votre coeur de métier.
-                </Text>
-              </Box>
+            <Flex marginLeft="10%" justify="space-around">
+              <CarouselWorking />
+              <Flex
+                direction="column"
+                marginRight="10%"
+                marginBottom="7rem"
+                height="20rem"
+                justify="space-between"
+              >
+                <Box>
+                  <Text
+                    align="left"
+                    marginLeft="8%"
+                    marginBottom="3.5rem"
+                    variant="titleH4"
+                  >
+                    Comment ça marche ?
+                  </Text>
+                  <Text align="left" variant="titleH3">
+                    1. Décrivez vos prestations
+                  </Text>
+                  <Text align="left" variant="corps" color="#656565">
+                    Dites-nous votre spécialité et vos champs d'intervention
+                  </Text>
+                </Box>
+                <Box>
+                  <Text align="left" variant="titleH3">
+                    2. Choisissez
+                  </Text>
+                  <Text align="left" variant="corps" color="#656565">
+                    Recevez des demandes de personnes ou de services en lien
+                    avec vos compétences. Echangez pour affiner les détails de
+                    la mission.
+                  </Text>
+                </Box>
+                <Box>
+                  <Text align="left" variant="titleH3">
+                    3. Réalisez
+                  </Text>
+                  <Text align="left" variant="corps" color="#656565">
+                    La plateforme sécurisée Habble gère pour vous
+                    l'administratif pour vous permettre de vous consacrer à
+                    votre coeur de métier.
+                  </Text>
+                </Box>
+              </Flex>
             </Flex>
           </Box>
           <Flex
