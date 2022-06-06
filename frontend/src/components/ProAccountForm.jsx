@@ -19,9 +19,74 @@ import {
   Checkbox,
   CheckboxGroup,
   Link,
+  Select,
+  Box,
+  List,
+  ListItem,
+  IconButton,
 } from "@chakra-ui/react";
 
+import { CloseIcon } from "@chakra-ui/icons";
+import { useState } from "react";
+// eslint-disable-next-line import/no-extraneous-dependencies
+import { useNavigate } from "react-router";
+import axios from "axios";
+
 export default function ProAccountForm() {
+  // fonction qui recupère le nom et prénom de l'utilisateur //
+  // const getUser = () => {
+  //   axios
+  //     .get(`http://localhost:4000/api/users/${users.id}`, {})
+  //     .then((response) => response.data);
+  // };
+  // useEffect(() => {
+  //   getUser();
+  // }, []);
+
+  // fonction qui post les valeurs dans la table proDetails + redirige vers la page profil //
+  const navigate = useNavigate();
+
+  const postProDetails = (e) => {
+    e.preventDefault();
+    axios
+      .post("http://localhost:4000/api/proDetails", {
+        // name: name,
+        // activityPro: activityPro,
+        // cityPro: cityPro,
+        // phonePro: phonePro,
+        // experiencePro: experiencePro,
+        // pricePro: pricePro,
+        // descriptionPro: descriptionPro,
+        // announcementPro: announcementPro,
+        // siretPro: siretPro,
+      })
+      .then(() => {
+        // setUser(response.data);
+        navigate("/profil");
+      });
+  };
+
+  // useState pour chaque input //
+  // const [name, setName] = useState(`${users.firstname}${users.lastname}`);
+  const [name, setName] = useState("");
+  const [activityPro, setActivityPro] = useState("");
+  const [cityPro, setCityPro] = useState("");
+  const [phonePro, setPhonePro] = useState("");
+  const [experiencePro, setExperiencePro] = useState("");
+  const [pricePro, setPricePro] = useState("");
+  const [descriptionPro, setDescriptionPro] = useState("");
+  const [announcementPro, setAnnouncementPro] = useState(false);
+  const [siretPro, setSiretPro] = useState("");
+
+  const [list] = useState([]);
+  const [item, setItem] = useState("");
+
+  function selectionItem(e) {
+    setItem(e.target.value);
+    // setList([e.target.value]);
+    list.push(item);
+  }
+
   return (
     <Flex bgColor="background.gray" direction="column" justify="flex-start">
       <FormControl
@@ -36,7 +101,7 @@ export default function ProAccountForm() {
         boxShadow="0px 1px 1px 0px rgb(185 184 184 / 75%)"
         borderRadius="25px"
         padding="2%"
-        onSubmit="a voir"
+        onSubmit={postProDetails}
       >
         <Stack className="noAccount" spacing={8} width="90vw" margin="auto">
           <Heading
@@ -68,8 +133,8 @@ export default function ProAccountForm() {
                   fontWeight: "500",
                   color: "gray",
                 }}
-                // value={signupFirstname}
-                // onChange={(e) => setSignupFirstname(e.target.value)}
+                value={name}
+                onChange={(e) => setName(e.target.value)}
               />
               <FormLabel
                 htmlFor="activity"
@@ -89,8 +154,8 @@ export default function ProAccountForm() {
                   fontWeight: "500",
                   color: "gray",
                 }}
-                // value={signupFirstname}
-                // onChange={(e) => setSignupFirstname(e.target.value)}
+                value={activityPro}
+                onChange={(e) => setActivityPro(e.target.value)}
               />
 
               <FormLabel
@@ -111,8 +176,8 @@ export default function ProAccountForm() {
                   fontWeight: "500",
                   color: "gray",
                 }}
-                // value={signupFirstname}
-                // onChange={(e) => setSignupFirstname(e.target.value)}
+                value={cityPro}
+                onChange={(e) => setCityPro(e.target.value)}
               />
 
               <FormLabel
@@ -133,20 +198,24 @@ export default function ProAccountForm() {
                   fontWeight: "500",
                   color: "gray",
                 }}
-                // value={signupFirstname}
-                // onChange={(e) => setSignupFirstname(e.target.value)}
+                value={phonePro}
+                onChange={(e) => setPhonePro(e.target.value)}
               />
             </VStack>
             <VStack align="center" alignSelf="center" mx="auto">
               <Avatar src="https://bit.ly/broken-link" size="2xl" />
-              <Text
+              <Button
+                bg="none"
+                _hover={{ bg: "none" }}
                 color="pink.light"
                 fontWeight="800"
                 align="center"
                 fontSize={{ base: "md", md: "0.8rem" }}
+                // onClick ouvre une modale d'upload photo //
               >
+                {" "}
                 Changer votre photo
-              </Text>
+              </Button>
             </VStack>
           </Flex>
           <Flex
@@ -166,7 +235,13 @@ export default function ProAccountForm() {
               Depuis combien d'années exercez-vous ? *
             </FormLabel>
             <Flex justifyContent="left" gap="3">
-              <NumberInput max={50} min={0} w="80px">
+              <NumberInput
+                max={50}
+                min={0}
+                w="80px"
+                value={experiencePro}
+                onChange={(value) => setExperiencePro(value)}
+              >
                 <NumberInputField
                   id="proFormexperience"
                   name="experience"
@@ -202,7 +277,12 @@ export default function ProAccountForm() {
               Quel est le prix moyen de vos prestations ? *
             </FormLabel>
             <Flex justifyContent="left" gap="3">
-              <NumberInput min={0} w="80px">
+              <NumberInput
+                min={0}
+                w="80px"
+                value={pricePro}
+                onChange={(value) => setPricePro(value)}
+              >
                 <NumberInputField
                   id="proFormPrice"
                   name="price"
@@ -236,8 +316,8 @@ export default function ProAccountForm() {
               fontWeight: "500",
               color: "gray",
             }}
-            // value={signupFirstname}
-            // onChange={(e) => setSignupFirstname(e.target.value)}
+            value={descriptionPro}
+            onChange={(e) => setDescriptionPro(e.target.value)}
           />
 
           <FormLabel
@@ -248,25 +328,88 @@ export default function ProAccountForm() {
           >
             Sélectionnez un ou plusieurs services que vous proposez *
           </FormLabel>
-          <Input
-            type="text"
-            id="formProService"
-            name="Service"
-            placeholder="Choisissez un ou plusieurs services dans la liste, tapez des mots clés pour filtrer"
-            _placeholder={{
-              fontSize: "0.8rem",
-              fontWeight: "500",
-              color: "gray",
-            }}
-            // value={signupFirstname}
-            // onChange={(e) => setSignupFirstname(e.target.value)}
-          />
-
+          <Box borderColor="gray.200" borderWidth="1.5px" borderRadius="10px">
+            <List
+              display="flex"
+              justifyContent="left"
+              columnGap="3"
+              rowGap="2"
+              flexWrap="wrap"
+              h="fit-content"
+              w="fit-content"
+            >
+              {list.map((i) => (
+                <ListItem
+                  m="0.2rem"
+                  p="0.2rem"
+                  bgColor="#f2f5f7"
+                  display="flex"
+                  gap="2"
+                >
+                  <Text fontSize="0.9rem" fontWeight="400">
+                    {i}
+                  </Text>
+                  <IconButton as={CloseIcon} size="1px" alignSelf="center" />
+                </ListItem>
+              ))}
+            </List>
+            <Select
+              border="none"
+              type="text"
+              id="formProService"
+              name="Service"
+              fontSize="0.8rem"
+              fontWeight="500"
+              color="gray"
+              placeholder="Choisissez un ou plusieurs services dans la liste, tapez des mots clés pour filtrer"
+              // eslint-disable-next-line react/jsx-no-bind
+              onChange={selectionItem}
+            >
+              <option value="Conseils éducatifs">Conseils éducatifs</option>
+              <option value="Activités ludiques et sportives">
+                Activités ludiques et sportives
+              </option>
+              <option value="Garde d’enfant">Garde d’enfant</option>
+              <option value="Coaching professionnel">
+                Coaching professionnel
+              </option>
+              <option value="Compagnie et support social">
+                Compagnie et support social
+              </option>
+              <option value="Service original">Service original</option>
+              <option value="Aide à domicile">Aide à domicile</option>
+              <option value="Rééducation, paramédical">
+                Rééducation, paramédical
+              </option>
+              <option value="Soins personnels : toilette, habillement, …">
+                Soins personnels : toilette, habillement, …
+              </option>
+              <option value="Soins infirmiers">Soins infirmiers</option>
+              <option value="Aide administrative, démarches, dossiers">
+                Aide administrative, démarches, dossiers
+              </option>
+              <option value="Soutien scolaire">Soutien scolaire</option>
+              <option value="Soutien à la parentalité">
+                Soutien à la parentalité
+              </option>
+              <option value="Soutien psychologique">
+                Soutien psychologique
+              </option>
+              <option value="Transport, logistique, voyage">
+                Transport, logistique, voyage
+              </option>
+              <option value="Santé">Santé</option>
+              <option value="Bien être">Bien être</option>
+              <option value="Aide technique">Aide technique</option>
+              <option value="Agencement PMR">Agencement PMR</option>
+            </Select>
+          </Box>
           <Checkbox
             iconColor="pink.light"
             colorScheme="white"
             borderColor="gray"
             _checked={{ borderColor: "pink.light" }}
+            onChange={() => setAnnouncementPro(!announcementPro)}
           >
             Envoyez moi par email les annonces en rapport avec les services que
             je propose
@@ -480,18 +623,14 @@ export default function ProAccountForm() {
               fontWeight: "500",
               color: "gray",
             }}
-            // value={signupFirstname}
-            // onChange={(e) => setSignupFirstname(e.target.value)}
+            value={siretPro}
+            onChange={(e) => setSiretPro(e.target.value)}
           />
           <Text fontSize="xs" color="gray.light">
             Le numéro de Siret est un identifiant de 14 chiffres (exemple :
             12002701600357)
           </Text>
-          <Button
-            variant="solid_PrimaryColor"
-            type="button"
-            onClick={() => null()}
-          >
+          <Button variant="solid_PrimaryColor" type="submit">
             Enregistrer
           </Button>
           <Link
