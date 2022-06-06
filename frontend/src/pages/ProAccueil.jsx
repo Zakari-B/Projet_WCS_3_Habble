@@ -11,9 +11,11 @@ import {
   usePrefersReducedMotion,
 } from "@chakra-ui/react";
 
+import { VscChevronRight } from "react-icons/vsc";
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer";
 import admin from "../assets/admin.svg";
+import Carousel from "../components/ProAccueil/Carousel";
 
 const slideIn = keyframes`0% {background-position: 0% 0%} 50% {background-position: 100% 0%} 100% {background-position: 0% 0%}`;
 
@@ -24,7 +26,7 @@ function ProAccueil() {
 
   return (
     <Box>
-      <Header isSticky="true" />
+      <Header isSticky onDark={false} />
 
       <Box
         marginLeft={{ md: "3%", lg: "10%" }}
@@ -95,6 +97,7 @@ function ProAccueil() {
                 />
                 <Button variant="gradient" _hover={{ animation }}>
                   Je m'inscris maintenant
+                  <VscChevronRight size="s" />
                 </Button>
               </Flex>
             </Box>
@@ -229,6 +232,106 @@ function ProAccueil() {
             >
               Comment ça marche ?
             </Text>
+            <Carousel autoPlay>
+              <div>
+                <img
+                  alt=""
+                  src="http://lorempixel.com/output/cats-q-c-640-480-1.jpg"
+                />
+                <p className="legend">Legend 1</p>
+              </div>
+              <div>
+                <img
+                  alt=""
+                  src="http://lorempixel.com/output/cats-q-c-640-480-2.jpg"
+                />
+                <p className="legend">Legend 2</p>
+              </div>
+              <div>
+                <img
+                  alt=""
+                  src="http://lorempixel.com/output/cats-q-c-640-480-3.jpg"
+                />
+                <p className="legend">Legend 3</p>
+              </div>
+              <div>
+                <img
+                  alt=""
+                  src="http://lorempixel.com/output/cats-q-c-640-480-4.jpg"
+                />
+                <p className="legend">Legend 4</p>
+              </div>
+              <div>
+                <img
+                  alt=""
+                  src="http://lorempixel.com/output/cats-q-c-640-480-5.jpg"
+                />
+                <p className="legend">Legend 5</p>
+              </div>
+              <div>
+                <img
+                  alt=""
+                  src="http://lorempixel.com/output/cats-q-c-640-480-6.jpg"
+                />
+                <p className="legend">Legend 6</p>
+              </div>
+              <div>
+                <img
+                  alt=""
+                  src="http://lorempixel.com/output/cats-q-c-640-480-7.jpg"
+                />
+                <p className="legend">Legend 7</p>
+              </div>
+              <div>
+                <img
+                  alt=""
+                  src="http://lorempixel.com/output/cats-q-c-640-480-8.jpg"
+                />
+                <p className="legend">Legend 8</p>
+              </div>
+              <div>
+                <img
+                  alt=""
+                  src="http://lorempixel.com/output/cats-q-c-640-480-9.jpg"
+                />
+                <p className="legend">Legend 9</p>
+              </div>
+              <div>
+                <img
+                  alt=""
+                  src="http://lorempixel.com/output/cats-q-c-640-480-10.jpg"
+                />
+                <p className="legend">Legend 10</p>
+              </div>
+              <div>
+                <img
+                  alt=""
+                  src="http://lorempixel.com/output/cats-q-c-640-480-11.jpg"
+                />
+                <p className="legend">Legend 11</p>
+              </div>
+              <div>
+                <img
+                  alt=""
+                  src="http://lorempixel.com/output/cats-q-c-640-480-12.jpg"
+                />
+                <p className="legend">Legend 12</p>
+              </div>
+              <div>
+                <img
+                  alt=""
+                  src="http://lorempixel.com/output/cats-q-c-640-480-13.jpg"
+                />
+                <p className="legend">Legend 13</p>
+              </div>
+              <div>
+                <img
+                  alt=""
+                  src="http://lorempixel.com/output/cats-q-c-640-480-14.jpg"
+                />
+                <p className="legend">Legend 14</p>
+              </div>
+            </Carousel>
             <Flex
               direction="column"
               marginLeft="30%"
@@ -310,7 +413,7 @@ function ProAccueil() {
                   }}
                 />
                 <Button variant="gradient" marginBottom="5rem">
-                  Je m'inscris
+                  Je m'inscris <VscChevronRight size="s" />
                 </Button>
               </Flex>
             </Box>
@@ -511,7 +614,9 @@ function ProAccueil() {
             <Text marginTop="6rem" variant="titleH5" textAlign="center">
               Fonctionnalités
             </Text>
-            {/* carroussel */}
+            <Box marginY="10%">
+              <Carousel />
+            </Box>
           </Box>
         </Box>
       </Box>
@@ -555,7 +660,7 @@ function ProAccueil() {
                 }}
               />
               <Button marginBottom="2rem" variant="outlineWhitePink">
-                Je m'inscris, c'est gratuit !
+                Je m'inscris, c'est gratuit ! <VscChevronRight size="s" />
               </Button>
             </Flex>
           </Box>

@@ -2,7 +2,7 @@ import { Flex, Box } from "@chakra-ui/react";
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer";
 
-export default function Confidentialite() {
+export default function ProfilPageProfessional() {
   return (
     <Box h="100vh">
       <Header onDark={false} isSticky={false} />

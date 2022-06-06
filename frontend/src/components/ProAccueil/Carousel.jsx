@@ -1,155 +1,169 @@
 import React from "react";
-import InfiniteCarousel from "react-leaf-carousel";
+import { Text, Image, Box, Divider } from "@chakra-ui/react";
+import { Carousel } from "react-responsive-carousel";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
 
-function Carousel() {
+function CarouselImages() {
   return (
-    <InfiniteCarousel
-      breakpoints={[
-        {
-          breakpoint: 500,
-          settings: {
-            slidesToShow: 2,
-            slidesToScroll: 2,
-          },
-        },
-        {
-          breakpoint: 768,
-          settings: {
-            slidesToShow: 3,
-            slidesToScroll: 3,
-          },
-        },
-      ]}
-      dots
-      showSides
-      sidesOpacity={0.5}
-      sideSize={0.1}
-      slidesToScroll={4}
-      slidesToShow={4}
-      scrollOnDevice
+    <Carousel
+      centerMode
+      centerSlidePercentage="34"
+      infiniteLoop
+      autoPlay={false}
+      showStatus={false}
+      showIndicators={false}
+      showThumbs={false}
+      dynamicHeight={false}
     >
-      <div>
-        <img
-          alt=""
-          src="https://placeholdit.imgix.net/~text?txtsize=20&bg=55b64e&txtclr=ffffff&txt=215%C3%97215&w=215&h=215"
+      <Box marginX="3rem" role="group">
+        <Image boxSize="2.4rem" src="../src/assets/messagerie.svg" alt="test" />
+        <Text
+          variant="corpsBold"
+          fontSize="0.8rem"
+          marginTop="1rem"
+          marginBottom="1rem"
+        >
+          Messagerie
+        </Text>
+        <Text variant="corps" fontSize="0.8rem" marginBottom="2rem">
+          Echangez par messagerie (chat en ligne) pour discuter directement des
+          détails avec les personnes.
+        </Text>
+        <Divider
+          opacity="0%"
+          height="3px"
+          _groupHover={{
+            hidden: "false",
+            bgGradient:
+              "linear-gradient(to right, #6541c1 0%, #d43396 98%, #d43396 100%)",
+            opacity: "100%",
+            height: "3px",
+            width: "100%",
+            animationScale: "1s scale(1)",
+            animation: "ease-in-out 4s infinite",
+          }}
         />
-      </div>
-      <div>
-        <img
-          alt=""
-          src="https://placeholdit.imgix.net/~text?txtsize=20&bg=904098&txtclr=ffffff&txt=215%C3%97215&w=215&h=215"
+      </Box>
+      <Box marginX="3rem" role="group">
+        <Image boxSize="2.4rem" src="../src/assets/annuaire.svg" alt="test" />
+        <Text
+          variant="corpsBold"
+          fontSize="0.8rem"
+          marginTop="1rem"
+          marginBottom="1rem"
+        >
+          Garanties
+        </Text>
+        <Text variant="corps" fontSize="0.8rem" marginBottom="2rem">
+          Notre charte qualité vise au confort, à la sérénité et à la sécurité
+          de tous. Nous sommes un tiers de confiance qui facilite la mise en
+          relation.
+        </Text>
+        <Divider
+          opacity="0%"
+          height="3px"
+          _groupHover={{
+            hidden: "false",
+            bgGradient:
+              "linear-gradient(to right, #6541c1 0%, #d43396 98%, #d43396 100%)",
+            opacity: "100%",
+            height: "3px",
+            width: "100%",
+            animationScale: "1s scale(1)",
+            animation: "ease-in-out 4s infinite",
+          }}
         />
-      </div>
-      <div>
-        <img
-          alt=""
-          src="https://placeholdit.imgix.net/~text?txtsize=20&bg=ef4d9c&txtclr=ffffff&txt=215%C3%97215&w=215&h=215"
+      </Box>
+      <Box marginX="3rem" role="group">
+        <Image boxSize="2.4rem" src="../src/assets/messagerie.svg" alt="test" />
+        <Text
+          variant="corpsBold"
+          fontSize="0.8rem"
+          marginTop="1rem"
+          marginBottom="1rem"
+        >
+          Infos pratiques
+        </Text>
+        <Text variant="corps" fontSize="0.8rem" marginBottom="2rem">
+          Nous mettons à disposition des contenus pour faciliter votre exercice
+          professionnel. Vous pouvez partager vos outils ou échanger sur votre
+          pratique.
+        </Text>
+        <Divider
+          opacity="0%"
+          height="3px"
+          _groupHover={{
+            hidden: "false",
+            bgGradient:
+              "linear-gradient(to right, #6541c1 0%, #d43396 98%, #d43396 100%)",
+            opacity: "100%",
+            height: "3px",
+            width: "100%",
+            animationScale: "1s scale(1)",
+            animation: "ease-in-out 4s infinite",
+          }}
         />
-      </div>
-      <div>
-        <img
-          alt=""
-          src="https://placeholdit.imgix.net/~text?txtsize=20&bg=00f3d1&txtclr=ffffff&txt=215%C3%97215&w=215&h=215"
+      </Box>
+      <Box marginX="3rem" role="group">
+        <Image boxSize="2.4rem" src="../src/assets/annuaire.svg" alt="test" />
+        <Text
+          variant="corpsBold"
+          fontSize="0.8rem"
+          marginTop="1rem"
+          marginBottom="1rem"
+        >
+          Tableau de bord
+        </Text>
+        <Text variant="corps" fontSize="0.8rem" marginBottom="2rem">
+          Suivez vos prestations simplement: demandes en cours, agenda, infos
+          clés (projet de la personne, fiche de liaison d’urgence)
+        </Text>
+        <Divider
+          opacity="0%"
+          height="3px"
+          _groupHover={{
+            hidden: "false",
+            bgGradient:
+              "linear-gradient(to right, #6541c1 0%, #d43396 98%, #d43396 100%)",
+            opacity: "100%",
+            height: "3px",
+            width: "100%",
+            animationScale: "1s scale(1)",
+            animation: "ease-in-out 4s infinite",
+          }}
         />
-      </div>
-      <div>
-        <img
-          alt=""
-          src="https://placeholdit.imgix.net/~text?txtsize=20&bg=00ffff&txtclr=ffffff&txt=215%C3%97215&w=215&h=215"
+      </Box>
+      <Box marginX="3rem" role="group">
+        <Image boxSize="2.4rem" src="../src/assets/annuaire.svg" alt="test" />
+        <Text
+          variant="corpsBold"
+          fontSize="0.8rem"
+          marginTop="1rem"
+          marginBottom="1rem"
+        >
+          Annuaire en ligne
+        </Text>
+        <Text variant="corps" fontSize="0.8rem" marginBottom="2rem">
+          Présentez vos prestations et compétences. Indiquez vos disponibilités
+          puis recevez des demandes de personnes concernées
+        </Text>
+        <Divider
+          opacity="0%"
+          height="3px"
+          _groupHover={{
+            hidden: "false",
+            bgGradient:
+              "linear-gradient(to right, #6541c1 0%, #d43396 98%, #d43396 100%)",
+            opacity: "100%",
+            height: "3px",
+            width: "100%",
+            animationScale: "1s scale(1)",
+            animation: "ease-in-out 4s infinite",
+          }}
         />
-      </div>
-      <div>
-        <img
-          alt=""
-          src="https://placeholdit.imgix.net/~text?txtsize=20&bg=ee1f34&txtclr=ffffff&txt=215%C3%97215&w=215&h=215"
-        />
-      </div>
-      <div>
-        <img
-          alt=""
-          src="https://placeholdit.imgix.net/~text?txtsize=20&bg=91b4c0&txtclr=ffffff&txt=215%C3%97215&w=215&h=215"
-        />
-      </div>
-      <div>
-        <img
-          alt=""
-          src="https://placeholdit.imgix.net/~text?txtsize=20&bg=ff6347&txtclr=ffffff&txt=215%C3%97215&w=215&h=215"
-        />
-      </div>
-      <div>
-        <img
-          alt=""
-          src="https://placeholdit.imgix.net/~text?txtsize=20&bg=ebbfbf&txtclr=ffffff&txt=215%C3%97215&w=215&h=215"
-        />
-      </div>
-      <div>
-        <img
-          alt=""
-          src="https://placeholdit.imgix.net/~text?txtsize=20&bg=def1f9&txtclr=ffffff&txt=215%C3%97215&w=215&h=215"
-        />
-      </div>
-      <div>
-        <img
-          alt=""
-          src="https://placeholdit.imgix.net/~text?txtsize=20&bg=cdf2c6&txtclr=ffffff&txt=215%C3%97215&w=215&h=215"
-        />
-      </div>
-      <div>
-        <img
-          alt=""
-          src="https://placeholdit.imgix.net/~text?txtsize=20&bg=9fa616&txtclr=ffffff&txt=215%C3%97215&w=215&h=215"
-        />
-      </div>
-      <div>
-        <img
-          alt=""
-          src="https://placeholdit.imgix.net/~text?txtsize=20&bg=2c4caa&txtclr=ffffff&txt=215%C3%97215&w=215&h=215"
-        />
-      </div>
-      <div>
-        <img
-          alt=""
-          src="https://placeholdit.imgix.net/~text?txtsize=20&bg=44e3e1&txtclr=ffffff&txt=215%C3%97215&w=215&h=215"
-        />
-      </div>
-      <div>
-        <img
-          alt=""
-          src="https://placeholdit.imgix.net/~text?txtsize=20&bg=ff6666&txtclr=ffffff&txt=215%C3%97215&w=215&h=215"
-        />
-      </div>
-      <div>
-        <img
-          alt=""
-          src="https://placeholdit.imgix.net/~text?txtsize=20&bg=94e1e3&txtclr=ffffff&txt=215%C3%97215&w=215&h=215"
-        />
-      </div>
-      <div>
-        <img
-          alt=""
-          src="https://placeholdit.imgix.net/~text?txtsize=20&bg=29083c&txtclr=ffffff&txt=215%C3%97215&w=215&h=215"
-        />
-      </div>
-      <div>
-        <img
-          alt=""
-          src="https://placeholdit.imgix.net/~text?txtsize=20&bg=ffff99&txtclr=ffffff&txt=215%C3%97215&w=215&h=215"
-        />
-      </div>
-      <div>
-        <img
-          alt=""
-          src="https://placeholdit.imgix.net/~text?txtsize=20&bg=616161&txtclr=ffffff&txt=215%C3%97215&w=215&h=215"
-        />
-      </div>
-      <div>
-        <img
-          alt=""
-          src="https://placeholdit.imgix.net/~text?txtsize=20&bg=ed7ebe&txtclr=ffffff&txt=215%C3%97215&w=215&h=215"
-        />
-      </div>
-    </InfiniteCarousel>
+      </Box>
+    </Carousel>
   );
 }
 
-export default Carousel;
+export default CarouselImages;
