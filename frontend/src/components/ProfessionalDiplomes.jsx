@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import {
-  useDisclosure,
   Box,
   Heading,
   Flex,
@@ -12,13 +11,12 @@ import {
   Input,
   Select,
   Textarea,
-  Collapse,
 } from "@chakra-ui/react";
 import getDropList from "../services/Utils";
 
 function ProfessionalDiplomes() {
   const [yearList, setYearList] = useState([]);
-  const { isOpen, onToggle } = useDisclosure();
+  const [showForm, setShowForm] = useState(false);
 
   const [title, setTitle] = useState("");
   const [delivered, setDelivered] = useState("");
@@ -33,16 +31,24 @@ function ProfessionalDiplomes() {
     setTitle(e.target.value);
   };
   const handleDeliverChange = (e) => {
+    e.preventDefault();
     setDelivered(e.target.value);
   };
   const handleMonthChange = (e) => {
+    e.preventDefault();
     setMonthDelivered(e.target.value);
   };
   const handleYearChange = (e) => {
+    e.preventDefault();
     setYearDelivered(e.target.value);
   };
   const handleDescChange = (e) => {
+    e.preventDefault();
     setDescription(e.target.value);
+  };
+
+  const handleChangeForm = () => {
+    setShowForm(!showForm);
   };
   const handleReset = () => {
     setTitle("");
@@ -50,6 +56,7 @@ function ProfessionalDiplomes() {
     setMonthDelivered("");
     setYearDelivered("");
     setDescription("");
+    handleChangeForm();
   };
 
   useEffect(() => {
@@ -72,12 +79,17 @@ function ProfessionalDiplomes() {
         <Heading as="h4" mt="2rem" ml="1rem" fontSize="1.5rem" color="#342c50">
           Diplômes, certifications
         </Heading>
-        <Button mt="2rem" mr="1rem" variant="outline_Pink" onClick={onToggle}>
+        <Button
+          mt="2rem"
+          mr="1rem"
+          variant="outline_Pink"
+          onClick={handleChangeForm}
+        >
           Ajouter
         </Button>
       </Flex>
 
-      <Collapse in={isOpen} animateOpacity>
+      {showForm && (
         <FormControl ml="1rem" mt="1rem" mb="1rem" onSubmit={handleSubmit}>
           <Flex flexDir="column">
             <Input
@@ -147,15 +159,14 @@ function ProfessionalDiplomes() {
               w="65%"
               mt="1rem"
               variant="solid_SecondaryColor"
-              onClick={(onToggle, handleReset)}
+              onClick={handleReset}
             >
               Annuler
             </Button>
           </Flex>
         </FormControl>
-      </Collapse>
-
-      {!isOpen && (
+      )}
+      {!showForm && (
         <Text color="#656565" ml="1rem" pb="1rem" fontSize="md" mt="1rem">
           Ajoutez une certification professionnelle à votre profil. (optionnel)
         </Text>
