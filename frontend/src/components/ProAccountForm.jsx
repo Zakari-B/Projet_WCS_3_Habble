@@ -24,13 +24,22 @@ import {
   List,
   ListItem,
   IconButton,
+  useDisclosure,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  ModalBody,
+  Image,
 } from "@chakra-ui/react";
 
+import axios from "axios";
 import { CloseIcon } from "@chakra-ui/icons";
 import { useState } from "react";
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { useNavigate } from "react-router";
-import axios from "axios";
+import testImage from "../assets/conseils-educatifs.jpg";
 
 export default function ProAccountForm() {
   // fonction qui recupère le nom et prénom de l'utilisateur //
@@ -46,6 +55,8 @@ export default function ProAccountForm() {
   // fonction qui post les valeurs dans la table proDetails + redirige vers la page profil //
   const navigate = useNavigate();
 
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   const postProDetails = (e) => {
     e.preventDefault();
     axios
@@ -54,10 +65,12 @@ export default function ProAccountForm() {
         // activityPro: activityPro,
         // cityPro: cityPro,
         // phonePro: phonePro,
-        // experiencePro: experiencePro,
+        // profilPicturePro : profilPicturePr,
+        // experienceYearPro: experienceYearPro,
         // pricePro: pricePro,
         // descriptionPro: descriptionPro,
-        // announcementPro: announcementPro,
+        // tags : tags,
+        // acceptEmailPro: acceptEmailPro,
         // siretPro: siretPro,
       })
       .then(() => {
@@ -68,24 +81,32 @@ export default function ProAccountForm() {
 
   // useState pour chaque input //
   // const [name, setName] = useState(`${users.firstname}${users.lastname}`);
-  const [name, setName] = useState("");
+  const [displayName, setDisplayName] = useState("");
   const [activityPro, setActivityPro] = useState("");
   const [cityPro, setCityPro] = useState("");
   const [phonePro, setPhonePro] = useState("");
-  const [experiencePro, setExperiencePro] = useState("");
+  // const [profilPicturePro, setProfilPicturePro] = useState(
+  //   "https://bit.ly/broken-link"
+  // );
+  const [experienceYearPro, setExperienceYearPro] = useState("");
   const [pricePro, setPricePro] = useState("");
   const [descriptionPro, setDescriptionPro] = useState("");
-  const [announcementPro, setAnnouncementPro] = useState(false);
+  const [tags, setTags] = useState([]);
+  const [acceptEmailPro, setAcceptEmailPro] = useState(false);
   const [siretPro, setSiretPro] = useState("");
 
-  const [list] = useState([]);
-  const [item, setItem] = useState("");
+  // fonction retrait d'un item //
+  const removeItem = (indexToRemove) => {
+    setTags([...tags.filter((_, index) => index !== indexToRemove)]);
+  };
 
-  function selectionItem(e) {
-    setItem(e.target.value);
-    // setList([e.target.value]);
-    list.push(item);
-  }
+  // fonction retrait d'ajout d'un item //
+  const addItem = (e) => {
+    if (e.target.value !== "") {
+      setTags([...tags, e.target.value]);
+      e.target.value = "";
+    }
+  };
 
   return (
     <Flex bgColor="background.gray" direction="column" justify="flex-start">
@@ -133,8 +154,8 @@ export default function ProAccountForm() {
                   fontWeight: "500",
                   color: "gray",
                 }}
-                value={name}
-                onChange={(e) => setName(e.target.value)}
+                value={displayName}
+                onChange={(e) => setDisplayName(e.target.value)}
               />
               <FormLabel
                 htmlFor="activity"
@@ -211,11 +232,82 @@ export default function ProAccountForm() {
                 fontWeight="800"
                 align="center"
                 fontSize={{ base: "md", md: "0.8rem" }}
-                // onClick ouvre une modale d'upload photo //
+                onClick={onOpen}
               >
                 {" "}
                 Changer votre photo
               </Button>
+              <Modal isOpen={isOpen} onClose={onClose}>
+                <ModalOverlay />
+                <ModalContent
+                  w="80%"
+                  maxW="800px"
+                  minH="500px"
+                  h="fix-content"
+                  borderRadius="25px"
+                >
+                  <ModalHeader
+                    fontSize="sm"
+                    fontWeight="600"
+                    color="#415161"
+                    lineHeight="1.6em"
+                    p="30px"
+                    borderBottom="1px solid #dbdbdb"
+                  >
+                    Votre plus beau profil
+                    <ModalCloseButton
+                      _hover={{ bgColor: "none" }}
+                      size="lg"
+                      iconColor="#415161"
+                      p="30px"
+                    />
+                  </ModalHeader>
+                  <ModalBody>
+                    <FormControl>
+                      <Box h="150px" alignSelf="left">
+                        <Box
+                          border="3px solid pink"
+                          position="absolute"
+                          h="150px"
+                          w="150px"
+                          mx="40%"
+                        >
+                          bla
+                        </Box>
+                        <Box h="150px" w="100%">
+                          <Image src={testImage} m="auto" h="150px" />
+                        </Box>
+                      </Box>
+                      <Flex
+                        direction="column"
+                        alignItems="center"
+                        mt="5rem"
+                        gap="5"
+                      >
+                        <Button
+                          w="100px"
+                          variant="solid_PrimaryColor"
+                          type="submit"
+                        >
+                          Enregistrer
+                        </Button>
+                        <Button
+                          bg="none"
+                          _hover={{ bg: "none", color: "pink.light" }}
+                          color="gray"
+                          fontWeight="600"
+                          align="center"
+                          fontSize={{ base: "md", md: "0.8rem" }}
+                          onClick={onOpen}
+                        >
+                          {" "}
+                          Changer de photo
+                        </Button>
+                      </Flex>
+                    </FormControl>
+                  </ModalBody>
+                </ModalContent>
+              </Modal>
             </VStack>
           </Flex>
           <Flex
@@ -239,8 +331,8 @@ export default function ProAccountForm() {
                 max={50}
                 min={0}
                 w="80px"
-                value={experiencePro}
-                onChange={(value) => setExperiencePro(value)}
+                value={experienceYearPro}
+                onChange={(value) => setExperienceYearPro(value)}
               >
                 <NumberInputField
                   id="proFormexperience"
@@ -338,18 +430,23 @@ export default function ProAccountForm() {
               h="fit-content"
               w="fit-content"
             >
-              {list.map((i) => (
+              {tags.map((element, index) => (
                 <ListItem
                   m="0.2rem"
                   p="0.2rem"
                   bgColor="#f2f5f7"
                   display="flex"
-                  gap="2"
                 >
                   <Text fontSize="0.9rem" fontWeight="400">
-                    {i}
+                    {element}
                   </Text>
-                  <IconButton as={CloseIcon} size="1px" alignSelf="center" />
+                  <IconButton
+                    as={CloseIcon}
+                    boxSize="12px"
+                    alignSelf="center"
+                    _hover={{ bgColor: "none" }}
+                    onClick={() => removeItem(index)}
+                  />
                 </ListItem>
               ))}
             </List>
@@ -363,7 +460,10 @@ export default function ProAccountForm() {
               color="gray"
               placeholder="Choisissez un ou plusieurs services dans la liste, tapez des mots clés pour filtrer"
               // eslint-disable-next-line react/jsx-no-bind
-              onChange={selectionItem}
+              onChange={addItem}
+              onKeyUp={(event) =>
+                event.key === "Enter" ? addItem(event) : null
+              }
             >
               <option value="Conseils éducatifs">Conseils éducatifs</option>
               <option value="Activités ludiques et sportives">
@@ -409,7 +509,7 @@ export default function ProAccountForm() {
             colorScheme="white"
             borderColor="gray"
             _checked={{ borderColor: "pink.light" }}
-            onChange={() => setAnnouncementPro(!announcementPro)}
+            onChange={() => setAcceptEmailPro(!acceptEmailPro)}
           >
             Envoyez moi par email les annonces en rapport avec les services que
             je propose
