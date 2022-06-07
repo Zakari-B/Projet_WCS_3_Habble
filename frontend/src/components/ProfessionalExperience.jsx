@@ -93,9 +93,11 @@ function ProfessionalExperience() {
         <Heading as="h4" mt="2rem" ml="1rem" fontSize="1.5rem" color="#342c50">
           Expériences professionnelles
         </Heading>
-        <Button mt="2rem" mr="1rem" variant="outline_Pink" onClick={onToggle}>
-          Ajouter
-        </Button>
+        {!isOpen && (
+          <Button mt="2rem" mr="1rem" variant="outline_Pink" onClick={onToggle}>
+            Ajouter
+          </Button>
+        )}
       </Flex>
       <Collapse in={isOpen} animateOpacity>
         <FormControl

@@ -11,14 +11,12 @@ import {
   Input,
   Select,
   Textarea,
-  Collapse,
-  useDisclosure,
 } from "@chakra-ui/react";
 import getDropList from "../services/Utils";
 
 function ProfessionalDiplomes() {
   const [yearList, setYearList] = useState([]);
-  const { isOpen, onToggle } = useDisclosure();
+  const [showForm, setShowForm] = useState(false);
 
   const [title, setTitle] = useState("");
   const [delivered, setDelivered] = useState("");
@@ -49,8 +47,9 @@ function ProfessionalDiplomes() {
     setDescription(e.target.value);
   };
 
-  const handleChangeForm = () => onToggle(!isOpen);
-
+  const handleChangeForm = () => {
+    setShowForm(!showForm);
+  };
   const handleReset = () => {
     setTitle("");
     setDelivered("");
@@ -80,18 +79,18 @@ function ProfessionalDiplomes() {
         <Heading as="h4" mt="2rem" ml="1rem" fontSize="1.5rem" color="#342c50">
           Diplômes, certifications
         </Heading>
-        <Button mt="2rem" mr="1rem" variant="outline_Pink" onClick={onToggle}>
+        <Button
+          mt="2rem"
+          mr="1rem"
+          variant="outline_Pink"
+          onClick={handleChangeForm}
+        >
           Ajouter
         </Button>
       </Flex>
-      <Collapse in={isOpen} animateOpacity>
-        <FormControl
-          ml="1rem"
-          mt="1rem"
-          mb="1rem"
-          onSubmit={handleSubmit}
-          transition="all 0.3s ease-in-out"
-        >
+
+      {showForm && (
+        <FormControl ml="1rem" mt="1rem" mb="1rem" onSubmit={handleSubmit}>
           <Flex flexDir="column">
             <Input
               placeholder="Nom de la certification"
@@ -166,13 +165,12 @@ function ProfessionalDiplomes() {
             </Button>
           </Flex>
         </FormControl>
-      </Collapse>
-      {!isOpen && (
+      )}
+      {!showForm && (
         <Text color="#656565" ml="1rem" pb="1rem" fontSize="md" mt="1rem">
           Ajoutez une certification professionnelle à votre profil. (optionnel)
         </Text>
       )}
-      ;
     </Box>
   );
 }
