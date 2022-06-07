@@ -3,6 +3,9 @@ import { Text, Image, Box, Divider } from "@chakra-ui/react";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 
+import messagerie from "../../assets/messagerie.svg";
+import annuaire from "../../assets/annuaire.svg";
+
 function CarouselImages() {
   return (
     <Carousel
@@ -16,7 +19,7 @@ function CarouselImages() {
       dynamicHeight={false}
     >
       <Box marginX="3rem" role="group">
-        <Image boxSize="2.4rem" src="../src/assets/messagerie.svg" alt="test" />
+        <Image boxSize="2.4rem" src={messagerie} alt="test" />
         <Text
           variant="corpsBold"
           fontSize="0.8rem"
@@ -45,7 +48,7 @@ function CarouselImages() {
         />
       </Box>
       <Box marginX="3rem" role="group">
-        <Image boxSize="2.4rem" src="../src/assets/annuaire.svg" alt="test" />
+        <Image boxSize="2.4rem" src={annuaire} alt="test" />
         <Text
           variant="corpsBold"
           fontSize="0.8rem"
@@ -105,7 +108,7 @@ function CarouselImages() {
         />
       </Box>
       <Box marginX="3rem" role="group">
-        <Image boxSize="2.4rem" src="../src/assets/annuaire.svg" alt="test" />
+        <Image boxSize="2.4rem" src={annuaire} alt="test" />
         <Text
           variant="corpsBold"
           fontSize="0.8rem"
@@ -134,7 +137,7 @@ function CarouselImages() {
         />
       </Box>
       <Box marginX="3rem" role="group">
-        <Image boxSize="2.4rem" src="../src/assets/annuaire.svg" alt="test" />
+        <Image boxSize="2.4rem" src={annuaire} alt="test" />
         <Text
           variant="corpsBold"
           fontSize="0.8rem"

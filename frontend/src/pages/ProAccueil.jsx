@@ -21,7 +21,6 @@ import checkbox from "../assets/checkbox.png";
 import accueil from "../assets/listing-pros-iphone-600x575-2.png";
 import coche from "../assets/coche.png";
 import barreCarousel from "../assets/barre-carousel.png";
-import mockup from "../assets/iphone-mockup.png";
 import choisissez from "../assets/choisissez.svg";
 import realisez from "../assets/realisez.svg";
 import accessCareNetwork from "../assets/access-care-network.png";
@@ -227,23 +226,16 @@ function ProAccueil() {
             </Flex>
           </Flex>
           <Box>
-            <Flex marginLeft="10%" justify="space-around">
-              <Box
+            <Flex justify="space-between" width="100%" align="center">
+              <Flex
                 bgImage="url('../src/assets/cercle.png')"
                 bgRepeat="no-repeat"
-                bgSize="60%"
-                bgOrigin="content-box"
+                bgPosition="center"
+                bgSize="90%"
+                boxSize={{ base: "80%", xl: "40%" }}
               >
-                <Image
-                  src={mockup}
-                  position="absolute"
-                  width="12%"
-                  zIndex="10"
-                />
-                <Box boxSize="52%" position="relative" left="8px">
-                  <CarouselWorking />
-                </Box>
-              </Box>
+                <CarouselWorking />
+              </Flex>
 
               <Flex
                 direction="column"
