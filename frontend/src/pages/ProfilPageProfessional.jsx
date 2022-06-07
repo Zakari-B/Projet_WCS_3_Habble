@@ -1,7 +1,7 @@
 import { Flex, Box } from "@chakra-ui/react";
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer";
-import ProfessionalDiplomes from "../components/ProfessionalDiplomes";
+import ProfessionalExperience from "../components/ProfessionalExperience";
 
 export default function ProfilPageProfessional() {
   return (
@@ -11,7 +11,7 @@ export default function ProfilPageProfessional() {
         <Flex w="70%" gap="20px" m="auto" paddingY="30px">
           <Flex bgColor="red" minW="33%" minH="20vh" />
           <Flex bgColor="blue" minW="66%">
-            <ProfessionalDiplomes />
+            <ProfessionalExperience />
           </Flex>
         </Flex>
       </Flex>

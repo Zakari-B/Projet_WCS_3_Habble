@@ -13,17 +13,20 @@ import {
   Textarea,
   Collapse,
   useDisclosure,
+  Checkbox,
 } from "@chakra-ui/react";
 import getDropList from "../services/Utils";
 
-function ProfessionalDiplomes() {
+function ProfessionalExperience() {
   const [yearList, setYearList] = useState([]);
   const { isOpen, onToggle } = useDisclosure();
 
   const [title, setTitle] = useState("");
-  const [delivered, setDelivered] = useState("");
-  const [monthDelivered, setMonthDelivered] = useState("");
-  const [yearDelivered, setYearDelivered] = useState("");
+  const [company, setCompany] = useState("");
+  const [fromMonth, setFromMonth] = useState("");
+  const [fromYear, setFromYear] = useState("");
+  const [toMonth, setToMonth] = useState("");
+  const [toYear, setToYear] = useState("");
   const [description, setDescription] = useState("");
 
   const handleSubmit = (event) => event.preventDefault();
@@ -34,15 +37,23 @@ function ProfessionalDiplomes() {
   };
   const handleDeliverChange = (e) => {
     e.preventDefault();
-    setDelivered(e.target.value);
+    setCompany(e.target.value);
   };
-  const handleMonthChange = (e) => {
+  const handleFromMonthChange = (e) => {
     e.preventDefault();
-    setMonthDelivered(e.target.value);
+    setFromMonth(e.target.value);
   };
-  const handleYearChange = (e) => {
+  const handleFromYearChange = (e) => {
     e.preventDefault();
-    setYearDelivered(e.target.value);
+    setFromYear(e.target.value);
+  };
+  const handleToMonthChange = (e) => {
+    e.preventDefault();
+    setToMonth(e.target.value);
+  };
+  const handleToYearChange = (e) => {
+    e.preventDefault();
+    setToYear(e.target.value);
   };
   const handleDescChange = (e) => {
     e.preventDefault();
@@ -53,9 +64,11 @@ function ProfessionalDiplomes() {
 
   const handleReset = () => {
     setTitle("");
-    setDelivered("");
-    setMonthDelivered("");
-    setYearDelivered("");
+    setCompany("");
+    setFromMonth("");
+    setFromYear("");
+    setToMonth("");
+    setToYear("");
     setDescription("");
     handleChangeForm();
   };
@@ -78,7 +91,7 @@ function ProfessionalDiplomes() {
     >
       <Flex justifyContent="space-between">
         <Heading as="h4" mt="2rem" ml="1rem" fontSize="1.5rem" color="#342c50">
-          Diplômes, certifications
+          Expériences professionnelles
         </Heading>
         <Button mt="2rem" mr="1rem" variant="outline_Pink" onClick={onToggle}>
           Ajouter
@@ -94,17 +107,17 @@ function ProfessionalDiplomes() {
         >
           <Flex flexDir="column">
             <Input
-              placeholder="Nom de la certification"
+              placeholder="Titre"
               w="65%"
               onChange={handleTitleChange}
               value={title}
             />
             <Input
-              placeholder="Délivré par"
+              placeholder="Entreprise"
               w="65%"
               mt="0.5rem"
               onChange={handleDeliverChange}
-              value={delivered}
+              value={company}
             />
             <FormLabel
               htmlFor="date"
@@ -114,14 +127,14 @@ function ProfessionalDiplomes() {
               color="#2F1D2C"
               mt="1rem"
             >
-              Date d'obtention
+              Du
             </FormLabel>
             <HStack>
               <Select
                 w="32.1%"
                 placeholder="Mois"
-                onChange={handleMonthChange}
-                value={monthDelivered}
+                onChange={handleFromMonthChange}
+                value={fromMonth}
               >
                 <option>Janvier</option>
                 <option>Février</option>
@@ -139,12 +152,54 @@ function ProfessionalDiplomes() {
               <Select
                 w="32.1%"
                 placeholder="Année"
-                onChange={handleYearChange}
-                value={yearDelivered}
+                onChange={handleFromYearChange}
+                value={fromYear}
               >
                 {yearList.map((year) => year)}
               </Select>
             </HStack>
+            <FormLabel
+              htmlFor="date"
+              fontSize="xl"
+              fontWeight="bold"
+              lineHeight="28px"
+              color="#2F1D2C"
+              mt="1rem"
+            >
+              Au
+            </FormLabel>
+            <HStack>
+              <Select
+                w="32.1%"
+                placeholder="Mois"
+                onChange={handleToMonthChange}
+                value={toMonth}
+              >
+                <option>Janvier</option>
+                <option>Février</option>
+                <option>Mars</option>
+                <option>Avril</option>
+                <option>Mai</option>
+                <option>Juin</option>
+                <option>Juillet</option>
+                <option>Août</option>
+                <option>Septembre</option>
+                <option>Octobre</option>
+                <option>Novembre</option>
+                <option>Décembre</option>
+              </Select>
+              <Select
+                w="32.1%"
+                placeholder="Année"
+                onChange={handleToYearChange}
+                value={toYear}
+              >
+                {yearList.map((year) => year)}
+              </Select>
+            </HStack>
+            <Checkbox mt="0.5rem" colorScheme="pink">
+              Y travaille actuellement
+            </Checkbox>
             <Textarea
               w="65%"
               mt="0.5rem"
@@ -177,4 +232,4 @@ function ProfessionalDiplomes() {
   );
 }
 
-export default ProfessionalDiplomes;
+export default ProfessionalExperience;
