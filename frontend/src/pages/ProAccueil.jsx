@@ -10,9 +10,27 @@ import {
   keyframes,
   usePrefersReducedMotion,
 } from "@chakra-ui/react";
+
+import { VscChevronRight } from "react-icons/vsc";
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer";
 import admin from "../assets/admin.svg";
+import Carousel from "../components/ProAccueil/CarouselImages";
+import CarouselWorking from "../components/ProAccueil/CarouselWorking";
+import checkbox from "../assets/checkbox.png";
+import accueil from "../assets/listing-pros-iphone-600x575-2.png";
+import coche from "../assets/coche.png";
+import barreCarousel from "../assets/barre-carousel.png";
+import choisissez from "../assets/choisissez.svg";
+import realisez from "../assets/realisez.svg";
+import accessCareNetwork from "../assets/access-care-network.png";
+import care from "../assets/care.svg";
+import psychologyHead from "../assets/psychology-head.svg";
+import education from "../assets/education.svg";
+import wheelchairTransport from "../assets/wheelchair_transport.svg";
+import reCouleur from "../assets/logo_horizontal_re_couleur_nord.png";
+import logoEvident from "../assets/logo-evident.png";
+import icone3Couleur from "../assets/icone3-couleur.png";
 
 const slideIn = keyframes`0% {background-position: 0% 0%} 50% {background-position: 100% 0%} 100% {background-position: 0% 0%}`;
 
@@ -23,7 +41,7 @@ function ProAccueil() {
 
   return (
     <Box>
-      <Header isSticky="true" />
+      <Header isSticky onDark={false} />
 
       <Box
         marginLeft={{ md: "3%", lg: "10%" }}
@@ -45,31 +63,19 @@ function ProAccueil() {
                 et trouvez rapidement des missions
               </Text>
               <Flex align="center" marginBottom="2rem">
-                <Image
-                  boxSize="2.3rem"
-                  src="../src/assets/checkbox.png"
-                  marginRight="0.5rem"
-                />
+                <Image boxSize="2.3rem" src={checkbox} marginRight="0.5rem" />
                 <Text align="left" variant="titleH2">
                   Développez votre visibilité gratuitement
                 </Text>
               </Flex>
               <Flex align="center" marginBottom="2rem">
-                <Image
-                  boxSize="2.3rem"
-                  src="../src/assets/checkbox.png"
-                  marginRight="0.5rem"
-                />
+                <Image boxSize="2.3rem" src={checkbox} marginRight="0.5rem" />
                 <Text align="left" variant="titleH2">
                   Choisissez vos missions
                 </Text>
               </Flex>
               <Flex align="center" marginBottom="2.5rem">
-                <Image
-                  boxSize="2.3rem"
-                  src="../src/assets/checkbox.png"
-                  marginRight="0.5rem"
-                />
+                <Image boxSize="2.3rem" src={checkbox} marginRight="0.5rem" />
                 <Text align="left" variant="titleH2">
                   L'administratif simplifié
                 </Text>
@@ -94,6 +100,7 @@ function ProAccueil() {
                 />
                 <Button variant="gradient" _hover={{ animation }}>
                   Je m'inscris maintenant
+                  <VscChevronRight size="s" />
                 </Button>
               </Flex>
             </Box>
@@ -102,7 +109,7 @@ function ProAccueil() {
               minW={{ md: "40vw" }}
               maxW="50vw"
             >
-              <Image src="../src/assets/listing-pros-iphone-600x575-2.png" />
+              <Image src={accueil} />
             </Box>
           </Flex>
           <Flex
@@ -121,13 +128,18 @@ function ProAccueil() {
               <Image
                 boxSize="2.3rem"
                 marginBottom="1rem"
-                src="../src/assets/coche.png"
+                src={coche}
                 alt="coche"
               />
               <Text variant="titleH3" marginBottom="1rem">
                 Développez votre visibilité
               </Text>
-              <Text variant="corps" marginBottom="2rem" color="#656565">
+              <Text
+                variant="corps"
+                marginBottom="2rem"
+                color="#656565"
+                align="center"
+              >
                 Aucun frais pour vous rendre visible et accéder directement à
                 notre communauté d'utilisateurs. Dès votre inscription, vous
                 serez référencé dans notre annuaire.
@@ -156,13 +168,18 @@ function ProAccueil() {
               <Image
                 boxSize="2.3rem"
                 marginBottom="1rem"
-                src="../src/assets/coche.png"
+                src={coche}
                 alt="coche"
               />
               <Text variant="titleH3" marginBottom="1rem">
                 Choisissez vos missions
               </Text>
-              <Text variant="corps" marginBottom="2rem" color="#656565">
+              <Text
+                variant="corps"
+                marginBottom="2rem"
+                color="#656565"
+                align="center"
+              >
                 Choisissez le type de service à fournir, le public visé, vos
                 heures de travail et votre zone d'intervention. Quoi qu'il
                 arrive c'est vous qui décidez.
@@ -192,13 +209,18 @@ function ProAccueil() {
               <Image
                 boxSize="2.3rem"
                 marginBottom="1rem"
-                src="../src/assets/coche.png"
+                src={coche}
                 alt="coche"
               />
               <Text variant="titleH3" marginBottom="1rem">
                 L'administratif simplifié
               </Text>
-              <Text variant="corps" marginBottom="2rem" color="#656565">
+              <Text
+                variant="corps"
+                marginBottom="2rem"
+                color="#656565"
+                align="center"
+              >
                 La plateforme sécurisée Habble gère pour vous l'administratif
                 pour que vous puissiez vous concentrer sur votre travail en
                 toute tranquillité.
@@ -220,49 +242,117 @@ function ProAccueil() {
             </Flex>
           </Flex>
           <Box>
-            <Text
-              align="left"
-              marginLeft="8%"
-              marginBottom="3.5rem"
-              variant="titleH4"
-            >
-              Comment ça marche ?
-            </Text>
-            <Flex
-              direction="column"
-              marginLeft="30%"
-              marginRight="10%"
-              marginBottom="7rem"
-              height="20rem"
-              justify="space-between"
-            >
-              <Box>
-                <Text align="left" variant="titleH3">
-                  1. Décrivez vos prestations
-                </Text>
-                <Text align="left" variant="corps" color="#656565">
-                  Dites-nous votre spécialité et vos champs d'intervention
-                </Text>
-              </Box>
-              <Box>
-                <Text align="left" variant="titleH3">
-                  2. Choisissez
-                </Text>
-                <Text align="left" variant="corps" color="#656565">
-                  Recevez des demandes de personnes ou de services en lien avec
-                  vos compétences. Echangez pour affiner les détails de la
-                  mission.
-                </Text>
-              </Box>
-              <Box>
-                <Text align="left" variant="titleH3">
-                  3. Réalisez
-                </Text>
-                <Text align="left" variant="corps" color="#656565">
-                  La plateforme sécurisée Habble gère pour vous l'administratif
-                  pour vous permettre de vous consacrer à votre coeur de métier.
-                </Text>
-              </Box>
+            <Flex width="100%" align="center">
+              <Flex
+                bgImage="url('../src/assets/cercle.png')"
+                bgRepeat="no-repeat"
+                bgPosition="center"
+                bgSize="90%"
+                boxSize={{ base: "150%", md: "20%", xl: "40%" }}
+                marginLeft={{ base: "20%", md: "5%", xl: "15%" }}
+                minWidth={{ base: "90%", sm: "30%", md: "50%", lg: "40%" }}
+              >
+                <CarouselWorking />
+              </Flex>
+
+              <Flex
+                direction="column"
+                marginRight={{ base: "0", lg: "10%" }}
+                marginBottom="13rem"
+                height="20rem"
+                justify="space-between"
+              >
+                <Box visibility={{ base: "hidden", md: "visible" }}>
+                  <Text align="left" marginBottom="6rem" variant="titleH4">
+                    Comment ça marche ?
+                  </Text>
+                  <Flex position="absolute">
+                    <Image
+                      src={barreCarousel}
+                      position="relative"
+                      left="20px"
+                      bottom="60px"
+                      height="500px"
+                      width="3px"
+                    />
+                    <Box marginRight={{ base: "10%", xl: "40%", "2xl": "60%" }}>
+                      <Flex align="center" marginBottom="4rem">
+                        <Image
+                          boxSize="2.5rem"
+                          src={choisissez}
+                          alt="choisir"
+                          marginRight="3rem"
+                        />
+                        <Flex direction="column">
+                          <Text align="left" variant="titleH3">
+                            1. Décrivez vos prestations
+                          </Text>
+                          <Text
+                            align="left"
+                            variant="corps"
+                            fontSize="0.8rem"
+                            color="#656565"
+                          >
+                            Dites-nous votre spécialité et vos champs
+                            d'intervention
+                          </Text>
+                        </Flex>
+                      </Flex>
+                      <Flex align="center" marginBottom="4rem" role="group">
+                        <Image
+                          boxSize="2.5rem"
+                          src={choisissez}
+                          alt="choisir"
+                          marginRight="3rem"
+                          _groupHover={{
+                            src: { icone3Couleur },
+                            boxSize: "4rem",
+                          }}
+                        />
+
+                        <Flex direction="column">
+                          <Text align="left" variant="titleH3">
+                            2. Choisissez
+                          </Text>
+                          <Text
+                            align="left"
+                            variant="corps"
+                            fontSize="0.8rem"
+                            color="#656565"
+                          >
+                            Recevez des demandes de personnes ou de services en
+                            lien avec vos compétences. Echangez pour affiner les
+                            détails de la mission.
+                          </Text>
+                        </Flex>
+                      </Flex>
+                      <Flex align="center" marginBottom="3rem">
+                        <Image
+                          boxSize="2.5rem"
+                          src={realisez}
+                          alt="realiser"
+                          marginRight="3rem"
+                        />
+                        <Flex direction="column">
+                          <Text align="left" variant="titleH3">
+                            3. Réalisez
+                          </Text>
+                          <Text
+                            align="left"
+                            variant="corps"
+                            fontSize="0.8rem"
+                            color="#656565"
+                          >
+                            La plateforme sécurisée Habble gère pour vous
+                            l'administratif pour vous permettre de vous
+                            consacrer à votre coeur de métier.
+                          </Text>
+                        </Flex>
+                      </Flex>
+                    </Box>
+                  </Flex>
+                </Box>
+              </Flex>
             </Flex>
           </Box>
           <Flex
@@ -270,7 +360,7 @@ function ProAccueil() {
             align="center"
             justify="space-between"
           >
-            <Box marginLeft="8%" marginRight="10%">
+            <Box marginLeft="20%" marginRight="4rem">
               <Text align="left" marginBottom="0.5rem" variant="titleH5">
                 Rejoignez le 1er réseau spécialisé dans l'accompagnement du
                 handicap et des problèmes de santé.
@@ -284,7 +374,12 @@ function ProAccueil() {
                 Vous êtes engagé pour l'autonomie et l'inclusion des personnes
                 en situation de handicap? Faites-vous connaître.
               </Text>
-              <Text align="left" variant="corps" color="#656565">
+              <Text
+                align="left"
+                variant="corps"
+                color="#656565"
+                marginBottom="2rem"
+              >
                 Que vous soyez en libéral, auto-entrepreneur, un service à la
                 personne, un distributeur d'aides techniques, une association
                 médico-sociale ou étudiant en santé/social, développez votre
@@ -308,8 +403,8 @@ function ProAccueil() {
                     fontWeight: "semibold",
                   }}
                 />
-                <Button variant="gradient" marginBottom="5rem">
-                  Je m'inscris
+                <Button variant="gradient" marginBottom="5rem" width="10rem">
+                  Je m'inscris <VscChevronRight size="s" />
                 </Button>
               </Flex>
             </Box>
@@ -317,7 +412,8 @@ function ProAccueil() {
               boxSize="sm"
               margin={{ base: "auto", md: "0" }}
               marginBottom={{ base: "3rem", md: "0" }}
-              src="../src/assets/access-care-network.png"
+              marginRight={{ xl: "20%" }}
+              src={accessCareNetwork}
               alt="Yoga"
             />
           </Flex>
@@ -415,11 +511,7 @@ function ProAccueil() {
                   width="5rem"
                   justify="space-between"
                 >
-                  <Image
-                    boxSize="3rem"
-                    src="../src/assets/care.svg"
-                    alt="Santé"
-                  />
+                  <Image boxSize="3rem" src={care} alt="Santé" />
                   <Text variant="corpsBold">Santé</Text>
                 </Flex>
                 <Flex
@@ -429,11 +521,7 @@ function ProAccueil() {
                   width="5rem"
                   justify="space-between"
                 >
-                  <Image
-                    boxSize="3rem"
-                    src="../src/assets/psychology-head.svg"
-                    alt="Bien-être"
-                  />
+                  <Image boxSize="3rem" src={psychologyHead} alt="Bien-être" />
                   <Text variant="corpsBold">Bien être</Text>
                 </Flex>
                 <Flex
@@ -443,11 +531,7 @@ function ProAccueil() {
                   width="5rem"
                   justify="space-between"
                 >
-                  <Image
-                    boxSize="3rem"
-                    src="../src/assets/education.svg"
-                    alt="Enseignement"
-                  />
+                  <Image boxSize="3rem" src={education} alt="Enseignement" />
                   <Text variant="corpsBold">Enseignement, Education</Text>
                 </Flex>
                 <Flex
@@ -459,7 +543,7 @@ function ProAccueil() {
                 >
                   <Image
                     boxSize="3rem"
-                    src="../src/assets/wheelchair_transport.svg"
+                    src={wheelchairTransport}
                     alt="Transport"
                   />
                   <Text variant="corpsBold">Transport, Aides techniques</Text>
@@ -510,7 +594,9 @@ function ProAccueil() {
             <Text marginTop="6rem" variant="titleH5" textAlign="center">
               Fonctionnalités
             </Text>
-            {/* carroussel */}
+            <Box marginY="10%">
+              <Carousel />
+            </Box>
           </Box>
         </Box>
       </Box>
@@ -554,7 +640,7 @@ function ProAccueil() {
                 }}
               />
               <Button marginBottom="2rem" variant="outlineWhitePink">
-                Je m'inscris, c'est gratuit !
+                Je m'inscris, c'est gratuit ! <VscChevronRight size="s" />
               </Button>
             </Flex>
           </Box>
@@ -577,13 +663,10 @@ function ProAccueil() {
             marginRight={{ md: "20%" }}
           >
             <Box boxSize="10rem">
-              <Image
-                src="../src/assets/logo_horizontal_re_couleur_nord.png"
-                alt="Réseau Entreprendre"
-              />
+              <Image src={reCouleur} alt="Réseau Entreprendre" />
             </Box>
             <Box boxSize="10rem">
-              <Image src="../src/assets/logo-evident.png" alt="Evident" />
+              <Image src={logoEvident} alt="Evident" />
             </Box>
           </Flex>
         </Box>

@@ -77,6 +77,27 @@ const theme = extendTheme({
           fontWeight: "500",
           borderColor: "black",
         }),
+        outlineAlternative: () => ({
+          bg: "transparent",
+          border: "2px dashed",
+          color: "pink.light",
+          fontWeight: "500",
+          borderColor: "lightgray",
+          _hover: {
+            backgroundColor: "lightgray",
+          },
+        }),
+        outlineWhite: () => ({
+          bg: "transparent",
+          border: "2px solid",
+          fontWeight: "500",
+          borderColor: "white",
+          color: "white",
+          _hover: {
+            color: "pink.light",
+            backgroundColor: "lightgray",
+          },
+        }),
         outlineWhitePink: () => ({
           bg: "white",
           border: "1px solid",
