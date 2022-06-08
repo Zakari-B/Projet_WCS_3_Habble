@@ -23,7 +23,7 @@ export default function Header({ onDark = false, isSticky = false }) {
       paddingX={{ base: "2%", lg: "5%" }}
       paddingY="30px"
       bgColor={isSticky === false && "white"}
-      w="100vw"
+      w={isSticky ? "100vw" : "100vp"}
       zIndex="999"
     >
       <Flex w="100%" alignItems="center" justify="space-between">
