@@ -60,7 +60,7 @@ export default function ProAccountForm() {
 
   // fonction retrait d'ajout d'un item //
   const addItem = (e) => {
-    if (e.target.value !== "") {
+    if (e.target.value !== "" && !tags.includes(e.target.value)) {
       setTags([...tags, e.target.value]);
       e.target.value = "";
     }
