@@ -157,7 +157,7 @@ export default function ProfilPageProfessional() {
                   Ajouter
                 </Button>
               </Flex>
-              <Modal isOpen={isOpen} onClose={onClose}>
+              <Modal isOpen={isOpen} preserveScrollBarGap onClose={onClose}>
                 <ModalOverlay />
                 <ModalContent maxWidth="50vw">
                   <ModalHeader
