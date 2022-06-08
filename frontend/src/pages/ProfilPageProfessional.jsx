@@ -4,6 +4,8 @@ import Footer from "../components/Footer";
 import FormationCarousel from "../components/Profile/Formation/FormationCarousel";
 import DocumentCarousel from "../components/Profile/DocumentUpload/DocumentCarousel";
 import BannerProfile from "../components/Profile/BannerProfile";
+import DiplomeCarousel from "../components/Profile/Diplomes/DiplomeCarousel";
+import ExperienceCarousel from "../components/Profile/Experience/ExperienceCarousel";
 
 export default function ProfilPageProfessional() {
   return (
@@ -26,6 +28,8 @@ export default function ProfilPageProfessional() {
           >
             <DocumentCarousel />
             <FormationCarousel />
+            <DiplomeCarousel />
+            <ExperienceCarousel />
           </Flex>
         </Flex>
       </Flex>
