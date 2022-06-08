@@ -51,6 +51,7 @@ export default function ProAccountForm() {
   const [descriptionPro, setDescriptionPro] = useState("");
   const [tags, setTags] = useState([]);
   const [acceptEmailPro, setAcceptEmailPro] = useState(false);
+  const [expertise, setExpertise] = useState([]);
   const [siretPro, setSiretPro] = useState("");
 
   // fonction retrait d'un item //
@@ -63,6 +64,13 @@ export default function ProAccountForm() {
     if (e.target.value !== "" && !tags.includes(e.target.value)) {
       setTags([...tags, e.target.value]);
       e.target.value = "";
+    }
+  };
+
+  // fonction retrait d'ajout d'une expertise //
+  const addExpertise = (e) => {
+    if (e.target.checked && !expertise.includes(e.target.value)) {
+      setExpertise([...expertise, e.target.value]);
     }
   };
 
@@ -431,7 +439,6 @@ export default function ProAccountForm() {
               fontWeight="500"
               color="gray"
               placeholder="Choisissez un ou plusieurs services dans la liste, tapez des mots clés pour filtrer"
-              // eslint-disable-next-line react/jsx-no-bind
               onChange={addItem}
               onKeyUp={(event) =>
                 event.key === "Enter" ? addItem(event) : null
@@ -519,6 +526,8 @@ export default function ProAccountForm() {
                 colorScheme="white"
                 borderColor="gray"
                 _checked={{ borderColor: "pink.light" }}
+                value="Démence"
+                onChange={addExpertise}
               >
                 <Text fontSize="sm">Démence</Text>
               </Checkbox>
@@ -527,8 +536,10 @@ export default function ProAccountForm() {
                 colorScheme="white"
                 borderColor="gray"
                 _checked={{ borderColor: "pink.light" }}
+                value="Maladie d'Alzheimer"
+                onChange={addExpertise}
               >
-                <Text fontSize="sm"> Maladie d'Alzheimer</Text>
+                <Text fontSize="sm">Maladie d'Alzheimer</Text>
               </Checkbox>
             </Flex>
           </CheckboxGroup>
@@ -554,6 +565,8 @@ export default function ProAccountForm() {
                 colorScheme="white"
                 borderColor="gray"
                 _checked={{ borderColor: "pink.light" }}
+                value="Arthrite"
+                onChange={addExpertise}
               >
                 <Text fontSize="sm">Arthrite</Text>
               </Checkbox>
@@ -562,6 +575,8 @@ export default function ProAccountForm() {
                 colorScheme="white"
                 borderColor="gray"
                 _checked={{ borderColor: "pink.light" }}
+                value="Asthme"
+                onChange={addExpertise}
               >
                 <Text fontSize="sm">Asthme</Text>
               </Checkbox>
@@ -570,6 +585,8 @@ export default function ProAccountForm() {
                 colorScheme="white"
                 borderColor="gray"
                 _checked={{ borderColor: "pink.light" }}
+                value="Diabète"
+                onChange={addExpertise}
               >
                 <Text fontSize="sm">Diabète</Text>
               </Checkbox>
@@ -578,16 +595,20 @@ export default function ProAccountForm() {
                 colorScheme="white"
                 borderColor="gray"
                 _checked={{ borderColor: "pink.light" }}
+                value="Maladie respiratoire"
+                onChange={addExpertise}
               >
-                <Text fontSize="sm"> Maladie respiratoire</Text>
+                <Text fontSize="sm">Maladie respiratoire</Text>
               </Checkbox>
               <Checkbox
                 iconColor="pink.light"
                 colorScheme="white"
                 borderColor="gray"
                 _checked={{ borderColor: "pink.light" }}
+                value="Maladie cardiovasculaire"
+                onChange={addExpertise}
               >
-                <Text fontSize="sm"> Maladie cardiovasculaire</Text>
+                <Text fontSize="sm">Maladie cardiovasculaire</Text>
               </Checkbox>
             </Flex>
           </CheckboxGroup>
@@ -613,14 +634,18 @@ export default function ProAccountForm() {
                 colorScheme="white"
                 borderColor="gray"
                 _checked={{ borderColor: "pink.light" }}
+                value="Lésion cérébrale acquise"
+                onChange={addExpertise}
               >
-                <Text fontSize="sm"> Lésion cérébrale acquise</Text>
+                <Text fontSize="sm">Lésion cérébrale acquise</Text>
               </Checkbox>
               <Checkbox
                 iconColor="pink.light"
                 colorScheme="white"
                 borderColor="gray"
                 _checked={{ borderColor: "pink.light" }}
+                value="Autisme"
+                onChange={addExpertise}
               >
                 <Text fontSize="sm">Autisme</Text>
               </Checkbox>
@@ -629,112 +654,140 @@ export default function ProAccountForm() {
                 colorScheme="white"
                 borderColor="gray"
                 _checked={{ borderColor: "pink.light" }}
+                value="Infirmité motric cérébrale"
+                onChange={addExpertise}
               >
-                <Text fontSize="sm"> Infirmité motric cérébrale</Text>
+                <Text fontSize="sm">Infirmité motric cérébrale</Text>
               </Checkbox>
               <Checkbox
                 iconColor="pink.light"
                 colorScheme="white"
                 borderColor="gray"
                 _checked={{ borderColor: "pink.light" }}
+                value="Syndrome de down (trisomie 21)"
+                onChange={addExpertise}
               >
-                <Text fontSize="sm"> Syndrome de down (trisomie 21)</Text>
+                <Text fontSize="sm">Syndrome de down (trisomie 21)</Text>
               </Checkbox>
               <Checkbox
                 iconColor="pink.light"
                 colorScheme="white"
                 borderColor="gray"
                 _checked={{ borderColor: "pink.light" }}
+                value="Fibrose kystique"
+                onChange={addExpertise}
               >
-                <Text fontSize="sm"> Fibrose kystique</Text>
+                <Text fontSize="sm">Fibrose kystique</Text>
               </Checkbox>
               <Checkbox
                 iconColor="pink.light"
                 colorScheme="white"
                 borderColor="gray"
                 _checked={{ borderColor: "pink.light" }}
+                value="Épilepsie"
+                onChange={addExpertise}
               >
-                <Text fontSize="sm"> Épilepsie</Text>
+                <Text fontSize="sm">Épilepsie</Text>
               </Checkbox>
               <Checkbox
                 iconColor="pink.light"
                 colorScheme="white"
                 borderColor="gray"
                 _checked={{ borderColor: "pink.light" }}
+                value="Déficience auditive"
+                onChange={addExpertise}
               >
-                <Text fontSize="sm"> Déficience auditive</Text>
+                <Text fontSize="sm">Déficience auditive</Text>
               </Checkbox>
               <Checkbox
                 iconColor="pink.light"
                 colorScheme="white"
                 borderColor="gray"
                 _checked={{ borderColor: "pink.light" }}
+                value="Handicap intellectuel"
+                onChange={addExpertise}
               >
-                <Text fontSize="sm"> Handicap intellectuel</Text>
+                <Text fontSize="sm">Handicap intellectuel</Text>
               </Checkbox>
               <Checkbox
                 iconColor="pink.light"
                 colorScheme="white"
                 borderColor="gray"
                 _checked={{ borderColor: "pink.light" }}
+                value="Maladie du motoneurone"
+                onChange={addExpertise}
               >
-                <Text fontSize="sm"> Maladie du motoneurone</Text>
+                <Text fontSize="sm">Maladie du motoneurone</Text>
               </Checkbox>
               <Checkbox
                 iconColor="pink.light"
                 colorScheme="white"
                 borderColor="gray"
                 _checked={{ borderColor: "pink.light" }}
+                value="Dystrophie musculaire"
+                onChange={addExpertise}
               >
-                <Text fontSize="sm"> Dystrophie musculaire</Text>
+                <Text fontSize="sm">Dystrophie musculaire</Text>
               </Checkbox>
               <Checkbox
                 iconColor="pink.light"
                 colorScheme="white"
                 borderColor="gray"
                 _checked={{ borderColor: "pink.light" }}
+                value="Handicap physique, moteur"
+                onChange={addExpertise}
               >
-                <Text fontSize="sm"> Handicap physique, moteur</Text>
+                <Text fontSize="sm">Handicap physique, moteur</Text>
               </Checkbox>
               <Checkbox
                 iconColor="pink.light"
                 colorScheme="white"
                 borderColor="gray"
                 _checked={{ borderColor: "pink.light" }}
+                value="Spina-bifida"
+                onChange={addExpertise}
               >
-                <Text fontSize="sm"> Spina-bifida</Text>
+                <Text fontSize="sm">Spina-bifida</Text>
               </Checkbox>
               <Checkbox
                 iconColor="pink.light"
                 colorScheme="white"
                 borderColor="gray"
                 _checked={{ borderColor: "pink.light" }}
+                value="Lésion de la moelle épinière"
+                onChange={addExpertise}
               >
-                <Text fontSize="sm"> Lésion de la moelle épinière</Text>
+                <Text fontSize="sm">Lésion de la moelle épinière</Text>
               </Checkbox>
               <Checkbox
                 iconColor="pink.light"
                 colorScheme="white"
                 borderColor="gray"
                 _checked={{ borderColor: "pink.light" }}
+                value="Handicap visuel"
+                onChange={addExpertise}
               >
-                <Text fontSize="sm"> Handicap visuel</Text>
+                <Text fontSize="sm">Handicap visuel</Text>
               </Checkbox>
               <Checkbox
                 iconColor="pink.light"
                 colorScheme="white"
                 borderColor="gray"
                 _checked={{ borderColor: "pink.light" }}
+                value="Handicap auditif"
+                onChange={addExpertise}
               >
-                <Text fontSize="sm"> Handicap auditif</Text>
+                <Text fontSize="sm">Handicap auditif</Text>
               </Checkbox>
               <Checkbox
                 iconColor="pink.light"
                 colorScheme="white"
                 borderColor="gray"
                 _checked={{ borderColor: "pink.light" }}
+                value="Trouble DYS"
+                onChange={addExpertise}
               >
-                <Text fontSize="sm"> Trouble DYS</Text>
+                <Text fontSize="sm">Trouble DYS</Text>
               </Checkbox>
             </Flex>
           </CheckboxGroup>
@@ -760,6 +813,8 @@ export default function ProAccountForm() {
                 colorScheme="white"
                 borderColor="gray"
                 _checked={{ borderColor: "pink.light" }}
+                value="Anxiété"
+                onChange={addExpertise}
               >
                 <Text fontSize="sm">Anxiété</Text>
               </Checkbox>
@@ -768,46 +823,58 @@ export default function ProAccountForm() {
                 colorScheme="white"
                 borderColor="gray"
                 _checked={{ borderColor: "pink.light" }}
+                value="Trouble bipolaire"
+                onChange={addExpertise}
               >
-                <Text fontSize="sm"> Trouble bipolaire</Text>
+                <Text fontSize="sm">Trouble bipolaire</Text>
               </Checkbox>
               <Checkbox
                 iconColor="pink.light"
                 colorScheme="white"
                 borderColor="gray"
                 _checked={{ borderColor: "pink.light" }}
+                value="Dépression"
+                onChange={addExpertise}
               >
-                <Text fontSize="sm"> Dépression</Text>
+                <Text fontSize="sm">Dépression</Text>
               </Checkbox>
               <Checkbox
                 iconColor="pink.light"
                 colorScheme="white"
                 borderColor="gray"
                 _checked={{ borderColor: "pink.light" }}
+                value="Troubles de l'alimentation"
+                onChange={addExpertise}
               >
-                <Text fontSize="sm"> Troubles de l'alimentation</Text>
+                <Text fontSize="sm">Troubles de l'alimentation</Text>
               </Checkbox>
               <Checkbox
                 iconColor="pink.light"
                 colorScheme="white"
                 borderColor="gray"
                 _checked={{ borderColor: "pink.light" }}
+                value="Trouble de la thésaurisation"
+                onChange={addExpertise}
               >
-                <Text fontSize="sm"> Trouble de la thésaurisation</Text>
+                <Text fontSize="sm">Trouble de la thésaurisation</Text>
               </Checkbox>
               <Checkbox
                 iconColor="pink.light"
                 colorScheme="white"
                 borderColor="gray"
                 _checked={{ borderColor: "pink.light" }}
+                value="Trouble obsessionnel-compulsif (TOC)"
+                onChange={addExpertise}
               >
-                <Text fontSize="sm"> Trouble obsessionnel-compulsif (TOC)</Text>
+                <Text fontSize="sm">Trouble obsessionnel-compulsif (TOC)</Text>
               </Checkbox>
               <Checkbox
                 iconColor="pink.light"
                 colorScheme="white"
                 borderColor="gray"
                 _checked={{ borderColor: "pink.light" }}
+                value="Trouble de stress post-traumatique (TSPT)"
+                onChange={addExpertise}
               >
                 <Text fontSize="sm">
                   {" "}
@@ -819,22 +886,28 @@ export default function ProAccountForm() {
                 colorScheme="white"
                 borderColor="gray"
                 _checked={{ borderColor: "pink.light" }}
+                value="Skizophrénie"
+                onChange={addExpertise}
               >
-                <Text fontSize="sm"> Skizophrénie</Text>
+                <Text fontSize="sm">Skizophrénie</Text>
               </Checkbox>
               <Checkbox
                 iconColor="pink.light"
                 colorScheme="white"
                 borderColor="gray"
                 _checked={{ borderColor: "pink.light" }}
+                value="Abus de substances et toxicomanie"
+                onChange={addExpertise}
               >
-                <Text fontSize="sm"> Abus de substances et toxicomanie</Text>
+                <Text fontSize="sm">Abus de substances et toxicomanie</Text>
               </Checkbox>
               <Checkbox
                 iconColor="pink.light"
                 colorScheme="white"
                 borderColor="gray"
                 _checked={{ borderColor: "pink.light" }}
+                value="Trouble de l'attention avec ou sans hyperactivité (TDAH)"
+                onChange={addExpertise}
               >
                 <Text fontSize="sm">
                   {" "}
