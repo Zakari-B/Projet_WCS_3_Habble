@@ -207,7 +207,7 @@ export default function LandingPage() {
             }}
           >
             <Flex flexDir="column" alignItems="center">
-              <Image src={Chat} pos="relative" w="5rem" />
+              <Image src={Chat} w="5rem" />
               <Heading as="h4" mt="2rem" fontSize="1.5rem" fontWeight="500">
                 Transmettez nous votre demande
               </Heading>
@@ -256,10 +256,12 @@ export default function LandingPage() {
                 fontSize="md"
                 align="center"
               >
-                Parcourez les profils des professionnels indépendants dans votre
-                région. Ils ont tous été vérifiés pour votre tranquillité
-                d'esprit. Affinez votre recherche avec les options de filtre et
-                de tri : disponibilité, compétences et plus encore.
+                Parcourez les profils des professionnels de votre région. Ils
+                ont tous été vérifiés pour votre tranquillité d'esprit. Affinez
+                votre recherche avec les options de filtre et de tri :
+                disponibilité, compétences et plus encore. <br />
+                <br />
+                Trouver un professionnel du handicap
               </Text>
             </Flex>
           </Box>

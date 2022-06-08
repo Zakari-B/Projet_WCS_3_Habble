@@ -5,6 +5,8 @@ import FormationCarousel from "../components/Profile/Formation/FormationCarousel
 import DocumentCarousel from "../components/Profile/DocumentUpload/DocumentCarousel";
 import BannerProfile from "../components/Profile/BannerProfile";
 import EditPassWordModal from "../components/EditPasswordModal";
+import DiplomeCarousel from "../components/Profile/Diplomes/DiplomeCarousel";
+import ExperienceCarousel from "../components/Profile/Experience/ExperienceCarousel";
 
 export default function ProfilPageProfessional() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -29,6 +31,8 @@ export default function ProfilPageProfessional() {
           >
             <DocumentCarousel />
             <FormationCarousel />
+            <DiplomeCarousel />
+            <ExperienceCarousel />
             <Button onClick={onOpen} variant="solid_PrimaryColor">
               Change Password
             </Button>
