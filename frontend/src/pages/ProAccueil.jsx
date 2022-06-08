@@ -299,14 +299,26 @@ function ProAccueil() {
                         </Flex>
                       </Flex>
                       <Flex align="center" marginBottom="4rem" role="group">
-                        <Image
+                        {/* <Image
                           boxSize="2.5rem"
                           src={choisissez}
                           alt="choisir"
                           marginRight="3rem"
-                          _groupHover={{
+                          _hover={{
                             src: { icone3Couleur },
                             boxSize: "4rem",
+                          }}
+                        /> */}
+                        <Box
+                          boxSize="3rem"
+                          bgImage={choisissez}
+                          bgSize="cover"
+                          bgRepeat="no-repeat"
+                          marginRight="3rem"
+                          zIndex="5"
+                          _groupHover={{
+                            bgImage: icone3Couleur,
+                            boxSize: "5rem",
                           }}
                         />
 

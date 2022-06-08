@@ -53,24 +53,6 @@ export default function Header({ onDark = false, isSticky = false }) {
                 Notre Mission
               </Text>
             </Link>
-            <Link to="/le-projet">
-              <Text
-                color={
-                  isSticky && scrollPosition <= 50 ? "white" : "purple.dark"
-                }
-                _hover={{
-                  bgImage:
-                    "linear-gradient(to right, #f2366f 33%, #a423ad 33%, #a7197f 66%, #4d1582 66%)",
-                  bgSize: "306% 100%",
-                  bgPosition: "100% 0",
-                  transition: "2s background-position",
-                  animation: "moveGradient2 4s alternate infinite",
-                  bgClip: "text",
-                }}
-              >
-                Actualités et ressources
-              </Text>
-            </Link>
           </Flex>
           <Flex
             justify="space-between"
