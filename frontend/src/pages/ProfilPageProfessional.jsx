@@ -1,11 +1,14 @@
-import { Flex, Box } from "@chakra-ui/react";
+import { Flex, Box, Button, useDisclosure } from "@chakra-ui/react";
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer";
 import FormationCarousel from "../components/Profile/Formation/FormationCarousel";
 import DocumentCarousel from "../components/Profile/DocumentUpload/DocumentCarousel";
 import BannerProfile from "../components/Profile/BannerProfile";
+import EditPassWordModal from "../components/EditPasswordModal";
 
 export default function ProfilPageProfessional() {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   return (
     <Box h="100vh">
       <Header onDark={false} isSticky={false} />
@@ -26,6 +29,12 @@ export default function ProfilPageProfessional() {
           >
             <DocumentCarousel />
             <FormationCarousel />
+            <Button onClick={onOpen}>Open Modal</Button>
+            <EditPassWordModal
+              onOpen={onOpen}
+              isOpen={isOpen}
+              onClose={onClose}
+            />
           </Flex>
         </Flex>
       </Flex>
