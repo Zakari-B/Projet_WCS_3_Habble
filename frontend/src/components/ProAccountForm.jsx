@@ -67,10 +67,13 @@ export default function ProAccountForm() {
     }
   };
 
-  // fonction retrait d'ajout d'une expertise //
-  const addExpertise = (e) => {
+  // fonction retrait et d'ajout d'une expertise //
+  const updateExpertise = (e) => {
     if (e.target.checked && !expertise.includes(e.target.value)) {
       setExpertise([...expertise, e.target.value]);
+    } else if (!e.target.checked) {
+      expertise.splice(expertise.indexOf(e.target.value), 1);
+      setExpertise(expertise);
     }
   };
 
@@ -527,7 +530,7 @@ export default function ProAccountForm() {
                 borderColor="gray"
                 _checked={{ borderColor: "pink.light" }}
                 value="Démence"
-                onChange={addExpertise}
+                onChange={updateExpertise}
               >
                 <Text fontSize="sm">Démence</Text>
               </Checkbox>
@@ -537,7 +540,7 @@ export default function ProAccountForm() {
                 borderColor="gray"
                 _checked={{ borderColor: "pink.light" }}
                 value="Maladie d'Alzheimer"
-                onChange={addExpertise}
+                onChange={updateExpertise}
               >
                 <Text fontSize="sm">Maladie d'Alzheimer</Text>
               </Checkbox>
@@ -566,7 +569,7 @@ export default function ProAccountForm() {
                 borderColor="gray"
                 _checked={{ borderColor: "pink.light" }}
                 value="Arthrite"
-                onChange={addExpertise}
+                onChange={updateExpertise}
               >
                 <Text fontSize="sm">Arthrite</Text>
               </Checkbox>
@@ -576,7 +579,7 @@ export default function ProAccountForm() {
                 borderColor="gray"
                 _checked={{ borderColor: "pink.light" }}
                 value="Asthme"
-                onChange={addExpertise}
+                onChange={updateExpertise}
               >
                 <Text fontSize="sm">Asthme</Text>
               </Checkbox>
@@ -586,7 +589,7 @@ export default function ProAccountForm() {
                 borderColor="gray"
                 _checked={{ borderColor: "pink.light" }}
                 value="Diabète"
-                onChange={addExpertise}
+                onChange={updateExpertise}
               >
                 <Text fontSize="sm">Diabète</Text>
               </Checkbox>
@@ -596,7 +599,7 @@ export default function ProAccountForm() {
                 borderColor="gray"
                 _checked={{ borderColor: "pink.light" }}
                 value="Maladie respiratoire"
-                onChange={addExpertise}
+                onChange={updateExpertise}
               >
                 <Text fontSize="sm">Maladie respiratoire</Text>
               </Checkbox>
@@ -606,7 +609,7 @@ export default function ProAccountForm() {
                 borderColor="gray"
                 _checked={{ borderColor: "pink.light" }}
                 value="Maladie cardiovasculaire"
-                onChange={addExpertise}
+                onChange={updateExpertise}
               >
                 <Text fontSize="sm">Maladie cardiovasculaire</Text>
               </Checkbox>
@@ -635,7 +638,7 @@ export default function ProAccountForm() {
                 borderColor="gray"
                 _checked={{ borderColor: "pink.light" }}
                 value="Lésion cérébrale acquise"
-                onChange={addExpertise}
+                onChange={updateExpertise}
               >
                 <Text fontSize="sm">Lésion cérébrale acquise</Text>
               </Checkbox>
@@ -645,7 +648,7 @@ export default function ProAccountForm() {
                 borderColor="gray"
                 _checked={{ borderColor: "pink.light" }}
                 value="Autisme"
-                onChange={addExpertise}
+                onChange={updateExpertise}
               >
                 <Text fontSize="sm">Autisme</Text>
               </Checkbox>
@@ -655,7 +658,7 @@ export default function ProAccountForm() {
                 borderColor="gray"
                 _checked={{ borderColor: "pink.light" }}
                 value="Infirmité motric cérébrale"
-                onChange={addExpertise}
+                onChange={updateExpertise}
               >
                 <Text fontSize="sm">Infirmité motric cérébrale</Text>
               </Checkbox>
@@ -665,7 +668,7 @@ export default function ProAccountForm() {
                 borderColor="gray"
                 _checked={{ borderColor: "pink.light" }}
                 value="Syndrome de down (trisomie 21)"
-                onChange={addExpertise}
+                onChange={updateExpertise}
               >
                 <Text fontSize="sm">Syndrome de down (trisomie 21)</Text>
               </Checkbox>
@@ -675,7 +678,7 @@ export default function ProAccountForm() {
                 borderColor="gray"
                 _checked={{ borderColor: "pink.light" }}
                 value="Fibrose kystique"
-                onChange={addExpertise}
+                onChange={updateExpertise}
               >
                 <Text fontSize="sm">Fibrose kystique</Text>
               </Checkbox>
@@ -685,7 +688,7 @@ export default function ProAccountForm() {
                 borderColor="gray"
                 _checked={{ borderColor: "pink.light" }}
                 value="Épilepsie"
-                onChange={addExpertise}
+                onChange={updateExpertise}
               >
                 <Text fontSize="sm">Épilepsie</Text>
               </Checkbox>
@@ -695,7 +698,7 @@ export default function ProAccountForm() {
                 borderColor="gray"
                 _checked={{ borderColor: "pink.light" }}
                 value="Déficience auditive"
-                onChange={addExpertise}
+                onChange={updateExpertise}
               >
                 <Text fontSize="sm">Déficience auditive</Text>
               </Checkbox>
@@ -705,7 +708,7 @@ export default function ProAccountForm() {
                 borderColor="gray"
                 _checked={{ borderColor: "pink.light" }}
                 value="Handicap intellectuel"
-                onChange={addExpertise}
+                onChange={updateExpertise}
               >
                 <Text fontSize="sm">Handicap intellectuel</Text>
               </Checkbox>
@@ -715,7 +718,7 @@ export default function ProAccountForm() {
                 borderColor="gray"
                 _checked={{ borderColor: "pink.light" }}
                 value="Maladie du motoneurone"
-                onChange={addExpertise}
+                onChange={updateExpertise}
               >
                 <Text fontSize="sm">Maladie du motoneurone</Text>
               </Checkbox>
@@ -725,7 +728,7 @@ export default function ProAccountForm() {
                 borderColor="gray"
                 _checked={{ borderColor: "pink.light" }}
                 value="Dystrophie musculaire"
-                onChange={addExpertise}
+                onChange={updateExpertise}
               >
                 <Text fontSize="sm">Dystrophie musculaire</Text>
               </Checkbox>
@@ -735,7 +738,7 @@ export default function ProAccountForm() {
                 borderColor="gray"
                 _checked={{ borderColor: "pink.light" }}
                 value="Handicap physique, moteur"
-                onChange={addExpertise}
+                onChange={updateExpertise}
               >
                 <Text fontSize="sm">Handicap physique, moteur</Text>
               </Checkbox>
@@ -745,7 +748,7 @@ export default function ProAccountForm() {
                 borderColor="gray"
                 _checked={{ borderColor: "pink.light" }}
                 value="Spina-bifida"
-                onChange={addExpertise}
+                onChange={updateExpertise}
               >
                 <Text fontSize="sm">Spina-bifida</Text>
               </Checkbox>
@@ -755,7 +758,7 @@ export default function ProAccountForm() {
                 borderColor="gray"
                 _checked={{ borderColor: "pink.light" }}
                 value="Lésion de la moelle épinière"
-                onChange={addExpertise}
+                onChange={updateExpertise}
               >
                 <Text fontSize="sm">Lésion de la moelle épinière</Text>
               </Checkbox>
@@ -765,7 +768,7 @@ export default function ProAccountForm() {
                 borderColor="gray"
                 _checked={{ borderColor: "pink.light" }}
                 value="Handicap visuel"
-                onChange={addExpertise}
+                onChange={updateExpertise}
               >
                 <Text fontSize="sm">Handicap visuel</Text>
               </Checkbox>
@@ -775,7 +778,7 @@ export default function ProAccountForm() {
                 borderColor="gray"
                 _checked={{ borderColor: "pink.light" }}
                 value="Handicap auditif"
-                onChange={addExpertise}
+                onChange={updateExpertise}
               >
                 <Text fontSize="sm">Handicap auditif</Text>
               </Checkbox>
@@ -785,7 +788,7 @@ export default function ProAccountForm() {
                 borderColor="gray"
                 _checked={{ borderColor: "pink.light" }}
                 value="Trouble DYS"
-                onChange={addExpertise}
+                onChange={updateExpertise}
               >
                 <Text fontSize="sm">Trouble DYS</Text>
               </Checkbox>
@@ -814,7 +817,7 @@ export default function ProAccountForm() {
                 borderColor="gray"
                 _checked={{ borderColor: "pink.light" }}
                 value="Anxiété"
-                onChange={addExpertise}
+                onChange={updateExpertise}
               >
                 <Text fontSize="sm">Anxiété</Text>
               </Checkbox>
@@ -824,7 +827,7 @@ export default function ProAccountForm() {
                 borderColor="gray"
                 _checked={{ borderColor: "pink.light" }}
                 value="Trouble bipolaire"
-                onChange={addExpertise}
+                onChange={updateExpertise}
               >
                 <Text fontSize="sm">Trouble bipolaire</Text>
               </Checkbox>
@@ -834,7 +837,7 @@ export default function ProAccountForm() {
                 borderColor="gray"
                 _checked={{ borderColor: "pink.light" }}
                 value="Dépression"
-                onChange={addExpertise}
+                onChange={updateExpertise}
               >
                 <Text fontSize="sm">Dépression</Text>
               </Checkbox>
@@ -844,7 +847,7 @@ export default function ProAccountForm() {
                 borderColor="gray"
                 _checked={{ borderColor: "pink.light" }}
                 value="Troubles de l'alimentation"
-                onChange={addExpertise}
+                onChange={updateExpertise}
               >
                 <Text fontSize="sm">Troubles de l'alimentation</Text>
               </Checkbox>
@@ -854,7 +857,7 @@ export default function ProAccountForm() {
                 borderColor="gray"
                 _checked={{ borderColor: "pink.light" }}
                 value="Trouble de la thésaurisation"
-                onChange={addExpertise}
+                onChange={updateExpertise}
               >
                 <Text fontSize="sm">Trouble de la thésaurisation</Text>
               </Checkbox>
@@ -864,7 +867,7 @@ export default function ProAccountForm() {
                 borderColor="gray"
                 _checked={{ borderColor: "pink.light" }}
                 value="Trouble obsessionnel-compulsif (TOC)"
-                onChange={addExpertise}
+                onChange={updateExpertise}
               >
                 <Text fontSize="sm">Trouble obsessionnel-compulsif (TOC)</Text>
               </Checkbox>
@@ -874,7 +877,7 @@ export default function ProAccountForm() {
                 borderColor="gray"
                 _checked={{ borderColor: "pink.light" }}
                 value="Trouble de stress post-traumatique (TSPT)"
-                onChange={addExpertise}
+                onChange={updateExpertise}
               >
                 <Text fontSize="sm">
                   {" "}
@@ -887,7 +890,7 @@ export default function ProAccountForm() {
                 borderColor="gray"
                 _checked={{ borderColor: "pink.light" }}
                 value="Skizophrénie"
-                onChange={addExpertise}
+                onChange={updateExpertise}
               >
                 <Text fontSize="sm">Skizophrénie</Text>
               </Checkbox>
@@ -897,7 +900,7 @@ export default function ProAccountForm() {
                 borderColor="gray"
                 _checked={{ borderColor: "pink.light" }}
                 value="Abus de substances et toxicomanie"
-                onChange={addExpertise}
+                onChange={updateExpertise}
               >
                 <Text fontSize="sm">Abus de substances et toxicomanie</Text>
               </Checkbox>
@@ -907,7 +910,7 @@ export default function ProAccountForm() {
                 borderColor="gray"
                 _checked={{ borderColor: "pink.light" }}
                 value="Trouble de l'attention avec ou sans hyperactivité (TDAH)"
-                onChange={addExpertise}
+                onChange={updateExpertise}
               >
                 <Text fontSize="sm">
                   {" "}
