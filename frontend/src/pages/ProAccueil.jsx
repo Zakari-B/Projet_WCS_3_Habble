@@ -262,7 +262,7 @@ function ProAccueil() {
                 height="20rem"
                 justify="space-between"
               >
-                <Box visibility={{ base: "hidden", md: "visible" }}>
+                <Box>
                   <Text align="left" marginBottom="6rem" variant="titleH4">
                     Comment ça marche ?
                   </Text>
@@ -274,6 +274,7 @@ function ProAccueil() {
                       bottom="60px"
                       height="500px"
                       width="3px"
+                      visibility={{ base: "hidden", md: "visible" }}
                     />
                     <Box marginRight={{ base: "10%", xl: "40%", "2xl": "60%" }}>
                       <Flex align="center" marginBottom="4rem">
@@ -306,7 +307,8 @@ function ProAccueil() {
                           marginRight="3rem"
                           _groupHover={{
                             src: { icone3Couleur },
-                            boxSize: "4rem",
+                            boxSize: "3rem",
+                            marginRight: "2.5rem",
                           }}
                         />
 
@@ -403,7 +405,11 @@ function ProAccueil() {
                     fontWeight: "semibold",
                   }}
                 />
-                <Button variant="gradient" marginBottom="5rem" width="10rem">
+                <Button
+                  variant="gradient"
+                  marginBottom="5rem"
+                  width={{ lg: "10rem" }}
+                >
                   Je m'inscris <VscChevronRight size="s" />
                 </Button>
               </Flex>

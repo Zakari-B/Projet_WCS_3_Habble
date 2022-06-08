@@ -45,6 +45,16 @@ function CarouselImages() {
             animationScale: "1s scale(1)",
             animation: "ease-in-out 4s infinite",
           }}
+          _active={{
+            hidden: "false",
+            bgGradient:
+              "linear-gradient(to right, #6541c1 0%, #d43396 98%, #d43396 100%)",
+            opacity: "100%",
+            height: "3px",
+            width: "100%",
+            animationScale: "1s scale(1)",
+            animation: "ease-in-out 4s infinite",
+          }}
         />
       </Box>
       <Box marginX="3rem" role="group">
@@ -66,6 +76,16 @@ function CarouselImages() {
           opacity="0%"
           height="3px"
           _groupHover={{
+            hidden: "false",
+            bgGradient:
+              "linear-gradient(to right, #6541c1 0%, #d43396 98%, #d43396 100%)",
+            opacity: "100%",
+            height: "3px",
+            width: "100%",
+            animationScale: "1s scale(1)",
+            animation: "ease-in-out 4s infinite",
+          }}
+          _active={{
             hidden: "false",
             bgGradient:
               "linear-gradient(to right, #6541c1 0%, #d43396 98%, #d43396 100%)",
@@ -105,6 +125,16 @@ function CarouselImages() {
             animationScale: "1s scale(1)",
             animation: "ease-in-out 4s infinite",
           }}
+          _active={{
+            hidden: "false",
+            bgGradient:
+              "linear-gradient(to right, #6541c1 0%, #d43396 98%, #d43396 100%)",
+            opacity: "100%",
+            height: "3px",
+            width: "100%",
+            animationScale: "1s scale(1)",
+            animation: "ease-in-out 4s infinite",
+          }}
         />
       </Box>
       <Box marginX="3rem" role="group">
@@ -134,6 +164,16 @@ function CarouselImages() {
             animationScale: "1s scale(1)",
             animation: "ease-in-out 4s infinite",
           }}
+          _active={{
+            hidden: "false",
+            bgGradient:
+              "linear-gradient(to right, #6541c1 0%, #d43396 98%, #d43396 100%)",
+            opacity: "100%",
+            height: "3px",
+            width: "100%",
+            animationScale: "1s scale(1)",
+            animation: "ease-in-out 4s infinite",
+          }}
         />
       </Box>
       <Box marginX="3rem" role="group">
@@ -154,6 +194,16 @@ function CarouselImages() {
           opacity="0%"
           height="3px"
           _groupHover={{
+            hidden: "false",
+            bgGradient:
+              "linear-gradient(to right, #6541c1 0%, #d43396 98%, #d43396 100%)",
+            opacity: "100%",
+            height: "3px",
+            width: "100%",
+            animationScale: "1s scale(1)",
+            animation: "ease-in-out 4s infinite",
+          }}
+          _active={{
             hidden: "false",
             bgGradient:
               "linear-gradient(to right, #6541c1 0%, #d43396 98%, #d43396 100%)",
