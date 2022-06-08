@@ -8,6 +8,7 @@ import ProAccueil from "./pages/ProAccueil";
 import LoginForm from "./components/LoginForm";
 import PasswordReset from "./components/PasswordReset";
 import ProfilPageProfessional from "./pages/ProfilPageProfessional";
+import Contact from "./pages/Contact";
 
 import "./App.css";
 
@@ -17,7 +18,7 @@ function App() {
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/le-projet" element={<Mission />} />
-        {/* <Route path="/contact" element={<Contact />} /> */}
+        <Route path="/contact" element={<Contact />} />
         <Route path="/le-projet" element={<Mission />} />
         <Route path="/mentions-legales" element={<MentionsLegales />} />
         <Route path="/confidentialite" element={<Confidentialite />} />
