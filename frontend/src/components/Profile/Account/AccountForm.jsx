@@ -4,6 +4,7 @@ import {
   FormControl,
   Input,
   useDisclosure,
+  Text,
 } from "@chakra-ui/react";
 import React, { useState, useContext } from "react";
 import FormationFormContext from "../../../contexts/FormationFormContext";
@@ -12,7 +13,7 @@ export default function AccountForm() {
   const { setIsVisible } = useContext(FormationFormContext);
   const { isOpen, onToggle } = useDisclosure();
 
-  const [email, setEmail] = useState("email");
+  const [email, setEmail] = useState("");
 
   const handleEmailChange = (e) => {
     e.preventDefault();
@@ -41,11 +42,15 @@ export default function AccountForm() {
       isRequired
     >
       <Flex w="100%" direction="column">
+        <Text>Adresse e-mail</Text>
         <Input
+          type="email"
+          name="Adresse email"
           placeholder={email}
           w="65%"
           onChange={handleEmailChange}
           value={email}
+          id="emailAddress"
         />
 
         <Button w="65%" mt="1rem" variant="solid_PrimaryColor">

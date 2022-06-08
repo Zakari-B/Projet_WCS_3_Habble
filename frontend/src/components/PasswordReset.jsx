@@ -15,7 +15,7 @@ import {
 import Header from "./Header/Header";
 import Footer from "./Footer";
 
-const passwordReset = () => {
+export default function PasswordReset() {
   const [resetEmail, setResetEmail] = useState("");
 
   return (
@@ -90,6 +90,4 @@ const passwordReset = () => {
       <Footer />
     </Box>
   );
-};
-
-export default passwordReset;
+}
