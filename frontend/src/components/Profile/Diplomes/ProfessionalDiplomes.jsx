@@ -13,7 +13,7 @@ import {
   Collapse,
   useDisclosure,
 } from "@chakra-ui/react";
-import getDropList from "../services/Utils";
+import getDropList from "../../../services/Utils";
 
 export default function ProfessionalDiplomes() {
   const [yearList, setYearList] = useState([]);
@@ -71,9 +71,8 @@ export default function ProfessionalDiplomes() {
       p="25px"
       borderRadius="21px"
       minW="100%"
-      gap="40px"
     >
-      <Flex justifyContent="space-between" alignItems="center">
+      <Flex justify="space-between" alignItems="center" mb="40px">
         <Heading
           as="h2"
           color="purple.average"
@@ -83,7 +82,7 @@ export default function ProfessionalDiplomes() {
           Diplômes, certifications
         </Heading>
         {!isOpen && (
-          <Button mt="2rem" mr="1rem" variant="outline_Pink" onClick={onToggle}>
+          <Button variant="outline_Pink" onClick={onToggle}>
             Ajouter
           </Button>
         )}
