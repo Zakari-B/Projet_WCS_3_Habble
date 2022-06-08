@@ -1,11 +1,7 @@
 import React from "react";
 import { Flex, Box, Text, Image, Link } from "@chakra-ui/react";
 
-export default function UploadedDoc() {
-  const bddDocName = "Carte d'identité.jpg";
-  const bddDocImage =
-    "https://app.habble.fr/wp-content/uploads/2020/02/patrice-warembourg-550.jpg";
-
+export default function UploadedDoc({ data }) {
   return (
     <Flex
       p="10px"
@@ -18,7 +14,7 @@ export default function UploadedDoc() {
         role="group"
         h="240px"
         w="293px"
-        bgImage={`url(${bddDocImage})`}
+        bgImage={`url(${data.image})`}
         bgSize="cover"
         position="relative"
       >
@@ -41,7 +37,7 @@ export default function UploadedDoc() {
           }}
         >
           <Text h="10%" textAlign="center" color="white">
-            {bddDocName}
+            {data.name}
           </Text>
           <Flex h="90%" alignItems="flex-end" justifyContent="space-around">
             <Link _hover={{ textDecor: "none" }} href="AFFICHER LE DOC">
@@ -61,7 +57,7 @@ export default function UploadedDoc() {
           </Flex>
         </Box>
       </Box>
-      <Text color="#342c50">{bddDocName}</Text>
+      <Text color="#342c50">{data.name}</Text>
     </Flex>
   );
 }

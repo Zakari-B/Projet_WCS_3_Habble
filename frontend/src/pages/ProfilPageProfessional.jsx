@@ -19,6 +19,7 @@ import {
   Image,
 } from "@chakra-ui/react";
 import { useState } from "react";
+import fakeData from "../assets/fakeData.json";
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer";
 import UploadedDocs from "../components/UploadedDocs";
@@ -26,7 +27,6 @@ import UploadedDocs from "../components/UploadedDocs";
 export default function Confidentialite() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [available, setAvailable] = useState(false);
-  const fakeData = ["fakeDataA", "fakeDataB", "fakeDataC"];
   return (
     <Box h="100vh">
       <Header onDark={false} isSticky={false} />
@@ -194,16 +194,19 @@ export default function Confidentialite() {
                       variant="outlineAlternative"
                       w="100%"
                       fontWeight="700"
-                      onClick={() =>
-                        document.getElementById("inputHandler").click()
-                      }
                     >
-                      <input
-                        id="inputHandler"
-                        style={{ display: "none" }}
-                        type="file"
-                      />
-                      Télécharger un fichier
+                      <label
+                        style={{ width: "100%" }}
+                        htmlFor="fileInputHandler"
+                      >
+                        Télécharger un fichier
+                        <input
+                          id="fileInputHandler"
+                          style={{ display: "none" }}
+                          type="file"
+                          accept="image/png, image/jpeg, image/jpg"
+                        />
+                      </label>
                     </Button>
 
                     <Text color="gray" marginTop="20px">
@@ -233,7 +236,7 @@ export default function Confidentialite() {
                 m="auto"
               >
                 {fakeData.map((elem) => (
-                  <UploadedDocs key={elem} elem={elem} />
+                  <UploadedDocs key={elem.name} data={elem} />
                 ))}
               </Flex>
             </Flex>
