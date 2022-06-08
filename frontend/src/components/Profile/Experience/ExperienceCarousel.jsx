@@ -1,26 +1,32 @@
 import React, { useState, useMemo } from "react";
 import { Heading, Flex, Button, Text, Collapse } from "@chakra-ui/react";
-import DiplomeCard from "./DiplomeCard";
-import DiplomeFormContext from "../../../contexts/DiplomeFormContext";
-import DiplomeForm from "./DiplomeForm";
+import DiplomeCard from "./ExperienceCard";
+import ExperienceFormContext from "../../../contexts/ExperienceFormContext";
+import DiplomeForm from "./ExperienceForm";
 
-export default function DiplomeCarousel() {
-  const [fakediplome] = useState([
+export default function ExperienceCarousel() {
+  const [fakeExperience] = useState([
     {
       id: 1,
-      title: "Bac+4",
-      delivery: "Lycée Albert Camus",
-      month_delivered: "04",
-      year_delivered: 2012,
+      title: "Assistant de santé",
+      company: "EPHAD des Lilas",
+      startMonth: "04",
+      startYear: 2012,
+      endMonth: "01",
+      endYear: 2022,
+      currentJob: false,
       description: "this is my first experience",
     },
     {
       id: 2,
-      title: "Bac+4",
-      delivery: "Lycée Albert Camus",
-      month_delivered: "04",
-      year_delivered: 2012,
-      description: "this is my first experience",
+      title: "Cadre de santé",
+      company: "EPHAD des Lilas",
+      startMonth: "04",
+      startYear: 2022,
+      endMonth: "02",
+      endYear: 2022,
+      currentJob: true,
+      description: "this is my second experience",
     },
   ]);
   const [isVisible, setIsVisible] = useState(false);
@@ -46,7 +52,7 @@ export default function DiplomeCarousel() {
           fontSize="1.5em"
           fontWeight="700"
         >
-          Diplômes, certifications
+          Expériences Professionnelles
         </Heading>
         {!isVisible && (
           <Button variant="outline_Pink" onClick={toggleForm}>
@@ -56,22 +62,22 @@ export default function DiplomeCarousel() {
       </Flex>
       <Collapse in={isVisible}>
         {isVisible && (
-          <DiplomeFormContext.Provider value={context}>
+          <ExperienceFormContext.Provider value={context}>
             <DiplomeForm />
-          </DiplomeFormContext.Provider>
+          </ExperienceFormContext.Provider>
         )}
       </Collapse>
       <Flex direction="column">
-        {fakediplome.length === 0 ? (
+        {fakeExperience.length === 0 ? (
           <Text color="gray" fontSize="16px" fontWeight="500">
             Ajoutez une certification professionnelle à votre profil.
             (Optionnel)
           </Text>
         ) : (
-          fakediplome.map((diplome) => (
-            <DiplomeFormContext.Provider value={context}>
-              <DiplomeCard diplome={diplome} key={diplome.id} />
-            </DiplomeFormContext.Provider>
+          fakeExperience.map((experience) => (
+            <ExperienceFormContext.Provider value={context}>
+              <DiplomeCard experience={experience} key={experience.id} />
+            </ExperienceFormContext.Provider>
           ))
         )}
       </Flex>
