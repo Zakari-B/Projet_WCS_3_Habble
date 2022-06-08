@@ -264,16 +264,15 @@ export default function ProAccountForm() {
                   </ModalHeader>
                   <ModalBody>
                     <FormControl>
-                      <Box h="150px" alignSelf="left">
+                      <Box h="150px" alignSelf="left" my="2rem">
                         <Box
-                          border="3px solid pink"
+                          border="3px solid"
+                          borderColor="pink.light"
                           position="absolute"
                           h="150px"
                           w="150px"
                           mx="40%"
-                        >
-                          bla
-                        </Box>
+                        />
                         <Box h="150px" w="100%">
                           <Image src={testImage} m="auto" h="150px" />
                         </Box>
@@ -292,16 +291,24 @@ export default function ProAccountForm() {
                           Enregistrer
                         </Button>
                         <Button
+                          type="file"
                           bg="none"
                           _hover={{ bg: "none", color: "pink.light" }}
                           color="gray"
                           fontWeight="600"
                           align="center"
                           fontSize={{ base: "md", md: "0.8rem" }}
-                          onClick={onOpen}
+                          onClick={() =>
+                            document.getElementById("inputHandler").click()
+                          }
                         >
-                          {" "}
-                          Changer de photo
+                          <Input
+                            type="file"
+                            id="inputHandler"
+                            name="name"
+                            display="none"
+                          />{" "}
+                          Changer la photo
                         </Button>
                       </Flex>
                     </FormControl>
