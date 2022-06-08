@@ -34,22 +34,26 @@ export default function Header({ onDark = false, isSticky = false }) {
           w="100%"
           display={{ base: "none", md: "flex" }}
         >
-          <Link to="/le-projet">
-            <Text
-              color={isSticky && scrollPosition <= 50 ? "white" : "purple.dark"}
-              _hover={{
-                bgImage:
-                  "linear-gradient(to right, #f2366f 33%, #a423ad 33%, #a7197f 66%, #4d1582 66%)",
-                bgSize: "306% 100%",
-                bgPosition: "100% 0",
-                transition: "2s background-position",
-                animation: "moveGradient2 4s alternate infinite",
-                bgClip: "text",
-              }}
-            >
-              Notre Mission
-            </Text>
-          </Link>
+          <Flex justify="space-between" width={{ lg: "15rem", xl: "22rem" }}>
+            <Link to="/le-projet">
+              <Text
+                color={
+                  isSticky && scrollPosition <= 50 ? "white" : "purple.dark"
+                }
+                _hover={{
+                  bgImage:
+                    "linear-gradient(to right, #f2366f 33%, #a423ad 33%, #a7197f 66%, #4d1582 66%)",
+                  bgSize: "306% 100%",
+                  bgPosition: "100% 0",
+                  transition: "2s background-position",
+                  animation: "moveGradient2 4s alternate infinite",
+                  bgClip: "text",
+                }}
+              >
+                Notre Mission
+              </Text>
+            </Link>
+          </Flex>
           <Flex
             justify="space-between"
             align="center"
