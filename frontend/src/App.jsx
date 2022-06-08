@@ -9,6 +9,8 @@ import LoginForm from "./components/LoginForm";
 import PasswordReset from "./components/PasswordReset";
 import ProfilPageProfessional from "./pages/ProfilPageProfessional";
 
+import RegisterOnboardingPro from "./pages/RegisterOnboardingPro";
+
 import "./App.css";
 
 function App() {
@@ -27,6 +29,10 @@ function App() {
         {/* <Route path="*" element={<Error />} /> */}
         <Route path="/forgot-password" element={<PasswordReset />} />
         <Route path="/profil" element={<ProfilPageProfessional />} />
+        <Route
+          path="/register-onboarding-pro"
+          element={<RegisterOnboardingPro />}
+        />
       </Routes>
     </div>
   );
