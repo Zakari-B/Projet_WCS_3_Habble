@@ -24,7 +24,7 @@ import Header from "../components/Header/Header";
 import Footer from "../components/Footer";
 import UploadedDocs from "../components/UploadedDocs";
 
-export default function Confidentialite() {
+export default function ProfilPageProfessional() {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [available, setAvailable] = useState(false);
   return (
