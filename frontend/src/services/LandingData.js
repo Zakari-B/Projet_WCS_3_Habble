@@ -5,7 +5,7 @@ import Courses from "../assets/courses-repas.jpg";
 import Demarches from "../assets/demarches-1.jpg";
 import Activites from "../assets/garde-enfant.png";
 import GardeEnf from "../assets/habble-background-right-1024x540.jpg";
-import Menage from "../assets/menage-jardinage.jpeg";
+import Administratif from "../assets/soutien-psychologique.jpg";
 
 const LandingData = [
   {
@@ -25,18 +25,18 @@ const LandingData = [
   },
   {
     id: 4,
-    image: Demarches,
-    title: "Coaching professionnel",
+    image: Administratif,
+    title: "Assistance administrative",
   },
   {
     id: 5,
     image: Courses,
-    title: "Compagnie et support social",
+    title: "Aide à domicile",
   },
   {
     id: 6,
-    image: Menage,
-    title: "Aide à domicile",
+    image: Demarches,
+    title: "Soutien scolaire",
   },
   {
     id: 7,
@@ -46,7 +46,7 @@ const LandingData = [
   {
     id: 8,
     image: AideDomicile,
-    title: "Soins personnels : toilette, habillement, ...",
+    title: "Transport",
   },
 ];
 
