@@ -221,12 +221,11 @@ export default function ProAccountForm() {
                   borderRadius="25px"
                 >
                   <ModalHeader
-                    fontSize="sm"
+                    paddingY="30px"
+                    color="purple.average"
                     fontWeight="600"
-                    color="#415161"
-                    lineHeight="1.6em"
-                    p="30px"
-                    borderBottom="1px solid #dbdbdb"
+                    fontSize="lg"
+                    bgColor="#FAFAFA"
                   >
                     Votre plus beau profil
                     <ModalCloseButton

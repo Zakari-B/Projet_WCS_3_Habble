@@ -29,7 +29,9 @@ export default function ProfilPageProfessional() {
           >
             <DocumentCarousel />
             <FormationCarousel />
-            <Button onClick={onOpen}>Open Modal</Button>
+            <Button onClick={onOpen} variant="solid_PrimaryColor">
+              Change Password
+            </Button>
             <EditPassWordModal
               onOpen={onOpen}
               isOpen={isOpen}
