@@ -11,7 +11,7 @@ import {
 } from "@chakra-ui/react";
 import React, { useState, useEffect, useContext } from "react";
 import FormationFormContext from "../../../contexts/FormationFormContext";
-
+import SelectMonth from "../../SelectMonth";
 import getDropList from "../../../services/Utils";
 
 export default function FormationForm() {
@@ -112,25 +112,7 @@ export default function FormationForm() {
           Du
         </FormLabel>
         <HStack>
-          <Select
-            w="32.1%"
-            placeholder="Mois"
-            onChange={handleFromMonthChange}
-            value={fromMonth}
-          >
-            <option>Janvier</option>
-            <option>Février</option>
-            <option>Mars</option>
-            <option>Avril</option>
-            <option>Mai</option>
-            <option>Juin</option>
-            <option>Juillet</option>
-            <option>Août</option>
-            <option>Septembre</option>
-            <option>Octobre</option>
-            <option>Novembre</option>
-            <option>Décembre</option>
-          </Select>
+          <SelectMonth onChange={handleFromMonthChange} value={fromMonth} />
           <Select
             w="32.1%"
             placeholder="Année"
@@ -152,25 +134,8 @@ export default function FormationForm() {
           Au
         </FormLabel>
         <HStack>
-          <Select
-            w="32.1%"
-            placeholder="Mois"
-            onChange={handleToMonthChange}
-            value={toMonth}
-          >
-            <option>Janvier</option>
-            <option>Février</option>
-            <option>Mars</option>
-            <option>Avril</option>
-            <option>Mai</option>
-            <option>Juin</option>
-            <option>Juillet</option>
-            <option>Août</option>
-            <option>Septembre</option>
-            <option>Octobre</option>
-            <option>Novembre</option>
-            <option>Décembre</option>
-          </Select>
+          <SelectMonth onChange={handleToMonthChange} value={toMonth} />
+
           <Select
             w="32.1%"
             placeholder="Année"
