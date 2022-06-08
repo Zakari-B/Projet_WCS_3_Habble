@@ -27,6 +27,7 @@ function ProfessionalExperience() {
   const [fromYear, setFromYear] = useState("");
   const [toMonth, setToMonth] = useState("");
   const [toYear, setToYear] = useState("");
+  const [checked, setChecked] = useState();
   const [description, setDescription] = useState("");
 
   const handleSubmit = (event) => event.preventDefault();
@@ -55,6 +56,12 @@ function ProfessionalExperience() {
     e.preventDefault();
     setToYear(e.target.value);
   };
+  const handleCheck = (e) => {
+    e.preventDefault();
+    setChecked(e.target.checked);
+    // eslint-disable-next-line no-restricted-syntax
+    console.log(checked);
+  };
   const handleDescChange = (e) => {
     e.preventDefault();
     setDescription(e.target.value);
@@ -70,6 +77,7 @@ function ProfessionalExperience() {
     setToMonth("");
     setToYear("");
     setDescription("");
+    setChecked(false);
     handleChangeForm();
   };
 
@@ -100,13 +108,7 @@ function ProfessionalExperience() {
         )}
       </Flex>
       <Collapse in={isOpen} animateOpacity>
-        <FormControl
-          ml="1rem"
-          mt="1rem"
-          mb="1rem"
-          onSubmit={handleSubmit}
-          transition="all 0.3s ease-in-out"
-        >
+        <FormControl ml="1rem" mt="1rem" mb="1rem" onSubmit={handleSubmit}>
           <Flex flexDir="column">
             <Input
               placeholder="Titre"
@@ -199,7 +201,13 @@ function ProfessionalExperience() {
                 {yearList.map((year) => year)}
               </Select>
             </HStack>
-            <Checkbox mt="0.5rem" colorScheme="pink">
+            <Checkbox
+              mt="0.5rem"
+              colorScheme="pink"
+              onChange={handleCheck}
+              value={checked}
+              isChecked={checked}
+            >
               Y travaille actuellement
             </Checkbox>
             <Textarea
