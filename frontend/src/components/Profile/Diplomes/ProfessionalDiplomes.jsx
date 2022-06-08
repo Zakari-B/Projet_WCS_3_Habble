@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import {
-  Box,
   Heading,
   Flex,
   HStack,
@@ -11,12 +10,14 @@ import {
   Input,
   Select,
   Textarea,
+  Collapse,
+  useDisclosure,
 } from "@chakra-ui/react";
-import getDropList from "../services/Utils";
+import getDropList from "../../../services/Utils";
 
-function ProfessionalDiplomes() {
+export default function ProfessionalDiplomes() {
   const [yearList, setYearList] = useState([]);
-  const [showForm, setShowForm] = useState(false);
+  const { isOpen, onToggle } = useDisclosure();
 
   const [title, setTitle] = useState("");
   const [delivered, setDelivered] = useState("");
@@ -47,9 +48,8 @@ function ProfessionalDiplomes() {
     setDescription(e.target.value);
   };
 
-  const handleChangeForm = () => {
-    setShowForm(!showForm);
-  };
+  const handleChangeForm = () => onToggle(!isOpen);
+
   const handleReset = () => {
     setTitle("");
     setDelivered("");
@@ -64,32 +64,30 @@ function ProfessionalDiplomes() {
   }, []);
 
   return (
-    <Box
-      w="100%"
-      h="auto"
-      backgroundColor="white"
-      color="black"
-      mt="5rem"
-      mb="5rem"
-      ml="auto"
-      mr="auto"
-      borderRadius="12px"
+    <Flex
+      direction="column"
+      bgColor="white"
+      boxShadow="rgb(0 0 0 / 4%) 0px 2px 6px"
+      p="25px"
+      borderRadius="21px"
+      minW="100%"
     >
-      <Flex justifyContent="space-between">
-        <Heading as="h4" mt="2rem" ml="1rem" fontSize="1.5rem" color="#342c50">
+      <Flex justify="space-between" alignItems="center" mb="40px">
+        <Heading
+          as="h2"
+          color="purple.average"
+          fontSize="1.5em"
+          fontWeight="700"
+        >
           Diplômes, certifications
         </Heading>
-        <Button
-          mt="2rem"
-          mr="1rem"
-          variant="outline_Pink"
-          onClick={handleChangeForm}
-        >
-          Ajouter
-        </Button>
+        {!isOpen && (
+          <Button variant="outline_Pink" onClick={onToggle}>
+            Ajouter
+          </Button>
+        )}
       </Flex>
-
-      {showForm && (
+      <Collapse in={isOpen} animateOpacity>
         <FormControl ml="1rem" mt="1rem" mb="1rem" onSubmit={handleSubmit}>
           <Flex flexDir="column">
             <Input
@@ -165,14 +163,12 @@ function ProfessionalDiplomes() {
             </Button>
           </Flex>
         </FormControl>
-      )}
-      {!showForm && (
+      </Collapse>
+      {!isOpen && (
         <Text color="#656565" ml="1rem" pb="1rem" fontSize="md" mt="1rem">
-          Ajoutez une certification professionnelle à votre profil. (optionnel)
+          Ajoutez une certification professionnelle à votre profil. (Optionnel)
         </Text>
       )}
-    </Box>
+    </Flex>
   );
 }
-
-export default ProfessionalDiplomes;
