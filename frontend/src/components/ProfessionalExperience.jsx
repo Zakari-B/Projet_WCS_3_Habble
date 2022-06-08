@@ -27,7 +27,7 @@ function ProfessionalExperience() {
   const [fromYear, setFromYear] = useState("");
   const [toMonth, setToMonth] = useState("");
   const [toYear, setToYear] = useState("");
-  const [checked, setChecked] = useState();
+  const [checked, setChecked] = useState(false);
   const [description, setDescription] = useState("");
 
   const handleSubmit = (event) => event.preventDefault();
@@ -59,8 +59,6 @@ function ProfessionalExperience() {
   const handleCheck = (e) => {
     e.preventDefault();
     setChecked(e.target.checked);
-    // eslint-disable-next-line no-restricted-syntax
-    console.log(checked);
   };
   const handleDescChange = (e) => {
     e.preventDefault();
@@ -90,7 +88,7 @@ function ProfessionalExperience() {
       w="100%"
       h="auto"
       backgroundColor="white"
-      color="black"
+      color="purple.average"
       mt="5rem"
       mb="5rem"
       ml="auto"
@@ -108,7 +106,13 @@ function ProfessionalExperience() {
         )}
       </Flex>
       <Collapse in={isOpen} animateOpacity>
-        <FormControl ml="1rem" mt="1rem" mb="1rem" onSubmit={handleSubmit}>
+        <FormControl
+          ml="1rem"
+          mt="1rem"
+          mb="1rem"
+          onSubmit={handleSubmit}
+          isRequired
+        >
           <Flex flexDir="column">
             <Input
               placeholder="Titre"
@@ -128,7 +132,7 @@ function ProfessionalExperience() {
               fontSize="xl"
               fontWeight="bold"
               lineHeight="28px"
-              color="#2F1D2C"
+              color="purple.average"
               mt="1rem"
             >
               Du
@@ -167,7 +171,7 @@ function ProfessionalExperience() {
               fontSize="xl"
               fontWeight="bold"
               lineHeight="28px"
-              color="#2F1D2C"
+              color="purple.average"
               mt="1rem"
             >
               Au
@@ -218,19 +222,20 @@ function ProfessionalExperience() {
               onChange={handleDescChange}
               value={description}
             />
-            <Button w="65%" mt="1rem" variant="solid_PrimaryColor">
-              Enregistrer
-            </Button>
-            <Button
-              w="65%"
-              mt="1rem"
-              variant="solid_SecondaryColor"
-              onClick={handleReset}
-            >
-              Annuler
-            </Button>
           </Flex>
         </FormControl>
+        <Button w="65%" mt="1rem" ml="1rem" variant="solid_PrimaryColor">
+          Enregistrer
+        </Button>
+        <Button
+          w="65%"
+          mt="1rem"
+          ml="1rem"
+          variant="solid_SecondaryColor"
+          onClick={handleReset}
+        >
+          Annuler
+        </Button>
       </Collapse>
       {!isOpen && (
         <Text color="#656565" ml="1rem" pb="1rem" fontSize="md" mt="1rem">
