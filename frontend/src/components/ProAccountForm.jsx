@@ -34,60 +34,18 @@ import {
   Image,
 } from "@chakra-ui/react";
 
-import axios from "axios";
 import { CloseIcon } from "@chakra-ui/icons";
 import { useState } from "react";
-// eslint-disable-next-line import/no-extraneous-dependencies
-import { useNavigate } from "react-router";
-import testImage from "../assets/conseils-educatifs.jpg";
+import modalPicture from "../assets/habble-favicon.png";
 
 export default function ProAccountForm() {
-  // fonction qui recupère le nom et prénom de l'utilisateur //
-  // const getUser = () => {
-  //   axios
-  //     .get(`http://localhost:4000/api/users/${users.id}`, {})
-  //     .then((response) => response.data);
-  // };
-  // useEffect(() => {
-  //   getUser();
-  // }, []);
-
-  // fonction qui post les valeurs dans la table proDetails + redirige vers la page profil //
-  const navigate = useNavigate();
-
   const { isOpen, onOpen, onClose } = useDisclosure();
 
-  const postProDetails = (e) => {
-    e.preventDefault();
-    axios
-      .post("http://localhost:4000/api/proDetails", {
-        // name: name,
-        // activityPro: activityPro,
-        // cityPro: cityPro,
-        // phonePro: phonePro,
-        // profilPicturePro : profilPicturePr,
-        // experienceYearPro: experienceYearPro,
-        // pricePro: pricePro,
-        // descriptionPro: descriptionPro,
-        // tags : tags,
-        // acceptEmailPro: acceptEmailPro,
-        // siretPro: siretPro,
-      })
-      .then(() => {
-        // setUser(response.data);
-        navigate("/profil");
-      });
-  };
-
   // useState pour chaque input //
-  // const [name, setName] = useState(`${users.firstname}${users.lastname}`);
   const [displayName, setDisplayName] = useState("");
   const [activityPro, setActivityPro] = useState("");
   const [cityPro, setCityPro] = useState("");
   const [phonePro, setPhonePro] = useState("");
-  // const [profilPicturePro, setProfilPicturePro] = useState(
-  //   "https://bit.ly/broken-link"
-  // );
   const [experienceYearPro, setExperienceYearPro] = useState("");
   const [pricePro, setPricePro] = useState("");
   const [descriptionPro, setDescriptionPro] = useState("");
@@ -122,9 +80,14 @@ export default function ProAccountForm() {
         boxShadow="0px 1px 1px 0px rgb(185 184 184 / 75%)"
         borderRadius="25px"
         padding="2%"
-        onSubmit={postProDetails}
       >
-        <Stack className="noAccount" spacing={8} width="90vw" margin="auto">
+        <Stack
+          className="noAccount"
+          spacing={8}
+          width="95%"
+          margin="auto"
+          maxW="95%"
+        >
           <Heading
             as="h2"
             textAlign="left"
@@ -264,7 +227,7 @@ export default function ProAccountForm() {
                   </ModalHeader>
                   <ModalBody>
                     <FormControl>
-                      <Box h="150px" alignSelf="left" my="2rem">
+                      <Box h="150px" alignSelf="left" my="4rem">
                         <Box
                           border="3px solid"
                           borderColor="pink.light"
@@ -273,23 +236,16 @@ export default function ProAccountForm() {
                           w="150px"
                           mx="40%"
                         />
-                        <Box h="150px" w="100%">
-                          <Image src={testImage} m="auto" h="150px" />
+                        <Box h="150px" w="150px" mx="40%">
+                          <Image src={modalPicture} m="auto" h="150px" />
                         </Box>
                       </Box>
                       <Flex
                         direction="column"
                         alignItems="center"
-                        mt="5rem"
+                        mt="3rem"
                         gap="5"
                       >
-                        <Button
-                          w="100px"
-                          variant="solid_PrimaryColor"
-                          type="submit"
-                        >
-                          Enregistrer
-                        </Button>
                         <Button
                           type="file"
                           bg="none"
@@ -308,7 +264,16 @@ export default function ProAccountForm() {
                             name="name"
                             display="none"
                           />{" "}
-                          Changer la photo
+                          Télécharger votre nouvelle photo
+                        </Button>
+                        <Button
+                          w="120px"
+                          variant="solid_PrimaryColor"
+                          type="submit"
+                          fontSize="sm"
+                          onClick={onClose}
+                        >
+                          Enregistrer
                         </Button>
                       </Flex>
                     </FormControl>
@@ -518,8 +483,11 @@ export default function ProAccountForm() {
             _checked={{ borderColor: "pink.light" }}
             onChange={() => setAcceptEmailPro(!acceptEmailPro)}
           >
-            Envoyez moi par email les annonces en rapport avec les services que
-            je propose
+            <Text fontSize="sm">
+              {" "}
+              Envoyez moi par email les annonces en rapport avec les services
+              que je propose
+            </Text>
           </Checkbox>
           <FormLabel
             htmlFor="expertise"
@@ -546,11 +514,21 @@ export default function ProAccountForm() {
               h="fit-content"
               w="fit-content%"
             >
-              <Checkbox value="" size="sm">
-                Démence
+              <Checkbox
+                iconColor="pink.light"
+                colorScheme="white"
+                borderColor="gray"
+                _checked={{ borderColor: "pink.light" }}
+              >
+                <Text fontSize="sm">Démence</Text>
               </Checkbox>
-              <Checkbox value="" size="sm">
-                Maladie d'Alzheimer
+              <Checkbox
+                iconColor="pink.light"
+                colorScheme="white"
+                borderColor="gray"
+                _checked={{ borderColor: "pink.light" }}
+              >
+                <Text fontSize="sm"> Maladie d'Alzheimer</Text>
               </Checkbox>
             </Flex>
           </CheckboxGroup>
@@ -571,20 +549,45 @@ export default function ProAccountForm() {
               h="fit-content"
               w="fit-content%"
             >
-              <Checkbox value="" size="sm">
-                Arthrite
+              <Checkbox
+                iconColor="pink.light"
+                colorScheme="white"
+                borderColor="gray"
+                _checked={{ borderColor: "pink.light" }}
+              >
+                <Text fontSize="sm">Arthrite</Text>
               </Checkbox>
-              <Checkbox value="" size="sm">
-                Asthme
+              <Checkbox
+                iconColor="pink.light"
+                colorScheme="white"
+                borderColor="gray"
+                _checked={{ borderColor: "pink.light" }}
+              >
+                <Text fontSize="sm">Asthme</Text>
               </Checkbox>
-              <Checkbox value="" size="sm">
-                Diabète
+              <Checkbox
+                iconColor="pink.light"
+                colorScheme="white"
+                borderColor="gray"
+                _checked={{ borderColor: "pink.light" }}
+              >
+                <Text fontSize="sm">Diabète</Text>
               </Checkbox>
-              <Checkbox value="" size="sm">
-                Maladie respiratoire
+              <Checkbox
+                iconColor="pink.light"
+                colorScheme="white"
+                borderColor="gray"
+                _checked={{ borderColor: "pink.light" }}
+              >
+                <Text fontSize="sm"> Maladie respiratoire</Text>
               </Checkbox>
-              <Checkbox value="" size="sm">
-                Maladie cardiovasculaire
+              <Checkbox
+                iconColor="pink.light"
+                colorScheme="white"
+                borderColor="gray"
+                _checked={{ borderColor: "pink.light" }}
+              >
+                <Text fontSize="sm"> Maladie cardiovasculaire</Text>
               </Checkbox>
             </Flex>
           </CheckboxGroup>
@@ -605,53 +608,133 @@ export default function ProAccountForm() {
               h="fit-content"
               w="fit-content%"
             >
-              <Checkbox value="" size="sm">
-                Lésion cérébrale acquise
+              <Checkbox
+                iconColor="pink.light"
+                colorScheme="white"
+                borderColor="gray"
+                _checked={{ borderColor: "pink.light" }}
+              >
+                <Text fontSize="sm"> Lésion cérébrale acquise</Text>
               </Checkbox>
-              <Checkbox value="" size="sm">
-                Autisme
+              <Checkbox
+                iconColor="pink.light"
+                colorScheme="white"
+                borderColor="gray"
+                _checked={{ borderColor: "pink.light" }}
+              >
+                <Text fontSize="sm">Autisme</Text>
               </Checkbox>
-              <Checkbox value="" size="sm">
-                Infirmité motric cérébrale
+              <Checkbox
+                iconColor="pink.light"
+                colorScheme="white"
+                borderColor="gray"
+                _checked={{ borderColor: "pink.light" }}
+              >
+                <Text fontSize="sm"> Infirmité motric cérébrale</Text>
               </Checkbox>
-              <Checkbox value="" size="sm">
-                Syndrome de down (trisomie 21)
+              <Checkbox
+                iconColor="pink.light"
+                colorScheme="white"
+                borderColor="gray"
+                _checked={{ borderColor: "pink.light" }}
+              >
+                <Text fontSize="sm"> Syndrome de down (trisomie 21)</Text>
               </Checkbox>
-              <Checkbox value="" size="sm">
-                Fibrose kystique
+              <Checkbox
+                iconColor="pink.light"
+                colorScheme="white"
+                borderColor="gray"
+                _checked={{ borderColor: "pink.light" }}
+              >
+                <Text fontSize="sm"> Fibrose kystique</Text>
               </Checkbox>
-              <Checkbox value="" size="sm">
-                Épilepsie
+              <Checkbox
+                iconColor="pink.light"
+                colorScheme="white"
+                borderColor="gray"
+                _checked={{ borderColor: "pink.light" }}
+              >
+                <Text fontSize="sm"> Épilepsie</Text>
               </Checkbox>
-              <Checkbox value="" size="sm">
-                Déficience auditive
+              <Checkbox
+                iconColor="pink.light"
+                colorScheme="white"
+                borderColor="gray"
+                _checked={{ borderColor: "pink.light" }}
+              >
+                <Text fontSize="sm"> Déficience auditive</Text>
               </Checkbox>
-              <Checkbox value="" size="sm">
-                Handicap intellectuel
+              <Checkbox
+                iconColor="pink.light"
+                colorScheme="white"
+                borderColor="gray"
+                _checked={{ borderColor: "pink.light" }}
+              >
+                <Text fontSize="sm"> Handicap intellectuel</Text>
               </Checkbox>
-              <Checkbox value="" size="sm">
-                Maladie du motoneurone
+              <Checkbox
+                iconColor="pink.light"
+                colorScheme="white"
+                borderColor="gray"
+                _checked={{ borderColor: "pink.light" }}
+              >
+                <Text fontSize="sm"> Maladie du motoneurone</Text>
               </Checkbox>
-              <Checkbox value="" size="sm">
-                Dystrophie musculaire
+              <Checkbox
+                iconColor="pink.light"
+                colorScheme="white"
+                borderColor="gray"
+                _checked={{ borderColor: "pink.light" }}
+              >
+                <Text fontSize="sm"> Dystrophie musculaire</Text>
               </Checkbox>
-              <Checkbox value="" size="sm">
-                Handicap physique, moteur
+              <Checkbox
+                iconColor="pink.light"
+                colorScheme="white"
+                borderColor="gray"
+                _checked={{ borderColor: "pink.light" }}
+              >
+                <Text fontSize="sm"> Handicap physique, moteur</Text>
               </Checkbox>
-              <Checkbox value="" size="sm">
-                Spina-bifida
+              <Checkbox
+                iconColor="pink.light"
+                colorScheme="white"
+                borderColor="gray"
+                _checked={{ borderColor: "pink.light" }}
+              >
+                <Text fontSize="sm"> Spina-bifida</Text>
               </Checkbox>
-              <Checkbox value="" size="sm">
-                Lésion de la moelle épinière
+              <Checkbox
+                iconColor="pink.light"
+                colorScheme="white"
+                borderColor="gray"
+                _checked={{ borderColor: "pink.light" }}
+              >
+                <Text fontSize="sm"> Lésion de la moelle épinière</Text>
               </Checkbox>
-              <Checkbox value="" size="sm">
-                Handicap visuel
+              <Checkbox
+                iconColor="pink.light"
+                colorScheme="white"
+                borderColor="gray"
+                _checked={{ borderColor: "pink.light" }}
+              >
+                <Text fontSize="sm"> Handicap visuel</Text>
               </Checkbox>
-              <Checkbox value="" size="sm">
-                Handicap auditif
+              <Checkbox
+                iconColor="pink.light"
+                colorScheme="white"
+                borderColor="gray"
+                _checked={{ borderColor: "pink.light" }}
+              >
+                <Text fontSize="sm"> Handicap auditif</Text>
               </Checkbox>
-              <Checkbox value="" size="sm">
-                Trouble DYS
+              <Checkbox
+                iconColor="pink.light"
+                colorScheme="white"
+                borderColor="gray"
+                _checked={{ borderColor: "pink.light" }}
+              >
+                <Text fontSize="sm"> Trouble DYS</Text>
               </Checkbox>
             </Flex>
           </CheckboxGroup>
@@ -672,35 +755,91 @@ export default function ProAccountForm() {
               h="fit-content"
               w="fit-content%"
             >
-              <Checkbox value="" size="sm">
-                Anxiété
+              <Checkbox
+                iconColor="pink.light"
+                colorScheme="white"
+                borderColor="gray"
+                _checked={{ borderColor: "pink.light" }}
+              >
+                <Text fontSize="sm">Anxiété</Text>
               </Checkbox>
-              <Checkbox value="" size="sm">
-                Trouble bipolaire
+              <Checkbox
+                iconColor="pink.light"
+                colorScheme="white"
+                borderColor="gray"
+                _checked={{ borderColor: "pink.light" }}
+              >
+                <Text fontSize="sm"> Trouble bipolaire</Text>
               </Checkbox>
-              <Checkbox value="" size="sm">
-                Dépression
+              <Checkbox
+                iconColor="pink.light"
+                colorScheme="white"
+                borderColor="gray"
+                _checked={{ borderColor: "pink.light" }}
+              >
+                <Text fontSize="sm"> Dépression</Text>
               </Checkbox>
-              <Checkbox value="" size="sm">
-                Troubles de l'alimentation
+              <Checkbox
+                iconColor="pink.light"
+                colorScheme="white"
+                borderColor="gray"
+                _checked={{ borderColor: "pink.light" }}
+              >
+                <Text fontSize="sm"> Troubles de l'alimentation</Text>
               </Checkbox>
-              <Checkbox value="" size="sm">
-                Trouble de la thésaurisation
+              <Checkbox
+                iconColor="pink.light"
+                colorScheme="white"
+                borderColor="gray"
+                _checked={{ borderColor: "pink.light" }}
+              >
+                <Text fontSize="sm"> Trouble de la thésaurisation</Text>
               </Checkbox>
-              <Checkbox value="" size="sm">
-                Trouble obsessionnel-compulsif (TOC)
+              <Checkbox
+                iconColor="pink.light"
+                colorScheme="white"
+                borderColor="gray"
+                _checked={{ borderColor: "pink.light" }}
+              >
+                <Text fontSize="sm"> Trouble obsessionnel-compulsif (TOC)</Text>
               </Checkbox>
-              <Checkbox value="" size="sm">
-                Trouble de stress post-traumatique (TSPT)
+              <Checkbox
+                iconColor="pink.light"
+                colorScheme="white"
+                borderColor="gray"
+                _checked={{ borderColor: "pink.light" }}
+              >
+                <Text fontSize="sm">
+                  {" "}
+                  Trouble de stress post-traumatique (TSPT)
+                </Text>
               </Checkbox>
-              <Checkbox value="" size="sm">
-                Skizophrénie
+              <Checkbox
+                iconColor="pink.light"
+                colorScheme="white"
+                borderColor="gray"
+                _checked={{ borderColor: "pink.light" }}
+              >
+                <Text fontSize="sm"> Skizophrénie</Text>
               </Checkbox>
-              <Checkbox value="" size="sm">
-                Abus de substances et toxicomanie
+              <Checkbox
+                iconColor="pink.light"
+                colorScheme="white"
+                borderColor="gray"
+                _checked={{ borderColor: "pink.light" }}
+              >
+                <Text fontSize="sm"> Abus de substances et toxicomanie</Text>
               </Checkbox>
-              <Checkbox value="" size="sm">
-                Trouble de l'attention avec ou sans hyperactivité (TDAH)
+              <Checkbox
+                iconColor="pink.light"
+                colorScheme="white"
+                borderColor="gray"
+                _checked={{ borderColor: "pink.light" }}
+              >
+                <Text fontSize="sm">
+                  {" "}
+                  Trouble de l'attention avec ou sans hyperactivité (TDAH)
+                </Text>
               </Checkbox>
             </Flex>
           </CheckboxGroup>
