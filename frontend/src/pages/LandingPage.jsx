@@ -209,7 +209,7 @@ export default function LandingPage() {
             <Flex flexDir="column" alignItems="center">
               <Image src={Chat} pos="relative" w="5rem" />
               <Heading as="h4" mt="2rem" fontSize="1.5rem" fontWeight="500">
-                Déposez une annonce
+                Transmettez nous votre demande
               </Heading>
               <Text
                 color="#656565"
@@ -220,9 +220,11 @@ export default function LandingPage() {
                 align="center"
               >
                 Inscrivez vous gratuitement à Habble et dîtes nous de quel
-                services vous avez besoin et à quel moment. Recevez des
-                propositions de professionnels, discutez avec eux des détails,
-                choisissez la proposition la plus adaptée puis profitez !
+                service vous avez besoin et à quel moment : garde, éducation
+                spécialisée, aide administrative, auxiliaire de vie,
+                ergothérapeuthe... Recevez des propositions de professionnels,
+                discutez avec eux des détails, choisissez la proposition la plus
+                adaptée puis profitez !
               </Text>
             </Flex>
           </Box>
@@ -296,8 +298,8 @@ export default function LandingPage() {
               fontWeight="500"
               textAlign={{ base: "center", md: "left" }}
             >
-              Accédez à un réseau de soin et de soutien spécialisé dans le
-              handicap simple, sûr et disponible.
+              Accédez à un réseau de soutien spécialisé dans le handicap simple,
+              sûr et disponible.
             </Heading>
             <Text
               color="#656565"
@@ -355,7 +357,7 @@ export default function LandingPage() {
             </Heading>
             <Text color="#656565" mt="2rem" mb="1rem" fontSize="md">
               Les professionnels indépendants et services spécialisés répondent
-              à des critères stricts : références, qualifications,... Nous
+              à des critères stricts : références, qualifications... Nous
               vérifions les agréments pour plus de sureté et sécurité. <br />
               <br />
               Un contact disponible en cas d'urgence.
@@ -372,9 +374,8 @@ export default function LandingPage() {
               Assurance tous risques
             </Heading>
             <Text color="#656565" mt="2rem" mb="1rem" fontSize="md">
-              Tous les professionels indépendants sont couverts par une
-              assurance tous risques pour garantir la tranquillité d'esprit pour
-              vous et votre famille.
+              Nous vérifions les compétences et informations des professionnels
+              pour garantir la tranquillité d'esprit pour vous et votre famille.
             </Text>
           </Box>
         </Flex>
@@ -574,7 +575,7 @@ export default function LandingPage() {
             fontWeight="500"
             textAlign={{ base: "center", md: "left" }}
           >
-            Vous êtes un professionnel du handicap ou du soin ?
+            Vous êtes un professionnel du handicap ou du soin à domicile ?
           </Heading>
           <Text
             color="#f9f9f9"
@@ -584,8 +585,9 @@ export default function LandingPage() {
             fontSize="md"
             textAlign={{ base: "center", md: "left" }}
           >
-            Faites-vous connaître, choisissez les missions qui vous
-            correspondent et développez votre activité !
+            Educ, AES, Ergo, AESH, Enseignant, Auxiliaire de vie,...Faites-vous
+            connaître, choisissez les missions qui vous correspondent et
+            développez votre activité !
           </Text>
           <Flex direction={{ lg: "column" }} justify={{ lg: "flex-start" }}>
             <Button
