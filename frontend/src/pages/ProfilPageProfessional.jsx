@@ -6,6 +6,7 @@ import DocumentCarousel from "../components/Profile/DocumentUpload/DocumentCarou
 import BannerProfile from "../components/Profile/BannerProfile";
 import DiplomeCarousel from "../components/Profile/Diplomes/DiplomeCarousel";
 import ExperienceCarousel from "../components/Profile/Experience/ExperienceCarousel";
+import Expertises from "../components/Profile/Expertises/Expertise";
 
 export default function ProfilPageProfessional() {
   return (
@@ -19,7 +20,9 @@ export default function ProfilPageProfessional() {
       >
         <BannerProfile />
         <Flex w="80%" gap="20px" m="auto" paddingY="30px">
-          <Flex bgColor="red" minW="33%" minH="20vh" />
+          <Flex bgColor="red" minW="33%" minH="20vh">
+            <Expertises />
+          </Flex>
           <Flex
             bgColor="background.gray"
             minW="66%"
