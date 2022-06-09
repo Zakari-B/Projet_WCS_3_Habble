@@ -22,21 +22,22 @@ export default function BannerProfile() {
       border="1px solid #ededed"
       borderRadius="25px"
     >
-      <Flex
-        bgColor="white"
-        p="1.5rem"
-        borderRadius="25px 25px 0 0"
-        flexDir={{ base: "column", md: "row" }}
-      >
-        <FormControl display="flex" alignItems="center">
+      <Flex bgColor="white" p="1.5rem" borderRadius="25px 25px 0 0">
+        <FormControl
+          display="flex"
+          alignItems={{ base: "flex-start", lg: "center" }}
+        >
           <Switch
             colorScheme="pink"
             id="availabilityToggle"
             onChange={() => setAvailable(!available)}
           />
-          <FormLabel htmlFor="availabilityToggle">
+          <FormLabel htmlFor="availabilityToggle" mb="-1px">
             {available ? (
-              <Flex alignItems="center">
+              <Flex
+                alignItems={{ base: "flex-start", lg: "center" }}
+                flexDir="column"
+              >
                 <Text fontSize="1.2rem" fontWeight="700">
                   &nbsp; Disponible{" "}
                 </Text>
@@ -76,20 +77,26 @@ export default function BannerProfile() {
             fontSize="1.5rem"
             fontWeight="700"
             color="white"
-            marginBottom="20px"
+            marginBottom="1.2rem"
           >
             [[PROFESSION]] à [[CP]] [[VILLE]]
           </Text>
-          <Text color="white" marginBottom="20px">
+          <Text color="white" marginBottom="1.2rem">
             [[EXPERIENCE]]d'expérience
           </Text>
-          <Text color="white" marginBottom="20px">
+          <Text color="white" marginBottom="1.2rem">
             Membre depuis [[DATE INSCRIPTION]]
           </Text>
           <Text color="white">[[VIGNETTES SERVICES PROPOSES]]</Text>
         </Flex>
-        <Flex direction="column" p="10px" gap={5} margin="0 0 0 auto" w="25%">
-          <Button marginTop="10px" variant="solid_PrimaryColor">
+        <Flex
+          direction="column"
+          p="0.75rem"
+          gap={5}
+          margin="0 0 0 auto"
+          w="25%"
+        >
+          <Button marginTop="0.75rem" variant="solid_PrimaryColor">
             Modifier
           </Button>
           <Button variant="outlineWhite">Voir mon profil en ligne</Button>
