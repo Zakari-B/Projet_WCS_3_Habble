@@ -1,4 +1,4 @@
-import { Flex, Heading, ListItem, Text, List } from "@chakra-ui/react";
+import { Flex, Heading, ListItem, Text, List, Button } from "@chakra-ui/react";
 
 import { CheckIcon, CloseIcon } from "@chakra-ui/icons";
 
@@ -67,6 +67,9 @@ export default function Verifications() {
             </ListItem>
           ))}
         </List>
+        <Button marginTop="2rem" variant="solid_gradient">
+          Demander une vérification
+        </Button>
       </Flex>
     </Flex>
   );
