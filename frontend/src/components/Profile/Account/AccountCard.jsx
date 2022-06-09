@@ -32,7 +32,6 @@ export default function FormationCarousel() {
       p="25px"
       borderRadius="21px"
       minW="100%"
-      height="30%"
     >
       <Flex direction="column">
         <Flex direction="column">
