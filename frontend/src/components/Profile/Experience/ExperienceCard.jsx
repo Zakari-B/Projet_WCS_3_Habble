@@ -21,7 +21,7 @@ export default function ExperienceCard({ experience }) {
     setIsVisible(!isVisible);
   };
   return (
-    <Flex direction="column" gap="10px" paddingY="10px">
+    <Flex direction="column" gap="10px" paddingY="10px" key={experience.id}>
       <Heading as="h2" color="purple.average" fontSize="1.5em" fontWeight="700">
         {experience.title}
       </Heading>

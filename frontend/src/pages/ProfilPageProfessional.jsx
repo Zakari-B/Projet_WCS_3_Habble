@@ -20,13 +20,19 @@ export default function ProfilPageProfessional() {
         paddingY="30px"
       >
         <BannerProfile />
-        <Flex w="80%" gap="20px" m="auto" paddingY="30px">
-          <Flex bgColor="red" minW="33%" minH="20vh">
+        <Flex
+          w={{ base: "95%", lg: "80%" }}
+          gap="20px"
+          m="auto"
+          paddingY="30px"
+          direction={{ base: "column", lg: "row" }}
+        >
+          <Flex bgColor="red" minW={{ base: "100%", lg: "33%" }} minH="20vh">
             <AccountCard />
           </Flex>
           <Flex
             bgColor="background.gray"
-            minW="66%"
+            minW={{ base: "100%", lg: "66%" }}
             direction="column"
             gap="20px"
           >

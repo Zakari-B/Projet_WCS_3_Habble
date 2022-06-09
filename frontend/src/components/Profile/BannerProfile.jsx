@@ -8,30 +8,33 @@ import {
   Image,
 } from "@chakra-ui/react";
 import { useState } from "react";
+import Patrice from "../../assets/patrice-warembourg-550.jpg";
 
 export default function BannerProfile() {
   const [available, setAvailable] = useState(false);
 
   return (
     <Flex
-      w="80%"
-      height="500px"
+      w={{ base: "95%", lg: "80%" }}
       direction="column"
       alignSelf="center"
-      marginTop="30px"
       boxShadow="rgb(0 0 0 / 4%) 0px 2px 6px"
       border="1px solid #ededed"
       borderRadius="25px"
-      m="auto"
     >
-      <Flex bgColor="white" height="15%" p="20px" borderRadius="25px 25px 0 0">
+      <Flex
+        bgColor="white"
+        p="1.5rem"
+        borderRadius="25px 25px 0 0"
+        flexDir={{ base: "column", md: "row" }}
+      >
         <FormControl display="flex" alignItems="center">
           <Switch
             colorScheme="pink"
             id="availabilityToggle"
             onChange={() => setAvailable(!available)}
           />
-          <FormLabel htmlFor="availabilityToggle" mb="0">
+          <FormLabel htmlFor="availabilityToggle">
             {available ? (
               <Flex alignItems="center">
                 <Text fontSize="1.2rem" fontWeight="700">
@@ -56,12 +59,12 @@ export default function BannerProfile() {
         </FormControl>
       </Flex>
       <Flex bgColor="purple.average" minH="60%" p="10px">
-        <Flex m="30px" minW="250px" w="15%" alignItems="center">
+        <Flex m="2rem" minW="23%" w="15%" alignItems="center">
           <Image
-            boxSize="200px"
+            boxSize="115%"
             borderRadius="50%"
             objectFit="cover"
-            src="https://app.habble.fr/wp-content/uploads/2020/02/patrice-warembourg-550.jpg"
+            src={Patrice}
             alt="Avatar utilisateur"
           />
         </Flex>
