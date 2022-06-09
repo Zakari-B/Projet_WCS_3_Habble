@@ -553,6 +553,7 @@ export default function LandingPage() {
           </Box>
         </Flex>
       </Box>
+
       <Box
         w="100%"
         bgColor="#5f3984"
@@ -562,52 +563,41 @@ export default function LandingPage() {
         bgSize="70%"
       >
         <Box
-          w={{ base: "100%", "2xl": "50%" }}
-          paddingLeft={{ "2xl": "20rem" }}
+          w={{ base: "100%", lg: "50%" }}
+          pl={{ lg: "5em", "2xl": "20rem" }}
           pb="2rem"
           pt={{ base: "0.5rem", lg: "2rem" }}
-          textAlign="center"
         >
-          <Heading
-            as="h3"
-            fontSize="calc(1rem + 1vw)"
-            color="#f9f9f9"
-            mt="1.563rem"
-            mb="1.25rem"
-            fontWeight="500"
-            textAlign={{ base: "center", md: "left" }}
-          >
-            Vous êtes un professionnel du handicap ou du soin à domicile ?
-          </Heading>
-          <Text
-            color="#f9f9f9"
-            m="0 0 0.625rem"
-            mt="2rem"
-            mb="1rem"
-            fontSize="md"
-            textAlign={{ base: "center", md: "left" }}
-          >
-            Educ, AES, Ergo, AESH, Enseignant, Auxiliaire de vie,...Faites-vous
-            connaître, choisissez les missions qui vous correspondent et
-            développez votre activité !
-          </Text>
-          <Flex direction={{ lg: "column" }} justify={{ lg: "flex-start" }}>
+          <Flex direction="column" alignItems={{ base: "center", lg: "none" }}>
+            <Heading
+              as="h3"
+              fontSize="calc(1rem + 1vw)"
+              color="#f9f9f9"
+              mt="1.563rem"
+              fontWeight="500"
+            >
+              Vous êtes un professionnel du handicap ou du soin à domicile ?
+            </Heading>
+            <Text
+              color="#f9f9f9"
+              m="0 0 0.625rem"
+              mt="2rem"
+              mb="1rem"
+              fontSize="md"
+            >
+              Educ, AES, Ergo, AESH, Enseignant, Auxiliaire de
+              vie,...Faites-vous connaître, choisissez les missions qui vous
+              correspondent et développez votre activité !
+            </Text>
             <Button
-              w="90%"
+              w={{ base: "75%", lg: "90%" }}
               h="auto"
               p="0.625rem 1.375rem"
-              borderRadius="4px"
               variant="outline_White_Gradient"
-              alignItems="left"
             >
               En savoir plus
             </Button>
-            <Text
-              color="#f9f9f9"
-              mt="2rem"
-              fontSize="sm"
-              textAlign={{ base: "center", md: "left" }}
-            >
+            <Text color="#f9f9f9" mt="2rem" fontSize="sm">
               Inscrivez-vous et détaillez vos services
             </Text>
           </Flex>
