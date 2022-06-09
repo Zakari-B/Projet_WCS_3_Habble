@@ -49,9 +49,18 @@ export default function FormationCarousel() {
               </Button>
             )}
           </Flex>
-          {!isVisible && <Text paddingTop="2rem">Adresse email :</Text>}
           {!isVisible && (
-            <Text paddingTop="0.8rem" paddingBottom="3rem">
+            <Text paddingTop="2rem" color="purple.average" fontSize="14px">
+              Adresse email :
+            </Text>
+          )}
+          {!isVisible && (
+            <Text
+              paddingTop="0.8rem"
+              paddingBottom="3rem"
+              color="purple.average"
+              fontSize="14px"
+            >
               {email}
             </Text>
           )}
