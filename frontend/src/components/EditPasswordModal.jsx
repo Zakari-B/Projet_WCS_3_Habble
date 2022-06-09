@@ -17,14 +17,14 @@ import axios from "axios";
 export default function EditPassWordModal({ isOpen, onClose }) {
   const editPassword = (e) => {
     e.preventDefault();
-    axios.post("http://localhost:4000/api/changePassword/id", {});
+    axios.get("");
   };
 
   return (
     <Modal size="xl" isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent borderRadius="0px 0px 21px 21px">
-        <FormControl isRequired onSubmit={editPassword}>
+        <form>
           <ModalHeader
             paddingY="30px"
             color="purple.average"
@@ -36,28 +36,30 @@ export default function EditPassWordModal({ isOpen, onClose }) {
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody paddingY="30px">
-            <Flex direction="column" gap="30px">
-              <Input
-                type="password"
-                id="currentPassword"
-                name="Mot de passe actuel"
-                placeholder="Mot de passe actuel"
-              />
+            <FormControl isRequired onSubmit={editPassword}>
+              <Flex direction="column" gap="30px">
+                <Input
+                  type="password"
+                  id="currentPassword"
+                  name="Mot de passe actuel"
+                  placeholder="Mot de passe actuel"
+                />
 
-              <Input
-                type="password"
-                id="newPassword"
-                name="Nouveau Mot de passe"
-                placeholder="Nouveau mot de passe "
-              />
+                <Input
+                  type="password"
+                  id="newPassword"
+                  name="Nouveau Mot de passe"
+                  placeholder="Nouveau mot de passe "
+                />
 
-              <Input
-                type="password"
-                id="newPasswordRepeat"
-                name="Retapez votre mot de passe"
-                placeholder="Confirmez votre mot de passe"
-              />
-            </Flex>
+                <Input
+                  type="password"
+                  id="newPasswordRepeat"
+                  name="Retapez votre mot de passe"
+                  placeholder="Confirmez votre mot de passe"
+                />
+              </Flex>
+            </FormControl>
           </ModalBody>
 
           <ModalFooter
@@ -74,7 +76,7 @@ export default function EditPassWordModal({ isOpen, onClose }) {
               Annuler
             </Button>
           </ModalFooter>
-        </FormControl>
+        </form>
       </ModalContent>
     </Modal>
   );
