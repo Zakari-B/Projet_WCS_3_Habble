@@ -9,7 +9,6 @@ import {
 import { useState, useMemo } from "react";
 
 import AccountForm from "./AccountForm";
-// import AccountFormPassword from "./AccountFormPassword";
 import FormationFormContext from "../../../contexts/FormationFormContext";
 import EditPassWordModal from "../../EditPasswordModal";
 
