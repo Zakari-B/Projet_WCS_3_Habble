@@ -4,9 +4,10 @@ import Footer from "../components/Footer";
 import FormationCarousel from "../components/Profile/Formation/FormationCarousel";
 import DocumentCarousel from "../components/Profile/DocumentUpload/DocumentCarousel";
 import BannerProfile from "../components/Profile/BannerProfile";
+import AccountCard from "../components/Profile/Account/AccountCard";
 import DiplomeCarousel from "../components/Profile/Diplomes/DiplomeCarousel";
 import ExperienceCarousel from "../components/Profile/Experience/ExperienceCarousel";
-import Expertises from "../components/Profile/Expertises/Expertise";
+import Expertises from "../components/Profile/Expertises/Expertises";
 
 export default function ProfilPageProfessional() {
   return (
@@ -20,7 +21,14 @@ export default function ProfilPageProfessional() {
       >
         <BannerProfile />
         <Flex w="80%" gap="20px" m="auto" paddingY="30px">
-          <Flex bgColor="red" minW="33%" minH="20vh">
+          <Flex
+            bgColor="red"
+            minW="33%"
+            minH="20vh"
+            direction="column"
+            gap="20px"
+          >
+            <AccountCard />
             <Expertises />
           </Flex>
           <Flex
