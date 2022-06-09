@@ -7,6 +7,7 @@ import BannerProfile from "../components/Profile/BannerProfile";
 import AccountCard from "../components/Profile/Account/AccountCard";
 import DiplomeCarousel from "../components/Profile/Diplomes/DiplomeCarousel";
 import ExperienceCarousel from "../components/Profile/Experience/ExperienceCarousel";
+import MissionCarousel from "../components/Profile/Mission/MissionCarousel";
 
 export default function ProfilPageProfessional() {
   return (
@@ -33,6 +34,7 @@ export default function ProfilPageProfessional() {
             <FormationCarousel />
             <DiplomeCarousel />
             <ExperienceCarousel />
+            <MissionCarousel />
           </Flex>
         </Flex>
       </Flex>
