@@ -8,6 +8,8 @@ import AccountCard from "../components/Profile/Account/AccountCard";
 import DiplomeCarousel from "../components/Profile/Diplomes/DiplomeCarousel";
 import ExperienceCarousel from "../components/Profile/Experience/ExperienceCarousel";
 import MissionCarousel from "../components/Profile/Mission/MissionCarousel";
+import Verifications from "../components/Profile/Verifications";
+import Tarif from "../components/Profile/Tarif";
 
 export default function ProfilPageProfessional() {
   return (
@@ -27,8 +29,16 @@ export default function ProfilPageProfessional() {
           paddingY="30px"
           direction={{ base: "column", lg: "row" }}
         >
-          <Flex bgColor="red" minW={{ base: "100%", lg: "33%" }} minH="20vh">
+          <Flex
+            minW={{ base: "100%", lg: "33%" }}
+            minH="20vh"
+            bgColor="background.gray"
+            gap="20px"
+            flexDir="column"
+          >
             <AccountCard />
+            <Verifications />
+            <Tarif />
           </Flex>
           <Flex
             bgColor="background.gray"
