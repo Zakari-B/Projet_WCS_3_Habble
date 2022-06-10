@@ -39,7 +39,7 @@ export default function Expertises() {
               fontSize="sm"
               w="fit-content"
             >
-              Autisme
+              [[EXPERTISE]]
             </Text>
             <Text
               m="0.2rem"
@@ -48,7 +48,7 @@ export default function Expertises() {
               fontSize="sm"
               w="fit-content"
             >
-              Autisme
+              [[EXPERTISE]]
             </Text>
             <Text
               m="0.2rem"
@@ -57,7 +57,7 @@ export default function Expertises() {
               fontSize="sm"
               w="fit-content"
             >
-              Autisme
+              [[EXPERTISE]]
             </Text>
             <Text
               m="0.2rem"
@@ -66,7 +66,7 @@ export default function Expertises() {
               fontSize="sm"
               w="fit-content"
             >
-              Autisme
+              [[EXPERTISE]]
             </Text>
           </Flex>
         </Flex>
@@ -95,7 +95,7 @@ export default function Expertises() {
                 fontSize="sm"
                 w="fit-content"
               >
-                Autisme
+                [[EXPERTISE]]
               </Text>
             </Flex>
           </Flex>
@@ -123,7 +123,7 @@ export default function Expertises() {
                 fontSize="sm"
                 w="fit-content"
               >
-                Autisme
+                [[EXPERTISE]]
               </Text>
             </Flex>
           </Flex>
@@ -151,7 +151,7 @@ export default function Expertises() {
                 fontSize="sm"
                 w="fit-content"
               >
-                Autisme
+                [[EXPERTISE]]
               </Text>
             </Flex>
           </Flex>
