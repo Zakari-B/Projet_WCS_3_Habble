@@ -71,6 +71,14 @@ const theme = extendTheme({
             color: "purple.light",
           },
         }),
+        solid_gradient: () => ({
+          bgGradient:
+            "linear-gradient(to-r, #a7197f 0%, #4d1582 51%, #a7197f 100%)",
+          bgSize: "200%",
+          color: "white",
+          fontWeight: "500",
+          borderRadius: "4px",
+        }),
         outline: () => ({
           bg: "transparent",
           border: "2px solid",
