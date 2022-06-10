@@ -23,10 +23,7 @@ export default function BannerProfile() {
       borderRadius="25px"
     >
       <Flex bgColor="white" p="1.5rem" borderRadius="25px 25px 0 0">
-        <FormControl
-          display="flex"
-          alignItems={{ base: "flex-start", lg: "center" }}
-        >
+        <FormControl display="flex" alignItems="center">
           <Switch
             colorScheme="pink"
             id="availabilityToggle"
@@ -34,23 +31,20 @@ export default function BannerProfile() {
           />
           <FormLabel htmlFor="availabilityToggle" mb="-1px">
             {available ? (
-              <Flex
-                alignItems={{ base: "flex-start", lg: "center" }}
-                flexDir="column"
-              >
+              <Flex alignItems="center" wrap="wrap" justifyContent="center">
                 <Text fontSize="1.2rem" fontWeight="700">
                   &nbsp; Disponible{" "}
                 </Text>
-                <Text fontWeight="500">
+                <Text fontWeight="500" textAlign="center">
                   &nbsp; - Vous pouvez être contacté et recevoir des demandes
                 </Text>
               </Flex>
             ) : (
-              <Flex alignItems="center">
+              <Flex alignItems="center" wrap="wrap" justifyContent="center">
                 <Text fontSize="1.2rem" fontWeight="700">
                   &nbsp; Indisponible
                 </Text>
-                <Text fontWeight="500">
+                <Text fontWeight="500" textAlign="center">
                   &nbsp; - Vous ne pouvez pas être contacté et recevoir des
                   demandes
                 </Text>
@@ -59,18 +53,34 @@ export default function BannerProfile() {
           </FormLabel>
         </FormControl>
       </Flex>
-      <Flex bgColor="purple.average" minH="60%" p="10px">
-        <Flex m="2rem" minW="23%" w="15%" alignItems="center">
+      <Flex
+        bgColor="purple.average"
+        minH="60%"
+        p="10px"
+        flexDir={{ base: "column", md: "row" }}
+      >
+        <Flex
+          my="2rem"
+          minW="250px"
+          w={{ base: "100%", md: "15%" }}
+          alignItems="center"
+          justifyContent="center"
+        >
           <Image
-            boxSize="115%"
+            boxSize="200px"
             borderRadius="50%"
             objectFit="cover"
             src={Patrice}
             alt="Avatar utilisateur"
           />
         </Flex>
-        <Flex direction="column" w="40%" margin="auto 0">
-          <Text fontSize="2rem" fontWeight="700" color="white">
+        <Flex direction="column" w={{ base: "95%", md: "40%" }} margin="auto 0">
+          <Text
+            fontSize="2rem"
+            fontWeight="700"
+            color="white"
+            textAlign={{ base: "center", md: "left" }}
+          >
             [[USERNAME]]
           </Text>
           <Text
@@ -78,23 +88,52 @@ export default function BannerProfile() {
             fontWeight="700"
             color="white"
             marginBottom="1.2rem"
+            textAlign={{ base: "center", md: "left" }}
           >
             [[PROFESSION]] à [[CP]] [[VILLE]]
           </Text>
-          <Text color="white" marginBottom="1.2rem">
+          <Text
+            color="white"
+            marginBottom="1.2rem"
+            textAlign={{ base: "center", md: "left" }}
+          >
             [[EXPERIENCE]]d'expérience
           </Text>
-          <Text color="white" marginBottom="1.2rem">
+          <Text
+            color="white"
+            marginBottom="1.2rem"
+            textAlign={{ base: "center", md: "left" }}
+          >
             Membre depuis [[DATE INSCRIPTION]]
           </Text>
-          <Text color="white">[[VIGNETTES SERVICES PROPOSES]]</Text>
+          <Text color="white" textAlign={{ base: "center", md: "left" }}>
+            [[VIGNETTES SERVICES PROPOSES]]
+          </Text>
+
+          <Flex
+            direction={{ base: "column", sm: "row" }}
+            p="0.75rem"
+            gap={5}
+            margin="auto"
+            w="auto"
+            display={{ base: "flex", md: "none" }}
+          >
+            <Button marginTop="0.75rem" variant="solid_PrimaryColor">
+              Modifier
+            </Button>
+            <Button marginTop="0.75rem" variant="outlineWhite">
+              Voir mon profil en ligne
+            </Button>
+          </Flex>
         </Flex>
+
         <Flex
           direction="column"
           p="0.75rem"
           gap={5}
           margin="0 0 0 auto"
-          w="25%"
+          w="auto"
+          display={{ base: "none", md: "flex" }}
         >
           <Button marginTop="0.75rem" variant="solid_PrimaryColor">
             Modifier
@@ -102,6 +141,7 @@ export default function BannerProfile() {
           <Button variant="outlineWhite">Voir mon profil en ligne</Button>
         </Flex>
       </Flex>
+
       <Flex
         bgColor="lightgray"
         direction="column"
