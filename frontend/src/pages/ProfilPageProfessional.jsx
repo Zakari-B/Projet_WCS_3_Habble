@@ -7,6 +7,7 @@ import BannerProfile from "../components/Profile/BannerProfile";
 import AccountCard from "../components/Profile/Account/AccountCard";
 import DiplomeCarousel from "../components/Profile/Diplomes/DiplomeCarousel";
 import ExperienceCarousel from "../components/Profile/Experience/ExperienceCarousel";
+import Expertises from "../components/Profile/Expertises/Expertises";
 import Verifications from "../components/Profile/Verifications";
 import Tarif from "../components/Profile/Tarif";
 
@@ -31,6 +32,7 @@ export default function ProfilPageProfessional() {
           >
             <AccountCard />
             <Verifications />
+            <Expertises />
             <Tarif />
           </Flex>
           <Flex
