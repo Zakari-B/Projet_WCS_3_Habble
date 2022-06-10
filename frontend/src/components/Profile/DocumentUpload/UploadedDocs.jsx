@@ -11,7 +11,7 @@ export default function UploadedDoc({ data }) {
       flexDirection="column"
       alignItems="center"
       h="fit-content"
-      w="30%"
+      w={{ base: "95%", md: "30%" }}
       border="1px solid #ededed"
     >
       <Box

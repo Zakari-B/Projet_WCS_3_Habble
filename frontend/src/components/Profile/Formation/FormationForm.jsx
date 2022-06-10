@@ -90,13 +90,13 @@ export default function FormationForm() {
       <Flex flexDir="column" w="100%">
         <Input
           placeholder="Niveau (ex: CAP, BEP, DEUG, LICENCE, Titre niveau III rncp, ...)"
-          w="65%"
+          w={{ base: "95%", md: "65%" }}
           onChange={handleLevelChange}
           value={level}
         />
         <Input
           placeholder="Établissement"
-          w="65%"
+          w={{ base: "95%", md: "65%" }}
           mt="0.5rem"
           onChange={handleInstitutionChange}
           value={institution}
@@ -114,7 +114,7 @@ export default function FormationForm() {
         <HStack>
           <SelectMonth onChange={handleFromMonthChange} value={fromMonth} />
           <Select
-            w="32.1%"
+            w={{ base: "45.8%", md: "32.1%" }}
             placeholder="Année"
             onChange={handleFromYearChange}
             value={fromYear}
@@ -137,7 +137,7 @@ export default function FormationForm() {
           <SelectMonth onChange={handleToMonthChange} value={toMonth} />
 
           <Select
-            w="32.1%"
+            w={{ base: "45.8%", md: "32.1%" }}
             placeholder="Année"
             onChange={handleToYearChange}
             value={toYear}
@@ -147,18 +147,22 @@ export default function FormationForm() {
         </HStack>
 
         <Textarea
-          w="65%"
+          w={{ base: "95%", md: "65%" }}
           mt="0.5rem"
           h="15vh"
           placeholder="Description (optionnel)."
           onChange={handleDescChange}
           value={description}
         />
-        <Button w="65%" mt="1rem" variant="solid_PrimaryColor">
+        <Button
+          w={{ base: "95%", md: "65%" }}
+          mt="1rem"
+          variant="solid_PrimaryColor"
+        >
           Enregistrer
         </Button>
         <Button
-          w="65%"
+          w={{ base: "95%", md: "65%" }}
           mt="1rem"
           variant="solid_SecondaryColor"
           onClick={handleReset}
