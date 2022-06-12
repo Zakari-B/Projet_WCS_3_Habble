@@ -6,9 +6,9 @@ import SearchResultCarousel from "../components/Search/SearchResultCarousel";
 export default function SearchProfessionals() {
   return (
     <Box h="100vh">
-      <Header onDark={false} isSticky={false} />
-      <Flex bgColor="background.gray" paddingY="30px">
-        <SearchResultCarousel />
+      <Header onDark={false} isSticky isStickyWhite />
+      <Flex bgColor="background.gray" paddingTop="100px">
+        <SearchResultCarousel itemsPerPage={6} />
       </Flex>
 
       <Footer />

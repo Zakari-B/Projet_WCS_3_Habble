@@ -49,7 +49,7 @@ export default function ProfileCard({ freelancer }) {
             alignItems={{ lg: "flex-start", base: "center" }}
           >
             <Heading as="h2" fontSize="calc(1rem + 0.5vw)" fontWeight="600">
-              {freelancer.displayName}
+              {`${freelancer.firstname} ${freelancer.lastname}`}
             </Heading>
             <Text fontWeight="600">{freelancer.activityPro}</Text>
             <Flex gap="60px" width="fit-content" alignItems="center">

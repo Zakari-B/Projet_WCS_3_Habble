@@ -6,7 +6,11 @@ import HeaderDrawer from "./HeaderDrawer";
 import Logo from "../Logo";
 import "../../styles/header.css";
 
-export default function Header({ onDark = false, isSticky = false }) {
+export default function Header({
+  onDark = false,
+  isSticky = false,
+  isStickyWhite = false,
+}) {
   const [scrollPosition, setScrollPosition] = useState(0);
   const handleScroll = () => {
     setScrollPosition(window.pageYOffset);
@@ -18,12 +22,16 @@ export default function Header({ onDark = false, isSticky = false }) {
 
   return (
     <Flex
-      className={isSticky && scrollPosition <= 50 ? "not-active" : "active"}
-      position={isSticky ? "fixed" : "relative"}
+      className={
+        (isSticky && scrollPosition > 50) || isStickyWhite
+          ? "active"
+          : "not-active"
+      }
+      position={isSticky || isStickyWhite ? "fixed" : "relative"}
       paddingX={{ base: "2%", lg: "5%" }}
       paddingY="30px"
-      bgColor={isSticky === false && "white"}
-      w={isSticky ? "100vw" : "100vp"}
+      bgColor={(isSticky || isStickyWhite) && "white"}
+      w={isSticky || isStickyWhite ? "100vw" : "100vp"}
       zIndex="999"
     >
       <Flex w="100%" alignItems="center" justify="space-between">
@@ -38,7 +46,9 @@ export default function Header({ onDark = false, isSticky = false }) {
             <Link to="/le-projet">
               <Text
                 color={
-                  isSticky && scrollPosition <= 50 ? "white" : "purple.dark"
+                  (isSticky && scrollPosition > 50) || isStickyWhite
+                    ? "purple.dark"
+                    : "white"
                 }
                 _hover={{
                   bgImage:
@@ -62,9 +72,9 @@ export default function Header({ onDark = false, isSticky = false }) {
             <Link to="/professionnel-handicap">
               <Button
                 variant={
-                  isSticky && scrollPosition <= 50
-                    ? "outline_White_Gradient"
-                    : "outline_Purple_Gradient"
+                  (isSticky && scrollPosition > 50) || isStickyWhite
+                    ? "outline_Purple_Gradient"
+                    : "outline_White_Gradient"
                 }
               >
                 Je suis un professionnel
@@ -73,9 +83,9 @@ export default function Header({ onDark = false, isSticky = false }) {
             <Link to="/login">
               <Button
                 variant={
-                  isSticky && scrollPosition <= 50
-                    ? "outline_White_Purple"
-                    : "outline_Purple"
+                  (isSticky && scrollPosition > 50) || isStickyWhite
+                    ? "outline_Purple"
+                    : "outline_White_Purple"
                 }
               >
                 Connexion

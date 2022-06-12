@@ -13,12 +13,13 @@ import Tarif from "../components/Profile/Tarif";
 export default function ProfilPageProfessional() {
   return (
     <Box h="100vh">
-      <Header onDark={false} isSticky={false} />
+      <Header onDark={false} isSticky={false} isStickyWhite />
       <Flex
         bgColor="background.gray"
         direction="column"
         justify="flex-start"
         paddingY="30px"
+        paddingTop="150px"
       >
         <BannerProfile />
         <Flex w="80%" gap="20px" m="auto" paddingY="30px">

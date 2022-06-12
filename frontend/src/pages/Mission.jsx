@@ -238,11 +238,12 @@ function Mission() {
 
   return (
     <div>
-      <Header onDark={false} isSticky={false} />
+      <Header onDark={false} isSticky={false} isStickyWhite />
       <Flex
         justifyContent="space-between"
+        paddingTop="100px"
         pl="1rem"
-        h="70vh"
+        minH="70vh"
         paddingX={{ base: "15%", lg: "5%" }}
         backgroundColor="#f9f9f9"
       >
