@@ -8,6 +8,7 @@ import ProAccueil from "./pages/ProAccueil";
 import LoginForm from "./components/LoginForm";
 import PasswordReset from "./components/PasswordReset";
 import ProfilPageProfessional from "./pages/ProfilPageProfessional";
+import SearchProfessionals from "./pages/SearchProfessionals";
 import Contact from "./pages/Contact";
 import RegisterOnboardingPro from "./pages/RegisterOnboardingPro";
 
@@ -33,6 +34,7 @@ function App() {
           path="/register-onboarding-pro"
           element={<RegisterOnboardingPro />}
         />
+        <Route path="/profils" element={<SearchProfessionals />} />
       </Routes>
     </div>
   );

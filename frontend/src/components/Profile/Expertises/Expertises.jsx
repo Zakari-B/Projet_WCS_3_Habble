@@ -1,4 +1,4 @@
-import { Flex, Text } from "@chakra-ui/react";
+import { Flex, Text, Heading } from "@chakra-ui/react";
 
 export default function Expertises() {
   return (
@@ -13,10 +13,15 @@ export default function Expertises() {
       h="fit-content"
     >
       <Flex direction="column">
-        {" "}
-        <Text fontSize="xl" fontWeight="600" color="purple.average" mb="1rem">
+        <Heading
+          as="h2"
+          color="purple.average"
+          fontSize="1.5em"
+          fontWeight="700"
+        >
           Champs d'expertises
-        </Text>
+        </Heading>
+
         <Text fontSize="0.8rem" color="#9da4a9" fontWeight="500" mb="3rem">
           Auto-déclaré
         </Text>
