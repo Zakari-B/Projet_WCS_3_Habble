@@ -13,8 +13,13 @@ import Footer from "../components/Footer";
 export default function Confidentialite() {
   return (
     <Box h="100vh">
-      <Header onDark={false} isSticky={false} />
-      <Flex bgColor="background.gray" direction="column" justify="flex-start">
+      <Header onDark={false} isSticky={false} isStickyWhite />
+      <Flex
+        bgColor="background.gray"
+        direction="column"
+        justify="flex-start"
+        paddingTop="100px"
+      >
         <Heading
           as="h2"
           p="4rem 0"

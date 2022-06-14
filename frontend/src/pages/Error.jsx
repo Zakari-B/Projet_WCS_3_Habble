@@ -8,8 +8,13 @@ export default function Erreur() {
   };
   return (
     <Box h="100vh">
-      <Header onDark={false} isSticky={false} />
-      <Flex bgColor="background.gray" direction="column" justify="flex-start">
+      <Header onDark={false} isSticky={false} isStickyWhite />
+      <Flex
+        bgColor="background.gray"
+        direction="column"
+        justify="flex-start"
+        h="90vh"
+      >
         <Heading
           as="h2"
           p="4rem 0"
@@ -17,14 +22,15 @@ export default function Erreur() {
           fontSize="22px"
           align="left"
           w="80%"
-          m="auto"
+          mx="auto"
+          mt="100px"
         >
           Introuvable
         </Heading>
         <Box
           bgColor="white"
           w="80%"
-          m="auto"
+          mx="auto"
           mb="20px"
           boxShadow="rgb(0 0 0 / 4%) 0px 2px 6px"
           p="30px"

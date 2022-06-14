@@ -41,7 +41,7 @@ function ProAccueil() {
 
   return (
     <Box>
-      <Header isSticky onDark={false} />
+      <Header onDark={false} isSticky={false} isStickyWhite />
 
       <Box
         marginLeft={{ md: "3%", lg: "10%" }}

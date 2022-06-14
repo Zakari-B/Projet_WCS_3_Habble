@@ -8,7 +8,7 @@ export default function Footer() {
       bgColor="purple.average"
       p="20px"
       justify="center"
-      wrap={{ lg: "wrap", xl: "nowrap" }}
+      wrap={{ lg: "wrap", "2xl": "nowrap" }}
     >
       <Flex
         direction={{ lg: "row", base: "column" }}
@@ -28,7 +28,6 @@ export default function Footer() {
         <HStack
           fontSize="sm"
           fontWeight="semibold"
-          minW="-webkit-fill-available"
           wrap="wrap"
           justify={{ lg: "flex-start", base: "center" }}
         >
