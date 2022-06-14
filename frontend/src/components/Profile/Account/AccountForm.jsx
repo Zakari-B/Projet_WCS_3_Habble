@@ -9,11 +9,11 @@ import {
 import React, { useState, useContext } from "react";
 import FormationFormContext from "../../../contexts/FormationFormContext";
 
-export default function AccountForm() {
+export default function AccountForm({ user }) {
   const { setIsVisible } = useContext(FormationFormContext);
   const { isOpen, onToggle } = useDisclosure();
 
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState(user.email);
 
   const handleEmailChange = (e) => {
     e.preventDefault();

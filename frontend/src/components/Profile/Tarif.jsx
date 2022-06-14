@@ -1,6 +1,7 @@
 import { Flex, Heading, Text } from "@chakra-ui/react";
+import PropTypes from "prop-types";
 
-export default function Tarif() {
+export default function Tarif({ freelancer }) {
   return (
     <Flex
       direction="column"
@@ -22,9 +23,15 @@ export default function Tarif() {
           Tarif horaire
         </Heading>
         <Text color="purple.average" fontSize="14px">
-          [[TARIF]]/h* (indicatif)
+          {freelancer.price}/h* (indicatif)
         </Text>
       </Flex>
     </Flex>
   );
 }
+
+Tarif.propTypes = {
+  freelancer: PropTypes.shape({
+    price: PropTypes.number.isRequired,
+  }).isRequired,
+};

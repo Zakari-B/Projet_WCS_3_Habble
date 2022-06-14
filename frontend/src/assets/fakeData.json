@@ -1,14 +1,14 @@
 [
   {
     "name": "Carte d'identité.jpg",
-    "image": "https://upload.wikimedia.org/wikipedia/commons/4/49/Carte_identit%C3%A9_%C3%A9lectronique_fran%C3%A7aise_%282021%2C_recto%29.png"
+    "documentLink": "https://upload.wikimedia.org/wikipedia/commons/4/49/Carte_identit%C3%A9_%C3%A9lectronique_fran%C3%A7aise_%282021%2C_recto%29.png"
   },
   {
     "name": "Carte d'identité.jpg",
-    "image": "https://app.habble.fr/wp-content/uploads/2020/02/patrice-warembourg-550.jpg"
+    "documentLink": "https://app.habble.fr/wp-content/uploads/2020/02/patrice-warembourg-550.jpg"
   },
   {
     "name": "Carte d'identité.jpg",
-    "image": "https://app.habble.fr/wp-content/uploads/2020/02/patrice-warembourg-550.jpg"
+    "documentLink": "https://app.habble.fr/wp-content/uploads/2020/02/patrice-warembourg-550.jpg"
   }
 ]
