@@ -16,7 +16,6 @@ model user {
   lastname          String       @db.VarChar(100)
   email             String       @unique @db.VarChar(100)
   password          String       @db.VarChar(255)
-  pseudo            String       @db.VarChar(100)
   role              String       @db.VarChar(100)
   profileIsComplete Boolean      @default(false)
   freelancer        freelancer[]
