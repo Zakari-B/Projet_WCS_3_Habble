@@ -7,19 +7,21 @@ import BannerProfile from "../components/Profile/BannerProfile";
 import AccountCard from "../components/Profile/Account/AccountCard";
 import DiplomeCarousel from "../components/Profile/Diplomes/DiplomeCarousel";
 import ExperienceCarousel from "../components/Profile/Experience/ExperienceCarousel";
-import MissionCarousel from "../components/Profile/Mission/MissionCarousel";
+import Expertises from "../components/Profile/Expertises/Expertises";
 import Verifications from "../components/Profile/Verifications";
 import Tarif from "../components/Profile/Tarif";
+import MissionCarousel from "../components/Profile/Mission/MissionCarousel";
 
 export default function ProfilPageProfessional() {
   return (
     <Box h="100vh">
-      <Header onDark={false} isSticky={false} />
+      <Header onDark={false} isSticky={false} isStickyWhite />
       <Flex
         bgColor="background.gray"
         direction="column"
         justify="flex-start"
         paddingY="30px"
+        paddingTop="150px"
       >
         <BannerProfile />
         <Flex
@@ -38,6 +40,7 @@ export default function ProfilPageProfessional() {
           >
             <AccountCard />
             <Verifications />
+            <Expertises />
             <Tarif />
           </Flex>
           <Flex
