@@ -18,7 +18,9 @@ model user {
   hashedPassword    String       @db.VarChar(255)
   role              String       @db.VarChar(100)
   profileIsComplete Boolean      @default(false)
+  dateCreated       DateTime     @db.Date
   freelancer        freelancer[]
+  employer          employer[]
 }
 
 model freelancer {
@@ -35,6 +37,7 @@ model freelancer {
   siret                 Int?
   available             Boolean                 @default(false)
   dateCreated           DateTime                @db.Date
+  picture               String                  @db.VarChar(1000)
   fk_user_id            user                    @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   documents             documents[]
   freelancer_services   freelancer_services[]
@@ -112,4 +115,14 @@ model diplomes {
   monthDelivered Int
   yearDelivered  Int
   description    String @db.VarChar(500)
+}
+
+model employer {
+  id          Int      @id @default(autoincrement())
+  displayName String   @db.VarChar(100)
+  phone       String?  @db.VarChar(30)
+  userId      Int
+  dateCreated DateTime @db.Date
+  picture     String   @db.VarChar(1000)
+  fk_user_id  user     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
