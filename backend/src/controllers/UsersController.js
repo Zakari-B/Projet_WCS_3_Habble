@@ -15,8 +15,7 @@ const createOne = async (req, res, next) => {
   });
   if (error) {
     res.status(422).json(error);
-  }
-  if (role === "freelancer" || role === "employer") {
+  } else if (role === "freelancer" || role === "employer") {
     try {
       const hashedPassword = await hashPassword(password);
       const message = await user.createOne({
