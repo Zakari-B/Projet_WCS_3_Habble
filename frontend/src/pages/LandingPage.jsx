@@ -42,7 +42,7 @@ export default function LandingPage() {
         bgSize="cover"
         bgPos="center"
       >
-        <Header onDark isSticky />
+        <Header onDark isSticky isStickyWhite={false} />
         <Box
           maxW="1280px"
           w={{ base: "100%", "2xl": "60%" }}

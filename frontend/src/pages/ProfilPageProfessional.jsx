@@ -13,9 +13,36 @@ import Tarif from "../components/Profile/Tarif";
 import MissionCarousel from "../components/Profile/Mission/MissionCarousel";
 
 export default function ProfilPageProfessional() {
+  const fakeUser = {
+    id: 1,
+    firstname: "Lora",
+    lastname: "Perrichon",
+    email: "lora@gmail.com",
+    password: "jhnlzejbfalzebf",
+    pseudo: "LoraLala",
+    role: "freelancer",
+    profileIsComplete: true,
+  };
+
+  const fakeFreelancer = {
+    id: 1,
+    displayName: "LoraLala",
+    activityDescription: "Assistante maternelle",
+    userId: 1,
+    zipCode: 75000,
+    phone: "0612345678",
+    experienceYear: 2,
+    price: "40.00",
+    description: "Je suis une super professionnelle",
+    acceptEmails: true,
+    siret: "12345567",
+    available: false,
+    dateCreated: "2022-02-01",
+  };
+
   return (
     <Box h="100vh">
-      <Header onDark={false} isSticky={false} isStickyWhite />
+      <Header onDark={false} isSticky={false} isStickyWhite isSignUp />
       <Flex
         bgColor="background.gray"
         direction="column"
@@ -23,7 +50,7 @@ export default function ProfilPageProfessional() {
         paddingY="30px"
         paddingTop="150px"
       >
-        <BannerProfile />
+        <BannerProfile freelancer={fakeFreelancer} />
         <Flex
           w={{ base: "95%", lg: "80%" }}
           gap="20px"
@@ -38,10 +65,10 @@ export default function ProfilPageProfessional() {
             gap="20px"
             flexDir="column"
           >
-            <AccountCard />
+            <AccountCard user={fakeUser} />
             <Verifications />
             <Expertises />
-            <Tarif />
+            <Tarif freelancer={fakeFreelancer} />
           </Flex>
           <Flex
             bgColor="background.gray"

@@ -22,7 +22,6 @@ function App() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/le-projet" element={<Mission />} />
         <Route path="/contact" element={<Contact />} />
-        <Route path="/le-projet" element={<Mission />} />
         <Route path="/mentions-legales" element={<MentionsLegales />} />
         <Route path="/confidentialite" element={<Confidentialite />} />
         <Route path="/professionnel-handicap" element={<ProAccueil />} />
