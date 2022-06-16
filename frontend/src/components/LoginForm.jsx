@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import axios from "axios";
 import {
   Box,
   Text,
@@ -21,6 +22,29 @@ const loginForm = () => {
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
+
+  const navigate = useNavigate();
+
+  const handleSubmit = () => {
+    if (loginEmail && loginPassword) {
+      axios
+        .post("http://localhost:5000/api/auth/login", {
+          email: loginEmail,
+          password: loginPassword,
+          remember: rememberMe,
+        })
+        .then((response) => {
+          if (response.data.type !== "freelancer") {
+            navigate("/");
+          } else {
+            navigate("/profil");
+          }
+        })
+        .catch((error) => {
+          console.warn(error);
+        });
+    }
+  };
 
   return (
     <Box bgColor="background.gray" h="100vh">
@@ -95,7 +119,7 @@ const loginForm = () => {
             <Button
               variant="solid_PrimaryColor"
               type="button"
-              onClick={() => null()}
+              onClick={() => handleSubmit()}
             >
               Se connecter
             </Button>
