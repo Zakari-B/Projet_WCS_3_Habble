@@ -13,4 +13,7 @@ router.post(
   EmployerController.createOne
 );
 
+router.get("/freelancers/", FreelancerController.getAll);
+router.put("/freelancers/:id", FreelancerController.updateOne);
+
 module.exports = router;
