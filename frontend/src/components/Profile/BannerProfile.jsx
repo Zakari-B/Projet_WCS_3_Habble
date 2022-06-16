@@ -9,8 +9,8 @@ import {
 } from "@chakra-ui/react";
 import { useState } from "react";
 
-export default function BannerProfile() {
-  const [available, setAvailable] = useState(false);
+export default function BannerProfile({ freelancer }) {
+  const [available, setAvailable] = useState(freelancer.available);
 
   return (
     <Flex
@@ -67,7 +67,7 @@ export default function BannerProfile() {
         </Flex>
         <Flex direction="column" w="40%" margin="auto 0">
           <Text fontSize="2rem" fontWeight="700" color="white">
-            [[USERNAME]]
+            {freelancer.displayName}
           </Text>
           <Text
             fontSize="1.5rem"
@@ -75,13 +75,13 @@ export default function BannerProfile() {
             color="white"
             marginBottom="20px"
           >
-            [[PROFESSION]] à [[CP]] [[VILLE]]
+            {freelancer.activityDescription} à {freelancer.zipCode} [[VILLE]]
           </Text>
           <Text color="white" marginBottom="20px">
-            [[EXPERIENCE]]d'expérience
+            {freelancer.experienceYear} années d'expérience
           </Text>
           <Text color="white" marginBottom="20px">
-            Membre depuis [[DATE INSCRIPTION]]
+            Membre depuis le {freelancer.dateCreated}
           </Text>
           <Text color="white">[[VIGNETTES SERVICES PROPOSES]]</Text>
         </Flex>
@@ -100,9 +100,9 @@ export default function BannerProfile() {
         borderRadius="0 0 25px 25px"
       >
         <Text fontWeight="700" fontSize="1.2rem" p="5px">
-          À propos de [[USERNAME]]
+          À propos de {freelancer.displayName}
         </Text>
-        <Text p="5px">[[Description au choix de l'utilisateur]]</Text>
+        <Text p="5px">{freelancer.description}</Text>
       </Flex>
     </Flex>
   );

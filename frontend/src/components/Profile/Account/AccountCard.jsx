@@ -12,9 +12,8 @@ import AccountForm from "./AccountForm";
 import FormationFormContext from "../../../contexts/FormationFormContext";
 import EditPassWordModal from "../../EditPasswordModal";
 
-export default function FormationCarousel() {
+export default function AccountCard({ user }) {
   const [isVisible, setIsVisible] = useState(false);
-  const [email] = useState("[EMAIL]");
   const context = useMemo(() => ({ isVisible, setIsVisible }), []);
 
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -61,7 +60,7 @@ export default function FormationCarousel() {
               color="purple.average"
               fontSize="14px"
             >
-              {email}
+              {user.email}
             </Text>
           )}
           {!isVisible && (
@@ -75,7 +74,7 @@ export default function FormationCarousel() {
       <Collapse in={isVisible}>
         {isVisible && (
           <FormationFormContext.Provider value={context}>
-            <AccountForm />
+            <AccountForm user={user} />
           </FormationFormContext.Provider>
         )}
       </Collapse>

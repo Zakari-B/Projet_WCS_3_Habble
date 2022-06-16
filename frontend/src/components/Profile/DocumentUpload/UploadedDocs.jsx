@@ -18,7 +18,7 @@ export default function UploadedDoc({ data }) {
         role="group"
         h="240px"
         w="100%"
-        bgImage={`url(${data.image})`}
+        bgImage={`url(${data.documentLink})`}
         bgSize="contain"
         bgRepeat="no-repeat"
         bgPosition="center"

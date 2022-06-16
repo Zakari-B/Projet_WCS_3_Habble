@@ -1,0 +1,134 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model user {
+  id                Int          @id @default(autoincrement())
+  firstname         String       @db.VarChar(100)
+  lastname          String       @db.VarChar(100)
+  email             String       @unique @db.VarChar(100)
+  hashedPassword    String       @db.VarChar(255)
+  role              String       @db.VarChar(100)
+  profileIsComplete Boolean      @default(false)
+  dateCreated       DateTime     @default(now()) @db.Timestamp(0)
+  freelancer        freelancer[]
+  employer          employer[]
+}
+
+model freelancer {
+  id                    Int                     @id @default(autoincrement())
+  displayName           String                  @db.VarChar(100)
+  activityDescription   String                  @db.VarChar(255)
+  userId                Int
+  zipCode               String                  @db.VarChar(10)
+  phone                 String?                 @db.VarChar(30)
+  experienceYear        Int
+  price                 Float
+  description           String                  @db.VarChar(1000)
+  acceptEmails          Boolean                 @default(false)
+  siret                 Int?
+  available             Boolean                 @default(false)
+  dateCreated           DateTime                @default(now()) @db.Timestamp(0)
+  picture               String                  @db.VarChar(1000)
+  fk_user_id            user                    @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  documents             documents[]
+  freelancer_services   freelancer_services[]
+  formations            formations[]
+  freelancer_expertises freelancer_expertises[]
+  experience_pro        experience_pro[]
+  diplomes              diplomes[]
+}
+
+model documents {
+  id               Int        @id @default(autoincrement())
+  name             String     @db.VarChar(255)
+  freelancerId     Int
+  documentLink     String     @db.VarChar(300)
+  verified         Boolean    @default(false)
+  fk_freelancer_id freelancer @relation(fields: [freelancerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+}
+
+model freelancer_services {
+  id               Int        @id @default(autoincrement())
+  freelancerId     Int
+  serviceId        Int
+  fk_freelancer_id freelancer @relation(fields: [freelancerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  fk_services_id   services   @relation(fields: [serviceId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+}
+
+model services {
+  id                  Int                   @id @default(autoincrement())
+  name                String                @db.VarChar(255)
+  freelancer_services freelancer_services[]
+}
+
+model freelancer_expertises {
+  id               Int        @id @default(autoincrement())
+  freelancerId     Int
+  expertiseId      Int
+  fk_freelancer_id freelancer @relation(fields: [freelancerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  fk_expertise_id  expertises @relation(fields: [expertiseId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+}
+
+model expertises {
+  id                    Int                     @id @default(autoincrement())
+  name                  String                  @db.VarChar(100)
+  category              String                  @db.VarChar(100)
+  freelancer_expertises freelancer_expertises[]
+}
+
+model formations {
+  id           Int        @id @default(autoincrement())
+  level        String     @db.VarChar(255)
+  institution  String     @db.VarChar(255)
+  startMonth   String     @db.VarChar(255)
+  startYear    Int
+  endMonth     String     @db.VarChar(255)
+  endYear      Int
+  description  String     @db.VarChar(500)
+  freelancerId Int
+  fk_id        freelancer @relation(fields: [freelancerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+}
+
+model experience_pro {
+  id           Int        @id @default(autoincrement())
+  title        String     @db.VarChar(100)
+  company      String     @db.VarChar(100)
+  startMonth   String     @db.VarChar(100)
+  startYear    Int
+  endMonth     String     @db.VarChar(100)
+  endYear      Int
+  currentJob   Boolean    @default(false)
+  description  String     @db.VarChar(500)
+  freelancerId Int
+  fk_id        freelancer @relation(fields: [freelancerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+}
+
+model diplomes {
+  id             Int        @id @default(autoincrement())
+  title          String     @db.VarChar(100)
+  school         String     @db.VarChar(100)
+  monthDelivered Int
+  yearDelivered  Int
+  description    String     @db.VarChar(500)
+  freelancerId   Int
+  fk_id          freelancer @relation(fields: [freelancerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+}
+
+model employer {
+  id          Int      @id @default(autoincrement())
+  displayName String   @db.VarChar(100)
+  phone       String?  @db.VarChar(30)
+  userId      Int
+  dateCreated DateTime @default(now()) @db.Timestamp(0)
+  picture     String   @db.VarChar(1000)
+  fk_user_id  user     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+}
