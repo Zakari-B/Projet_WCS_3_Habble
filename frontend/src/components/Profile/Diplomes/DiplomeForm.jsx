@@ -69,7 +69,12 @@ export default function DiplomeForm() {
   }, []);
 
   return (
-    <FormControl ml="1rem" mt="1rem" mb="1rem" onSubmit={handleSubmit}>
+    <FormControl
+      ml={{ base: "none", md: "1rem" }}
+      mt="1rem"
+      mb="1rem"
+      onSubmit={handleSubmit}
+    >
       <Flex flexDir="column">
         <Input
           placeholder="Nom de la certification"

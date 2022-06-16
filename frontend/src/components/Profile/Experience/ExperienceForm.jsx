@@ -89,7 +89,7 @@ export default function ExperienceForm() {
 
   return (
     <FormControl
-      ml="1rem"
+      ml={{ base: "none", md: "1rem" }}
       mt="1rem"
       mb="1rem"
       onSubmit={handleSubmit}

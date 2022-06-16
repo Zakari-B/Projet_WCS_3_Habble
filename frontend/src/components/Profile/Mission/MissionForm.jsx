@@ -81,7 +81,9 @@ export default function FormationForm() {
   }, []);
   return (
     <FormControl
-      m="1rem"
+      ml={{ base: "none", md: "1rem" }}
+      mt="1rem"
+      mb="1rem"
       onSubmit={handleSubmit}
       w="100%"
       transition="all 0.3s ease-in-out"
