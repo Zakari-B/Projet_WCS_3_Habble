@@ -89,7 +89,7 @@ export default function ExperienceForm() {
 
   return (
     <FormControl
-      ml="1rem"
+      ml={{ base: "none", md: "1rem" }}
       mt="1rem"
       mb="1rem"
       onSubmit={handleSubmit}
@@ -98,13 +98,13 @@ export default function ExperienceForm() {
       <Flex flexDir="column">
         <Input
           placeholder="Titre"
-          w="65%"
+          w={{ base: "95%", md: "65%" }}
           onChange={handleTitleChange}
           value={title}
         />
         <Input
           placeholder="Entreprise"
-          w="65%"
+          w={{ base: "95%", md: "65%" }}
           mt="0.5rem"
           onChange={handleDeliverChange}
           value={company}
@@ -122,7 +122,7 @@ export default function ExperienceForm() {
         <HStack>
           <SelectMonth onChange={handleFromMonthChange} value={fromMonth} />
           <Select
-            w="32.1%"
+            w={{ base: "45.8%", md: "32.1%" }}
             placeholder="Année"
             onChange={handleFromYearChange}
             value={fromYear}
@@ -143,7 +143,7 @@ export default function ExperienceForm() {
         <HStack>
           <SelectMonth onChange={handleToMonthChange} value={toMonth} />
           <Select
-            w="32.1%"
+            w={{ base: "45.8%", md: "32.1%" }}
             placeholder="Année"
             onChange={handleToYearChange}
             value={toYear}
@@ -161,20 +161,23 @@ export default function ExperienceForm() {
           Y travaille actuellement
         </Checkbox>
         <Textarea
-          w="65%"
+          w={{ base: "95%", md: "65%" }}
           mt="0.5rem"
           h="15vh"
           placeholder="Description (optionnel)."
           onChange={handleDescChange}
           value={description}
         />
-        <Button w="65%" mt="1rem" ml="1rem" variant="solid_PrimaryColor">
+        <Button
+          w={{ base: "95%", md: "65%" }}
+          mt="1rem"
+          variant="solid_PrimaryColor"
+        >
           Enregistrer
         </Button>
         <Button
-          w="65%"
+          w={{ base: "95%", md: "65%" }}
           mt="1rem"
-          ml="1rem"
           variant="solid_SecondaryColor"
           onClick={handleReset}
         >

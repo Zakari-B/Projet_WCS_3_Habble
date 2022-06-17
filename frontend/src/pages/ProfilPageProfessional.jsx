@@ -10,6 +10,7 @@ import ExperienceCarousel from "../components/Profile/Experience/ExperienceCarou
 import Expertises from "../components/Profile/Expertises/Expertises";
 import Verifications from "../components/Profile/Verifications";
 import Tarif from "../components/Profile/Tarif";
+import MissionCarousel from "../components/Profile/Mission/MissionCarousel";
 
 export default function ProfilPageProfessional() {
   const fakeUser = {
@@ -50,13 +51,19 @@ export default function ProfilPageProfessional() {
         paddingTop="150px"
       >
         <BannerProfile freelancer={fakeFreelancer} />
-        <Flex w="80%" gap="20px" m="auto" paddingY="30px">
+        <Flex
+          w={{ base: "95%", lg: "80%" }}
+          gap="20px"
+          m="auto"
+          paddingY="30px"
+          direction={{ base: "column", lg: "row" }}
+        >
           <Flex
-            bgColor="background.gray"
-            minW="33%"
+            minW={{ base: "100%", lg: "33%" }}
             minH="20vh"
-            direction="column"
+            bgColor="background.gray"
             gap="20px"
+            flexDir="column"
           >
             <AccountCard user={fakeUser} />
             <Verifications />
@@ -65,7 +72,7 @@ export default function ProfilPageProfessional() {
           </Flex>
           <Flex
             bgColor="background.gray"
-            minW="66%"
+            minW={{ base: "100%", lg: "66%" }}
             direction="column"
             gap="20px"
           >
@@ -73,6 +80,7 @@ export default function ProfilPageProfessional() {
             <FormationCarousel />
             <DiplomeCarousel />
             <ExperienceCarousel />
+            <MissionCarousel />
           </Flex>
         </Flex>
       </Flex>

@@ -23,7 +23,10 @@ export default function EditPassWordModal({ isOpen, onClose }) {
   return (
     <Modal size="xl" isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
-      <ModalContent borderRadius="0px 0px 21px 21px">
+      <ModalContent
+        borderRadius="0px 0px 21px 21px"
+        maxW={{ base: "95%", lg: "50vw" }}
+      >
         <form>
           <ModalHeader
             paddingY="30px"
