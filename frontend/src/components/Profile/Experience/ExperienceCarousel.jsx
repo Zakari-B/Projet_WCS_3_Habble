@@ -1,8 +1,8 @@
 import React, { useState, useMemo } from "react";
 import { Heading, Flex, Button, Text, Collapse } from "@chakra-ui/react";
-import DiplomeCard from "./ExperienceCard";
+import ExperienceCard from "./ExperienceCard";
 import ExperienceFormContext from "../../../contexts/ExperienceFormContext";
-import DiplomeForm from "./ExperienceForm";
+import ExperienceForm from "./ExperienceForm";
 
 export default function ExperienceCarousel() {
   const [fakeExperience] = useState([
@@ -63,7 +63,7 @@ export default function ExperienceCarousel() {
       <Collapse in={isVisible}>
         {isVisible && (
           <ExperienceFormContext.Provider value={context}>
-            <DiplomeForm />
+            <ExperienceForm />
           </ExperienceFormContext.Provider>
         )}
       </Collapse>
@@ -76,7 +76,7 @@ export default function ExperienceCarousel() {
         ) : (
           fakeExperience.map((experience) => (
             <ExperienceFormContext.Provider value={context}>
-              <DiplomeCard experience={experience} key={experience.id} />
+              <ExperienceCard experience={experience} key={experience.id} />
             </ExperienceFormContext.Provider>
           ))
         )}

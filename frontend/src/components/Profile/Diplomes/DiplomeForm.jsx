@@ -69,17 +69,22 @@ export default function DiplomeForm() {
   }, []);
 
   return (
-    <FormControl ml="1rem" mt="1rem" mb="1rem" onSubmit={handleSubmit}>
+    <FormControl
+      ml={{ base: "none", md: "1rem" }}
+      mt="1rem"
+      mb="1rem"
+      onSubmit={handleSubmit}
+    >
       <Flex flexDir="column">
         <Input
           placeholder="Nom de la certification"
-          w="65%"
+          w={{ base: "95%", md: "65%" }}
           onChange={handleTitleChange}
           value={title}
         />
         <Input
           placeholder="Délivré par"
-          w="65%"
+          w={{ base: "95%", md: "65%" }}
           mt="0.5rem"
           onChange={handleDeliverChange}
           value={delivered}
@@ -97,7 +102,7 @@ export default function DiplomeForm() {
         <HStack>
           <SelectMonth onChange={handleMonthChange} value={monthDelivered} />
           <Select
-            w="32.1%"
+            w={{ base: "45.8%", md: "32.1%" }}
             placeholder="Année"
             onChange={handleYearChange}
             value={yearDelivered}
@@ -106,18 +111,22 @@ export default function DiplomeForm() {
           </Select>
         </HStack>
         <Textarea
-          w="65%"
+          w={{ base: "95%", md: "65%" }}
           mt="0.5rem"
           h="15vh"
           placeholder="Description (optionnel)."
           onChange={handleDescChange}
           value={description}
         />
-        <Button w="65%" mt="1rem" variant="solid_PrimaryColor">
+        <Button
+          w={{ base: "95%", md: "65%" }}
+          mt="1rem"
+          variant="solid_PrimaryColor"
+        >
           Enregistrer
         </Button>
         <Button
-          w="65%"
+          w={{ base: "95%", md: "65%" }}
           mt="1rem"
           variant="solid_SecondaryColor"
           onClick={handleReset}

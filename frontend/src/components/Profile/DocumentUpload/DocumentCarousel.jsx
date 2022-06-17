@@ -38,7 +38,7 @@ export default function DocumentCarousel() {
       </Flex>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
-        <ModalContent maxWidth="50vw">
+        <ModalContent maxWidth={{ base: "95%", lg: "50vw" }}>
           <ModalHeader
             bgColor="background.gray"
             pt="30px"
@@ -81,7 +81,7 @@ export default function DocumentCarousel() {
             </Text>
           </ModalBody>
 
-          <ModalFooter>
+          <ModalFooter justifyContent={{ base: "center", md: "flex-end" }}>
             <Button variant="solid_PrimaryColor" mr={3}>
               Enregistrer
             </Button>
