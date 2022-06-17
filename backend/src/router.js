@@ -3,9 +3,11 @@ const express = require("express");
 const UserController = require("./controllers/UsersController");
 const FreelancerController = require("./controllers/FreelancerController");
 const EmployerController = require("./controllers/EmployerController");
-// const auth = require("./middlewares/auth");
+const auth = require("./middlewares/auth");
 
 const router = express.Router();
+
+// Routes for Users
 
 router.post(
   "/auth/register",
@@ -14,6 +16,10 @@ router.post(
   EmployerController.createOne
 );
 router.post("/auth/login", UserController.login);
+router.get("/users", auth, UserController.getAll);
+router.get("/users/:id", UserController.getOne);
+router.put("/users/:id", UserController.updateOne);
+router.delete("/users/delete/:id", UserController.deleteOne);
 
 // Routes for Freelancers
 
