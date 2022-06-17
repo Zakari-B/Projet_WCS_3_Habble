@@ -94,7 +94,7 @@ const updateOne = async (req, res) => {
     delete req.body.password;
     const result = await user.updateOne(userId, req.body);
     if (result) {
-      res.status(200).json(result);
+      res.status(200).json({ "Utilisateur mis jour :": { result } });
     } else {
       res.status(404).json({ Erreur: "L'utilisateur n'existe pas" });
     }
