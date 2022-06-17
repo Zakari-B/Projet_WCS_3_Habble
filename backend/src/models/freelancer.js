@@ -10,7 +10,17 @@ exports.getAllFreelancers = async () => {
   }
 };
 
-exports.createOne = async (freelancer) => {
+exports.findOneFreelancer = async (freelancerId) => {
+  try {
+    return await prisma.freelancer.findUnique({
+      where: { id: freelancerId },
+    });
+  } finally {
+    await prisma.$disconnect();
+  }
+};
+
+exports.createOneFreelancer = async (freelancer) => {
   try {
     return await prisma.freelancer.create({
       data: { ...freelancer },
@@ -20,7 +30,7 @@ exports.createOne = async (freelancer) => {
   }
 };
 
-exports.updateOne = async (freelancerId, data) => {
+exports.updateOneFreelancer = async (freelancerId, data) => {
   try {
     const message = await prisma.freelancer.update({
       where: { id: freelancerId },

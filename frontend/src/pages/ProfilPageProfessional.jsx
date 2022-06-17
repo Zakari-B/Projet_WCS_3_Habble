@@ -1,4 +1,5 @@
 import { Flex, Box } from "@chakra-ui/react";
+// import axios from "axios";
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer";
 import FormationCarousel from "../components/Profile/Formation/FormationCarousel";
@@ -13,6 +14,10 @@ import Tarif from "../components/Profile/Tarif";
 import MissionCarousel from "../components/Profile/Mission/MissionCarousel";
 
 export default function ProfilPageProfessional() {
+  // créer une fonction pour get freelancer
+  // créer une fonction pour get user
+  // utiliser useeffect pour appeler ces deux fonctions
+
   const fakeUser = {
     id: 1,
     firstname: "Lora",

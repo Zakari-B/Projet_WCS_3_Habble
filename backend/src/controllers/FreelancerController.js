@@ -1,7 +1,8 @@
 const {
   getAllFreelancers,
-  createOne,
-  updateOne,
+  createOneFreelancer,
+  updateOneFreelancer,
+  findOneFreelancer,
 } = require("../models/freelancer");
 
 const { validateFreelancer } = require("../utils/validate");
@@ -17,11 +18,26 @@ exports.getAll = async (req, res) => {
   }
 };
 
+exports.getOne = async (req, res) => {
+  const freelancerId = parseInt(req.params.id, 10);
+  try {
+    const freelancer = await findOneFreelancer(freelancerId);
+    if (!freelancer) {
+      return res.status(404).send(`Freelancer #${freelancerId} not found.`);
+    }
+    return res.status(200).json(freelancer);
+  } catch (e) {
+    return res
+      .status(500)
+      .json({ error: "Problème de lecture des freelancers" });
+  }
+};
+
 exports.createOne = async (req, res, next) => {
   const userAccount = req.userCreated;
   if (userAccount.role === "freelancer") {
     try {
-      const freelancerCreated = await createOne({
+      const freelancerCreated = await createOneFreelancer({
         displayName: `${userAccount.firstname} ${userAccount.lastname}`,
         activityDescription: "",
         userId: userAccount.id,
@@ -48,54 +64,23 @@ exports.createOne = async (req, res, next) => {
 
 exports.updateOne = async (req, res) => {
   const freelancerId = parseInt(req.params.id, 10);
-  // validate fields
-  // console.log(req.body);
-  const error = validateFreelancer(req.body, true);
-  console.error(error);
-  // res.status(422).json({ validationErrors });
+  const error = validateFreelancer(req.body, false);
+  if (error) {
+    console.error(error);
+    return res.status(422).json(error.details);
+  }
+
+  const freelancer = await findOneFreelancer(freelancerId);
+  if (!freelancer) {
+    return res.status(404).send(`Freelancer #${freelancerId} not found.`);
+  }
+
   try {
-    const freelancerModify = await updateOne(freelancerId, req.body);
-    res.status(200).json(freelancerModify);
+    const freelancerModify = await updateOneFreelancer(freelancerId, req.body);
+    return res.status(200).json(freelancerModify);
   } catch (e) {
-    res.status(500).json({ error: "Problème de mise à jour du freelancer" });
-    // if (err === 'RECORD_NOT_FOUND')
-    //         res.status(404).send(`User with id ${userId} not found.`);
-    //       if (err === 'DUPLICATE_EMAIL')
-    //         res.status(409).json({ message: 'This email is already used' });
-    //       else if (err === 'INVALID_DATA')
-    //         res.status(422).json({ validationErrors });
-    //       else res.status(500).send('Error updating a user');
-    //     });
+    return res
+      .status(500)
+      .json({ error: "Problème de mise à jour du freelancer" });
   }
 };
-
-// //quete express
-// usersRouter.put('/:id', (req, res) => {
-//   let existingUser = null;
-//   let validationErrors = null;
-//   Promise.all([
-//     User.findOne(req.params.id),
-//     User.findByEmailWithDifferentId(req.body.email, req.params.id),
-//   ])
-//     .then(([user, otherUserWithEmail]) => {
-//       existingUser = user;
-//       if (!existingUser) return Promise.reject('RECORD_NOT_FOUND');
-//       if (otherUserWithEmail) return Promise.reject('DUPLICATE_EMAIL');
-//       validationErrors = User.validate(req.body, false);
-//       if (validationErrors) return Promise.reject('INVALID_DATA');
-//       return User.update(req.params.id, req.body);
-//     })
-//     .then(() => {
-//       res.status(200).json({ ...existingUser, ...req.body });
-//     })
-//     .catch((err) => {
-//       console.error(err);
-//       if (err === 'RECORD_NOT_FOUND')
-//         res.status(404).send(`User with id ${userId} not found.`);
-//       if (err === 'DUPLICATE_EMAIL')
-//         res.status(409).json({ message: 'This email is already used' });
-//       else if (err === 'INVALID_DATA')
-//         res.status(422).json({ validationErrors });
-//       else res.status(500).send('Error updating a user');
-//     });
-// });

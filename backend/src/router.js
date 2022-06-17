@@ -13,10 +13,12 @@ router.post(
   FreelancerController.createOne,
   EmployerController.createOne
 );
+router.post("/auth/login", UserController.login);
+
+// Routes for Freelancers
 
 router.get("/freelancers/", FreelancerController.getAll);
+router.get("/freelancers/:id", FreelancerController.getOne);
 router.put("/freelancers/:id", FreelancerController.updateOne);
-
-router.post("/auth/login", UserController.login);
 
 module.exports = router;
