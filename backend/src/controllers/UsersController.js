@@ -69,4 +69,12 @@ const login = async (req, res) => {
   }
 };
 
-module.exports = { createOne, login };
+const deleteOne = async (req, res) => {
+  const userId = parseInt(req.params.id, 10);
+
+  const entry = await user.deleteOne(userId);
+
+  res.status(200).json({ "Utilisateur supprimé": { entry } });
+};
+
+module.exports = { createOne, login, deleteOne };

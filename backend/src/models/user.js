@@ -53,4 +53,14 @@ const login = async (userData) => {
   return { ...user, accessToken };
 };
 
-module.exports = { validate, createOne, login };
+const deleteOne = async (userId) => {
+  try {
+    return await prisma.user.delete({
+      where: { id: userId },
+    });
+  } finally {
+    await prisma.$disconnect();
+  }
+};
+
+module.exports = { validate, createOne, login, deleteOne };
