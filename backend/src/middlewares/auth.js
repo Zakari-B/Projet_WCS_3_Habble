@@ -15,4 +15,21 @@ const authorization = async (req, res, next) => {
   }
 };
 
-module.exports = authorization;
+const authSelf = async (req, res, next) => {
+  const token = req.cookies.userToken;
+  if (!token) {
+    return res.sendStatus(401);
+  }
+  try {
+    const data = await verifyAccessToken(token);
+    req.userId = data.payload.id;
+    if (req.userId === parseInt(req.params.id, 10)) {
+      return next();
+    }
+    return res.sendStatus(401);
+  } catch {
+    return res.sendStatus(401);
+  }
+};
+
+module.exports = { authorization, authSelf };

@@ -80,7 +80,11 @@ const getOne = async (req, res) => {
 
   const result = await user.findOne(userId);
 
-  res.status(200).json({ result });
+  if (result) {
+    res.status(200).json({ result });
+  } else {
+    res.status(404).json({ Erreur: "L'utilisateur n'existe pas" });
+  }
 };
 
 const updateOne = async (req, res) => {
@@ -89,19 +93,30 @@ const updateOne = async (req, res) => {
     req.body.hashedPassword = await hashPassword(req.body.password);
     delete req.body.password;
     const result = await user.updateOne(userId, req.body);
-    res.status(200).json(result);
+    if (result) {
+      res.status(200).json(result);
+    } else {
+      res.status(404).json({ Erreur: "L'utilisateur n'existe pas" });
+    }
   } else {
     const result = await user.updateOne(userId, req.body);
-    res.status(200).json(result);
+    if (result) {
+      res.status(200).json({ "Utilisateur mis jour :": { result } });
+    } else {
+      res.status(404).json({ Erreur: "L'utilisateur n'existe pas" });
+    }
   }
 };
 
 const deleteOne = async (req, res) => {
   const userId = parseInt(req.params.id, 10);
 
-  const entry = await user.deleteOne(userId);
-
-  res.status(200).json({ "Utilisateur supprimé": { entry } });
+  const result = await user.deleteOne(userId);
+  if (result) {
+    res.status(200).json({ "Utilisateur supprimé :": { result } });
+  } else {
+    res.status(404).json({ Erreur: "L'utilisateur n'existe pas" });
+  }
 };
 
 module.exports = { createOne, login, getAll, getOne, updateOne, deleteOne };
