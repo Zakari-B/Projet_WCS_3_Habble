@@ -4,6 +4,8 @@ const {
   updateOne,
 } = require("../models/freelancer");
 
+const { validateFreelancer } = require("../utils/validate");
+
 exports.getAll = async (req, res) => {
   try {
     const freelancers = await getAllFreelancers();
@@ -46,12 +48,24 @@ exports.createOne = async (req, res, next) => {
 
 exports.updateOne = async (req, res) => {
   const freelancerId = parseInt(req.params.id, 10);
-
+  // validate fields
+  // console.log(req.body);
+  const error = validateFreelancer(req.body, true);
+  console.error(error);
+  // res.status(422).json({ validationErrors });
   try {
     const freelancerModify = await updateOne(freelancerId, req.body);
     res.status(200).json(freelancerModify);
   } catch (e) {
     res.status(500).json({ error: "Problème de mise à jour du freelancer" });
+    // if (err === 'RECORD_NOT_FOUND')
+    //         res.status(404).send(`User with id ${userId} not found.`);
+    //       if (err === 'DUPLICATE_EMAIL')
+    //         res.status(409).json({ message: 'This email is already used' });
+    //       else if (err === 'INVALID_DATA')
+    //         res.status(422).json({ validationErrors });
+    //       else res.status(500).send('Error updating a user');
+    //     });
   }
 };
 
