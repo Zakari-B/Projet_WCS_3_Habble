@@ -10,6 +10,9 @@ const { validateFreelancer } = require("../utils/validate");
 exports.getAll = async (req, res) => {
   try {
     const freelancers = await getAllFreelancers();
+    if (!freelancers) {
+      return res.status(404).send(`There are no freelancers yet`);
+    }
     return res.status(200).json(freelancers);
   } catch (e) {
     return res

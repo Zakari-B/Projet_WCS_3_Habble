@@ -1,7 +1,7 @@
 const { Prisma } = require("@prisma/client");
 const { hashPassword } = require("../helpers/argonHelper");
 const user = require("../models/user");
-const validateUser = require("../utils/validate");
+const { validateUser } = require("../utils/validate");
 
 const createOne = async (req, res, next) => {
   const { firstname, lastname, email, password, role } = req.body;

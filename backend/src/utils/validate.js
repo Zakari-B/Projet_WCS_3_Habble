@@ -1,13 +1,16 @@
 const Joi = require("joi");
 
-const validateUser = (data, forCreation = true) => {
+exports.validateUser = (data, forCreation = true) => {
   const presence = forCreation ? "required" : "optional";
   const validationErrors = Joi.object({
     firstname: Joi.string().min(3).max(100).presence(presence),
     lastname: Joi.string().max(100).presence(presence),
     email: Joi.string().email().max(100).presence(presence),
     password: Joi.string().min(8).max(255).presence(presence),
-    role: Joi.string().max(100).presence(presence),
+    role: Joi.string()
+      .valid("freelancer", "employer", "coordinator", "admin")
+      .max(100)
+      .presence(presence),
     profileIsComplete: Joi.boolean().presence(presence),
   }).validate(data, { abortEarly: false }).error;
   if (validationErrors) {
@@ -16,7 +19,7 @@ const validateUser = (data, forCreation = true) => {
   return false;
 };
 
-const validateFreelancer = (data, forCreation = true) => {
+exports.validateFreelancer = (data, forCreation = true) => {
   const presence = forCreation ? "required" : "optional";
   const validationErrors = Joi.object({
     displayName: Joi.string().max(100).presence(presence),
@@ -37,5 +40,3 @@ const validateFreelancer = (data, forCreation = true) => {
   }
   return false;
 };
-
-module.exports = { validateUser, validateFreelancer };

@@ -3,7 +3,7 @@ const express = require("express");
 const UserController = require("./controllers/UsersController");
 const FreelancerController = require("./controllers/FreelancerController");
 const EmployerController = require("./controllers/EmployerController");
-const auth = require("./middlewares/auth");
+// const auth = require("./middlewares/auth");
 
 const router = express.Router();
 
@@ -16,7 +16,7 @@ router.post(
   EmployerController.createOne
 );
 router.post("/auth/login", UserController.login);
-router.get("/users", auth, UserController.getAll);
+router.get("/users", UserController.getAll);
 router.get("/users/:id", UserController.getOne);
 router.put("/users/:id", UserController.updateOne);
 router.delete("/users/delete/:id", UserController.deleteOne);
@@ -26,5 +26,6 @@ router.delete("/users/delete/:id", UserController.deleteOne);
 router.get("/freelancers/", FreelancerController.getAll);
 router.get("/freelancers/:id", FreelancerController.getOne);
 router.put("/freelancers/:id", FreelancerController.updateOne);
+// route delete a valider (si besoin)
 
 module.exports = router;
