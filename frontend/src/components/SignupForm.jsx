@@ -38,7 +38,9 @@ const signupForm = () => {
         if (response.data.userAccount.role === "employer") {
           navigate("/");
         } else if (response.data.userAccount.role === "freelancer") {
-          navigate("/register-onboarding-pro");
+          navigate(
+            `/register-onboarding-pro/${response.data.freelancerCreated.id}`
+          );
         }
       })
       .catch((error) => {
