@@ -53,6 +53,35 @@ const login = async (userData) => {
   return { ...user, accessToken };
 };
 
+const findAll = async () => {
+  try {
+    return await prisma.user.findMany();
+  } finally {
+    await prisma.$disconnect();
+  }
+};
+
+const findOne = async (userId) => {
+  try {
+    return await prisma.user.findUnique({
+      where: { id: userId },
+    });
+  } finally {
+    await prisma.$disconnect();
+  }
+};
+
+const updateOne = async (userId, payload) => {
+  try {
+    return await prisma.user.update({
+      where: { id: userId },
+      data: payload,
+    });
+  } finally {
+    await prisma.$disconnect();
+  }
+};
+
 const deleteOne = async (userId) => {
   try {
     return await prisma.user.delete({
@@ -63,4 +92,12 @@ const deleteOne = async (userId) => {
   }
 };
 
-module.exports = { validate, createOne, login, deleteOne };
+module.exports = {
+  validate,
+  createOne,
+  login,
+  updateOne,
+  deleteOne,
+  findOne,
+  findAll,
+};

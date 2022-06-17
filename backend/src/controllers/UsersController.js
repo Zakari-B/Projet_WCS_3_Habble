@@ -69,6 +69,33 @@ const login = async (req, res) => {
   }
 };
 
+const getAll = async (req, res) => {
+  const result = await user.findAll();
+
+  res.status(200).json(result);
+};
+
+const getOne = async (req, res) => {
+  const userId = parseInt(req.params.id, 10);
+
+  const result = await user.findOne(userId);
+
+  res.status(200).json({ result });
+};
+
+const updateOne = async (req, res) => {
+  const userId = parseInt(req.params.id, 10);
+  if (req.body.password) {
+    req.body.hashedPassword = await hashPassword(req.body.password);
+    delete req.body.password;
+    const result = await user.updateOne(userId, req.body);
+    res.status(200).json(result);
+  } else {
+    const result = await user.updateOne(userId, req.body);
+    res.status(200).json(result);
+  }
+};
+
 const deleteOne = async (req, res) => {
   const userId = parseInt(req.params.id, 10);
 
@@ -77,4 +104,4 @@ const deleteOne = async (req, res) => {
   res.status(200).json({ "Utilisateur supprimé": { entry } });
 };
 
-module.exports = { createOne, login, deleteOne };
+module.exports = { createOne, login, getAll, getOne, updateOne, deleteOne };
