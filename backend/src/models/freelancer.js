@@ -41,3 +41,15 @@ exports.updateOneFreelancer = async (freelancerId, data) => {
     await prisma.$disconnect();
   }
 };
+
+const findOneByUserId = async (user) => {
+  try {
+    return await prisma.freelancer.findFirst({
+      where: { userId: user },
+    });
+  } finally {
+    await prisma.$disconnect();
+  }
+};
+
+module.exports = { findOneByUserId };
