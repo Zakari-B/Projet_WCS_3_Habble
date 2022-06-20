@@ -3,6 +3,8 @@ const express = require("express");
 const UserController = require("./controllers/UsersController");
 const FreelancerController = require("./controllers/FreelancerController");
 const EmployerController = require("./controllers/EmployerController");
+const DiplomeController = require("./controllers/DiplomeController");
+
 // const auth = require("./middlewares/auth");
 
 const router = express.Router();
@@ -27,5 +29,18 @@ router.get("/freelancers/", FreelancerController.getAll);
 router.get("/freelancers/:id", FreelancerController.getOne);
 router.put("/freelancers/:id", FreelancerController.updateOne);
 // route delete a valider (si besoin)
+
+// Routes for Diplomes
+router.post("/freelancers/:freelancerid/diplomes", DiplomeController.createOne);
+// router.get("/freelancers/:freelancerid/diplomes", DiplomeController.getAll);
+// router.get("/freelancers/:freelancerid/diplomes/:id", DiplomeController.getOne);
+// router.post(
+//   "/freelancers/:freelancerid/diplomes/:id",
+//   DiplomeController.updateOne
+// );
+// router.delete(
+//   "/freelancers/:freelancerid/diplomes:id",
+//   DiplomeController.deleteOne
+// );
 
 module.exports = router;

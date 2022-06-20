@@ -1,6 +1,8 @@
 const { PrismaClient } = require("@prisma/client");
 const jwt = require("../helpers/jwtHelper");
 const argon = require("../helpers/argonHelper");
+const { findOneFreelancerByUserId } = require("./freelancer");
+const { findOneEmployerByUserId } = require("./employer");
 
 const prisma = new PrismaClient();
 
@@ -38,7 +40,20 @@ const login = async (userData) => {
     };
   }
   delete user.hashedPassword;
-  const accessToken = await jwt.signAccessToken(user);
+
+  let fkId = "";
+  if (user.role === "freelancer") {
+    fkId = await findOneFreelancerByUserId(user.id);
+    fkId = fkId.id;
+  } else if (user.role === "employer") {
+    fkId = await findOneEmployerByUserId(user.id);
+    fkId = fkId.id;
+  }
+
+  const accessToken = await jwt.signAccessToken({
+    user,
+    fkId,
+  });
   return { ...user, accessToken };
 };
 

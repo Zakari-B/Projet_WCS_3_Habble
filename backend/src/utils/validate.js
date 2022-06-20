@@ -40,3 +40,18 @@ exports.validateFreelancer = (data, forCreation = true) => {
   }
   return false;
 };
+
+exports.validateDiploma = (data, forCreation = true) => {
+  const presence = forCreation ? "required" : "optional";
+  const validationErrors = Joi.object({
+    title: Joi.string().max(100).presence(presence),
+    school: Joi.string().max(100).presence(presence),
+    monthDelivered: Joi.number().presence(presence).options({ convert: false }),
+    yearDelivered: Joi.number().presence(presence).options({ convert: false }),
+    description: Joi.string().max(500).presence(presence),
+  }).validate(data, { abortEarly: false }).error;
+  if (validationErrors) {
+    return validationErrors;
+  }
+  return false;
+};
