@@ -12,13 +12,15 @@ const createOneDiploma = async (diploma) => {
   }
 };
 
-// const getAllDiploma = async () => {
-//   try {
-//     return await prisma.diplomes.findMany();
-//   } finally {
-//     await prisma.$disconnect();
-//   }
-// };
+const getAllDiplomabyFreelancerId = async (freelancerId) => {
+  try {
+    return await prisma.diplomes.findMany({
+      where: { freelancerId },
+    });
+  } finally {
+    await prisma.$disconnect();
+  }
+};
 
 // const getOneDiploma = async (freelancerId) => {
 //   try {
@@ -55,7 +57,7 @@ const createOneDiploma = async (diploma) => {
 // };
 
 module.exports = {
-  //   getAllDiploma,
+  getAllDiplomabyFreelancerId,
   //   getOneDiploma,
   createOneDiploma,
   //   constupdateOneDiploma,

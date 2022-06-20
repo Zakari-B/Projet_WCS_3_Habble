@@ -1,5 +1,8 @@
 const { findOneFreelancer } = require("../models/freelancer");
-const { createOneDiploma } = require("../models/diplome");
+const {
+  createOneDiploma,
+  getAllDiplomabyFreelancerId,
+} = require("../models/diplome");
 const { validateDiploma } = require("../utils/validate");
 const { verifyAccessToken } = require("../helpers/jwtHelper");
 
@@ -42,4 +45,17 @@ const createOne = async (req, res) => {
   }
 };
 
-module.exports = { createOne };
+const getAll = async (req, res) => {
+  const freelancerId = parseInt(req.params.freelancerid, 10);
+  try {
+    const diplomalist = await getAllDiplomabyFreelancerId(freelancerId);
+    return res.status(201).send(diplomalist);
+  } catch (e) {
+    console.error(e);
+    return res
+      .status(500)
+      .json({ error: "Problème de création de l'entrée diplôme" });
+  }
+};
+
+module.exports = { createOne, getAll };

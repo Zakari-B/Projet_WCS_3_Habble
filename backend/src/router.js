@@ -32,7 +32,7 @@ router.put("/freelancers/:id", FreelancerController.updateOne);
 
 // Routes for Diplomes
 router.post("/freelancers/:freelancerid/diplomes", DiplomeController.createOne);
-// router.get("/freelancers/:freelancerid/diplomes", DiplomeController.getAll);
+router.get("/freelancers/:freelancerid/diplomes", DiplomeController.getAll);
 // router.get("/freelancers/:freelancerid/diplomes/:id", DiplomeController.getOne);
 // router.post(
 //   "/freelancers/:freelancerid/diplomes/:id",
