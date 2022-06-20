@@ -16,7 +16,7 @@ router.post(
 router.post("/auth/login", UserController.login);
 
 router.get("/users", authorization, UserController.getAll);
-router.get("/users/:id", authSelf, UserController.getOne);
+router.get("/users/:id", authorization, authSelf, UserController.getOne);
 router.put("/users/:id", authSelf, UserController.updateOne);
 router.delete("/users/delete/:id", authSelf, UserController.deleteOne);
 

@@ -71,8 +71,16 @@ const login = async (req, res) => {
 
 const getAll = async (req, res) => {
   const result = await user.findAll();
-
-  res.status(200).json(result);
+  const newResults = result.map((elem) => ({
+    id: elem.id,
+    firstname: elem.firstname,
+    lastname: elem.lastname,
+    email: elem.email,
+    role: elem.role,
+    profileIsComplete: elem.profileIsComplete,
+    dateCreated: elem.dateCreated,
+  }));
+  res.status(200).json(newResults);
 };
 
 const getOne = async (req, res) => {
@@ -81,6 +89,7 @@ const getOne = async (req, res) => {
   const result = await user.findOne(userId);
 
   if (result) {
+    delete result.hashedPassword;
     res.status(200).json({ result });
   } else {
     res.status(404).json({ Erreur: "L'utilisateur n'existe pas" });
@@ -94,6 +103,7 @@ const updateOne = async (req, res) => {
     delete req.body.password;
     const result = await user.updateOne(userId, req.body);
     if (result) {
+      delete result.hashedPassword;
       res.status(200).json({ "Utilisateur mis jour :": { result } });
     } else {
       res.status(404).json({ Erreur: "L'utilisateur n'existe pas" });
@@ -101,6 +111,7 @@ const updateOne = async (req, res) => {
   } else {
     const result = await user.updateOne(userId, req.body);
     if (result) {
+      delete result.hashedPassword;
       res.status(200).json({ "Utilisateur mis jour :": { result } });
     } else {
       res.status(404).json({ Erreur: "L'utilisateur n'existe pas" });
@@ -113,6 +124,7 @@ const deleteOne = async (req, res) => {
 
   const result = await user.deleteOne(userId);
   if (result) {
+    delete result.hashedPassword;
     res.status(200).json({ "Utilisateur supprimé :": { result } });
   } else {
     res.status(404).json({ Erreur: "L'utilisateur n'existe pas" });
