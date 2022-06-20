@@ -12,6 +12,7 @@ import Error from "./pages/Error";
 import SearchProfessionals from "./pages/SearchProfessionals";
 import Contact from "./pages/Contact";
 import RegisterOnboardingPro from "./pages/RegisterOnboardingPro";
+import FormAnnonce from "./pages/FormAnnonce";
 
 import "./App.css";
 
@@ -38,6 +39,7 @@ function App() {
           element={<RegisterOnboardingPro />}
         />
         <Route path="/profils" element={<SearchProfessionals />} />
+        <Route path="/deposer-une-annonce" element={<FormAnnonce />} />
       </Routes>
     </div>
   );
