@@ -15,11 +15,12 @@ model user {
   firstname         String       @db.VarChar(100)
   lastname          String       @db.VarChar(100)
   email             String       @unique @db.VarChar(100)
-  password          String       @db.VarChar(255)
-  pseudo            String       @db.VarChar(100)
+  hashedPassword    String       @db.VarChar(255)
   role              String       @db.VarChar(100)
   profileIsComplete Boolean      @default(false)
+  dateCreated       DateTime     @default(now()) @db.Timestamp(0)
   freelancer        freelancer[]
+  employer          employer[]
 }
 
 model freelancer {
@@ -35,12 +36,15 @@ model freelancer {
   acceptEmails          Boolean                 @default(false)
   siret                 Int?
   available             Boolean                 @default(false)
-  dateCreated           DateTime                @db.Date
+  dateCreated           DateTime                @default(now()) @db.Timestamp(0)
+  picture               String                  @db.VarChar(1000)
   fk_user_id            user                    @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   documents             documents[]
   freelancer_services   freelancer_services[]
   formations            formations[]
   freelancer_expertises freelancer_expertises[]
+  experience_pro        experience_pro[]
+  diplomes              diplomes[]
 }
 
 model documents {
@@ -95,22 +99,36 @@ model formations {
 }
 
 model experience_pro {
-  id          Int     @id @default(autoincrement())
-  title       String  @db.VarChar(100)
-  company     String  @db.VarChar(100)
-  startMonth  String  @db.VarChar(100)
-  startYear   Int
-  endMonth    String  @db.VarChar(100)
-  endYear     Int
-  currentJob  Boolean @default(false)
-  description String  @db.VarChar(500)
+  id           Int        @id @default(autoincrement())
+  title        String     @db.VarChar(100)
+  company      String     @db.VarChar(100)
+  startMonth   String     @db.VarChar(100)
+  startYear    Int
+  endMonth     String     @db.VarChar(100)
+  endYear      Int
+  currentJob   Boolean    @default(false)
+  description  String     @db.VarChar(500)
+  freelancerId Int
+  fk_id        freelancer @relation(fields: [freelancerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
 
 model diplomes {
-  id             Int    @id @default(autoincrement())
-  title          String @db.VarChar(100)
-  school         String @db.VarChar(100)
+  id             Int        @id @default(autoincrement())
+  title          String     @db.VarChar(100)
+  school         String     @db.VarChar(100)
   monthDelivered Int
   yearDelivered  Int
-  description    String @db.VarChar(500)
+  description    String     @db.VarChar(500)
+  freelancerId   Int
+  fk_id          freelancer @relation(fields: [freelancerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+}
+
+model employer {
+  id          Int      @id @default(autoincrement())
+  displayName String   @db.VarChar(100)
+  phone       String?  @db.VarChar(30)
+  userId      Int
+  dateCreated DateTime @default(now()) @db.Timestamp(0)
+  picture     String   @db.VarChar(1000)
+  fk_user_id  user     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }

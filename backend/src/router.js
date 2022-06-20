@@ -1,13 +1,19 @@
 const express = require("express");
 
-const { ItemController } = require("./controllers");
+const UserController = require("./controllers/UsersController");
+const FreelancerController = require("./controllers/FreelancerController");
+const EmployerController = require("./controllers/EmployerController");
+// const auth = require("./middlewares/auth");
 
 const router = express.Router();
 
-router.get("/items", ItemController.browse);
-router.get("/items/:id", ItemController.read);
-router.put("/items/:id", ItemController.edit);
-router.post("/items", ItemController.add);
-router.delete("/items/:id", ItemController.delete);
+router.post(
+  "/auth/register",
+  UserController.createOne,
+  FreelancerController.createOne,
+  EmployerController.createOne
+);
+
+router.post("/auth/login", UserController.login);
 
 module.exports = router;

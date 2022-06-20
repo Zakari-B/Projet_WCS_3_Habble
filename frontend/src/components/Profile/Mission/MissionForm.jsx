@@ -10,13 +10,13 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import React, { useState, useEffect, useContext } from "react";
-import FormationFormContext from "../../../contexts/FormationFormContext";
+import MissionFormContext from "../../../contexts/MissionFormContext";
 import SelectMonth from "../../SelectMonth";
 import getDropList from "../../../services/Utils";
 
 export default function FormationForm() {
   const [yearList, setYearList] = useState([]);
-  const { setIsVisible } = useContext(FormationFormContext);
+  const { setIsVisible } = useContext(MissionFormContext);
   const { isOpen, onToggle } = useDisclosure();
 
   const [level, setlevel] = useState("");
