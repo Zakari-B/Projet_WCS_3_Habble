@@ -50,3 +50,22 @@ exports.updateOneFreelancer = async (freelancerId, data) => {
     await prisma.$disconnect();
   }
 };
+
+exports.getAllFreelancersProfileInfo = async (freelancerId) => {
+  try {
+    return await prisma.freelancer.findUnique({
+      where: {
+        id: freelancerId,
+      },
+      include: {
+        diplomes: {
+          orderBy: {
+            dateCreated: "desc",
+          },
+        },
+      },
+    });
+  } finally {
+    await prisma.$disconnect();
+  }
+};

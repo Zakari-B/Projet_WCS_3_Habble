@@ -46,7 +46,7 @@ exports.validateDiploma = (data, forCreation = true) => {
   const validationErrors = Joi.object({
     title: Joi.string().max(100).presence(presence),
     school: Joi.string().max(100).presence(presence),
-    monthDelivered: Joi.number().presence(presence).options({ convert: false }),
+    monthDelivered: Joi.string().max(100).presence(presence),
     yearDelivered: Joi.number().presence(presence).options({ convert: false }),
     description: Joi.string().max(500).presence(presence),
   }).validate(data, { abortEarly: false }).error;

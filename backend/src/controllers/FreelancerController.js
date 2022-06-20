@@ -3,6 +3,7 @@ const {
   createOneFreelancer,
   updateOneFreelancer,
   findOneFreelancer,
+  getAllFreelancersProfileInfo,
 } = require("../models/freelancer");
 
 const { validateFreelancer } = require("../utils/validate");
@@ -24,7 +25,7 @@ exports.getAll = async (req, res) => {
 exports.getOne = async (req, res) => {
   const freelancerId = parseInt(req.params.id, 10);
   try {
-    const freelancer = await findOneFreelancer(freelancerId);
+    const freelancer = await getAllFreelancersProfileInfo(freelancerId);
     if (!freelancer) {
       return res.status(404).send(`Freelancer #${freelancerId} not found.`);
     }

@@ -1,5 +1,4 @@
 import { Flex, Box } from "@chakra-ui/react";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Header from "../components/Header/Header";
@@ -14,17 +13,19 @@ import Expertises from "../components/Profile/Expertises/Expertises";
 import Verifications from "../components/Profile/Verifications";
 import Tarif from "../components/Profile/Tarif";
 import MissionCarousel from "../components/Profile/Mission/MissionCarousel";
+import { getList } from "../services/ProfileProUtils";
 
 export default function ProfilPageProfessional() {
   const navigate = useNavigate();
 
   const { freelancerId } = useParams();
   const [freelancer, setFreelancer] = useState({});
+  const [diplomes, setDiplomes] = useState([]);
   const getfreelancer = () => {
-    axios
-      .get(`http://localhost:5001/api/freelancers/${freelancerId}`)
+    getList("freelancers", freelancerId)
       .then((response) => {
         setFreelancer(response.data);
+        setDiplomes(response.data.diplomes);
       })
       .catch((error) => {
         console.warn(error);
@@ -32,7 +33,9 @@ export default function ProfilPageProfessional() {
       });
   };
 
-  useEffect(() => getfreelancer(), []);
+  useEffect(() => {
+    getfreelancer();
+  }, [diplomes]);
 
   // créer une fonction pour get user
   // utiliser useeffect pour appeler ces deux fonctions
@@ -86,13 +89,13 @@ export default function ProfilPageProfessional() {
           >
             <DocumentCarousel />
             <FormationCarousel />
-            <DiplomeCarousel />
+            <DiplomeCarousel diplomes={diplomes} />
             <ExperienceCarousel />
             <MissionCarousel />
           </Flex>
         </Flex>
       </Flex>
-      )
+
       <Footer />
     </Box>
   );

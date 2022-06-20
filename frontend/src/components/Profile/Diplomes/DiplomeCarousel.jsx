@@ -1,34 +1,18 @@
 import React, { useState, useMemo } from "react";
+
 import { Heading, Flex, Button, Text, Collapse } from "@chakra-ui/react";
 import DiplomeCard from "./DiplomeCard";
 import DiplomeFormContext from "../../../contexts/DiplomeFormContext";
 import DiplomeForm from "./DiplomeForm";
 
-export default function DiplomeCarousel() {
-  const [fakediplome] = useState([
-    {
-      id: 1,
-      title: "Bac+4",
-      delivery: "Lycée Albert Camus",
-      month_delivered: "04",
-      year_delivered: 2012,
-      description: "this is my first experience",
-    },
-    {
-      id: 2,
-      title: "Bac+4",
-      delivery: "Lycée Albert Camus",
-      month_delivered: "04",
-      year_delivered: 2012,
-      description: "this is my first experience",
-    },
-  ]);
+export default function DiplomeCarousel({ diplomes }) {
   const [isVisible, setIsVisible] = useState(false);
   const context = useMemo(() => ({ isVisible, setIsVisible }), []);
-
   const toggleForm = () => {
     setIsVisible(!isVisible);
   };
+
+  // useEffect(() => {}, [diplomelist]);
 
   return (
     <Flex
@@ -62,13 +46,13 @@ export default function DiplomeCarousel() {
         )}
       </Collapse>
       <Flex direction="column">
-        {fakediplome.length === 0 ? (
+        {diplomes.length === 0 ? (
           <Text color="gray" fontSize="16px" fontWeight="500">
             Ajoutez une certification professionnelle à votre profil.
             (Optionnel)
           </Text>
         ) : (
-          fakediplome.map((diplome) => (
+          diplomes.map((diplome) => (
             <DiplomeFormContext.Provider value={context}>
               <DiplomeCard diplome={diplome} key={diplome.id} />
             </DiplomeFormContext.Provider>

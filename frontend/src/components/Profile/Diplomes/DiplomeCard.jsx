@@ -26,10 +26,10 @@ export default function DiplomeCard({ diplome }) {
         {diplome.title}
       </Heading>
       <Heading as="h3" color="purple.average" fontSize="16px" fontWeight="600">
-        {diplome.delivery}
+        {diplome.school}
       </Heading>
       <Heading as="h4" color="purple.average" fontSize="14px" fontWeight="600">
-        {diplome.month_delivered}/{diplome.year_delivered}
+        {diplome.monthDelivered}/{diplome.yearDelivered}
       </Heading>
       <Text color="purple.average" fontSize="14px">
         {diplome.description}
@@ -65,9 +65,9 @@ DiplomeCard.propTypes = {
   diplome: PropTypes.shape({
     id: PropTypes.number.isRequired,
     title: PropTypes.string.isRequired,
-    delivery: PropTypes.string.isRequired,
-    month_delivered: PropTypes.string.isRequired,
-    year_delivered: PropTypes.number.isRequired,
+    school: PropTypes.string.isRequired,
+    monthDelivered: PropTypes.string.isRequired,
+    yearDelivered: PropTypes.number.isRequired,
     description: PropTypes.string.isRequired,
   }).isRequired,
 };

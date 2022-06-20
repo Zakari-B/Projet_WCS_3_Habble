@@ -22,44 +22,40 @@ const getAllDiplomabyFreelancerId = async (freelancerId) => {
   }
 };
 
-// const getOneDiploma = async (freelancerId) => {
-//   try {
-//     return await prisma.diplomes.findUnique({
-//       where: { id: freelancerId },
-//     });
-//   } finally {
-//     await prisma.$disconnect();
-//   }
-// };
+const getOneDiplomabyFreelancerId = async (freelancerId, id) => {
+  try {
+    return await prisma.diplomes.findFirst({
+      where: { freelancerId, id },
+    });
+  } finally {
+    await prisma.$disconnect();
+  }
+};
 
-// const constupdateOneDiploma = async (freelancerId, data) => {
-//   try {
-//     const message = await prisma.diplomes.update({
-//       where: { id: freelancerId },
-//       data: { ...data },
-//     });
-//     return message;
-//   } finally {
-//     await prisma.$disconnect();
-//   }
-// };
+const updateOneDiploma = async (id, data) => {
+  try {
+    const diploma = await prisma.diplomes.update({
+      where: { id },
+      data: { ...data },
+    });
+    return diploma;
+  } finally {
+    await prisma.$disconnect();
+  }
+};
 
-// const deleteOneDiploma = async (freelancerId, data) => {
-//   try {
-//     const message = await prisma.diplomes.update({
-//       where: { id: freelancerId },
-//       data: { ...data },
-//     });
-//     return message;
-//   } finally {
-//     await prisma.$disconnect();
-//   }
-// };
+const deleteOneDiploma = async (id) => {
+  try {
+    return await prisma.diplomes.delete({ where: { id } });
+  } finally {
+    await prisma.$disconnect();
+  }
+};
 
 module.exports = {
   getAllDiplomabyFreelancerId,
-  //   getOneDiploma,
+  getOneDiplomabyFreelancerId,
   createOneDiploma,
-  //   constupdateOneDiploma,
-  //   deleteOneDiploma,
+  updateOneDiploma,
+  deleteOneDiploma,
 };

@@ -33,14 +33,14 @@ router.put("/freelancers/:id", FreelancerController.updateOne);
 // Routes for Diplomes
 router.post("/freelancers/:freelancerid/diplomes", DiplomeController.createOne);
 router.get("/freelancers/:freelancerid/diplomes", DiplomeController.getAll);
-// router.get("/freelancers/:freelancerid/diplomes/:id", DiplomeController.getOne);
-// router.post(
-//   "/freelancers/:freelancerid/diplomes/:id",
-//   DiplomeController.updateOne
-// );
-// router.delete(
-//   "/freelancers/:freelancerid/diplomes:id",
-//   DiplomeController.deleteOne
-// );
+router.get("/freelancers/:freelancerid/diplomes/:id", DiplomeController.getOne);
+router.put(
+  "/freelancers/:freelancerid/diplomes/:id",
+  DiplomeController.updateOne
+);
+router.delete(
+  "/freelancers/:freelancerid/diplomes/:id",
+  DiplomeController.deleteOne
+);
 
 module.exports = router;
