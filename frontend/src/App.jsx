@@ -29,9 +29,12 @@ function App() {
         <Route path="/login" element={<LoginForm />} />
         <Route path="*" element={<Error />} />
         <Route path="/forgot-password" element={<PasswordReset />} />
-        <Route path="/profil" element={<ProfilPageProfessional />} />
         <Route
-          path="/register-onboarding-pro/:id"
+          path="/profil/:freelancerId"
+          element={<ProfilPageProfessional />}
+        />
+        <Route
+          path="/register-onboarding-pro/:freelancerId"
           element={<RegisterOnboardingPro />}
         />
         <Route path="/profils" element={<SearchProfessionals />} />

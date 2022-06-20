@@ -40,7 +40,6 @@ import modalPicture from "../assets/habble-favicon.png";
 
 export default function ProAccountForm() {
   const { isOpen, onOpen, onClose } = useDisclosure();
-
   // useState pour chaque input //
   const [displayName, setDisplayName] = useState("");
   const [activityPro, setActivityPro] = useState("");
