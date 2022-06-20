@@ -30,7 +30,7 @@ import { useState } from "react";
 export default function EmployerForm() {
   // useState pour chaque input //
   const [displayTitle, setDisplayTitle] = useState("");
-  const [activityPro, setActivityPro] = useState("");
+  const [description, setDescription] = useState("");
   const [pricePro, setPricePro] = useState("");
   const [tags, setTags] = useState([]);
   const [expertise, setExpertise] = useState([]);
@@ -65,7 +65,7 @@ export default function EmployerForm() {
         dir="column"
         mx="10%"
         my="5%"
-        className="signupForm"
+        className="employerForm"
         bgColor="white"
         maxWidth="900px"
         alignItems="center"
@@ -101,8 +101,8 @@ export default function EmployerForm() {
             </FormLabel>
             <Input
               type="text"
-              id="proFormName"
-              name="name"
+              id="proFormTitle"
+              name="title"
               placeholder="Résumez votre besoin ici"
               _placeholder={{
                 fontSize: "0.8rem",
@@ -122,8 +122,8 @@ export default function EmployerForm() {
             </FormLabel>
             <Textarea
               type="text"
-              id="proFormActivity"
-              name="activity"
+              id="description"
+              name="description"
               placeholder="Bonjour, Je recherche une personne de confiance ayant une expérience avec les troubles autistiques pour mon fils de 9 ans. Il s'agirait de l'aider dans ses activités quotidiennes : retour d'école, devoirs... Merci de me contacter pour plus d'informations. (30 caratères minimum)"
               _placeholder={{
                 fontSize: "0.8rem",
@@ -131,8 +131,8 @@ export default function EmployerForm() {
                 color: "gray",
               }}
               height="10rem"
-              value={activityPro}
-              onChange={(e) => setActivityPro(e.target.value)}
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
             />
             <Text fontSize="xs" as="i" color="gray.400">
               Nous vous invitons à ne pas indiquer de données de santé dans
@@ -141,7 +141,7 @@ export default function EmployerForm() {
             </Text>
 
             <FormLabel
-              htmlFor="city"
+              htmlFor="skills"
               fontSize="md"
               fontWeight="800"
               color="purple.average"
