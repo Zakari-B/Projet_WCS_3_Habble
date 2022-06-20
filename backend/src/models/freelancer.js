@@ -22,4 +22,14 @@ const updateOne = async (user) => {
   }
 };
 
-module.exports = { createOne, updateOne };
+const findOneByUserId = async (user) => {
+  try {
+    return await prisma.freelancer.findFirst({
+      where: { userId: user },
+    });
+  } finally {
+    await prisma.$disconnect();
+  }
+};
+
+module.exports = { createOne, updateOne, findOneByUserId };
