@@ -33,7 +33,8 @@ export default function EmployerForm() {
   const [description, setDescription] = useState("");
   const [pricePro, setPricePro] = useState("");
   const [tags, setTags] = useState([]);
-  const [expertise, setExpertise] = useState([]);
+  const [location, setLocation] = useState([]);
+  const [emergency, setEmergency] = useState([]);
 
   // fonction retrait d'un item //
   const removeItem = (indexToRemove) => {
@@ -49,12 +50,21 @@ export default function EmployerForm() {
   };
 
   // fonction retrait et d'ajout d'une expertise //
-  const updateExpertise = (e) => {
-    if (e.target.checked && !expertise.includes(e.target.value)) {
-      setExpertise([...expertise, e.target.value]);
+  const updateLocation = (e) => {
+    if (e.target.checked && !location.includes(e.target.value)) {
+      setLocation([...location, e.target.value]);
     } else if (!e.target.checked) {
-      expertise.splice(expertise.indexOf(e.target.value), 1);
-      setExpertise(expertise);
+      location.splice(location.indexOf(e.target.value), 1);
+      setLocation(location);
+    }
+  };
+
+  const updateEmergency = (e) => {
+    if (e.target.checked && !emergency.includes(e.target.value)) {
+      setEmergency([...emergency, e.target.value]);
+    } else if (!e.target.checked) {
+      emergency.splice(emergency.indexOf(e.target.value), 1);
+      setEmergency(emergency);
     }
   };
 
@@ -117,6 +127,7 @@ export default function EmployerForm() {
               fontSize="md"
               fontWeight="800"
               color="purple.average"
+              paddingTop="1.5rem"
             >
               Description de l'annonce *
             </FormLabel>
@@ -145,6 +156,7 @@ export default function EmployerForm() {
               fontSize="md"
               fontWeight="800"
               color="purple.average"
+              paddingTop="1.5rem"
             >
               Sélectionnez la ou les compétence(s) dont vous pensez avoir besoin
               * (pas de mauvaises réponses !)
@@ -285,7 +297,7 @@ export default function EmployerForm() {
             fontWeight="800"
             color="purple.average"
           >
-            Date de début (optionnel)
+            Lieu
           </FormLabel>
           <CheckboxGroup>
             <Flex
@@ -301,8 +313,8 @@ export default function EmployerForm() {
                 colorScheme="white"
                 borderColor="gray"
                 _checked={{ borderColor: "pink.light" }}
-                value="Domicile"
-                onChange={updateExpertise}
+                value="domicile"
+                onChange={updateLocation}
               >
                 <Text fontSize="sm">Domicile</Text>
               </Checkbox>
@@ -312,7 +324,7 @@ export default function EmployerForm() {
                 borderColor="gray"
                 _checked={{ borderColor: "pink.light" }}
                 value="École"
-                onChange={updateExpertise}
+                onChange={updateLocation}
               >
                 <Text fontSize="sm">École</Text>
               </Checkbox>
@@ -322,7 +334,7 @@ export default function EmployerForm() {
                 borderColor="gray"
                 _checked={{ borderColor: "pink.light" }}
                 value="Travail"
-                onChange={updateExpertise}
+                onChange={updateLocation}
               >
                 <Text fontSize="sm">Travail</Text>
               </Checkbox>
@@ -332,7 +344,7 @@ export default function EmployerForm() {
                 borderColor="gray"
                 _checked={{ borderColor: "pink.light" }}
                 value="Hopital"
-                onChange={updateExpertise}
+                onChange={updateLocation}
               >
                 <Text fontSize="sm">Hopital</Text>
               </Checkbox>
@@ -342,7 +354,7 @@ export default function EmployerForm() {
                 borderColor="gray"
                 _checked={{ borderColor: "pink.light" }}
                 value="Activités et loisirs"
-                onChange={updateExpertise}
+                onChange={updateLocation}
               >
                 <Text fontSize="sm">Activités et loisirs</Text>
               </Checkbox>
@@ -352,7 +364,7 @@ export default function EmployerForm() {
                 borderColor="gray"
                 _checked={{ borderColor: "pink.light" }}
                 value="Autre"
-                onChange={updateExpertise}
+                onChange={updateLocation}
               >
                 <Text fontSize="sm">Autre</Text>
               </Checkbox>
@@ -382,12 +394,16 @@ export default function EmployerForm() {
                 borderColor="gray"
                 _checked={{ borderColor: "pink.light" }}
                 value="Urgence"
-                onChange={updateExpertise}
+                onChange={updateEmergency}
               >
                 <Text fontSize="sm">Oui</Text>
               </Checkbox>
 
-              <Button variant="solid_PrimaryColor" type="submit">
+              <Button
+                variant="solid_PrimaryColor"
+                type="submit"
+                marginTop="2rem"
+              >
                 J'ai terminé, je dépose mon annonce
               </Button>
               <Divider />
