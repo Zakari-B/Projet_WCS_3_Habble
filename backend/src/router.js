@@ -3,7 +3,7 @@ const express = require("express");
 const UserController = require("./controllers/UsersController");
 const FreelancerController = require("./controllers/FreelancerController");
 const EmployerController = require("./controllers/EmployerController");
-const { authorization, authSelf } = require("./middlewares/auth");
+const { authorization, authSelf, loginControl } = require("./middlewares/auth");
 
 const router = express.Router();
 
@@ -16,6 +16,7 @@ router.post(
   EmployerController.createOne
 );
 router.post("/auth/login", UserController.login);
+router.get("/auth/sessionControl", loginControl);
 
 router.get("/users", authorization, UserController.getAll);
 router.get("/users/:id", authorization, authSelf, UserController.getOne);

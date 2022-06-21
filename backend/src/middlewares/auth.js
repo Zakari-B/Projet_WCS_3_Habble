@@ -30,4 +30,29 @@ const authSelf = async (req, res, next) => {
   return res.sendStatus(401);
 };
 
-module.exports = { authorization, authSelf };
+const loginControl = async (req, res) => {
+  const token = req.cookies.userToken;
+  if (!token) {
+    res.status(401).json({
+      sessionExpired: true,
+    });
+  }
+  try {
+    const data = await verifyAccessToken(token);
+    if (!data) {
+      res.status(401).json({
+        sessionExpired: true,
+      });
+    }
+    res.status(200).json({
+      sessionExpired: false,
+      userId: data.payload.user.id,
+      userRole: data.payload.user.role,
+      roleId: data.payload.fkId,
+    });
+  } catch (e) {
+    console.warn(e);
+  }
+};
+
+module.exports = { authorization, authSelf, loginControl };
