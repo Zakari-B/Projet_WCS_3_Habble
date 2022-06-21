@@ -1,6 +1,13 @@
 import { Flex, Text, Heading } from "@chakra-ui/react";
+// import { useState } from "react";
 
 export default function Expertises() {
+  // const [handicap, setHandicap] = useState([]);
+  // const [santMentale, setSantMentale] = useState([]);
+  // const [maladies, setMaladies] = useState([]);
+  // const [personnesAgees, setpersonnesAgees] = useState([]);
+  // axios pour aller chercher les expertises (route /api/freelancers/:id/expertises)
+
   return (
     <Flex
       direction="column"
