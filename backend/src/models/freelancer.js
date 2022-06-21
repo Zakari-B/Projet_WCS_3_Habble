@@ -29,6 +29,15 @@ exports.findOneFreelancer = async (freelancerId) => {
   }
 };
 
+exports.findOneFreelancerByUserId = async (id) => {
+  try {
+    return await prisma.freelancer.findUnique({
+      where: { userId: id },
+    });
+  } finally {
+    await prisma.$disconnect();
+  }
+};
 exports.createOneFreelancer = async (freelancer) => {
   try {
     return await prisma.freelancer.create({
@@ -63,6 +72,26 @@ exports.getAllFreelancersProfileInfo = async (freelancerId) => {
             dateCreated: "desc",
           },
         },
+        formations: {
+          orderBy: {
+            dateCreated: "desc",
+          },
+        },
+      },
+    });
+  } finally {
+    await prisma.$disconnect();
+  }
+};
+
+exports.getUserfromfreelancer = async (userId) => {
+  try {
+    return await prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
+      include: {
+        freelancer: true,
       },
     });
   } finally {

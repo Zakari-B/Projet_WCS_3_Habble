@@ -93,7 +93,8 @@ model formations {
   startYear    Int
   endMonth     String     @db.VarChar(255)
   endYear      Int
-  description  String     @db.VarChar(500)
+  description  String?    @db.VarChar(500)
+  dateCreated  DateTime   @default(now()) @db.Timestamp(0)
   freelancerId Int
   fk_id        freelancer @relation(fields: [freelancerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
@@ -118,7 +119,7 @@ model diplomes {
   school         String     @db.VarChar(100)
   monthDelivered String     @db.VarChar(100)
   yearDelivered  Int
-  description    String     @db.VarChar(500)
+  description    String?    @db.VarChar(500)
   dateCreated    DateTime   @default(now()) @db.Timestamp(0)
   freelancerId   Int
   fk_id          freelancer @relation(fields: [freelancerId], references: [id], onDelete: Cascade, onUpdate: Cascade)

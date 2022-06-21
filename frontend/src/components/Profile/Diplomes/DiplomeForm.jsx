@@ -8,6 +8,7 @@ import {
   Select,
   Textarea,
   Box,
+  useToast,
   useDisclosure,
 } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
@@ -18,6 +19,7 @@ import getDropList from "../../../services/Utils";
 import { addToList, updateItemList } from "../../../services/ProfileProUtils";
 
 export default function DiplomeForm({ updated, setUpdated }) {
+  const toast = useToast();
   const [yearList, setYearList] = useState([]);
   const { setIsVisible, currentDiploma } = useContext(DiplomeFormContext);
   const { isOpen, onToggle } = useDisclosure();
@@ -30,7 +32,9 @@ export default function DiplomeForm({ updated, setUpdated }) {
   const [yearDelivered, setYearDelivered] = useState(
     currentDiploma.yearDelivered
   );
-  const [description, setDescription] = useState(currentDiploma.description);
+  const [description, setDescription] = useState(
+    currentDiploma.description || ""
+  );
   const handleTitleChange = (e) => {
     e.preventDefault();
     setTitle(e.target.value);
@@ -74,7 +78,25 @@ export default function DiplomeForm({ updated, setUpdated }) {
       monthDelivered,
       yearDelivered,
       description,
-    });
+    })
+      .then(() =>
+        toast({
+          title: "Votre diplôme a bien été ajouté",
+          status: "success",
+          position: "bottom-right",
+          duration: 7000,
+          isClosable: true,
+        })
+      )
+      .catch(() =>
+        toast({
+          title: "Votre diplôme n'a pas pu être ajouté",
+          status: "error",
+          position: "bottom-right",
+          duration: 7000,
+          isClosable: true,
+        })
+      );
     handleReset();
     setIsVisible(false);
     setUpdated(!updated);
@@ -89,7 +111,25 @@ export default function DiplomeForm({ updated, setUpdated }) {
       monthDelivered,
       yearDelivered,
       description,
-    });
+    })
+      .then(() =>
+        toast({
+          title: "Votre diplôme a bien été modifié",
+          status: "success",
+          position: "bottom-right",
+          duration: 7000,
+          isClosable: true,
+        })
+      )
+      .catch(() =>
+        toast({
+          title: "Votre diplôme n'a pas pu être modifié",
+          status: "error",
+          position: "bottom-right",
+          duration: 7000,
+          isClosable: true,
+        })
+      );
     handleReset();
     setIsVisible(false);
     setUpdated(!updated);

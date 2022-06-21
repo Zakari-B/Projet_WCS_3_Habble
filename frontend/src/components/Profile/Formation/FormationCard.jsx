@@ -6,20 +6,33 @@ import {
   Divider,
   useDisclosure,
 } from "@chakra-ui/react";
+import React, { useContext } from "react";
+import { useParams } from "react-router-dom";
 import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import PropTypes from "prop-types";
-import { useContext } from "react";
 import FormationFormContext from "../../../contexts/FormationFormContext";
+import { getOneItemOfList } from "../../../services/ProfileProUtils";
 
 import DeleteConfirmModal from "../../DeleteConfirmModal";
 
-export default function FormationCard({ formation }) {
+export default function FormationCard({ formation, updated, setUpdated }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { isVisible, setIsVisible } = useContext(FormationFormContext);
+  const { isVisible, setIsVisible, setCurrentFormation, currentFormation } =
+    useContext(FormationFormContext);
+  const { freelancerId } = useParams();
 
   const showForm = () => {
-    setIsVisible(!isVisible);
+    getOneItemOfList(
+      "freelancers",
+      "formations",
+      freelancerId,
+      formation.id
+    ).then((res) => {
+      setCurrentFormation(res.data);
+      setIsVisible(!isVisible);
+    });
   };
+
   return (
     <Flex direction="column" gap="10px" paddingY="10px">
       <Heading as="h2" color="purple.average" fontSize="1.5em" fontWeight="700">
@@ -50,12 +63,30 @@ export default function FormationCard({ formation }) {
           variant="text"
           color="pink.light"
           padding="0px"
-          onClick={onOpen}
+          onClick={() => {
+            onOpen();
+            getOneItemOfList(
+              "freelancers",
+              "formations",
+              freelancerId,
+              formation.id
+            ).then((res) => {
+              setCurrentFormation(res.data);
+            });
+          }}
         >
           Supprimer
         </Button>
 
-        <DeleteConfirmModal onOpen={onOpen} isOpen={isOpen} onClose={onClose} />
+        <DeleteConfirmModal
+          onOpen={onOpen}
+          isOpen={isOpen}
+          onClose={onClose}
+          item={currentFormation}
+          updated={updated}
+          setUpdated={setUpdated}
+          type="formations"
+        />
       </Flex>
       <Divider paddingTop="10px" colorScheme="gray" />
     </Flex>
@@ -71,6 +102,6 @@ FormationCard.propTypes = {
     startYear: PropTypes.number.isRequired,
     endMonth: PropTypes.string.isRequired,
     endYear: PropTypes.number.isRequired,
-    description: PropTypes.string.isRequired,
+    description: PropTypes.string,
   }).isRequired,
 };

@@ -48,7 +48,24 @@ exports.validateDiploma = (data, forCreation = true) => {
     school: Joi.string().max(100).presence(presence),
     monthDelivered: Joi.string().max(100).presence(presence),
     yearDelivered: Joi.number().presence(presence).options({ convert: false }),
-    description: Joi.string().max(500).presence(presence),
+    description: Joi.string().max(500).allow(null, ""),
+  }).validate(data, { abortEarly: false }).error;
+  if (validationErrors) {
+    return validationErrors;
+  }
+  return false;
+};
+
+exports.validateFormation = (data, forCreation = true) => {
+  const presence = forCreation ? "required" : "optional";
+  const validationErrors = Joi.object({
+    level: Joi.string().max(255).presence(presence),
+    institution: Joi.string().max(255).presence(presence),
+    startMonth: Joi.string().max(255).presence(presence),
+    startYear: Joi.number().presence(presence).options({ convert: false }),
+    endMonth: Joi.string().max(255).presence(presence),
+    endYear: Joi.number().presence(presence).options({ convert: false }),
+    description: Joi.string().max(500).allow(null, ""),
   }).validate(data, { abortEarly: false }).error;
   if (validationErrors) {
     return validationErrors;

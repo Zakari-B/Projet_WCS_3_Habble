@@ -81,6 +81,7 @@ export default function DiplomeCard({ diplome, updated, setUpdated }) {
           item={currentDiploma}
           updated={updated}
           setUpdated={setUpdated}
+          type="diplomes"
         />
       </Flex>
       <Divider paddingTop="10px" colorScheme="gray" />
@@ -95,6 +96,6 @@ DiplomeCard.propTypes = {
     school: PropTypes.string.isRequired,
     monthDelivered: PropTypes.string.isRequired,
     yearDelivered: PropTypes.number.isRequired,
-    description: PropTypes.string.isRequired,
+    description: PropTypes.string,
   }).isRequired,
 };

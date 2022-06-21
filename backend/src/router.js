@@ -4,6 +4,7 @@ const UserController = require("./controllers/UsersController");
 const FreelancerController = require("./controllers/FreelancerController");
 const EmployerController = require("./controllers/EmployerController");
 const DiplomeController = require("./controllers/DiplomeController");
+const FormationController = require("./controllers/FormationController");
 
 // const auth = require("./middlewares/auth");
 
@@ -28,6 +29,8 @@ router.delete("/users/delete/:id", UserController.deleteOne);
 router.get("/freelancers/", FreelancerController.getAll);
 router.get("/freelancers/:id", FreelancerController.getOne);
 router.put("/freelancers/:id", FreelancerController.updateOne);
+
+router.get("/freelancers/:id/user", FreelancerController.getUser);
 // route delete a valider (si besoin)
 
 // Routes for Diplomes
@@ -41,6 +44,25 @@ router.put(
 router.delete(
   "/freelancers/:freelancerid/diplomes/:id",
   DiplomeController.deleteOne
+);
+
+// Routes for Formations
+router.post(
+  "/freelancers/:freelancerid/formations",
+  FormationController.createOne
+);
+router.get("/freelancers/:freelancerid/formations", FormationController.getAll);
+router.get(
+  "/freelancers/:freelancerid/formations/:id",
+  FormationController.getOne
+);
+router.put(
+  "/freelancers/:freelancerid/formations/:id",
+  FormationController.updateOne
+);
+router.delete(
+  "/freelancers/:freelancerid/formations/:id",
+  FormationController.deleteOne
 );
 
 module.exports = router;

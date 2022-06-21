@@ -6,26 +6,34 @@ import {
   FormLabel,
   Input,
   Select,
+  Box,
   Textarea,
+  useToast,
   useDisclosure,
 } from "@chakra-ui/react";
+import { useParams } from "react-router-dom";
 import React, { useState, useEffect, useContext } from "react";
 import FormationFormContext from "../../../contexts/FormationFormContext";
 import SelectMonth from "../../SelectMonth";
 import getDropList from "../../../services/Utils";
+import { addToList, updateItemList } from "../../../services/ProfileProUtils";
 
-export default function FormationForm() {
+export default function FormationForm({ updated, setUpdated }) {
+  const toast = useToast();
   const [yearList, setYearList] = useState([]);
-  const { setIsVisible } = useContext(FormationFormContext);
+  const { setIsVisible, currentFormation } = useContext(FormationFormContext);
   const { isOpen, onToggle } = useDisclosure();
+  const { freelancerId } = useParams();
 
-  const [level, setlevel] = useState("");
-  const [institution, setInstitution] = useState("");
-  const [fromMonth, setFromMonth] = useState("");
-  const [fromYear, setFromYear] = useState("");
-  const [toMonth, setToMonth] = useState("");
-  const [toYear, setToYear] = useState("");
-  const [description, setDescription] = useState("");
+  const [level, setlevel] = useState(currentFormation.level);
+  const [institution, setInstitution] = useState(currentFormation.institution);
+  const [startMonth, setStartMonth] = useState(currentFormation.startMonth);
+  const [startYear, setStartYear] = useState(currentFormation.startYear);
+  const [endMonth, setEndMonth] = useState(currentFormation.endMonth);
+  const [endYear, setEndYear] = useState(currentFormation.endYear);
+  const [description, setDescription] = useState(
+    currentFormation.description || ""
+  );
 
   const handleLevelChange = (e) => {
     e.preventDefault();
@@ -37,19 +45,19 @@ export default function FormationForm() {
   };
   const handleFromMonthChange = (e) => {
     e.preventDefault();
-    setFromMonth(e.target.value);
+    setStartMonth(e.target.value);
   };
   const handleFromYearChange = (e) => {
     e.preventDefault();
-    setFromYear(e.target.value);
+    setStartYear(parseInt(e.target.value, 10));
   };
   const handleToMonthChange = (e) => {
     e.preventDefault();
-    setToMonth(e.target.value);
+    setEndMonth(e.target.value);
   };
   const handleToYearChange = (e) => {
     e.preventDefault();
-    setToYear(e.target.value);
+    setEndYear(parseInt(e.target.value, 10));
   };
   const handleDescChange = (e) => {
     e.preventDefault();
@@ -64,114 +72,188 @@ export default function FormationForm() {
   const handleReset = () => {
     setlevel("");
     setInstitution("");
-    setFromMonth("");
-    setFromYear("");
-    setToMonth("");
-    setToYear("");
+    setStartMonth("");
+    setStartYear("");
+    setEndMonth("");
+    setEndYear("");
     setDescription("");
     hideForm();
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    addToList("freelancers", "formations", freelancerId, {
+      level,
+      institution,
+      startMonth,
+      startYear,
+      endMonth,
+      endYear,
+      description,
+    })
+      .then(() =>
+        toast({
+          title: "Votre formation a bien été ajoutée",
+          status: "success",
+          position: "bottom-right",
+          duration: 7000,
+          isClosable: true,
+        })
+      )
+      .catch(() =>
+        toast({
+          title: "Votre formation n'a pas pu être ajoutée",
+          status: "error",
+          position: "bottom-right",
+          duration: 7000,
+          isClosable: true,
+        })
+      );
+    handleReset();
+    setIsVisible(false);
+    setUpdated(!updated);
+  };
+
+  const handleUpdate = (event) => {
+    event.preventDefault();
+
+    updateItemList(
+      "freelancers",
+      "formations",
+      freelancerId,
+      currentFormation.id,
+      {
+        level,
+        institution,
+        startMonth,
+        startYear,
+        endMonth,
+        endYear,
+        description,
+      }
+    )
+      .then(() =>
+        toast({
+          title: "Votre formation a bien été modifiée",
+          status: "success",
+          position: "bottom-right",
+          duration: 7000,
+          isClosable: true,
+        })
+      )
+      .catch(() =>
+        toast({
+          title: "Votre formation n'a pas pu être modifiée",
+          status: "error",
+          position: "bottom-right",
+          duration: 7000,
+          isClosable: true,
+        })
+      );
+    handleReset();
+    setIsVisible(false);
+    setUpdated(!updated);
   };
 
   useEffect(() => {
     setYearList(getDropList());
   }, []);
+
   return (
     <FormControl
       ml={{ base: "none", md: "1rem" }}
       mt="1rem"
       mb="1rem"
-      onSubmit={handleSubmit}
+      onSubmit={currentFormation.id ? handleUpdate : handleSubmit}
       w="100%"
       transition="all 0.3s ease-in-out"
-      isRequired
     >
-      <Flex flexDir="column" w="100%">
-        <Input
-          placeholder="Niveau (ex: CAP, BEP, DEUG, LICENCE, Titre niveau III rncp, ...)"
-          w={{ base: "95%", md: "65%" }}
-          onChange={handleLevelChange}
-          value={level}
-        />
-        <Input
-          placeholder="Établissement"
-          w={{ base: "95%", md: "65%" }}
-          mt="0.5rem"
-          onChange={handleInstitutionChange}
-          value={institution}
-        />
-        <FormLabel
-          htmlFor="date"
-          fontSize="xl"
-          fontWeight="bold"
-          lineHeight="28px"
-          color="purple.average"
-          mt="1rem"
-        >
-          Du
-        </FormLabel>
-        <HStack>
-          <SelectMonth onChange={handleFromMonthChange} value={fromMonth} />
-          <Select
-            w={{ base: "45.8%", md: "32.1%" }}
-            placeholder="Année"
-            onChange={handleFromYearChange}
-            value={fromYear}
+      <Box as="form">
+        <Flex flexDir="column" w="100%">
+          <Input
+            placeholder="Niveau (ex: CAP, BEP, DEUG, LICENCE, Titre niveau III rncp, ...)"
+            w={{ base: "95%", md: "65%" }}
+            onChange={handleLevelChange}
+            value={level}
+          />
+          <Input
+            placeholder="Établissement"
+            w={{ base: "95%", md: "65%" }}
+            mt="0.5rem"
+            onChange={handleInstitutionChange}
+            value={institution}
+          />
+          <FormLabel
+            htmlFor="date"
+            fontSize="xl"
+            fontWeight="bold"
+            lineHeight="28px"
+            color="purple.average"
+            mt="1rem"
           >
-            {yearList.map((year) => year)}
-          </Select>
-        </HStack>
+            Du
+          </FormLabel>
+          <HStack>
+            <SelectMonth onChange={handleFromMonthChange} value={startMonth} />
+            <Select
+              w={{ base: "45.8%", md: "32.1%" }}
+              placeholder="Année"
+              onChange={handleFromYearChange}
+              value={startYear}
+            >
+              {yearList.map((year) => year)}
+            </Select>
+          </HStack>
 
-        <FormLabel
-          htmlFor="date"
-          fontSize="xl"
-          fontWeight="bold"
-          lineHeight="28px"
-          color="purple.average"
-          mt="1rem"
-        >
-          Au
-        </FormLabel>
-        <HStack>
-          <SelectMonth onChange={handleToMonthChange} value={toMonth} />
-
-          <Select
-            w={{ base: "45.8%", md: "32.1%" }}
-            placeholder="Année"
-            onChange={handleToYearChange}
-            value={toYear}
+          <FormLabel
+            htmlFor="date"
+            fontSize="xl"
+            fontWeight="bold"
+            lineHeight="28px"
+            color="purple.average"
+            mt="1rem"
           >
-            {yearList.map((year) => year)}
-          </Select>
-        </HStack>
+            Au
+          </FormLabel>
+          <HStack>
+            <SelectMonth onChange={handleToMonthChange} value={endMonth} />
 
-        <Textarea
-          w={{ base: "95%", md: "65%" }}
-          mt="0.5rem"
-          h="15vh"
-          placeholder="Description (optionnel)."
-          onChange={handleDescChange}
-          value={description}
-        />
-        <Button
-          w={{ base: "95%", md: "65%" }}
-          mt="1rem"
-          variant="solid_PrimaryColor"
-        >
-          Enregistrer
-        </Button>
-        <Button
-          w={{ base: "95%", md: "65%" }}
-          mt="1rem"
-          variant="solid_SecondaryColor"
-          onClick={handleReset}
-        >
-          Annuler
-        </Button>
-      </Flex>
+            <Select
+              w={{ base: "45.8%", md: "32.1%" }}
+              placeholder="Année"
+              onChange={handleToYearChange}
+              value={endYear}
+            >
+              {yearList.map((year) => year)}
+            </Select>
+          </HStack>
+
+          <Textarea
+            w={{ base: "95%", md: "65%" }}
+            mt="0.5rem"
+            h="15vh"
+            placeholder="Description (optionnel)."
+            onChange={handleDescChange}
+            value={description}
+          />
+          <Button
+            w={{ base: "95%", md: "65%" }}
+            mt="1rem"
+            variant="solid_PrimaryColor"
+            type="submit"
+          >
+            Enregistrer
+          </Button>
+          <Button
+            w={{ base: "95%", md: "65%" }}
+            mt="1rem"
+            variant="solid_SecondaryColor"
+            onClick={handleReset}
+          >
+            Annuler
+          </Button>
+        </Flex>
+      </Box>
     </FormControl>
   );
 }

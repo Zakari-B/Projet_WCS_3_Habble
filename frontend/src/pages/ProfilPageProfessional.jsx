@@ -22,12 +22,14 @@ export default function ProfilPageProfessional() {
   const [freelancer, setFreelancer] = useState({});
   const [updated, setUpdated] = useState(false);
   const [diplomes, setDiplomes] = useState([]);
+  const [formations, setFormations] = useState([]);
 
   const getfreelancer = () => {
     getList("freelancers", freelancerId)
       .then((response) => {
         setFreelancer(response.data);
         setDiplomes(response.data.diplomes);
+        setFormations(response.data.formations);
       })
       .catch((error) => {
         console.warn(error);
@@ -87,7 +89,11 @@ export default function ProfilPageProfessional() {
             gap="20px"
           >
             <DocumentCarousel />
-            <FormationCarousel />
+            <FormationCarousel
+              formations={formations}
+              updated={updated}
+              setUpdated={setUpdated}
+            />
             <DiplomeCarousel
               diplomes={diplomes}
               updated={updated}
