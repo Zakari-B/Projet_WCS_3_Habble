@@ -15,19 +15,22 @@ import React, { useState, useEffect, useContext } from "react";
 import DiplomeFormContext from "../../../contexts/DiplomeFormContext";
 import SelectMonth from "../../SelectMonth";
 import getDropList from "../../../services/Utils";
-import { addToList } from "../../../services/ProfileProUtils";
+import { addToList, updateItemList } from "../../../services/ProfileProUtils";
 
-export default function DiplomeForm() {
+export default function DiplomeForm({ updated, setUpdated }) {
   const [yearList, setYearList] = useState([]);
-  const { setIsVisible } = useContext(DiplomeFormContext);
+  const { setIsVisible, currentDiploma } = useContext(DiplomeFormContext);
   const { isOpen, onToggle } = useDisclosure();
   const { freelancerId } = useParams();
-  const [title, setTitle] = useState("");
-  const [school, setSchool] = useState("");
-  const [monthDelivered, setMonthDelivered] = useState("");
-  const [yearDelivered, setYearDelivered] = useState("");
-  const [description, setDescription] = useState("");
-
+  const [title, setTitle] = useState(currentDiploma.title);
+  const [school, setSchool] = useState(currentDiploma.school);
+  const [monthDelivered, setMonthDelivered] = useState(
+    currentDiploma.monthDelivered
+  );
+  const [yearDelivered, setYearDelivered] = useState(
+    currentDiploma.yearDelivered
+  );
+  const [description, setDescription] = useState(currentDiploma.description);
   const handleTitleChange = (e) => {
     e.preventDefault();
     setTitle(e.target.value);
@@ -74,6 +77,22 @@ export default function DiplomeForm() {
     });
     handleReset();
     setIsVisible(false);
+    setUpdated(!updated);
+  };
+
+  const handleUpdate = (event) => {
+    event.preventDefault();
+
+    updateItemList("freelancers", "diplomes", freelancerId, currentDiploma.id, {
+      title,
+      school,
+      monthDelivered,
+      yearDelivered,
+      description,
+    });
+    handleReset();
+    setIsVisible(false);
+    setUpdated(!updated);
   };
 
   useEffect(() => {
@@ -85,7 +104,7 @@ export default function DiplomeForm() {
       ml={{ base: "none", md: "1rem" }}
       mt="1rem"
       mb="1rem"
-      onSubmit={handleSubmit}
+      onSubmit={currentDiploma.id ? handleUpdate : handleSubmit}
     >
       <Box as="form">
         <Flex flexDir="column">

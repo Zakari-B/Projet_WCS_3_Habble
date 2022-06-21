@@ -7,7 +7,7 @@ const {
   deleteOneDiploma,
 } = require("../models/diplome");
 const { validateDiploma } = require("../utils/validate");
-const { verifyAccessToken } = require("../helpers/jwtHelper");
+// const { verifyAccessToken } = require("../helpers/jwtHelper");
 
 const createOne = async (req, res) => {
   // on récupère l'id du freelancer dans la requête
@@ -27,7 +27,7 @@ const createOne = async (req, res) => {
 
   // const freeId = await verifyAccessToken(req.cookies.userToken);
 
-  // si tout est ok on va créer le diplome
+  // // si tout est ok on va créer le diplome
   // if (freeId.payload.fkId !== freelancerId) {
   //   return res
   //     .status(401)
@@ -81,15 +81,15 @@ const updateOne = async (req, res) => {
   const freelancerId = parseInt(req.params.freelancerid, 10);
   const diplomeID = parseInt(req.params.id, 10);
 
-  // on check les droits de mofification de formulaire
-  const freeId = await verifyAccessToken(req.cookies.userToken);
-  if (freeId.payload.fkId !== freelancerId) {
-    return res
-      .status(401)
-      .send(
-        "Vous n'avez pas les droits pour modifier un diplôme sur ce profil"
-      );
-  }
+  // // on check les droits de mofification de formulaire
+  // const freeId = await verifyAccessToken(req.cookies.userToken);
+  // if (freeId.payload.fkId !== freelancerId) {
+  //   return res
+  //     .status(401)
+  //     .send(
+  //       "Vous n'avez pas les droits pour modifier un diplôme sur ce profil"
+  //     );
+  // }
 
   // on check qu'un displome existe pour le couple freelancer/diplome
   const diploma = await getOneDiplomabyFreelancerId(freelancerId, diplomeID);
@@ -123,14 +123,14 @@ const deleteOne = async (req, res) => {
   const diplomeID = parseInt(req.params.id, 10);
 
   // on check les droits de mofification de formulaire
-  const freeId = await verifyAccessToken(req.cookies.userToken);
-  if (freeId.payload.fkId !== freelancerId) {
-    return res
-      .status(401)
-      .send(
-        "Vous n'avez pas les droits pour supprimer un diplôme sur ce profil"
-      );
-  }
+  // const freeId = await verifyAccessToken(req.cookies.userToken);
+  // if (freeId.payload.fkId !== freelancerId) {
+  //   return res
+  //     .status(401)
+  //     .send(
+  //       "Vous n'avez pas les droits pour supprimer un diplôme sur ce profil"
+  //     );
+  // }
 
   // on check qu'un displome existe pour le couple freelancer/diplome
   const diploma = await getOneDiplomabyFreelancerId(freelancerId, diplomeID);

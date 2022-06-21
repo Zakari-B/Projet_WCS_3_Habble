@@ -5,14 +5,19 @@ import DiplomeCard from "./DiplomeCard";
 import DiplomeFormContext from "../../../contexts/DiplomeFormContext";
 import DiplomeForm from "./DiplomeForm";
 
-export default function DiplomeCarousel({ diplomes }) {
+export default function DiplomeCarousel({ diplomes, updated, setUpdated }) {
   const [isVisible, setIsVisible] = useState(false);
-  const context = useMemo(() => ({ isVisible, setIsVisible }), []);
+  const [currentDiploma, setCurrentDiploma] = useState({});
+
+  const context = useMemo(
+    () => ({ isVisible, setIsVisible, currentDiploma, setCurrentDiploma }),
+    [isVisible, currentDiploma]
+  );
+
   const toggleForm = () => {
     setIsVisible(!isVisible);
+    setCurrentDiploma({});
   };
-
-  // useEffect(() => {}, [diplomelist]);
 
   return (
     <Flex
@@ -41,7 +46,7 @@ export default function DiplomeCarousel({ diplomes }) {
       <Collapse in={isVisible}>
         {isVisible && (
           <DiplomeFormContext.Provider value={context}>
-            <DiplomeForm />
+            <DiplomeForm updated={updated} setUpdated={setUpdated} />
           </DiplomeFormContext.Provider>
         )}
       </Collapse>
@@ -54,7 +59,12 @@ export default function DiplomeCarousel({ diplomes }) {
         ) : (
           diplomes.map((diplome) => (
             <DiplomeFormContext.Provider value={context}>
-              <DiplomeCard diplome={diplome} key={diplome.id} />
+              <DiplomeCard
+                diplome={diplome}
+                key={diplome.id}
+                updated={updated}
+                setUpdated={setUpdated}
+              />
             </DiplomeFormContext.Provider>
           ))
         )}

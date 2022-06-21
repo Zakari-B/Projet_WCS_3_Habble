@@ -20,7 +20,9 @@ export default function ProfilPageProfessional() {
 
   const { freelancerId } = useParams();
   const [freelancer, setFreelancer] = useState({});
+  const [updated, setUpdated] = useState(false);
   const [diplomes, setDiplomes] = useState([]);
+
   const getfreelancer = () => {
     getList("freelancers", freelancerId)
       .then((response) => {
@@ -35,10 +37,7 @@ export default function ProfilPageProfessional() {
 
   useEffect(() => {
     getfreelancer();
-  }, [diplomes]);
-
-  // créer une fonction pour get user
-  // utiliser useeffect pour appeler ces deux fonctions
+  }, [updated]);
 
   const fakeUser = {
     id: 1,
@@ -58,7 +57,7 @@ export default function ProfilPageProfessional() {
         bgColor="background.gray"
         direction="column"
         justify="flex-start"
-        paddingY="30px"
+        paddingY="30péx"
         paddingTop="150px"
       >
         <BannerProfile freelancer={freelancer} />
@@ -89,7 +88,11 @@ export default function ProfilPageProfessional() {
           >
             <DocumentCarousel />
             <FormationCarousel />
-            <DiplomeCarousel diplomes={diplomes} />
+            <DiplomeCarousel
+              diplomes={diplomes}
+              updated={updated}
+              setUpdated={setUpdated}
+            />
             <ExperienceCarousel />
             <MissionCarousel />
           </Flex>

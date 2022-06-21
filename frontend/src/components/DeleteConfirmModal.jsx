@@ -11,8 +11,19 @@ import {
   Heading,
 } from "@chakra-ui/react";
 import PropTypes from "prop-types";
+import { useParams } from "react-router-dom";
 
-export default function DeleteConfirmModal({ isOpen, onClose }) {
+import { deleteItemList } from "../services/ProfileProUtils";
+
+export default function DeleteConfirmModal({
+  isOpen,
+  onClose,
+  item,
+  updated,
+  setUpdated,
+}) {
+  const { freelancerId } = useParams();
+
   return (
     <Modal size="xl" isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
@@ -50,7 +61,16 @@ export default function DeleteConfirmModal({ isOpen, onClose }) {
           justifyContent="center"
           m="auto"
         >
-          <Button variant="solid_PrimaryColor">Confirmer</Button>
+          <Button
+            variant="solid_PrimaryColor"
+            onClick={() => {
+              onClose();
+              deleteItemList("freelancers", "diplomes", freelancerId, item.id);
+              setUpdated(!updated);
+            }}
+          >
+            Confirmer
+          </Button>
           <Button color="gray.dark" mr={3} onClick={onClose} variant="link">
             Annuler
           </Button>
