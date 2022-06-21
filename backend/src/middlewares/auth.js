@@ -30,7 +30,7 @@ const authSelf = async (req, res, next) => {
   return res.sendStatus(401);
 };
 
-const loginControl = async (req, res) => {
+const sessionControl = async (req, res) => {
   const token = req.cookies.userToken;
   if (!token) {
     res.status(401).json({
@@ -55,4 +55,4 @@ const loginControl = async (req, res) => {
   }
 };
 
-module.exports = { authorization, authSelf, loginControl };
+module.exports = { authorization, authSelf, sessionControl };
