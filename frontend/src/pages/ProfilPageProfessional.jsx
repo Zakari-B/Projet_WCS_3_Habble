@@ -1,4 +1,7 @@
 import { Flex, Box } from "@chakra-ui/react";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer";
 import FormationCarousel from "../components/Profile/Formation/FormationCarousel";
@@ -13,6 +16,27 @@ import Tarif from "../components/Profile/Tarif";
 import MissionCarousel from "../components/Profile/Mission/MissionCarousel";
 
 export default function ProfilPageProfessional() {
+  const navigate = useNavigate();
+
+  const { freelancerId } = useParams();
+  const [freelancer, setFreelancer] = useState({});
+  const getfreelancer = () => {
+    axios
+      .get(`http://localhost:5001/api/freelancers/${freelancerId}`)
+      .then((response) => {
+        setFreelancer(response.data);
+      })
+      .catch((error) => {
+        console.warn(error);
+        navigate("/error");
+      });
+  };
+
+  useEffect(() => getfreelancer(), []);
+
+  // créer une fonction pour get user
+  // utiliser useeffect pour appeler ces deux fonctions
+
   const fakeUser = {
     id: 1,
     firstname: "Lora",
@@ -22,22 +46,6 @@ export default function ProfilPageProfessional() {
     pseudo: "LoraLala",
     role: "freelancer",
     profileIsComplete: true,
-  };
-
-  const fakeFreelancer = {
-    id: 1,
-    displayName: "LoraLala",
-    activityDescription: "Assistante maternelle",
-    userId: 1,
-    zipCode: 75000,
-    phone: "0612345678",
-    experienceYear: 2,
-    price: "40.00",
-    description: "Je suis une super professionnelle",
-    acceptEmails: true,
-    siret: "12345567",
-    available: false,
-    dateCreated: "2022-02-01",
   };
 
   return (
@@ -50,7 +58,7 @@ export default function ProfilPageProfessional() {
         paddingY="30px"
         paddingTop="150px"
       >
-        <BannerProfile freelancer={fakeFreelancer} />
+        <BannerProfile freelancer={freelancer} />
         <Flex
           w={{ base: "95%", lg: "80%" }}
           gap="20px"
@@ -67,8 +75,8 @@ export default function ProfilPageProfessional() {
           >
             <AccountCard user={fakeUser} />
             <Verifications />
-            <Expertises />
-            <Tarif freelancer={fakeFreelancer} />
+            <Expertises freelancer={freelancer} />
+            <Tarif freelancer={freelancer} />
           </Flex>
           <Flex
             bgColor="background.gray"
@@ -84,6 +92,7 @@ export default function ProfilPageProfessional() {
           </Flex>
         </Flex>
       </Flex>
+      )
       <Footer />
     </Box>
   );
