@@ -38,23 +38,24 @@ import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 
 import { CloseIcon } from "@chakra-ui/icons";
-import { useState, useEffect } from "react";
-import modalPicture from "../assets/habble-favicon.png";
+import { useState, useEffect, useRef } from "react";
 
 export default function ProAccountForm() {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isOpen, onOpen, onClose, onToggle } = useDisclosure();
+
   // useState pour chaque input //
   const [displayName, setDisplayName] = useState("");
   const [activityPro, setActivityPro] = useState("");
   const [cityPro, setCityPro] = useState("");
   const [phonePro, setPhonePro] = useState("");
-  const [experienceYearPro, setExperienceYearPro] = useState("");
-  const [pricePro, setPricePro] = useState("");
+  const [picturePro, setPicturePro] = useState("");
+  const [experienceYearPro, setExperienceYearPro] = useState();
+  const [pricePro, setPricePro] = useState();
   const [descriptionPro, setDescriptionPro] = useState("");
   const [tags, setTags] = useState([]);
   const [acceptEmailPro, setAcceptEmailPro] = useState(false);
   const [expertise, setExpertise] = useState([]);
-  const [siretPro, setSiretPro] = useState("");
+  const [siretPro, setSiretPro] = useState();
 
   // fonction retrait d'un item //
   const removeItem = (indexToRemove) => {
@@ -78,14 +79,20 @@ export default function ProAccountForm() {
       setExpertise(expertise);
     }
   };
+  // fonction d'enregistrement d'une nouvelle image //
+  const handleRegisterPicture = () => {
+    setPicturePro(picturePro);
+    onToggle(!isOpen);
+  };
 
+  // Appel axios pour récuperer le displayName du freelancer
   const { freelancerId } = useParams();
 
   const getOnefreelancer = () => {
     axios
       .get(`http://localhost:5001/api/freelancers/${freelancerId}`)
       .then((response) => {
-        setDisplayName(response.data);
+        setDisplayName(response.data.displayName);
       })
       .catch((error) => {
         console.warn(error);
@@ -96,10 +103,12 @@ export default function ProAccountForm() {
 
   const navigate = useNavigate();
 
-  const updateFreelancer = (e) => {
+  // Appel axios pour mettre à jour le freelancer avec ses informations si profil complet
+
+  const updateFreelancerCompletedProfile = (e) => {
     e.preventDefault();
     axios
-      .post(`http://localhost:5001/api/freelancer/${freelancerId}`, {
+      .put(`http://localhost:5001/api/freelancers/${freelancerId}`, {
         displayName,
         activityDescription: activityPro,
         zipCode: cityPro,
@@ -117,6 +126,57 @@ export default function ProAccountForm() {
       });
   };
 
+  // Appel axios pour mettre à jour le freelancer avec ses informations si profil incomplet
+
+  const updateFreelancerUncompletedProfile = (e) => {
+    e.preventDefault();
+    axios
+      .put(`http://localhost:5001/api/freelancers/${freelancerId}`, {
+        displayName,
+        activityDescription: activityPro,
+        zipCode: cityPro,
+        phone: phonePro,
+        experienceYear: experienceYearPro,
+        price: pricePro,
+        description: descriptionPro,
+        acceptEmails: acceptEmailPro,
+        siret: siretPro,
+        available: false,
+        picture: "",
+      })
+      .then(() => {
+        navigate("/");
+      });
+  };
+
+  // Appel axios pour mettre selectionner l'adresse
+
+  const [addressList, setAddressList] = useState([]);
+  const previousController = useRef();
+
+  const getAddressList = (signal) => {
+    axios
+      .get(
+        `https://api-adresse.data.gouv.fr/search/?q=${cityPro}&type=municipality&autocomplete=1&limit=3`,
+        { signal }
+      )
+      .then((response) => {
+        setAddressList(response.data.features);
+      });
+  };
+
+  useEffect(() => {
+    if (cityPro.length >= 1) {
+      if (previousController.current) {
+        previousController.current.abort();
+      }
+      const controller = new AbortController();
+      const { signal } = controller;
+      previousController.current = controller;
+      getAddressList(signal);
+    }
+  }, [cityPro]);
+
   return (
     <Flex bgColor="background.gray" direction="column" justify="flex-start">
       <FormControl
@@ -131,7 +191,6 @@ export default function ProAccountForm() {
         boxShadow="0px 1px 1px 0px rgb(185 184 184 / 75%)"
         borderRadius="25px"
         padding="2%"
-        onSubmit={updateFreelancer}
       >
         <Stack
           className="noAccount"
@@ -149,9 +208,9 @@ export default function ProAccountForm() {
           >
             Mon profil
           </Heading>
-          <FormControl isRequired>
-            <Flex direction={{ base: "column-reverse", md: "row" }} rowGap="5">
-              <VStack alignItems="left">
+          <Flex direction={{ base: "column-reverse", md: "row" }} rowGap="5">
+            <FormControl>
+              <VStack alignItems="left" w={{ md: "85%" }}>
                 <FormLabel
                   htmlFor="name"
                   fontSize="md"
@@ -216,7 +275,67 @@ export default function ProAccountForm() {
                   value={cityPro}
                   onChange={(e) => setCityPro(e.target.value)}
                 />
-
+                {addressList.length !== 0 && cityPro !== "" && (
+                  <List
+                    bg="white"
+                    width="100%"
+                    borderRadius="4px"
+                    overflow="hidden"
+                    zIndex="997"
+                    boxShadow="rgb(0 0 0 / 4%) 0px 2px 6px"
+                    border="1px solid #ededed"
+                  >
+                    <ListItem>
+                      <Flex direction="column" w="-webkit-fill-available">
+                        {addressList.map((city) => (
+                          <a w="100%" href="/#">
+                            <Flex
+                              _hover={{
+                                color: "pink.light",
+                                bgColor: "gray.100",
+                              }}
+                              direction="row"
+                              p={5}
+                              w="100%"
+                              align="center"
+                            >
+                              <Flex
+                                pl="20px"
+                                justifyContent="space-between"
+                                width="100%"
+                                alignItems="center"
+                              >
+                                <Flex
+                                  direction="column"
+                                  alignItems="flex-start"
+                                >
+                                  <Text
+                                    fontSize="lg"
+                                    align="left"
+                                    color="purple.dark"
+                                    _hover={{
+                                      color: "pink.light",
+                                    }}
+                                  >
+                                    {city.properties.name} (
+                                    {city.properties.postcode})
+                                  </Text>
+                                  <Text
+                                    fontSize="md"
+                                    align="left"
+                                    color="purple.dark"
+                                  >
+                                    {city.properties.context}
+                                  </Text>
+                                </Flex>
+                              </Flex>
+                            </Flex>
+                          </a>
+                        ))}
+                      </Flex>
+                    </ListItem>
+                  </List>
+                )}
                 <FormLabel
                   htmlFor="phone"
                   fontSize="md"
@@ -239,101 +358,103 @@ export default function ProAccountForm() {
                   onChange={(e) => setPhonePro(e.target.value)}
                 />
               </VStack>
-              <VStack align="center" alignSelf="center" mx="auto">
-                <Avatar src="https://bit.ly/broken-link" size="2xl" />
-                <Button
-                  bg="none"
-                  _hover={{ bg: "none" }}
-                  color="pink.light"
-                  fontWeight="800"
-                  align="center"
-                  fontSize={{ base: "md", md: "0.8rem" }}
-                  onClick={onOpen}
+            </FormControl>
+            <VStack align="center" alignSelf="center" mx="auto">
+              <Avatar src={picturePro} size="2xl" />
+              <Button
+                bg="none"
+                _hover={{ bg: "none" }}
+                color="pink.light"
+                fontWeight="800"
+                align="center"
+                fontSize={{ base: "md", md: "0.8rem" }}
+                onClick={onOpen}
+              >
+                {" "}
+                Changer votre photo
+              </Button>
+              <Modal isOpen={isOpen} onClose={onClose}>
+                <ModalOverlay />
+                <ModalContent
+                  w="80%"
+                  maxW="800px"
+                  minH="500px"
+                  h="fix-content"
+                  borderRadius="25px"
                 >
-                  {" "}
-                  Changer votre photo
-                </Button>
-                <Modal isOpen={isOpen} onClose={onClose}>
-                  <ModalOverlay />
-                  <ModalContent
-                    w="80%"
-                    maxW="800px"
-                    minH="500px"
-                    h="fix-content"
-                    borderRadius="25px"
+                  <ModalHeader
+                    paddingY="30px"
+                    color="purple.average"
+                    fontWeight="600"
+                    fontSize="lg"
+                    bgColor="#FAFAFA"
                   >
-                    <ModalHeader
-                      paddingY="30px"
-                      color="purple.average"
-                      fontWeight="600"
-                      fontSize="lg"
-                      bgColor="#FAFAFA"
-                    >
-                      Votre plus beau profil
-                      <ModalCloseButton
-                        _hover={{ bgColor: "none" }}
-                        size="lg"
-                        iconColor="#415161"
-                        p="30px"
-                      />
-                    </ModalHeader>
-                    <ModalBody>
-                      <FormControl>
-                        <Box h="150px" alignSelf="left" my="4rem">
-                          <Box
-                            border="3px solid"
-                            borderColor="pink.light"
-                            position="absolute"
-                            h="150px"
-                            w="150px"
-                            mx="40%"
-                          />
-                          <Box h="150px" w="150px" mx="40%">
-                            <Image src={modalPicture} m="auto" h="150px" />
-                          </Box>
+                    Votre plus beau profil
+                    <ModalCloseButton
+                      _hover={{ bgColor: "none" }}
+                      size="lg"
+                      iconColor="#415161"
+                      p="30px"
+                    />
+                  </ModalHeader>
+                  <ModalBody>
+                    <FormControl>
+                      <Box h="150px" alignSelf="left" my="4rem">
+                        <Box
+                          border="3px solid"
+                          borderColor="pink.light"
+                          position="absolute"
+                          h="150px"
+                          w="150px"
+                          mx="40%"
+                        />
+                        <Box h="150px" w="150px" mx="40%">
+                          <Image src={picturePro} m="auto" h="150px" />
                         </Box>
-                        <Flex
-                          direction="column"
-                          alignItems="center"
-                          mt="3rem"
-                          gap="5"
+                      </Box>
+                      <Flex
+                        direction="column"
+                        alignItems="center"
+                        mt="3rem"
+                        gap="5"
+                      >
+                        <Button
+                          type="file"
+                          bg="none"
+                          _hover={{ bg: "none", color: "pink.light" }}
+                          color="gray"
+                          fontWeight="600"
+                          align="center"
+                          fontSize={{ base: "md", md: "0.8rem" }}
+                          onClick={() =>
+                            document.getElementById("inputHandler").click()
+                          }
                         >
-                          <Button
+                          <Input
                             type="file"
-                            bg="none"
-                            _hover={{ bg: "none", color: "pink.light" }}
-                            color="gray"
-                            fontWeight="600"
-                            align="center"
-                            fontSize={{ base: "md", md: "0.8rem" }}
-                            onClick={() =>
-                              document.getElementById("inputHandler").click()
-                            }
-                          >
-                            <Input
-                              type="file"
-                              id="inputHandler"
-                              name="name"
-                              display="none"
-                            />{" "}
-                            Télécharger votre nouvelle photo
-                          </Button>
-                          <Button
-                            w="120px"
-                            variant="solid_PrimaryColor"
-                            type="submit"
-                            fontSize="sm"
-                            onClick={onClose}
-                          >
-                            Enregistrer
-                          </Button>
-                        </Flex>
-                      </FormControl>
-                    </ModalBody>
-                  </ModalContent>
-                </Modal>
-              </VStack>
-            </Flex>
+                            id="inputHandler"
+                            name="name"
+                            display="none"
+                          />{" "}
+                          Télécharger votre nouvelle photo
+                        </Button>
+                        <Button
+                          w="120px"
+                          variant="solid_PrimaryColor"
+                          type="submit"
+                          fontSize="sm"
+                          onClick={handleRegisterPicture}
+                        >
+                          Enregistrer
+                        </Button>
+                      </Flex>
+                    </FormControl>
+                  </ModalBody>
+                </ModalContent>
+              </Modal>
+            </VStack>
+          </Flex>
+          <FormControl>
             <Flex direction="column" rowGap="5" mt="1rem">
               <Flex
                 justifyContent="left"
@@ -357,7 +478,9 @@ export default function ProAccountForm() {
                     min={0}
                     w="80px"
                     value={experienceYearPro}
-                    onChange={(value) => setExperienceYearPro(value)}
+                    onChange={(value) =>
+                      setExperienceYearPro(parseInt(value, 10))
+                    }
                   >
                     <NumberInputField
                       id="proFormexperience"
@@ -398,7 +521,9 @@ export default function ProAccountForm() {
                     min={0}
                     w="80px"
                     value={pricePro}
-                    onChange={(value) => setPricePro(value)}
+                    onChange={(value) => {
+                      setPricePro(parseFloat(value));
+                    }}
                   >
                     <NumberInputField
                       id="proFormPrice"
@@ -994,14 +1119,30 @@ export default function ProAccountForm() {
               color: "gray",
             }}
             value={siretPro}
-            onChange={(e) => setSiretPro(e.target.value)}
+            onChange={(e) => setSiretPro(parseInt(e.target.value, 10))}
           />
           <Text fontSize="xs" color="gray.light">
             Le numéro de Siret est un identifiant de 14 chiffres (exemple :
             12002701600357)
           </Text>
-          <Button variant="solid_PrimaryColor" type="submit">
+          <Button
+            variant="solid_PrimaryColor"
+            type="submit"
+            onClick={updateFreelancerCompletedProfile}
+          >
             Enregistrer
+          </Button>
+          <Button
+            bg="transparent"
+            border="2px solid"
+            fontWeight="500"
+            borderColor="pink.light"
+            color="pink.light"
+            _hover={{ bgcolor: "white" }}
+            type="submit"
+            onClick={updateFreelancerUncompletedProfile}
+          >
+            Sauvegarder les informations
           </Button>
           <Link
             href="/"
