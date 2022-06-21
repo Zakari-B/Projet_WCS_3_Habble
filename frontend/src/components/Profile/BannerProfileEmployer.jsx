@@ -1,11 +1,4 @@
-import {
-  Flex,
-  Button,
-  Text,
-  FormControl,
-  FormLabel,
-  Image,
-} from "@chakra-ui/react";
+import { Flex, Button, Text, FormLabel, Image, Tag } from "@chakra-ui/react";
 import { useState } from "react";
 import Patrice from "../../assets/patrice-warembourg-550.jpg";
 
@@ -21,37 +14,6 @@ export default function BannerProfile({ employer }) {
       border="1px solid #ededed"
       borderRadius="25px"
     >
-      <Flex bgColor="white" p="1.5rem" borderRadius="25px 25px 0 0">
-        <FormControl display="flex" alignItems="center">
-          {/* <Switch
-            colorScheme="pink"
-            id="availabilityToggle"
-            onChange={() => setAvailable(!available)}
-          /> */}
-          <FormLabel htmlFor="availabilityToggle" mb="-1px">
-            {available ? (
-              <Flex alignItems="center" wrap="wrap" justifyContent="center">
-                <Text fontSize="1.2rem" fontWeight="700">
-                  &nbsp; Profil vérifié{" "}
-                </Text>
-                <Text fontWeight="500" textAlign="center">
-                  &nbsp; - Vous pouvez être contacté et poster des annonces
-                </Text>
-              </Flex>
-            ) : (
-              <Flex alignItems="center" wrap="wrap" justifyContent="center">
-                <Text fontSize="1.2rem" fontWeight="700">
-                  &nbsp; Profil non vérifié
-                </Text>
-                <Text fontWeight="500" textAlign="center">
-                  &nbsp; - Vous ne pouvez pas être contacté et poster des
-                  annonces
-                </Text>
-              </Flex>
-            )}
-          </FormLabel>
-        </FormControl>
-      </Flex>
       <Flex
         bgColor="purple.average"
         minH="60%"
@@ -74,6 +36,13 @@ export default function BannerProfile({ employer }) {
           />
         </Flex>
         <Flex direction="column" w={{ base: "95%", md: "40%" }} margin="auto 0">
+          <FormLabel htmlFor="availabilityToggle" mb="2rem">
+            {available ? (
+              <Tag color="purple">Profil vérifié</Tag>
+            ) : (
+              <Tag color="red">Profil non vérifié</Tag>
+            )}
+          </FormLabel>
           <Text
             fontSize="2rem"
             fontWeight="700"

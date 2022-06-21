@@ -46,12 +46,7 @@ export default function AnnonceCarousel() {
       minW="100%"
     >
       <Flex justify="space-between" alignItems="center" mb="40px">
-        <Heading
-          as="h2"
-          color="purple.average"
-          fontSize="1.5em"
-          fontWeight="700"
-        >
+        <Heading as="h2" color="purple.light" fontSize="1.5em" fontWeight="700">
           Mes annonces
         </Heading>
         {!isVisible && (
