@@ -13,6 +13,7 @@ import {
   Divider,
   Flex,
   Heading,
+  useToast,
 } from "@chakra-ui/react";
 
 import Header from "./Header/Header";
@@ -24,6 +25,8 @@ const loginForm = () => {
   const [rememberMe, setRememberMe] = useState(false);
 
   const navigate = useNavigate();
+  // const { freelancerId } = useParams();
+  const toast = useToast();
 
   const handleSubmit = () => {
     if (loginEmail && loginPassword) {
@@ -34,16 +37,33 @@ const loginForm = () => {
           remember: rememberMe,
         })
         .then((response) => {
+          if (response) {
+            toast({
+              title: "Vous êtes bien connecté(e).",
+              description: "Content de vous revoir !",
+              status: "success",
+              duration: 2000,
+              isClosable: true,
+            });
+          }
           if (response.data.type !== "freelancer") {
             navigate("/");
           } else {
             navigate("/profil");
             // return response.data.profileIsComplete
-            //   ? navigate("/profil")
-            //   : navigate("/register-onboarding-pro/:id");
+            // ? navigate(`/profil/${freelancerId}`)
+            // : navigate(`/register-onboarding-pro/${freelancerId}`);
           }
         })
         .catch((error) => {
+          if (error) {
+            toast({
+              title: "Une erreur est survenue lors de la connexion.",
+              status: "error",
+              duration: 2000,
+              isClosable: true,
+            });
+          }
           console.warn(error);
         });
     }
@@ -122,7 +142,7 @@ const loginForm = () => {
             <Button
               variant="solid_PrimaryColor"
               type="button"
-              onClick={() => handleSubmit()}
+              onClick={handleSubmit}
             >
               Se connecter
             </Button>

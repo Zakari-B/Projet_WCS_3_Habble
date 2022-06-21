@@ -7,15 +7,16 @@ import {
   ListItem,
   Button,
 } from "@chakra-ui/react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer";
 
 export default function WelcomeInscPro() {
   const navigate = useNavigate();
+  const { freelancerId } = useParams();
 
   const handleNavigate = () => {
-    navigate("/register-onboarding-pro/:id");
+    navigate(`/register-onboarding-pro/${freelancerId}`);
   };
   return (
     <Box h="100vh">
@@ -27,8 +28,8 @@ export default function WelcomeInscPro() {
         h="90.6vh"
       >
         <Box
-          w="65%"
-          h="60vh"
+          w={{ base: "95%", lg: "65%" }}
+          h="auto"
           ml="auto"
           mr="auto"
           mt="8rem"

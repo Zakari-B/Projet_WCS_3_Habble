@@ -39,7 +39,7 @@ function App() {
           element={<RegisterOnboardingPro />}
         />
         <Route path="/profils" element={<SearchProfessionals />} />
-        <Route path="/welcome-pro/:id" element={<WelcomeInscPro />} />
+        <Route path="/welcome-pro/:freelancerId" element={<WelcomeInscPro />} />
       </Routes>
     </div>
   );
