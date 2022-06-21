@@ -33,7 +33,7 @@ exports.validateFreelancer = (data, forCreation = true) => {
     acceptEmails: Joi.boolean().presence(presence),
     siret: Joi.number().presence(presence).options({ convert: false }),
     available: Joi.boolean().presence(presence),
-    picture: Joi.string().max(1000).presence(presence),
+    picture: Joi.string().max(1000).allow(null, ""),
   }).validate(data, { abortEarly: false }).error;
   if (validationErrors) {
     return validationErrors;
@@ -64,6 +64,23 @@ exports.validateFormation = (data, forCreation = true) => {
     startMonth: Joi.string().max(255).presence(presence),
     startYear: Joi.number().presence(presence).options({ convert: false }),
     endMonth: Joi.string().max(255).presence(presence),
+    endYear: Joi.number().presence(presence).options({ convert: false }),
+    description: Joi.string().max(500).allow(null, ""),
+  }).validate(data, { abortEarly: false }).error;
+  if (validationErrors) {
+    return validationErrors;
+  }
+  return false;
+};
+
+exports.validateExperiencePro = (data, forCreation = true) => {
+  const presence = forCreation ? "required" : "optional";
+  const validationErrors = Joi.object({
+    title: Joi.string().max(100).presence(presence),
+    company: Joi.string().max(100).presence(presence),
+    startMonth: Joi.string().max(100).presence(presence),
+    startYear: Joi.number().presence(presence).options({ convert: false }),
+    endMonth: Joi.string().max(100).presence(presence),
     endYear: Joi.number().presence(presence).options({ convert: false }),
     description: Joi.string().max(500).allow(null, ""),
   }).validate(data, { abortEarly: false }).error;

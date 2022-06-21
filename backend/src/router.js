@@ -5,6 +5,7 @@ const FreelancerController = require("./controllers/FreelancerController");
 const EmployerController = require("./controllers/EmployerController");
 const DiplomeController = require("./controllers/DiplomeController");
 const FormationController = require("./controllers/FormationController");
+const ExperienceProController = require("./controllers/ExperienceProController");
 
 // const auth = require("./middlewares/auth");
 
@@ -65,4 +66,25 @@ router.delete(
   FormationController.deleteOne
 );
 
+// Routes for Expérience Pro
+router.post(
+  "/freelancers/:freelancerid/experiencePro",
+  ExperienceProController.createOne
+);
+router.get(
+  "/freelancers/:freelancerid/experiencePro",
+  ExperienceProController.getAll
+);
+router.get(
+  "/freelancers/:freelancerid/experiencePro/:id",
+  ExperienceProController.getOne
+);
+router.put(
+  "/freelancers/:freelancerid/experiencePro/:id",
+  ExperienceProController.updateOne
+);
+router.delete(
+  "/freelancers/:freelancerid/experiencePro/:id",
+  ExperienceProController.deleteOne
+);
 module.exports = router;

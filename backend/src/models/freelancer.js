@@ -77,6 +77,11 @@ exports.getAllFreelancersProfileInfo = async (freelancerId) => {
             dateCreated: "desc",
           },
         },
+        experience_pro: {
+          orderBy: {
+            dateCreated: "desc",
+          },
+        },
       },
     });
   } finally {

@@ -13,7 +13,7 @@ import Expertises from "../components/Profile/Expertises/Expertises";
 import Verifications from "../components/Profile/Verifications";
 import Tarif from "../components/Profile/Tarif";
 import MissionCarousel from "../components/Profile/Mission/MissionCarousel";
-import { getList } from "../services/ProfileProUtils";
+import { getListforAnId } from "../services/ProfileProUtils";
 
 export default function ProfilPageProfessional() {
   const navigate = useNavigate();
@@ -25,7 +25,7 @@ export default function ProfilPageProfessional() {
   const [formations, setFormations] = useState([]);
 
   const getfreelancer = () => {
-    getList("freelancers", freelancerId)
+    getListforAnId("freelancers", freelancerId)
       .then((response) => {
         setFreelancer(response.data);
         setDiplomes(response.data.diplomes);
