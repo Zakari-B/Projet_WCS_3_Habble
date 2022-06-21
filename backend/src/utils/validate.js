@@ -82,6 +82,7 @@ exports.validateExperiencePro = (data, forCreation = true) => {
     startYear: Joi.number().presence(presence).options({ convert: false }),
     endMonth: Joi.string().max(100).presence(presence),
     endYear: Joi.number().presence(presence).options({ convert: false }),
+    currentJob: Joi.boolean(),
     description: Joi.string().max(500).allow(null, ""),
   }).validate(data, { abortEarly: false }).error;
   if (validationErrors) {

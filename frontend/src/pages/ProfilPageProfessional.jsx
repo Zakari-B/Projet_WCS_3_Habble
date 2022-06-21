@@ -23,6 +23,7 @@ export default function ProfilPageProfessional() {
   const [updated, setUpdated] = useState(false);
   const [diplomes, setDiplomes] = useState([]);
   const [formations, setFormations] = useState([]);
+  const [experiences, setExperiences] = useState([]);
 
   const getfreelancer = () => {
     getListforAnId("freelancers", freelancerId)
@@ -30,6 +31,7 @@ export default function ProfilPageProfessional() {
         setFreelancer(response.data);
         setDiplomes(response.data.diplomes);
         setFormations(response.data.formations);
+        setExperiences(response.data.experience_pro);
       })
       .catch((error) => {
         console.warn(error);
@@ -99,7 +101,11 @@ export default function ProfilPageProfessional() {
               updated={updated}
               setUpdated={setUpdated}
             />
-            <ExperienceCarousel />
+            <ExperienceCarousel
+              experiences={experiences}
+              updated={updated}
+              setUpdated={setUpdated}
+            />
             <MissionCarousel />
           </Flex>
         </Flex>

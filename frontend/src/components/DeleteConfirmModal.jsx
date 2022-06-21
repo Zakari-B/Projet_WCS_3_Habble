@@ -70,7 +70,7 @@ export default function DeleteConfirmModal({
               deleteItemList("freelancers", type, freelancerId, item.id)
                 .then(() =>
                   toast({
-                    title: "Diplôme supprimé avec succès",
+                    title: `${type} supprimés(es).es avec succès`,
                     status: "success",
                     position: "bottom-right",
                     duration: 7000,
