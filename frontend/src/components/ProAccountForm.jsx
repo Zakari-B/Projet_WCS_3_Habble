@@ -48,7 +48,9 @@ export default function ProAccountForm() {
   const [activityPro, setActivityPro] = useState("");
   const [cityPro, setCityPro] = useState("");
   const [phonePro, setPhonePro] = useState("");
-  const [picturePro, setPicturePro] = useState("");
+  const [picturePro, setPicturePro] = useState(
+    "https://secure.gravatar.com/avatar/c308ee24184a32cdf10650eb7e311157?s=125&d=mm&r=G"
+  );
   const [experienceYearPro, setExperienceYearPro] = useState();
   const [pricePro, setPricePro] = useState();
   const [descriptionPro, setDescriptionPro] = useState("");
@@ -119,10 +121,12 @@ export default function ProAccountForm() {
         acceptEmails: acceptEmailPro,
         siret: siretPro,
         available: false,
-        picture: "",
+        picture: picturePro,
       })
-      .then(() => {
-        navigate(`/profil/:${freelancerId}`);
+      .then((response) => {
+        if (response) {
+          navigate(`/profil/${freelancerId}`);
+        }
       });
   };
 
@@ -142,7 +146,7 @@ export default function ProAccountForm() {
         acceptEmails: acceptEmailPro,
         siret: siretPro,
         available: false,
-        picture: "",
+        picture: picturePro,
       })
       .then(() => {
         navigate("/");
@@ -409,7 +413,11 @@ export default function ProAccountForm() {
                           mx="40%"
                         />
                         <Box h="150px" w="150px" mx="40%">
-                          <Image src={picturePro} m="auto" h="150px" />
+                          <Image
+                            src="https://i.pravatar.cc/300"
+                            m="auto"
+                            h="150px"
+                          />
                         </Box>
                       </Box>
                       <Flex
@@ -552,8 +560,13 @@ export default function ProAccountForm() {
                 Présentez-vous en quelques mots *
               </FormLabel>
               <Textarea
-                placeholder="Lorem ipsum dolor sit amet consectetur adipisicing elit. Sequi totam quidem magnam quo cum pariatur laboriosam, exercitationem deserunt. Molestias suscipit facilis voluptates id. Quaerat voluptates debitis magnam a recusandae ab."
+                h="auto"
+                placeholder="Bonjour,
+                je m'appelle Sandra, j'ai 37 ans. je suis éducatrice spécialisée diplômée, j'ai plusieurs expériences auprès des enfants, des personnes en situation de handicap, des personnes en difficultés sociales. J'ai également de l'expérience dans la garde d'enfants, dans les cours à domicile et le soutien scolaire.
+                Je possède deux chats et j'adore m'occuper des animaux. Je possède le permis B.
+                (30 caractères minimum)"
                 _placeholder={{
+                  lineHeight: "1.5",
                   fontSize: "0.8rem",
                   fontWeight: "500",
                   color: "gray",
