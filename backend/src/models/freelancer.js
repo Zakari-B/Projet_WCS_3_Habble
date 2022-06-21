@@ -42,14 +42,14 @@ exports.updateOneFreelancer = async (freelancerId, data) => {
   }
 };
 
-const findOneByUserId = async (user) => {
-  try {
-    return await prisma.freelancer.findFirst({
-      where: { userId: user },
-    });
-  } finally {
-    await prisma.$disconnect();
-  }
-};
+// const findOneByUserId = async (user) => {
+//   try {
+//     return await prisma.freelancer.findFirst({
+//       where: { userId: user },
+//     });
+//   } finally {
+//     await prisma.$disconnect();
+//   }
+// };
 
-module.exports = { findOneByUserId };
+// module.exports = { findOneByUserId };
