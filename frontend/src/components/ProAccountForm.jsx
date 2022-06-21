@@ -109,6 +109,9 @@ export default function ProAccountForm() {
 
   const updateFreelancerCompletedProfile = (e) => {
     e.preventDefault();
+    // axios.put(`http://localhost:5001/api/users/${freelancerId}`, {
+    //   profileIsComplete: true,
+    // });
     axios
       .put(`http://localhost:5001/api/freelancers/${freelancerId}`, {
         displayName,
@@ -292,7 +295,7 @@ export default function ProAccountForm() {
                     <ListItem>
                       <Flex direction="column" w="-webkit-fill-available">
                         {addressList.map((city) => (
-                          <a w="100%" href="/#">
+                          <p w="100%">
                             <Flex
                               _hover={{
                                 color: "pink.light",
@@ -334,7 +337,7 @@ export default function ProAccountForm() {
                                 </Flex>
                               </Flex>
                             </Flex>
-                          </a>
+                          </p>
                         ))}
                       </Flex>
                     </ListItem>

@@ -22,6 +22,7 @@ router.get("/users/:id", authorization, authSelf, UserController.getOne);
 router.put("/users/:id", authSelf, UserController.updateOne);
 router.delete("/users/delete/:id", authSelf, UserController.deleteOne);
 
+router.get("/freelancers/:id/user", FreelancerController.getUser);
 // Routes for Freelancers
 
 router.get("/freelancers/", FreelancerController.getAll);
