@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Modal,
   ModalOverlay,
@@ -15,9 +16,25 @@ import PropTypes from "prop-types";
 import axios from "axios";
 
 export default function EditPassWordModal({ isOpen, onClose }) {
+  const [currentPass, setCurrentPass] = useState("");
+  const [newPass, setNewPass] = useState("");
+  const [newPassRepeat, setNewPassRepeat] = useState("");
+
   const editPassword = (e) => {
     e.preventDefault();
-    axios.get("");
+
+    if (newPass === newPassRepeat) {
+      axios
+        .put("http://localhost:5000/api/users/", {
+          passwordChangeRequest: {
+            currentPassword: currentPass,
+            newPassword: newPass,
+          },
+        })
+        .then((res) => console.warn(res));
+    } else {
+      console.warn("Mots de passe différents");
+    }
   };
 
   return (
@@ -27,7 +44,7 @@ export default function EditPassWordModal({ isOpen, onClose }) {
         borderRadius="0px 0px 21px 21px"
         maxW={{ base: "95%", lg: "50vw" }}
       >
-        <form>
+        <form onSubmit={editPassword}>
           <ModalHeader
             paddingY="30px"
             color="purple.average"
@@ -39,13 +56,15 @@ export default function EditPassWordModal({ isOpen, onClose }) {
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody paddingY="30px">
-            <FormControl isRequired onSubmit={editPassword}>
+            <FormControl isRequired>
               <Flex direction="column" gap="30px">
                 <Input
                   type="password"
                   id="currentPassword"
                   name="Mot de passe actuel"
                   placeholder="Mot de passe actuel"
+                  value={currentPass}
+                  onChange={(e) => setCurrentPass(e.target.value)}
                 />
 
                 <Input
@@ -53,6 +72,8 @@ export default function EditPassWordModal({ isOpen, onClose }) {
                   id="newPassword"
                   name="Nouveau Mot de passe"
                   placeholder="Nouveau mot de passe "
+                  value={newPass}
+                  onChange={(e) => setNewPass(e.target.value)}
                 />
 
                 <Input
@@ -60,6 +81,8 @@ export default function EditPassWordModal({ isOpen, onClose }) {
                   id="newPasswordRepeat"
                   name="Retapez votre mot de passe"
                   placeholder="Confirmez votre mot de passe"
+                  value={newPassRepeat}
+                  onChange={(e) => setNewPassRepeat(e.target.value)}
                 />
               </Flex>
             </FormControl>
@@ -72,7 +95,11 @@ export default function EditPassWordModal({ isOpen, onClose }) {
             justifyContent="center"
             m="auto"
           >
-            <Button variant="solid_PrimaryColor" type="submit">
+            <Button
+              variant="solid_PrimaryColor"
+              type="submit"
+              onClick={onClose}
+            >
               Confirmer
             </Button>
             <Button color="gray.dark" mr={3} onClick={onClose} variant="link">
