@@ -8,7 +8,7 @@ export default function FormAnnonce() {
   const { freelancerId } = useParams();
   return (
     <Box h="100vh">
-      <Header onDark={false} isSticky={false} isStickyWhite={false} />
+      <Header onDark={false} isSticky={false} isStickyWhite={false} isSignUp />
       <Flex bgColor="background.gray" direction="column" justify="flex-start">
         <EmployerForm freelancerId={freelancerId} />
       </Flex>

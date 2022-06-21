@@ -1,5 +1,6 @@
 import { Flex, Heading, Text, Button, Collapse } from "@chakra-ui/react";
 import { useState, useMemo } from "react";
+import { Link } from "react-router-dom";
 import AnnonceCard from "./AnnonceCard";
 import AnnonceFormContext from "../../../contexts/AnnonceFormContext";
 import FormAnnonce from "./AnnonceForm";
@@ -51,12 +52,14 @@ export default function AnnonceCarousel() {
           fontSize="1.5em"
           fontWeight="700"
         >
-          Annonces en cours
+          Mes annonces
         </Heading>
         {!isVisible && (
-          <Button variant="outline_Pink" onClick={toggleForm}>
-            Ajouter
-          </Button>
+          <Link to="/deposer-une-annonce">
+            <Button variant="outline_Pink" onClick={toggleForm}>
+              Ajouter
+            </Button>
+          </Link>
         )}
       </Flex>
       <Collapse in={isVisible}>
