@@ -20,7 +20,7 @@ exports.findOneFreelancer = async (freelancerId) => {
   }
 };
 
-const createOneFreelancer = async (freelancer) => {
+exports.createOneFreelancer = async (freelancer) => {
   try {
     return await prisma.freelancer.create({
       data: { ...freelancer },
@@ -30,7 +30,7 @@ const createOneFreelancer = async (freelancer) => {
   }
 };
 
-const updateOneFreelancer = async (freelancerId, data) => {
+exports.updateOneFreelancer = async (freelancerId, data) => {
   try {
     const message = await prisma.freelancer.update({
       where: { id: freelancerId },
@@ -42,14 +42,14 @@ const updateOneFreelancer = async (freelancerId, data) => {
   }
 };
 
-const findOneByUserId = async (user) => {
-  try {
-    return await prisma.freelancer.findFirst({
-      where: { userId: user },
-    });
-  } finally {
-    await prisma.$disconnect();
-  }
-};
+// const findOneByUserId = async (user) => {
+//   try {
+//     return await prisma.freelancer.findFirst({
+//       where: { userId: user },
+//     });
+//   } finally {
+//     await prisma.$disconnect();
+//   }
+// };
 
-module.exports = { createOneFreelancer, updateOneFreelancer, findOneByUserId };
+// module.exports = { findOneByUserId };
