@@ -60,6 +60,7 @@ const login = async (req, res) => {
         .json({
           message: "Connexion réussie",
           type: userData.role,
+          profil: userData.profileIsComplete,
         });
     } else {
       res.status(userData.code).json({ message: userData.message });

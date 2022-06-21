@@ -38,6 +38,9 @@ const loginForm = () => {
             navigate("/");
           } else {
             navigate("/profil");
+            // return response.data.profileIsComplete
+            //   ? navigate("/profil")
+            //   : navigate("/register-onboarding-pro/:id");
           }
         })
         .catch((error) => {
