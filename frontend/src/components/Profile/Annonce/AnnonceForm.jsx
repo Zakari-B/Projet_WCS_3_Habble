@@ -1,14 +1,14 @@
 import { Flex, Box } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
-import Header from "../components/Header/Header";
-import Footer from "../components/Footer";
-import EmployerForm from "../components/EmployerForm";
+import Header from "../../Header/Header";
+import Footer from "../../Footer";
+import EmployerForm from "../../EmployerForm";
 
-export default function RegisterOnboardingPro() {
+export default function FormAnnonce() {
   const { freelancerId } = useParams();
   return (
     <Box h="100vh">
-      <Header onDark={false} isSticky={false} />
+      <Header onDark={false} isSticky={false} isStickyWhite={false} />
       <Flex bgColor="background.gray" direction="column" justify="flex-start">
         <EmployerForm freelancerId={freelancerId} />
       </Flex>

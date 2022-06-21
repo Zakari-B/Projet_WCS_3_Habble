@@ -7,8 +7,8 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
-import PropTypes from "prop-types";
 import { useContext } from "react";
+import PropTypes from "prop-types";
 import FormationFormContext from "../../../contexts/FormationFormContext";
 
 import DeleteConfirmModal from "../../DeleteConfirmModal";

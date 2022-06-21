@@ -12,7 +12,8 @@ import Error from "./pages/Error";
 import SearchProfessionals from "./pages/SearchProfessionals";
 import Contact from "./pages/Contact";
 import RegisterOnboardingPro from "./pages/RegisterOnboardingPro";
-import FormAnnonce from "./pages/FormAnnonce";
+import FormAnnonce from "./components/Profile/Annonce/AnnonceForm";
+import ProfilPageEmployer from "./pages/ProfilPageEmployer";
 
 import "./App.css";
 
@@ -40,6 +41,7 @@ function App() {
         />
         <Route path="/profils" element={<SearchProfessionals />} />
         <Route path="/deposer-une-annonce" element={<FormAnnonce />} />
+        <Route path="/profil-employer" element={<ProfilPageEmployer />} />
       </Routes>
     </div>
   );
