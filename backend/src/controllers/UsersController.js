@@ -61,6 +61,7 @@ const login = async (req, res) => {
         .json({
           message: "Connexion réussie",
           type: userData.role,
+          fkId: userData.fkId,
         });
     } else {
       res.status(userData.code).json({ message: userData.message });
