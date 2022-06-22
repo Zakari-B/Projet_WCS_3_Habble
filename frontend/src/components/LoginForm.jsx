@@ -59,6 +59,7 @@ const loginForm = () => {
           if (error) {
             toast({
               title: "Une erreur est survenue lors de la connexion.",
+              description: `${error.response.data.message}`,
               status: "error",
               duration: 2000,
               isClosable: true,
