@@ -5,7 +5,6 @@ const {
   findOneFreelancer,
   getAllFreelancersProfileInfo,
   getUserfromfreelancer,
-  updateOneUser,
 } = require("../models/freelancer");
 
 const { validateFreelancer } = require("../utils/validate");
@@ -95,8 +94,8 @@ exports.getUser = async (req, res) => {
   const freelancerId = parseInt(req.params.id, 10);
 
   try {
-    const userId = await getAllFreelancersProfileInfo(freelancerId);
-    const user = await getUserfromfreelancer(userId.userId);
+    const freelancer = await findOneFreelancer(freelancerId);
+    const user = await getUserfromfreelancer(freelancer.userId);
     return res.status(200).json(user);
   } catch (e) {
     return res
@@ -105,13 +104,13 @@ exports.getUser = async (req, res) => {
   }
 };
 
-exports.updateUser = async (req, res) => {
-  const freelancerId = parseInt(req.params.id, 10);
-  try {
-    const userId = await getAllFreelancersProfileInfo(freelancerId);
-    const userModify = await updateOneUser(userId.userId, req.body);
-    return res.status(200).json(userModify);
-  } catch (e) {
-    return res.status(500).json({ error: "Problème de mise à jour du user" });
-  }
-};
+// exports.updateUser = async (req, res) => {
+//   const freelancerId = parseInt(req.params.id, 10);
+//   try {
+//     const userId = await getAllFreelancersProfileInfo(freelancerId);
+//     const userModify = await updateOneUser(userId.userId, req.body);
+//     return res.status(200).json(userModify);
+//   } catch (e) {
+//     return res.status(500).json({ error: "Problème de mise à jour du user" });
+//   }
+// };

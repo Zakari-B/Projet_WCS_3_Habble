@@ -38,11 +38,12 @@ import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 
 import { CloseIcon } from "@chakra-ui/icons";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 
 export default function ProAccountForm() {
   const { isOpen, onOpen, onClose, onToggle } = useDisclosure();
-
+  const navigate = useNavigate();
+  const { freelancerId } = useParams();
   // useState pour chaque input //
   const [displayName, setDisplayName] = useState("");
   const [activityPro, setActivityPro] = useState("");
@@ -88,13 +89,21 @@ export default function ProAccountForm() {
   };
 
   // Appel axios pour récuperer le displayName du freelancer
-  const { freelancerId } = useParams();
 
   const getOnefreelancer = () => {
     axios
       .get(`http://localhost:5001/api/freelancers/${freelancerId}`)
       .then((response) => {
         setDisplayName(response.data.displayName);
+        setActivityPro(response.data.activityDescription);
+        setCityPro(response.data.zipCode);
+        setPhonePro(response.data.phone);
+        setExperienceYearPro(response.data.experienceYear);
+        setPricePro(response.data.price);
+        setDescriptionPro(response.data.description);
+        setAcceptEmailPro(response.data.acceptEmail);
+        setSiretPro(response.data.siret);
+        setPicturePro(response.data.picture);
       })
       .catch((error) => {
         console.warn(error);
@@ -103,15 +112,16 @@ export default function ProAccountForm() {
 
   useEffect(() => getOnefreelancer(), []);
 
-  const navigate = useNavigate();
-
-  // Appel axios pour mettre à jour le freelancer avec ses informations si profil complet
+  // Appel axios pour mettre à jour le freelancer avec ses informations et le user associé si profil complet
 
   const updateFreelancerCompletedProfile = (e) => {
+    // quand le mec submit
+    // je récupère son freelancerId dans useParam (freelancer ==> 2)
+    // envoyer via axios la requête sur la route "/freelancers/:id/user"
+    // stocker le résultat dans userId (state)
+    // envoyer une requete classique pour update le user
+
     e.preventDefault();
-    axios.put(`http://localhost:5001/api/freelancers/${freelancerId}/user`, {
-      profileIsComplete: true,
-    });
     axios
       .put(`http://localhost:5001/api/freelancers/${freelancerId}`, {
         displayName,
@@ -155,34 +165,6 @@ export default function ProAccountForm() {
         navigate("/");
       });
   };
-
-  // Appel axios pour mettre selectionner l'adresse
-
-  const [addressList, setAddressList] = useState([]);
-  const previousController = useRef();
-
-  const getAddressList = (signal) => {
-    axios
-      .get(
-        `https://api-adresse.data.gouv.fr/search/?q=${cityPro}&type=municipality&autocomplete=1&limit=3`,
-        { signal }
-      )
-      .then((response) => {
-        setAddressList(response.data.features);
-      });
-  };
-
-  useEffect(() => {
-    if (cityPro.length >= 1) {
-      if (previousController.current) {
-        previousController.current.abort();
-      }
-      const controller = new AbortController();
-      const { signal } = controller;
-      previousController.current = controller;
-      getAddressList(signal);
-    }
-  }, [cityPro]);
 
   return (
     <Flex bgColor="background.gray" direction="column" justify="flex-start">
@@ -282,67 +264,6 @@ export default function ProAccountForm() {
                   value={cityPro}
                   onChange={(e) => setCityPro(e.target.value)}
                 />
-                {addressList.length !== 0 && cityPro !== "" && (
-                  <List
-                    bg="white"
-                    width="100%"
-                    borderRadius="4px"
-                    overflow="hidden"
-                    zIndex="997"
-                    boxShadow="rgb(0 0 0 / 4%) 0px 2px 6px"
-                    border="1px solid #ededed"
-                  >
-                    <ListItem>
-                      <Flex direction="column" w="-webkit-fill-available">
-                        {addressList.map((city) => (
-                          <p w="100%">
-                            <Flex
-                              _hover={{
-                                color: "pink.light",
-                                bgColor: "gray.100",
-                              }}
-                              direction="row"
-                              p={5}
-                              w="100%"
-                              align="center"
-                            >
-                              <Flex
-                                pl="20px"
-                                justifyContent="space-between"
-                                width="100%"
-                                alignItems="center"
-                              >
-                                <Flex
-                                  direction="column"
-                                  alignItems="flex-start"
-                                >
-                                  <Text
-                                    fontSize="lg"
-                                    align="left"
-                                    color="purple.dark"
-                                    _hover={{
-                                      color: "pink.light",
-                                    }}
-                                  >
-                                    {city.properties.name} (
-                                    {city.properties.postcode})
-                                  </Text>
-                                  <Text
-                                    fontSize="md"
-                                    align="left"
-                                    color="purple.dark"
-                                  >
-                                    {city.properties.context}
-                                  </Text>
-                                </Flex>
-                              </Flex>
-                            </Flex>
-                          </p>
-                        ))}
-                      </Flex>
-                    </ListItem>
-                  </List>
-                )}
                 <FormLabel
                   htmlFor="phone"
                   fontSize="md"

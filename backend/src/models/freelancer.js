@@ -94,14 +94,14 @@ exports.getUserfromfreelancer = async (userId) => {
   }
 };
 
-exports.updateOneUser = async (userId, data) => {
-  try {
-    const message = await prisma.user.update({
-      where: { id: userId },
-      data: { ...data },
-    });
-    return message;
-  } finally {
-    await prisma.$disconnect();
-  }
-};
+// exports.updateOneUser = async (userId, data) => {
+//   try {
+//     const message = await prisma.user.update({
+//       where: { id: userId },
+//       data: { ...data },
+//     });
+//     return message;
+//   } finally {
+//     await prisma.$disconnect();
+//   }
+// };
