@@ -7,44 +7,39 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
-import { useContext } from "react";
+import { Link } from "react-router-dom";
+
 import PropTypes from "prop-types";
-import FormationFormContext from "../../../contexts/FormationFormContext";
 
 import DeleteConfirmModal from "../../DeleteConfirmModal";
 
-export default function FormationCard({ formation }) {
+export default function AnnonceCard({ annonce }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { isVisible, setIsVisible } = useContext(FormationFormContext);
-
-  const showForm = () => {
-    setIsVisible(!isVisible);
-  };
   return (
     <Flex direction="column" gap="10px" paddingY="10px">
       <Heading as="h2" color="purple.average" fontSize="1.5em" fontWeight="700">
-        {formation.level}
+        {annonce.title}
       </Heading>
       <Heading as="h3" color="purple.average" fontSize="16px" fontWeight="600">
-        {formation.institution}
+        {annonce.description}
       </Heading>
       <Heading as="h4" color="purple.average" fontSize="14px" fontWeight="600">
-        {formation.startMonth}/{formation.startYear} - {formation.endMonth}/
-        {formation.endYear}
+        {annonce.location}
       </Heading>
       <Text color="purple.average" fontSize="14px">
-        {formation.description}
+        {annonce.expertise}
       </Text>
       <Flex gap="20px">
-        <Button
-          leftIcon={<EditIcon />}
-          variant="text"
-          color="pink.light"
-          padding="0px"
-          onClick={showForm}
-        >
-          Modifier
-        </Button>
+        <Link to="/deposer-une-annonce">
+          <Button
+            leftIcon={<EditIcon />}
+            variant="text"
+            color="pink.light"
+            padding="0px"
+          >
+            Modifier
+          </Button>
+        </Link>
         <Button
           rightIcon={<DeleteIcon />}
           variant="text"
@@ -62,15 +57,11 @@ export default function FormationCard({ formation }) {
   );
 }
 
-FormationCard.propTypes = {
-  formation: PropTypes.shape({
+AnnonceCard.propTypes = {
+  annonce: PropTypes.shape({
     id: PropTypes.number.isRequired,
-    institution: PropTypes.string.isRequired,
-    level: PropTypes.string.isRequired,
-    startMonth: PropTypes.string.isRequired,
-    startYear: PropTypes.number.isRequired,
-    endMonth: PropTypes.string.isRequired,
-    endYear: PropTypes.number.isRequired,
     description: PropTypes.string.isRequired,
+    expertise: PropTypes.string.isRequired,
+    location: PropTypes.string.isRequired,
   }).isRequired,
 };
