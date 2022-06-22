@@ -45,6 +45,9 @@ const loginForm = () => {
               position: "bottom-right",
               isClosable: true,
             });
+            if (response.status === 200) {
+              window.localStorage.setItem("isUserLoggedIn", true);
+            }
           }
           if (response.data.type !== "freelancer") {
             navigate("/");
