@@ -96,6 +96,7 @@ export default function SearchResultCarousel({ freelancers }) {
                 type="search"
                 id="search"
                 variant="outline"
+                autocomplete="off"
                 bgColor="white"
                 h="50px"
                 name="search"
