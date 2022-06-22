@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import axios from "axios";
 import {
   Box,
   Text,
@@ -15,6 +14,7 @@ import {
   Heading,
   useToast,
 } from "@chakra-ui/react";
+import backendAPI from "../services/backendAPI";
 
 import Header from "./Header/Header";
 import Footer from "./Footer";
@@ -29,8 +29,8 @@ const loginForm = () => {
 
   const handleSubmit = () => {
     if (loginEmail && loginPassword) {
-      axios
-        .post("http://localhost:5000/api/auth/login", {
+      backendAPI
+        .post("/api/auth/login", {
           email: loginEmail,
           password: loginPassword,
           remember: rememberMe,

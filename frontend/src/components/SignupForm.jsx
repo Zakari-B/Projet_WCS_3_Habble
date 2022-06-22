@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useNavigate, Link, useSearchParams } from "react-router-dom";
-import axios from "axios";
 import {
   Stack,
   Text,
@@ -12,6 +11,7 @@ import {
   Heading,
   useToast,
 } from "@chakra-ui/react";
+import backendAPI from "../services/backendAPI";
 import "../App.css";
 
 const signupForm = () => {
@@ -28,8 +28,8 @@ const signupForm = () => {
   const toast = useToast();
 
   const handleSubmit = () => {
-    axios
-      .post("http://localhost:5000/api/auth/register", {
+    backendAPI
+      .post("/api/auth/register", {
         firstname: signupFirstname,
         lastname: signupLastname,
         email: signupEmail,
