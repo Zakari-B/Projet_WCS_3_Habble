@@ -1,5 +1,4 @@
 import { Flex, Box } from "@chakra-ui/react";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Header from "../components/Header/Header";
@@ -14,6 +13,7 @@ import Expertises from "../components/Profile/Expertises/Expertises";
 import Verifications from "../components/Profile/Verifications";
 import Tarif from "../components/Profile/Tarif";
 import MissionCarousel from "../components/Profile/Mission/MissionCarousel";
+import backendAPI from "../services/backendAPI";
 
 export default function ProfilPageProfessional() {
   const navigate = useNavigate();
@@ -21,8 +21,8 @@ export default function ProfilPageProfessional() {
   const { freelancerId } = useParams();
   const [freelancer, setFreelancer] = useState({});
   const getfreelancer = () => {
-    axios
-      .get(`http://localhost:5001/api/freelancers/${freelancerId}`)
+    backendAPI
+      .get(`/api/freelancers/${freelancerId}`)
       .then((response) => {
         setFreelancer(response.data);
       })

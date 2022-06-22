@@ -13,7 +13,7 @@ import {
   Input,
 } from "@chakra-ui/react";
 import PropTypes from "prop-types";
-import axios from "axios";
+import backendAPI from "../services/backendAPI";
 
 export default function EditPassWordModal({ isOpen, onClose }) {
   const [currentPass, setCurrentPass] = useState("");
@@ -24,8 +24,8 @@ export default function EditPassWordModal({ isOpen, onClose }) {
     e.preventDefault();
 
     if (newPass === newPassRepeat) {
-      axios
-        .put("http://localhost:5000/api/users/", {
+      backendAPI
+        .put("/api/users/", {
           passwordChangeRequest: {
             currentPassword: currentPass,
             newPassword: newPass,
