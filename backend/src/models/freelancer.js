@@ -66,13 +66,13 @@ exports.getAllFreelancersProfileInfo = async (freelancerId) => {
       where: {
         id: freelancerId,
       },
-      include: {
-        diplomes: {
-          orderBy: {
-            dateCreated: "desc",
-          },
-        },
-      },
+      // include: {
+      //   diplomes: {
+      //     orderBy: {
+      //       dateCreated: "desc",
+      //     },
+      //   },
+      // },
     });
   } finally {
     await prisma.$disconnect();
@@ -89,6 +89,18 @@ exports.getUserfromfreelancer = async (userId) => {
         freelancer: true,
       },
     });
+  } finally {
+    await prisma.$disconnect();
+  }
+};
+
+exports.updateOneUser = async (userId, data) => {
+  try {
+    const message = await prisma.user.update({
+      where: { id: userId },
+      data: { ...data },
+    });
+    return message;
   } finally {
     await prisma.$disconnect();
   }
