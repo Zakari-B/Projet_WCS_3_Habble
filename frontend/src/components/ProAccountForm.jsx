@@ -109,9 +109,9 @@ export default function ProAccountForm() {
 
   const updateFreelancerCompletedProfile = (e) => {
     e.preventDefault();
-    // axios.put(`http://localhost:5001/api/users/${freelancerId}`, {
-    //   profileIsComplete: true,
-    // });
+    axios.put(`http://localhost:5001/api/freelancers/${freelancerId}/user`, {
+      profileIsComplete: true,
+    });
     axios
       .put(`http://localhost:5001/api/freelancers/${freelancerId}`, {
         displayName,
