@@ -27,7 +27,7 @@ const signupForm = () => {
 
   const handleSubmit = () => {
     axios
-      .post("http://localhost:5000/api/auth/register", {
+      .post("http://localhost:5001/api/auth/register", {
         firstname: signupFirstname,
         lastname: signupLastname,
         email: signupEmail,
@@ -36,7 +36,7 @@ const signupForm = () => {
       })
       .then((response) => {
         if (response.data.userAccount.role === "employer") {
-          navigate("/");
+          navigate(`/profil-employer/${response.data.employerCreated.id}`);
         } else if (response.data.userAccount.role === "freelancer") {
           navigate(
             `/register-onboarding-pro/${response.data.freelancerCreated.id}`

@@ -2,7 +2,7 @@ const { PrismaClient } = require("@prisma/client");
 
 const prisma = new PrismaClient();
 
-const createOne = async (employer) => {
+exports.createOneEmployer = async (employer) => {
   try {
     return await prisma.employer.create({
       data: { ...employer },
@@ -12,14 +12,20 @@ const createOne = async (employer) => {
   }
 };
 
-const updateOne = async (employer) => {
+exports.findOneEmployer = async (employerId) => {
   try {
-    return await prisma.employer.create({
-      data: { ...employer },
+    return await prisma.employer.findUnique({
+      where: { id: employerId },
     });
   } finally {
     await prisma.$disconnect();
   }
 };
 
-module.exports = { createOne, updateOne };
+exports.getAllEmployers = async () => {
+  try {
+    return await prisma.employer.findMany();
+  } finally {
+    await prisma.$disconnect();
+  }
+};

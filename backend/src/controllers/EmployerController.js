@@ -1,16 +1,21 @@
-const employer = require("../models/employer");
+const {
+  createOneEmployer,
+  findOneEmployer,
+  getAllEmployers,
+} = require("../models/employer");
 
-const createOne = async (req, res) => {
+exports.createOne = async (req, res) => {
   const userAccount = req.userCreated;
   if (userAccount.role !== "employer" && userAccount.role !== "freelancer") {
     res.status(400).send("Erreur : le rôle de l'utilisateur est incorrect");
   }
   if (userAccount.role === "employer") {
     try {
-      const employerCreated = await employer.createOne({
+      const employerCreated = await createOneEmployer({
         displayName: `${userAccount.firstname} ${userAccount.lastname}`,
         userId: userAccount.id,
-        phone: "",
+        description: "",
+        available: false,
         picture: "",
       });
       res.status(201).send({ userAccount, employerCreated });
@@ -23,4 +28,27 @@ const createOne = async (req, res) => {
   return null;
 };
 
-module.exports = { createOne };
+exports.getOne = async (req, res) => {
+  const employerId = parseInt(req.params.id, 10);
+  try {
+    const myemployer = await findOneEmployer(employerId);
+    if (!myemployer) {
+      return res.status(404).send(`Employer #${employerId} not found.`);
+    }
+    return res.status(200).json(myemployer);
+  } catch (e) {
+    return res.status(500).json({ error: "Problème de lecture des employers" });
+  }
+};
+
+exports.getAll = async (req, res) => {
+  try {
+    const employers = await getAllEmployers();
+    if (!employers) {
+      return res.status(404).send(`There are no employers yet`);
+    }
+    return res.status(200).json(employers);
+  } catch (e) {
+    return res.status(500).json({ error: "Problème de lecture des employers" });
+  }
+};

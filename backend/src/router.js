@@ -36,4 +36,10 @@ router.get("/freelancers/:id", FreelancerController.getOne);
 router.put("/freelancers/:id", FreelancerController.updateOne);
 // route delete a valider (si besoin)
 
+// Routes for Employers
+
+router.get("/employers/", EmployerController.getAll);
+router.get("/employers/:id", EmployerController.getOne);
+// router.put("/employers/:id", EmployerController.updateOne);
+
 module.exports = router;
