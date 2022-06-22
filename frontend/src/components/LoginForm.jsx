@@ -34,6 +34,9 @@ const loginForm = () => {
           remember: rememberMe,
         })
         .then((response) => {
+          if (response.status === 200) {
+            window.localStorage.setItem("isUserLoggedIn", true);
+          }
           if (response.data.type !== "freelancer") {
             navigate("/");
           } else {
