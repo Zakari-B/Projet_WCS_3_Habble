@@ -36,7 +36,7 @@ function App() {
           element={<ProfilPageProfessional />}
         />
         <Route
-          path="/register-onboarding-pro/"
+          path="/register-onboarding-pro/:freelancerId"
           element={<RegisterOnboardingPro />}
         />
         <Route path="/profils" element={<SearchProfessionals />} />

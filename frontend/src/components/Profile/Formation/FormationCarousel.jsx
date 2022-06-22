@@ -4,34 +4,18 @@ import FormationCard from "./FormationCard";
 import FormationForm from "./FormationForm";
 import FormationFormContext from "../../../contexts/FormationFormContext";
 
-export default function FormationCarousel() {
-  const [fakelist] = useState([
-    {
-      id: 1,
-      level: "Bac+4",
-      institution: "Lycée Albert Camus",
-      startMonth: "04",
-      startYear: 2012,
-      endMonth: "01",
-      endYear: 2022,
-      description: "this is my first experience",
-    },
-    {
-      id: 2,
-      level: "Bac+4",
-      institution: "Lycée Albert Camus",
-      startMonth: "01",
-      startYear: 2012,
-      endMonth: "02",
-      endYear: 2022,
-      description: "this is my first experience",
-    },
-  ]);
+export default function FormationCarousel({ formations, updated, setUpdated }) {
   const [isVisible, setIsVisible] = useState(false);
-  const context = useMemo(() => ({ isVisible, setIsVisible }), []);
+  const [currentFormation, setCurrentFormation] = useState({});
+
+  const context = useMemo(
+    () => ({ isVisible, setIsVisible, currentFormation, setCurrentFormation }),
+    [isVisible, currentFormation]
+  );
 
   const toggleForm = () => {
     setIsVisible(!isVisible);
+    setCurrentFormation({});
   };
 
   return (
@@ -61,20 +45,25 @@ export default function FormationCarousel() {
       <Collapse in={isVisible}>
         {isVisible && (
           <FormationFormContext.Provider value={context}>
-            <FormationForm />
+            <FormationForm updated={updated} setUpdated={setUpdated} />
           </FormationFormContext.Provider>
         )}
       </Collapse>
 
       <Flex direction="column">
-        {fakelist.length === 0 ? (
+        {formations.length === 0 ? (
           <Text color="gray" fontSize="16px" fontWeight="500">
             Ajoutez une formation à votre profil. (optionnel)
           </Text>
         ) : (
-          fakelist.map((formation) => (
+          formations.map((formation) => (
             <FormationFormContext.Provider value={context}>
-              <FormationCard formation={formation} key={formation.id} />
+              <FormationCard
+                formation={formation}
+                key={formation.id}
+                updated={updated}
+                setUpdated={setUpdated}
+              />
             </FormationFormContext.Provider>
           ))
         )}

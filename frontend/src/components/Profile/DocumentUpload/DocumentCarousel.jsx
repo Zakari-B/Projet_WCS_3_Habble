@@ -101,7 +101,7 @@ export default function DocumentCarousel() {
         m="auto"
       >
         {fakeData.map((elem) => (
-          <UploadedDocs key={elem.name} data={elem} />
+          <UploadedDocs key={`${elem.name}_${elem.id}`} data={elem} />
         ))}
       </Flex>
     </Flex>
