@@ -3,6 +3,7 @@ const {
   findOneEmployer,
   getAllEmployers,
   updateOneEmployer,
+  getUserFromEmployer,
 } = require("../models/employer");
 
 const { validateEmployer } = require("../utils/validate");
@@ -73,6 +74,22 @@ exports.updateOne = async (req, res) => {
   try {
     const employerModify = await updateOneEmployer(employerId, req.body);
     return res.status(200).json(employerModify);
+  } catch (e) {
+    return res
+      .status(500)
+      .json({ error: "Problème de mise à jour du employer" });
+  }
+};
+
+exports.getUserFromEmployer = async (req, res) => {
+  const employerId = parseInt(req.params.id, 10);
+
+  try {
+    const userId = await findOneEmployer(employerId);
+
+    const employer = await getUserFromEmployer(userId.userId);
+
+    return res.status(200).json(employer);
   } catch (e) {
     return res
       .status(500)

@@ -1,10 +1,15 @@
-import { Flex, Button, Text, FormLabel, Image, Tag } from "@chakra-ui/react";
-import { useState } from "react";
-import Patrice from "../../assets/patrice-warembourg-550.jpg";
+import {
+  Flex,
+  Button,
+  Text,
+  FormLabel,
+  Image,
+  Tag,
+  Avatar,
+} from "@chakra-ui/react";
+// import { useState } from "react";
 
 export default function BannerProfile({ employer }) {
-  const [available] = useState(employer.available);
-
   return (
     <Flex
       w={{ base: "95%", lg: "80%" }}
@@ -27,17 +32,27 @@ export default function BannerProfile({ employer }) {
           alignItems="center"
           justifyContent="center"
         >
-          <Image
-            boxSize="200px"
-            borderRadius="50%"
-            objectFit="cover"
-            src={Patrice}
-            alt="Avatar utilisateur"
-          />
+          {employer.picture ? (
+            <Image
+              src={employer.picture}
+              height="200px"
+              width="200px"
+              borderRadius="100%"
+              border="1px solid gray.200"
+            />
+          ) : (
+            <Avatar
+              src="https://bit.ly/broken-link"
+              height="200px"
+              width="200px"
+              maxW="200"
+              maxH="200"
+            />
+          )}
         </Flex>
         <Flex direction="column" w={{ base: "95%", md: "40%" }} margin="auto 0">
           <FormLabel htmlFor="availabilityToggle" mb="2rem">
-            {available ? (
+            {employer.available ? (
               <Tag color="purple">Profil vérifié</Tag>
             ) : (
               <Tag color="red">Profil non vérifié</Tag>

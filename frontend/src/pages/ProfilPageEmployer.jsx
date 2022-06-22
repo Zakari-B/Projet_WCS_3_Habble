@@ -14,29 +14,15 @@ export default function ProfilPageEmployer({ annonce }) {
 
   const navigate = useNavigate();
 
-  // const { userId } = useParams();
-  // const [user, setUser] = useState({});
-  // const getuser = () => {
-  //   axios
-  //     .get(`http://localhost:5001/api/users/${userId}`)
-  //     .then((response) => {
-  //       setUser(response.data);
-  //     })
-  //     .catch((error) => {
-  //       console.warn(error);
-  //       navigate("/error");
-  //     });
-  // };
-
-  // useEffect(() => getuser(), []);
-
   const { employerId } = useParams();
+  const [user, setUser] = useState({});
   const [employer, setEmployer] = useState({});
-  const getemployer = () => {
+  const getuser = () => {
     axios
-      .get(`http://localhost:5001/api/employers/${employerId}`)
+      .get(`http://localhost:5001/api/employers/${employerId}/user`)
       .then((response) => {
-        setEmployer(response.data);
+        setUser(response.data);
+        setEmployer(response.data.employer[0]);
       })
       .catch((error) => {
         console.warn(error);
@@ -44,26 +30,7 @@ export default function ProfilPageEmployer({ annonce }) {
       });
   };
 
-  useEffect(() => getemployer(), []);
-
-  const fakeUser = {
-    id: 1,
-    firstname: "Lora",
-    lastname: "Perrichon",
-    email: "lora@gmail.com",
-    password: "jhnlzejbfalzebf",
-    pseudo: "LoraLala",
-    role: "employer",
-    profileIsComplete: true,
-  };
-
-  // const fakeEmployer = {
-  //   id: 1,
-  //   displayName: "Lora Perrichon",
-  //   dateCreated: "01-01-2022",
-  //   description: "Maman d'un enfant souffrant de troubles autistiques...",
-  //   available: true,
-  // };
+  useEffect(() => getuser(), []);
 
   return (
     <Box h="100vh">
@@ -90,7 +57,7 @@ export default function ProfilPageEmployer({ annonce }) {
             gap="20px"
             flexDir="column"
           >
-            <AccountCard user={fakeUser} />
+            <AccountCard user={user} />
           </Flex>
           <Flex
             bgColor="background.gray"
