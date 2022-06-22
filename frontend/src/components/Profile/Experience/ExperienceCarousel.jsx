@@ -4,36 +4,26 @@ import ExperienceCard from "./ExperienceCard";
 import ExperienceFormContext from "../../../contexts/ExperienceFormContext";
 import ExperienceForm from "./ExperienceForm";
 
-export default function ExperienceCarousel() {
-  const [fakeExperience] = useState([
-    {
-      id: 1,
-      title: "Assistant de santé",
-      company: "EPHAD des Lilas",
-      startMonth: "04",
-      startYear: 2012,
-      endMonth: "01",
-      endYear: 2022,
-      currentJob: false,
-      description: "this is my first experience",
-    },
-    {
-      id: 2,
-      title: "Cadre de santé",
-      company: "EPHAD des Lilas",
-      startMonth: "04",
-      startYear: 2022,
-      endMonth: "02",
-      endYear: 2022,
-      currentJob: true,
-      description: "this is my second experience",
-    },
-  ]);
+export default function ExperienceCarousel({
+  experiences,
+  updated,
+  setUpdated,
+}) {
   const [isVisible, setIsVisible] = useState(false);
-  const context = useMemo(() => ({ isVisible, setIsVisible }), []);
+  const [currentExperience, setCurrentExperience] = useState({});
+  const context = useMemo(
+    () => ({
+      isVisible,
+      setIsVisible,
+      currentExperience,
+      setCurrentExperience,
+    }),
+    [isVisible, currentExperience]
+  );
 
   const toggleForm = () => {
     setIsVisible(!isVisible);
+    setCurrentExperience({});
   };
 
   return (
@@ -63,20 +53,25 @@ export default function ExperienceCarousel() {
       <Collapse in={isVisible}>
         {isVisible && (
           <ExperienceFormContext.Provider value={context}>
-            <ExperienceForm />
+            <ExperienceForm updated={updated} setUpdated={setUpdated} />
           </ExperienceFormContext.Provider>
         )}
       </Collapse>
       <Flex direction="column">
-        {fakeExperience.length === 0 ? (
+        {experiences.length === 0 ? (
           <Text color="gray" fontSize="16px" fontWeight="500">
             Ajoutez une certification professionnelle à votre profil.
             (Optionnel)
           </Text>
         ) : (
-          fakeExperience.map((experience) => (
+          experiences.map((experience) => (
             <ExperienceFormContext.Provider value={context}>
-              <ExperienceCard experience={experience} key={experience.id} />
+              <ExperienceCard
+                experience={experience}
+                key={experience.id}
+                updated={updated}
+                setUpdated={setUpdated}
+              />
             </ExperienceFormContext.Provider>
           ))
         )}

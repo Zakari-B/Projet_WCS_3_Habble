@@ -4,7 +4,7 @@ import {
   Text,
   Image,
   Heading,
-  Tag,
+  // Tag,
   Avatar,
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
@@ -25,9 +25,9 @@ export default function ProfileCard({ freelancer }) {
           alignItems="center"
           justify="center"
         >
-          {freelancer.picturePro ? (
+          {freelancer.picture ? (
             <Image
-              src={freelancer.picturePro}
+              src={freelancer.picture}
               height="200px"
               width="200px"
               borderRadius="100%"
@@ -49,21 +49,21 @@ export default function ProfileCard({ freelancer }) {
             alignItems={{ lg: "flex-start", base: "center" }}
           >
             <Heading as="h2" fontSize="calc(1rem + 0.5vw)" fontWeight="600">
-              {`${freelancer.firstname} ${freelancer.lastname}`}
+              {`${freelancer.displayName}`}
             </Heading>
-            <Text fontWeight="600">{freelancer.activityPro}</Text>
+            <Text fontWeight="600">{freelancer.activityDescription}</Text>
             <Flex gap="60px" width="fit-content" alignItems="center">
               <Flex gap="5px" alignItems="center">
                 <BsGeoAltFill />
-                <Text>{freelancer.cityPro}</Text>
+                <Text>{freelancer.zipCode}</Text>
               </Flex>
               <Flex>
                 <Text fontWeight="700">
-                  {freelancer.pricePro}€ /h * (indicatif)
+                  {freelancer.price}€ /h * (indicatif)
                 </Text>
               </Flex>
             </Flex>
-            <Flex
+            {/* <Flex
               gap="10px"
               wrap="wrap"
               justify={{ lg: "flex-start", base: "center" }}
@@ -71,10 +71,10 @@ export default function ProfileCard({ freelancer }) {
               {freelancer.tags.map((tag) => (
                 <Tag>{tag}</Tag>
               ))}
-            </Flex>
+            </Flex> */}
           </Flex>
         </Flex>
-        <Link to={`/profil/${freelancer.firstname}_${freelancer.lastname}`}>
+        <Link to={`/profil/${freelancer.id}`}>
           <Button variant="solid_PrimaryColor">Voir le profil</Button>
         </Link>
       </Flex>
@@ -84,7 +84,7 @@ export default function ProfileCard({ freelancer }) {
           fontWeight="500"
           textAlign={{ lg: "left", base: "center" }}
         >
-          {freelancer.descriptionPro}
+          {freelancer.description}
         </Text>
       </Flex>
     </Flex>

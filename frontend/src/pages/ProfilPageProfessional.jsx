@@ -13,18 +13,25 @@ import Expertises from "../components/Profile/Expertises/Expertises";
 import Verifications from "../components/Profile/Verifications";
 import Tarif from "../components/Profile/Tarif";
 import MissionCarousel from "../components/Profile/Mission/MissionCarousel";
-import backendAPI from "../services/backendAPI";
+import { getListforAnId } from "../services/ProfileProUtils";
 
 export default function ProfilPageProfessional() {
   const navigate = useNavigate();
 
   const { freelancerId } = useParams();
   const [freelancer, setFreelancer] = useState({});
+  const [updated, setUpdated] = useState(false);
+  const [diplomes, setDiplomes] = useState([]);
+  const [formations, setFormations] = useState([]);
+  const [experiences, setExperiences] = useState([]);
+
   const getfreelancer = () => {
-    backendAPI
-      .get(`/api/freelancers/${freelancerId}`)
+    getListforAnId("freelancers", freelancerId)
       .then((response) => {
         setFreelancer(response.data);
+        setDiplomes(response.data.diplomes);
+        setFormations(response.data.formations);
+        setExperiences(response.data.experience_pro);
       })
       .catch((error) => {
         console.warn(error);
@@ -32,10 +39,9 @@ export default function ProfilPageProfessional() {
       });
   };
 
-  useEffect(() => getfreelancer(), []);
-
-  // créer une fonction pour get user
-  // utiliser useeffect pour appeler ces deux fonctions
+  useEffect(() => {
+    getfreelancer();
+  }, [updated]);
 
   const fakeUser = {
     id: 1,
@@ -55,7 +61,7 @@ export default function ProfilPageProfessional() {
         bgColor="background.gray"
         direction="column"
         justify="flex-start"
-        paddingY="30px"
+        paddingY="30péx"
         paddingTop="150px"
       >
         <BannerProfile freelancer={freelancer} />
@@ -85,14 +91,26 @@ export default function ProfilPageProfessional() {
             gap="20px"
           >
             <DocumentCarousel />
-            <FormationCarousel />
-            <DiplomeCarousel />
-            <ExperienceCarousel />
+            <FormationCarousel
+              formations={formations}
+              updated={updated}
+              setUpdated={setUpdated}
+            />
+            <DiplomeCarousel
+              diplomes={diplomes}
+              updated={updated}
+              setUpdated={setUpdated}
+            />
+            <ExperienceCarousel
+              experiences={experiences}
+              updated={updated}
+              setUpdated={setUpdated}
+            />
             <MissionCarousel />
           </Flex>
         </Flex>
       </Flex>
-      )
+
       <Footer />
     </Box>
   );
