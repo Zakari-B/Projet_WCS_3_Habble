@@ -27,7 +27,7 @@ exports.validateFreelancer = (data, forCreation = true) => {
     userId: Joi.number().presence(presence).options({ convert: false }),
     zipCode: Joi.string().max(10).presence(presence),
     phone: Joi.string().max(300).presence(presence),
-    experienceYear: Joi.number().presence(presence).options({ convert: false }),
+    experienceYear: Joi.number().presence(presence),
     price: Joi.number().presence(presence).options({ convert: false }),
     description: Joi.string().max(1000).presence(presence),
     acceptEmails: Joi.boolean().presence(presence),
