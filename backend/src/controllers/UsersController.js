@@ -62,6 +62,7 @@ const login = async (req, res) => {
           message: "Connexion réussie",
           type: userData.role,
           profil: userData.profileIsComplete,
+          fkId: userData.fkId,
         });
     } else {
       res.status(userData.code).json({ message: userData.message });

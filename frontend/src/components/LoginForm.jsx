@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useNavigate, Link, useParams } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import {
   Box,
@@ -25,7 +25,6 @@ const loginForm = () => {
   const [rememberMe, setRememberMe] = useState(false);
 
   const navigate = useNavigate();
-  const { freelancerId } = useParams();
   const toast = useToast();
 
   const handleSubmit = () => {
@@ -38,10 +37,6 @@ const loginForm = () => {
         })
         .then((response) => {
           if (response) {
-            axios
-              .get("http://localhost:5000/api/auth/sessionControl")
-              .then((res) => console.warn(res))
-              .catch((err) => console.warn(err));
             toast({
               title: "Vous êtes bien connecté(e).",
               description: "Content de vous revoir !",
@@ -54,11 +49,11 @@ const loginForm = () => {
           if (response.data.type !== "freelancer") {
             navigate("/");
           } else {
-            navigate(`/profil/${freelancerId}`);
-            // return response.data.profileIsComplete
-            // ? navigate(`/profil/${freelancerId}`)
-            // : navigate(`/register-onboarding-pro/${freelancerId}`);
+            return response.data.profileIsComplete
+              ? navigate(`/profil/${response.data.fkId}`)
+              : navigate(`/register-onboarding-pro/${response.data.fkId}`);
           }
+          return null;
         })
         .catch((error) => {
           if (error) {
