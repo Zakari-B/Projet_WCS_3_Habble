@@ -29,7 +29,7 @@ const signupForm = () => {
 
   const handleSubmit = () => {
     axios
-      .post("http://localhost:5000/api/auth/register", {
+      .post("http://localhost:5001/api/auth/register", {
         firstname: signupFirstname,
         lastname: signupLastname,
         email: signupEmail,

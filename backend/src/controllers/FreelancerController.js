@@ -3,6 +3,8 @@ const {
   createOneFreelancer,
   updateOneFreelancer,
   findOneFreelancer,
+  getAllFreelancersProfileInfo,
+  getUserfromfreelancer,
 } = require("../models/freelancer");
 
 const { validateFreelancer } = require("../utils/validate");
@@ -24,11 +26,11 @@ exports.getAll = async (req, res) => {
 exports.getOne = async (req, res) => {
   const freelancerId = parseInt(req.params.id, 10);
   try {
-    const myfreelancer = await findOneFreelancer(freelancerId);
-    if (!myfreelancer) {
+    const freelancer = await getAllFreelancersProfileInfo(freelancerId);
+    if (!freelancer) {
       return res.status(404).send(`Freelancer #${freelancerId} not found.`);
     }
-    return res.status(200).json(myfreelancer);
+    return res.status(200).json(freelancer);
   } catch (e) {
     return res
       .status(500)
@@ -82,6 +84,20 @@ exports.updateOne = async (req, res) => {
   try {
     const freelancerModify = await updateOneFreelancer(freelancerId, req.body);
     return res.status(200).json(freelancerModify);
+  } catch (e) {
+    return res
+      .status(500)
+      .json({ error: "Problème de mise à jour du freelancer" });
+  }
+};
+
+exports.getUser = async (req, res) => {
+  const freelancerId = parseInt(req.params.id, 10);
+
+  try {
+    const userId = await getAllFreelancersProfileInfo(freelancerId);
+    const freelancer = await getUserfromfreelancer(userId.userId);
+    return res.status(200).json(freelancer);
   } catch (e) {
     return res
       .status(500)
