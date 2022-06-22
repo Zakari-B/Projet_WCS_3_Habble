@@ -2,7 +2,10 @@ const {
   createOneEmployer,
   findOneEmployer,
   getAllEmployers,
+  updateOneEmployer,
 } = require("../models/employer");
+
+const { validateEmployer } = require("../utils/validate");
 
 exports.createOne = async (req, res) => {
   const userAccount = req.userCreated;
@@ -50,5 +53,28 @@ exports.getAll = async (req, res) => {
     return res.status(200).json(employers);
   } catch (e) {
     return res.status(500).json({ error: "Problème de lecture des employers" });
+  }
+};
+
+exports.updateOne = async (req, res) => {
+  const employerId = parseInt(req.params.id, 10);
+  const error = validateEmployer(req.body, false);
+  if (error) {
+    console.error(error);
+    return res.status(422).json(error.details);
+  }
+
+  const myemployer = await findOneEmployer(employerId);
+  if (!myemployer) {
+    return res.status(404).send(`Employer #${employerId} not found.`);
+  }
+
+  try {
+    const employerModify = await updateOneEmployer(employerId, req.body);
+    return res.status(200).json(employerModify);
+  } catch (e) {
+    return res
+      .status(500)
+      .json({ error: "Problème de mise à jour du employer" });
   }
 };

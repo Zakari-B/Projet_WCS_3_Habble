@@ -29,3 +29,15 @@ exports.getAllEmployers = async () => {
     await prisma.$disconnect();
   }
 };
+
+exports.updateOneEmployer = async (employerId, data) => {
+  try {
+    const message = await prisma.employer.update({
+      where: { id: employerId },
+      data: { ...data },
+    });
+    return message;
+  } finally {
+    await prisma.$disconnect();
+  }
+};
