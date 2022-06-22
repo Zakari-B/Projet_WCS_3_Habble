@@ -28,7 +28,7 @@ const loginForm = () => {
   const handleSubmit = () => {
     if (loginEmail && loginPassword) {
       axios
-        .post("http://localhost:5000/api/auth/login", {
+        .post("http://localhost:5001/api/auth/login", {
           email: loginEmail,
           password: loginPassword,
           remember: rememberMe,
@@ -37,7 +37,7 @@ const loginForm = () => {
           if (response.data.type !== "freelancer") {
             navigate("/");
           } else {
-            navigate("/profil");
+            navigate("/profil/3");
           }
         })
         .catch((error) => {

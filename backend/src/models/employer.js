@@ -2,7 +2,7 @@ const { PrismaClient } = require("@prisma/client");
 
 const prisma = new PrismaClient();
 
-const createOne = async (employer) => {
+exports.createOneEmployer = async (employer) => {
   try {
     return await prisma.employer.create({
       data: { ...employer },
@@ -12,17 +12,37 @@ const createOne = async (employer) => {
   }
 };
 
-const updateOne = async (employer) => {
+exports.findOneEmployer = async (employerId) => {
   try {
-    return await prisma.employer.create({
-      data: { ...employer },
+    return await prisma.employer.findUnique({
+      where: { id: employerId },
     });
   } finally {
     await prisma.$disconnect();
   }
 };
 
-const findOneEmployerByUserId = async (id) => {
+exports.getAllEmployers = async () => {
+  try {
+    return await prisma.employer.findMany();
+  } finally {
+    await prisma.$disconnect();
+  }
+};
+
+exports.updateOneEmployer = async (employerId, data) => {
+  try {
+    const message = await prisma.employer.update({
+      where: { id: employerId },
+      data: { ...data },
+    });
+    return message;
+  } finally {
+    await prisma.$disconnect();
+  }
+};
+
+exports.findOneEmployerByUserId = async (id) => {
   try {
     return await prisma.employer.findUnique({
       where: { userId: id },
@@ -31,4 +51,3 @@ const findOneEmployerByUserId = async (id) => {
     await prisma.$disconnect();
   }
 };
-module.exports = { createOne, updateOne, findOneEmployerByUserId };

@@ -69,7 +69,7 @@ export default function EmployerForm() {
   };
 
   return (
-    <Flex bgColor="background.gray" direction="column" justify="flex-start">
+    <Flex direction="column" justify="flex-start">
       <FormControl
         alignSelf="center"
         dir="column"
@@ -77,7 +77,8 @@ export default function EmployerForm() {
         my="5%"
         className="employerForm"
         bgColor="white"
-        maxWidth="900px"
+        width="80%"
+        maxWidth="1300px"
         alignItems="center"
         boxShadow="0px 1px 1px 0px rgb(185 184 184 / 75%)"
         borderRadius="25px"
