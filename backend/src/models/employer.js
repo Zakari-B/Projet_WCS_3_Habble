@@ -22,4 +22,13 @@ const updateOne = async (employer) => {
   }
 };
 
-module.exports = { createOne, updateOne };
+const findOneEmployerByUserId = async (id) => {
+  try {
+    return await prisma.employer.findUnique({
+      where: { userId: id },
+    });
+  } finally {
+    await prisma.$disconnect();
+  }
+};
+module.exports = { createOne, updateOne, findOneEmployerByUserId };

@@ -56,15 +56,16 @@ exports.createOne = async (req, res, next) => {
         available: false,
         picture: "",
       });
-      res.status(201).send({ userAccount, freelancerCreated });
+      return res.status(201).send({ userAccount, freelancerCreated });
     } catch (e) {
-      res
+      return res
         .status(500)
         .json({ error: "Problème de création de l'entrée freelancer" });
     }
   } else {
     next();
   }
+  return null;
 };
 
 exports.updateOne = async (req, res) => {
@@ -75,8 +76,8 @@ exports.updateOne = async (req, res) => {
     return res.status(422).json(error.details);
   }
 
-  const freelancer = await findOneFreelancer(freelancerId);
-  if (!freelancer) {
+  const myfreelancer = await findOneFreelancer(freelancerId);
+  if (!myfreelancer) {
     return res.status(404).send(`Freelancer #${freelancerId} not found.`);
   }
 
@@ -103,14 +104,3 @@ exports.getUser = async (req, res) => {
       .json({ error: "Problème de mise à jour du freelancer" });
   }
 };
-
-// exports.updateUser = async (req, res) => {
-//   const freelancerId = parseInt(req.params.id, 10);
-//   try {
-//     const userId = await getAllFreelancersProfileInfo(freelancerId);
-//     const userModify = await updateOneUser(userId.userId, req.body);
-//     return res.status(200).json(userModify);
-//   } catch (e) {
-//     return res.status(500).json({ error: "Problème de mise à jour du user" });
-//   }
-// };

@@ -66,13 +66,23 @@ exports.getAllFreelancersProfileInfo = async (freelancerId) => {
       where: {
         id: freelancerId,
       },
-      // include: {
-      //   diplomes: {
-      //     orderBy: {
-      //       dateCreated: "desc",
-      //     },
-      //   },
-      // },
+      include: {
+        diplomes: {
+          orderBy: {
+            dateCreated: "desc",
+          },
+        },
+        formations: {
+          orderBy: {
+            dateCreated: "desc",
+          },
+        },
+        experience_pro: {
+          orderBy: {
+            dateCreated: "desc",
+          },
+        },
+      },
     });
   } finally {
     await prisma.$disconnect();

@@ -5,10 +5,10 @@ import {
   FormControl,
   Switch,
   FormLabel,
+  Avatar,
   Image,
 } from "@chakra-ui/react";
 import { useState } from "react";
-import Patrice from "../../assets/patrice-warembourg-550.jpg";
 
 export default function BannerProfile({ freelancer }) {
   const [available, setAvailable] = useState(freelancer.available);
@@ -66,13 +66,23 @@ export default function BannerProfile({ freelancer }) {
           alignItems="center"
           justifyContent="center"
         >
-          <Image
-            boxSize="200px"
-            borderRadius="50%"
-            objectFit="cover"
-            src={Patrice}
-            alt="Avatar utilisateur"
-          />
+          {freelancer.picture ? (
+            <Image
+              src={freelancer.picture}
+              height="200px"
+              width="200px"
+              borderRadius="100%"
+              border="1px solid gray.200"
+            />
+          ) : (
+            <Avatar
+              src="https://bit.ly/broken-link"
+              height="200px"
+              width="200px"
+              maxW="200"
+              maxH="200"
+            />
+          )}
         </Flex>
         <Flex direction="column" w={{ base: "95%", md: "40%" }} margin="auto 0">
           <Text
