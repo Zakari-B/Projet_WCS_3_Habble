@@ -16,6 +16,7 @@ import { ChevronDownIcon } from "@chakra-ui/icons";
 import PropTypes from "prop-types";
 import { BiLogOut, BiChat, BiUser } from "react-icons/bi";
 import { GrAnnounce } from "react-icons/gr";
+// import backendAPI from "../../services/backendAPI";
 
 import HeaderDrawer from "./HeaderDrawer";
 import Logo from "../Logo";
@@ -32,10 +33,24 @@ export default function Header({
   const handleScroll = () => {
     setScrollPosition(window.pageYOffset);
   };
+
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+
+  // useEffect(() => {
+  //   if (JSON.parse(localStorage.getItem("isUserLoggedIn"))) {
+  //     backendAPI
+  //       .get("/api/auth/sessionControl")
+  //       .then((res) => {
+  //         if (res) {
+  //           isSignUp = true;
+  //         }
+  //       })
+  //       .catch((err) => console.log(err));
+  //   }
+  // }, []);
 
   return (
     <Flex
