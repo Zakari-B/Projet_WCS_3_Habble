@@ -96,6 +96,7 @@ exports.validateEmployer = (data, forCreation = true) => {
   const validationErrors = Joi.object({
     displayName: Joi.string().max(100).presence(presence),
     description: Joi.string().max(1000).presence(presence),
+    phone: Joi.string().max(300).presence(presence),
     userId: Joi.number().presence(presence).options({ convert: false }),
     available: Joi.boolean().presence(presence),
     picture: Joi.string().max(1000).presence(presence),

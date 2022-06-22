@@ -14,21 +14,21 @@ export default function ProfilPageEmployer({ annonce }) {
 
   const navigate = useNavigate();
 
-  const { userId } = useParams();
-  const [user, setUser] = useState({});
-  const getuser = () => {
-    axios
-      .get(`http://localhost:5001/api/users/${userId}`)
-      .then((response) => {
-        setUser(response.data);
-      })
-      .catch((error) => {
-        console.warn(error);
-        navigate("/error");
-      });
-  };
+  // const { userId } = useParams();
+  // const [user, setUser] = useState({});
+  // const getuser = () => {
+  //   axios
+  //     .get(`http://localhost:5001/api/users/${userId}`)
+  //     .then((response) => {
+  //       setUser(response.data);
+  //     })
+  //     .catch((error) => {
+  //       console.warn(error);
+  //       navigate("/error");
+  //     });
+  // };
 
-  useEffect(() => getuser(), []);
+  // useEffect(() => getuser(), []);
 
   const { employerId } = useParams();
   const [employer, setEmployer] = useState({});
@@ -46,16 +46,16 @@ export default function ProfilPageEmployer({ annonce }) {
 
   useEffect(() => getemployer(), []);
 
-  // const fakeUser = {
-  //   id: 1,
-  //   firstname: "Lora",
-  //   lastname: "Perrichon",
-  //   email: "lora@gmail.com",
-  //   password: "jhnlzejbfalzebf",
-  //   pseudo: "LoraLala",
-  //   role: "employer",
-  //   profileIsComplete: true,
-  // };
+  const fakeUser = {
+    id: 1,
+    firstname: "Lora",
+    lastname: "Perrichon",
+    email: "lora@gmail.com",
+    password: "jhnlzejbfalzebf",
+    pseudo: "LoraLala",
+    role: "employer",
+    profileIsComplete: true,
+  };
 
   // const fakeEmployer = {
   //   id: 1,
@@ -90,7 +90,7 @@ export default function ProfilPageEmployer({ annonce }) {
             gap="20px"
             flexDir="column"
           >
-            <AccountCard user={user} />
+            <AccountCard user={fakeUser} />
           </Flex>
           <Flex
             bgColor="background.gray"

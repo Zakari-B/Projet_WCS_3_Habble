@@ -18,6 +18,7 @@ exports.createOne = async (req, res) => {
         displayName: `${userAccount.firstname} ${userAccount.lastname}`,
         userId: userAccount.id,
         description: "",
+        phone: "",
         available: false,
         picture: "",
       });
