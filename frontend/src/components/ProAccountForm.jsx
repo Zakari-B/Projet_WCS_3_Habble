@@ -103,7 +103,6 @@ export default function ProAccountForm() {
         setDescriptionPro(response.data.description);
         setAcceptEmailPro(response.data.acceptEmail);
         setSiretPro(response.data.siret);
-        setPicturePro(response.data.picture);
       })
       .catch((error) => {
         console.warn(error);
@@ -115,31 +114,33 @@ export default function ProAccountForm() {
   // Appel axios pour mettre à jour le freelancer avec ses informations et le user associé si profil complet
 
   const updateFreelancerCompletedProfile = (e) => {
-    // quand le mec submit
-    // je récupère son freelancerId dans useParam (freelancer ==> 2)
-    // envoyer via axios la requête sur la route "/freelancers/:id/user"
-    // stocker le résultat dans userId (state)
-    // envoyer une requete classique pour update le user
-
     e.preventDefault();
     axios
-      .put(`http://localhost:5001/api/freelancers/${freelancerId}`, {
-        displayName,
-        activityDescription: activityPro,
-        zipCode: cityPro,
-        phone: phonePro,
-        experienceYear: experienceYearPro,
-        price: pricePro,
-        description: descriptionPro,
-        acceptEmails: acceptEmailPro,
-        siret: siretPro,
-        available: false,
-        picture: picturePro,
-      })
+      .get(`http://localhost:5001/api/freelancers/${freelancerId}/user`)
       .then((response) => {
-        if (response) {
-          navigate(`/profil/${freelancerId}`);
-        }
+        const userId = response.data.id;
+        axios
+          .put(`http://localhost:5001/api/freelancers/${freelancerId}`, {
+            displayName,
+            activityDescription: activityPro,
+            zipCode: cityPro,
+            phone: phonePro,
+            experienceYear: experienceYearPro,
+            price: pricePro,
+            description: descriptionPro,
+            acceptEmails: acceptEmailPro,
+            siret: siretPro,
+            available: false,
+            picture: picturePro,
+          })
+          .then(() => {
+            if (response) {
+              axios.put(`http://localhost:5001/api/users/${userId}`, {
+                profileIsComplete: true,
+              });
+              navigate(`/profil/${freelancerId}`);
+            }
+          });
       });
   };
 
