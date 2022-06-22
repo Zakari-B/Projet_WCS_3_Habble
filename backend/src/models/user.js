@@ -54,7 +54,7 @@ const login = async (userData) => {
     user,
     fkId,
   });
-  return { ...user, accessToken };
+  return { ...user, fkId, accessToken };
 };
 
 const findAll = async () => {
