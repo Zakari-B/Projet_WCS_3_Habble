@@ -8,6 +8,11 @@ const FormationController = require("./controllers/FormationController");
 const ExperienceProController = require("./controllers/ExperienceProController");
 
 // const auth = require("./middlewares/auth");
+const {
+  authorization,
+  authSelf,
+  sessionControl,
+} = require("./middlewares/auth");
 
 const router = express.Router();
 
@@ -20,10 +25,14 @@ router.post(
   EmployerController.createOne
 );
 router.post("/auth/login", UserController.login);
-router.get("/users", UserController.getAll);
-router.get("/users/:id", UserController.getOne);
-router.put("/users/:id", UserController.updateOne);
-router.delete("/users/delete/:id", UserController.deleteOne);
+router.get("/auth/logout", UserController.logout);
+router.get("/auth/sessionControl", sessionControl);
+
+router.get("/users", authorization, UserController.getAll);
+router.get("/users/:id", authorization, authSelf, UserController.getOne);
+router.put("/users/", authorization, UserController.updateOne);
+router.put("/users/:id", authSelf, UserController.updateOne);
+router.delete("/users/delete/:id", authSelf, UserController.deleteOne);
 
 // Routes for Freelancers
 

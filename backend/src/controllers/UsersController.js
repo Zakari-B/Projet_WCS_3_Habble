@@ -1,5 +1,5 @@
 const { Prisma } = require("@prisma/client");
-const { hashPassword } = require("../helpers/argonHelper");
+const { hashPassword, verifyPassword } = require("../helpers/argonHelper");
 const user = require("../models/user");
 const { validateUser } = require("../utils/validate");
 
@@ -72,8 +72,20 @@ const login = async (req, res) => {
 
 const getAll = async (req, res) => {
   const result = await user.findAll();
+  const newResults = result.map((elem) => ({
+    id: elem.id,
+    firstname: elem.firstname,
+    lastname: elem.lastname,
+    email: elem.email,
+    role: elem.role,
+    profileIsComplete: elem.profileIsComplete,
+    dateCreated: elem.dateCreated,
+  }));
+  res.status(200).json(newResults);
+};
 
-  res.status(200).json(result);
+const logout = (req, res) => {
+  res.clearCookie("userToken").sendStatus(200);
 };
 
 const getOne = async (req, res) => {
@@ -81,28 +93,77 @@ const getOne = async (req, res) => {
 
   const result = await user.findOne(userId);
 
-  res.status(200).json({ result });
+  if (result) {
+    delete result.hashedPassword;
+    res.status(200).json({ result });
+  } else {
+    res.status(404).json({ Erreur: "L'utilisateur n'existe pas" });
+  }
 };
 
 const updateOne = async (req, res) => {
-  const userId = parseInt(req.params.id, 10);
-  if (req.body.password) {
+  if (req.body.passwordChangeRequest) {
+    const userToVerify = await user.findOne(req.userId);
+    const currentPasswordTest = await verifyPassword(
+      req.body.passwordChangeRequest.currentPassword,
+      userToVerify.hashedPassword
+    );
+    if (!currentPasswordTest) {
+      return res.status(401).send("Mot de passe incorrect");
+    }
+    const newHashedPassword = await hashPassword(
+      req.body.passwordChangeRequest.newPassword
+    );
+    delete req.body.passwordChangeRequest;
+    const result = await user.updateOne(req.userId, {
+      hashedPassword: `${newHashedPassword}`,
+    });
+    if (result) {
+      // delete result.hashedPassword;
+      res.status(200).json({ "Utilisateur mis jour :": { result } });
+    } else {
+      res.status(404).json({ Erreur: "L'utilisateur n'existe pas" });
+    }
+  } else if (req.body.password) {
     req.body.hashedPassword = await hashPassword(req.body.password);
     delete req.body.password;
-    const result = await user.updateOne(userId, req.body);
-    res.status(200).json(result);
+    const result = await user.updateOne(req.userId, req.body);
+    if (result) {
+      delete result.hashedPassword;
+      res.status(200).json({ "Utilisateur mis jour :": { result } });
+    } else {
+      res.status(404).json({ Erreur: "L'utilisateur n'existe pas" });
+    }
   } else {
-    const result = await user.updateOne(userId, req.body);
-    res.status(200).json(result);
+    const result = await user.updateOne(req.userId, req.body);
+    if (result) {
+      delete result.hashedPassword;
+      res.status(200).json({ "Utilisateur mis jour :": { result } });
+    } else {
+      res.status(404).json({ Erreur: "L'utilisateur n'existe pas" });
+    }
   }
+  return null;
 };
 
 const deleteOne = async (req, res) => {
   const userId = parseInt(req.params.id, 10);
 
-  const entry = await user.deleteOne(userId);
-
-  res.status(200).json({ "Utilisateur supprimé": { entry } });
+  const result = await user.deleteOne(userId);
+  if (result) {
+    delete result.hashedPassword;
+    res.status(200).json({ "Utilisateur supprimé :": { result } });
+  } else {
+    res.status(404).json({ Erreur: "L'utilisateur n'existe pas" });
+  }
 };
 
-module.exports = { createOne, login, getAll, getOne, updateOne, deleteOne };
+module.exports = {
+  createOne,
+  login,
+  logout,
+  getAll,
+  getOne,
+  updateOne,
+  deleteOne,
+};

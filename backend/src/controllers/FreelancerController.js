@@ -56,15 +56,16 @@ exports.createOne = async (req, res, next) => {
         available: false,
         picture: "",
       });
-      res.status(201).send({ userAccount, freelancerCreated });
+      return res.status(201).send({ userAccount, freelancerCreated });
     } catch (e) {
-      res
+      return res
         .status(500)
         .json({ error: "Problème de création de l'entrée freelancer" });
     }
   } else {
     next();
   }
+  return null;
 };
 
 exports.updateOne = async (req, res) => {
@@ -75,8 +76,8 @@ exports.updateOne = async (req, res) => {
     return res.status(422).json(error.details);
   }
 
-  const freelancer = await findOneFreelancer(freelancerId);
-  if (!freelancer) {
+  const myfreelancer = await findOneFreelancer(freelancerId);
+  if (!myfreelancer) {
     return res.status(404).send(`Freelancer #${freelancerId} not found.`);
   }
 
