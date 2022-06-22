@@ -43,6 +43,7 @@ const signupForm = () => {
             description: "Bienvenu chez nous !",
             status: "success",
             duration: 2000,
+            position: "bottom-right",
             isClosable: true,
           });
         }
@@ -59,6 +60,7 @@ const signupForm = () => {
               "Une erreur est survenue lors de la création de votre compte.",
             status: "error",
             duration: 2000,
+            position: "bottom-right",
             isClosable: true,
           });
         }
