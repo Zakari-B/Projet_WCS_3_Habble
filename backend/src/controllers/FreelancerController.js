@@ -1,17 +1,15 @@
-// const {
-//   getAllFreelancers,
-//   createOneFreelancer,
-//   updateOneFreelancer,
-//   findOneFreelancer,
-// } = require("../models/freelancer");
-
-const freelancer = require("../models/freelancer");
+const {
+  getAllFreelancers,
+  createOneFreelancer,
+  updateOneFreelancer,
+  findOneFreelancer,
+} = require("../models/freelancer");
 
 const { validateFreelancer } = require("../utils/validate");
 
-const getAll = async (req, res) => {
+exports.getAll = async (req, res) => {
   try {
-    const freelancers = await freelancer.getAllFreelancers();
+    const freelancers = await getAllFreelancers();
     if (!freelancers) {
       return res.status(404).send(`There are no freelancers yet`);
     }
@@ -23,10 +21,10 @@ const getAll = async (req, res) => {
   }
 };
 
-const getOne = async (req, res) => {
+exports.getOne = async (req, res) => {
   const freelancerId = parseInt(req.params.id, 10);
   try {
-    const myfreelancer = await freelancer.findOneFreelancer(freelancerId);
+    const myfreelancer = await findOneFreelancer(freelancerId);
     if (!myfreelancer) {
       return res.status(404).send(`Freelancer #${freelancerId} not found.`);
     }
@@ -38,11 +36,11 @@ const getOne = async (req, res) => {
   }
 };
 
-const createOne = async (req, res, next) => {
+exports.createOne = async (req, res, next) => {
   const userAccount = req.userCreated;
   if (userAccount.role === "freelancer") {
     try {
-      const freelancerCreated = await freelancer.createOneFreelancer({
+      const freelancerCreated = await createOneFreelancer({
         displayName: `${userAccount.firstname} ${userAccount.lastname}`,
         activityDescription: "",
         userId: userAccount.id,
@@ -68,7 +66,7 @@ const createOne = async (req, res, next) => {
   return null;
 };
 
-const updateOne = async (req, res) => {
+exports.updateOne = async (req, res) => {
   const freelancerId = parseInt(req.params.id, 10);
   const error = validateFreelancer(req.body, false);
   if (error) {
@@ -76,16 +74,13 @@ const updateOne = async (req, res) => {
     return res.status(422).json(error.details);
   }
 
-  const myfreelancer = await freelancer.findOneFreelancer(freelancerId);
+  const myfreelancer = await findOneFreelancer(freelancerId);
   if (!myfreelancer) {
     return res.status(404).send(`Freelancer #${freelancerId} not found.`);
   }
 
   try {
-    const freelancerModify = await freelancer.updateOneFreelancer(
-      freelancerId,
-      req.body
-    );
+    const freelancerModify = await updateOneFreelancer(freelancerId, req.body);
     return res.status(200).json(freelancerModify);
   } catch (e) {
     return res
@@ -93,5 +88,3 @@ const updateOne = async (req, res) => {
       .json({ error: "Problème de mise à jour du freelancer" });
   }
 };
-
-module.exports = { createOne, getAll, getOne, updateOne };
