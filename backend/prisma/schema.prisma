@@ -27,7 +27,7 @@ model freelancer {
   id                    Int                     @id @default(autoincrement())
   displayName           String                  @db.VarChar(100)
   activityDescription   String                  @db.VarChar(255)
-  userId                Int
+  userId                Int                     @unique
   zipCode               String                  @db.VarChar(10)
   phone                 String?                 @db.VarChar(30)
   experienceYear        Int
@@ -37,7 +37,7 @@ model freelancer {
   siret                 Int?
   available             Boolean                 @default(false)
   dateCreated           DateTime                @default(now()) @db.Timestamp(0)
-  picture               String                  @db.VarChar(1000)
+  picture               String?                 @db.VarChar(1000)
   fk_user_id            user                    @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   documents             documents[]
   freelancer_services   freelancer_services[]
@@ -48,14 +48,15 @@ model freelancer {
 }
 
 model employer {
-  id                    Int                     @id @default(autoincrement())
-  displayName           String                  @db.VarChar(100)
-  userId                Int
-  description           String                  @db.VarChar(1000)
-  available             Boolean                 @default(false)
-  dateCreated           DateTime                @default(now()) @db.Timestamp(0)
-  picture               String                  @db.VarChar(1000)
-  fk_user_id            user                    @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  id          Int      @id @default(autoincrement())
+  displayName String   @db.VarChar(100)
+  phone       String?  @db.VarChar(30)
+  userId      Int      @unique
+  description String   @db.VarChar(1000)
+  available   Boolean  @default(false)
+  dateCreated DateTime @default(now()) @db.Timestamp(0)
+  picture     String   @db.VarChar(1000)
+  fk_user_id  user     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
 
 model documents {
@@ -104,7 +105,8 @@ model formations {
   startYear    Int
   endMonth     String     @db.VarChar(255)
   endYear      Int
-  description  String     @db.VarChar(500)
+  description  String?    @db.VarChar(500)
+  dateCreated  DateTime   @default(now()) @db.Timestamp(0)
   freelancerId Int
   fk_id        freelancer @relation(fields: [freelancerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
@@ -118,7 +120,8 @@ model experience_pro {
   endMonth     String     @db.VarChar(100)
   endYear      Int
   currentJob   Boolean    @default(false)
-  description  String     @db.VarChar(500)
+  description  String?    @db.VarChar(500)
+  dateCreated  DateTime   @default(now()) @db.Timestamp(0)
   freelancerId Int
   fk_id        freelancer @relation(fields: [freelancerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
@@ -127,10 +130,10 @@ model diplomes {
   id             Int        @id @default(autoincrement())
   title          String     @db.VarChar(100)
   school         String     @db.VarChar(100)
-  monthDelivered Int
+  monthDelivered String     @db.VarChar(100)
   yearDelivered  Int
-  description    String     @db.VarChar(500)
+  description    String?    @db.VarChar(500)
+  dateCreated    DateTime   @default(now()) @db.Timestamp(0)
   freelancerId   Int
   fk_id          freelancer @relation(fields: [freelancerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
-

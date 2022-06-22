@@ -41,3 +41,13 @@ exports.updateOneEmployer = async (employerId, data) => {
     await prisma.$disconnect();
   }
 };
+
+exports.findOneEmployerByUserId = async (id) => {
+  try {
+    return await prisma.employer.findUnique({
+      where: { userId: id },
+    });
+  } finally {
+    await prisma.$disconnect();
+  }
+};

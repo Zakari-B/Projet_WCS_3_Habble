@@ -6,30 +6,40 @@ import {
   Divider,
   useDisclosure,
 } from "@chakra-ui/react";
+import React, { useContext } from "react";
+import { useParams } from "react-router-dom";
 import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import PropTypes from "prop-types";
-import { useContext } from "react";
 import DiplomeFormContext from "../../../contexts/DiplomeFormContext";
+import { getOneItemOfList } from "../../../services/ProfileProUtils";
 
 import DeleteConfirmModal from "../../DeleteConfirmModal";
 
-export default function DiplomeCard({ diplome }) {
+export default function DiplomeCard({ diplome, updated, setUpdated }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { isVisible, setIsVisible } = useContext(DiplomeFormContext);
+  const { isVisible, setIsVisible, setCurrentDiploma, currentDiploma } =
+    useContext(DiplomeFormContext);
+  const { freelancerId } = useParams();
 
   const showForm = () => {
-    setIsVisible(!isVisible);
+    getOneItemOfList("freelancers", "diplomes", freelancerId, diplome.id).then(
+      (res) => {
+        setCurrentDiploma(res.data);
+        setIsVisible(!isVisible);
+      }
+    );
   };
+
   return (
     <Flex direction="column" gap="10px" paddingY="10px">
       <Heading as="h2" color="purple.average" fontSize="1.5em" fontWeight="700">
         {diplome.title}
       </Heading>
       <Heading as="h3" color="purple.average" fontSize="16px" fontWeight="600">
-        {diplome.delivery}
+        {diplome.school}
       </Heading>
       <Heading as="h4" color="purple.average" fontSize="14px" fontWeight="600">
-        {diplome.month_delivered}/{diplome.year_delivered}
+        {diplome.monthDelivered}/{diplome.yearDelivered}
       </Heading>
       <Text color="purple.average" fontSize="14px">
         {diplome.description}
@@ -49,12 +59,30 @@ export default function DiplomeCard({ diplome }) {
           variant="text"
           color="pink.light"
           padding="0px"
-          onClick={onOpen}
+          onClick={() => {
+            onOpen();
+            getOneItemOfList(
+              "freelancers",
+              "diplomes",
+              freelancerId,
+              diplome.id
+            ).then((res) => {
+              setCurrentDiploma(res.data);
+            });
+          }}
         >
           Supprimer
         </Button>
 
-        <DeleteConfirmModal onOpen={onOpen} isOpen={isOpen} onClose={onClose} />
+        <DeleteConfirmModal
+          onOpen={onOpen}
+          isOpen={isOpen}
+          onClose={onClose}
+          item={currentDiploma}
+          updated={updated}
+          setUpdated={setUpdated}
+          type="diplomes"
+        />
       </Flex>
       <Divider paddingTop="10px" colorScheme="gray" />
     </Flex>
@@ -65,9 +93,9 @@ DiplomeCard.propTypes = {
   diplome: PropTypes.shape({
     id: PropTypes.number.isRequired,
     title: PropTypes.string.isRequired,
-    delivery: PropTypes.string.isRequired,
-    month_delivered: PropTypes.string.isRequired,
-    year_delivered: PropTypes.number.isRequired,
-    description: PropTypes.string.isRequired,
+    school: PropTypes.string.isRequired,
+    monthDelivered: PropTypes.string.isRequired,
+    yearDelivered: PropTypes.number.isRequired,
+    description: PropTypes.string,
   }).isRequired,
 };
