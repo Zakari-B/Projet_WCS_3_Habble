@@ -95,9 +95,9 @@ exports.getUser = async (req, res) => {
   const freelancerId = parseInt(req.params.id, 10);
 
   try {
-    const userId = await getAllFreelancersProfileInfo(freelancerId);
-    const freelancer = await getUserfromfreelancer(userId.userId);
-    return res.status(200).json(freelancer);
+    const freelancer = await findOneFreelancer(freelancerId);
+    const user = await getUserfromfreelancer(freelancer.userId);
+    return res.status(200).json(user);
   } catch (e) {
     return res
       .status(500)
