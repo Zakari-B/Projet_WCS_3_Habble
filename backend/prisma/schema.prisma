@@ -47,6 +47,18 @@ model freelancer {
   diplomes              diplomes[]
 }
 
+model employer {
+  id          Int       @id @default(autoincrement())
+  displayName String    @db.VarChar(100)
+  phone       String?   @db.VarChar(30)
+  userId      Int       @unique
+  description String    @db.VarChar(1000)
+  available   Boolean   @default(false)
+  dateCreated DateTime  @default(now()) @db.Timestamp(0)
+  picture     String    @db.VarChar(1000)
+  fk_user_id  user      @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+}
+
 model documents {
   id               Int        @id @default(autoincrement())
   name             String     @db.VarChar(255)
@@ -126,12 +138,3 @@ model diplomes {
   fk_id          freelancer @relation(fields: [freelancerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
 
-model employer {
-  id          Int      @id @default(autoincrement())
-  displayName String   @db.VarChar(100)
-  phone       String?  @db.VarChar(30)
-  userId      Int      @unique
-  dateCreated DateTime @default(now()) @db.Timestamp(0)
-  picture     String   @db.VarChar(1000)
-  fk_user_id  user     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-}

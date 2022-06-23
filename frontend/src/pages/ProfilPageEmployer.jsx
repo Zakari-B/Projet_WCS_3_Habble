@@ -1,4 +1,7 @@
 import { Flex, Box } from "@chakra-ui/react";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer";
 import BannerProfileEmployer from "../components/Profile/BannerProfileEmployer";
@@ -9,24 +12,25 @@ export default function ProfilPageEmployer({ annonce }) {
   // créer une fonction pour get user
   // utiliser useeffect pour appeler ces deux fonctions
 
-  const fakeUser = {
-    id: 1,
-    firstname: "Lora",
-    lastname: "Perrichon",
-    email: "lora@gmail.com",
-    password: "jhnlzejbfalzebf",
-    pseudo: "LoraLala",
-    role: "employer",
-    profileIsComplete: true,
+  const navigate = useNavigate();
+
+  const { employerId } = useParams();
+  const [user, setUser] = useState({});
+  const [employer, setEmployer] = useState({});
+  const getuser = () => {
+    axios
+      .get(`http://localhost:5001/api/employers/${employerId}/user`)
+      .then((response) => {
+        setUser(response.data);
+        setEmployer(response.data.employer[0]);
+      })
+      .catch((error) => {
+        console.warn(error);
+        navigate("/error");
+      });
   };
 
-  const fakeEmployer = {
-    id: 1,
-    displayName: "Lora Perrichon",
-    dateCreated: "01-01-2022",
-    description: "Maman d'un enfant souffrant de troubles autistiques...",
-    available: true,
-  };
+  useEffect(() => getuser(), []);
 
   return (
     <Box h="100vh">
@@ -38,7 +42,7 @@ export default function ProfilPageEmployer({ annonce }) {
         paddingY="30px"
         paddingTop="150px"
       >
-        <BannerProfileEmployer employer={fakeEmployer} />
+        <BannerProfileEmployer employer={employer} />
         <Flex
           w={{ base: "95%", lg: "80%" }}
           gap="20px"
@@ -53,7 +57,7 @@ export default function ProfilPageEmployer({ annonce }) {
             gap="20px"
             flexDir="column"
           >
-            <AccountCard user={fakeUser} />
+            <AccountCard user={user} />
           </Flex>
           <Flex
             bgColor="background.gray"
