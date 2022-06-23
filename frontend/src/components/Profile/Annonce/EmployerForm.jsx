@@ -42,7 +42,7 @@ export default function EmployerForm() {
   };
 
   // fonction retrait d'ajout d'un item //
-  const addItem = (e) => {
+  const expertise = (e) => {
     if (e.target.value !== "" && !tags.includes(e.target.value)) {
       setTags([...tags, e.target.value]);
       e.target.value = "";
@@ -200,9 +200,9 @@ export default function EmployerForm() {
                 fontWeight="500"
                 color="gray"
                 placeholder="Choisissez un ou plusieurs services dans la liste, tapez des mots clés pour filtrer"
-                onChange={addItem}
+                onChange={expertise}
                 onKeyUp={(event) =>
-                  event.key === "Enter" ? addItem(event) : null
+                  event.key === "Enter" ? expertise(event) : null
                 }
               >
                 <option value="Conseils éducatifs">Conseils éducatifs</option>
