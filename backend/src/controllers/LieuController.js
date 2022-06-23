@@ -1,6 +1,7 @@
 // const { findOneFreelancer } = require("../models/freelancer");
 const {
   createOneLocation,
+  getAllLocations,
   //   getAllLocationsbyAnnonceId,
   //   updateOneLocation,
   //   deleteOneLocation,
@@ -29,16 +30,28 @@ const createOne = async (req, res) => {
   }
 };
 
-// const getAll = async (req, res) => {
-//   const freelancerId = parseInt(req.params.freelancerid, 10);
+// const getAllByAnnonce = async (req, res) => {
+//   const annonceId = parseInt(req.params.annonceid, 10);
 //   try {
-//     const diplomalist = await getAllDiplomabyFreelancerId(freelancerId);
-//     return res.status(201).send(diplomalist);
+//     const locationlist = await getAllLocationsbyAnnonceId(annonceId);
+//     return res.status(201).send(locationlist);
 //   } catch (e) {
 //     console.error(e);
-//     return res.status(500).json({ error: "Problème de lecture des diplômes" });
+//     return res.status(500).json({ error: "Problème de lecture des lieux" });
 //   }
 // };
+
+const getAll = async (req, res) => {
+  try {
+    const locations = await getAllLocations();
+    if (!locations) {
+      return res.status(404).send(`There are no locations yet`);
+    }
+    return res.status(200).json(locations);
+  } catch (e) {
+    return res.status(500).json({ error: "Problème de lecture des lieux" });
+  }
+};
 
 // const getOne = async (req, res) => {
 //   const freelancerId = parseInt(req.params.freelancerid, 10);
@@ -132,4 +145,4 @@ const createOne = async (req, res) => {
 //       .json({ error: "Problème de suppression de l'entrée diplôme" });
 //   }
 // };
-module.exports = { createOne };
+module.exports = { createOne, getAll };

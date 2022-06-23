@@ -107,6 +107,7 @@ router.delete(
 );
 
 // Routes for Lieu
-router.post("/employers/lieu", LieuController.createOne);
+router.post("/annonces/lieu", LieuController.createOne);
+router.get("/annonces/lieux", LieuController.getAll);
 
 module.exports = router;
