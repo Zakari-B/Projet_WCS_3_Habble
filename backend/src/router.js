@@ -58,6 +58,7 @@ router.get(
 router.get("/employers/", EmployerController.getAll);
 router.get("/employers/:id", EmployerController.getOne);
 router.put("/employers/:id", EmployerController.updateOne);
+router.get("/employers/:id/user", EmployerController.getUserFromEmployer);
 
 // Routes for Diplomes
 router.post(

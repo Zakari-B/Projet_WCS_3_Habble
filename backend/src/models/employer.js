@@ -51,3 +51,37 @@ exports.findOneEmployerByUserId = async (id) => {
     await prisma.$disconnect();
   }
 };
+
+exports.getUserFromEmployer = async (userId) => {
+  try {
+    return await prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
+      include: {
+        employer: true,
+      },
+    });
+  } finally {
+    await prisma.$disconnect();
+  }
+};
+
+exports.getAllEmployerProfileInfo = async (employerId) => {
+  try {
+    return await prisma.employer.findUnique({
+      where: {
+        id: employerId,
+      },
+      // include: {
+      //   annonces: {
+      //     orderBy: {
+      //       dateCreated: "desc",
+      //     },
+      //   },
+      // },
+    });
+  } finally {
+    await prisma.$disconnect();
+  }
+};

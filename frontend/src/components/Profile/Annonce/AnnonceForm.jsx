@@ -2,7 +2,7 @@ import { Flex, Box } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
 import Header from "../../Header/Header";
 import Footer from "../../Footer";
-import EmployerForm from "../../EmployerForm";
+import EmployerForm from "./EmployerForm";
 
 export default function FormAnnonce() {
   const { freelancerId } = useParams();
