@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import axios from "axios";
 import {
   Box,
   Text,
@@ -14,6 +13,7 @@ import {
   Flex,
   Heading,
 } from "@chakra-ui/react";
+import backendAPI from "../services/backendAPI";
 
 import Header from "./Header/Header";
 import Footer from "./Footer";
@@ -27,17 +27,20 @@ const loginForm = () => {
 
   const handleSubmit = () => {
     if (loginEmail && loginPassword) {
-      axios
-        .post("http://localhost:5001/api/auth/login", {
+      backendAPI
+        .post("/api/auth/login", {
           email: loginEmail,
           password: loginPassword,
           remember: rememberMe,
         })
         .then((response) => {
+          if (response.status === 200) {
+            window.localStorage.setItem("isUserLoggedIn", true);
+          }
           if (response.data.type !== "freelancer") {
             navigate("/");
           } else {
-            navigate("/profil/3");
+            navigate(`/profil/${response.data.fkId}`);
           }
         })
         .catch((error) => {

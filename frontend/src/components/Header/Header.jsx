@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Flex,
   Text,
@@ -16,6 +16,7 @@ import { ChevronDownIcon } from "@chakra-ui/icons";
 import PropTypes from "prop-types";
 import { BiLogOut, BiChat, BiUser } from "react-icons/bi";
 import { GrAnnounce } from "react-icons/gr";
+import backendAPI from "../../services/backendAPI";
 
 import HeaderDrawer from "./HeaderDrawer";
 import Logo from "../Logo";
@@ -28,6 +29,13 @@ export default function Header({
   isSignUp = false,
 }) {
   const [scrollPosition, setScrollPosition] = useState(0);
+  const navigate = useNavigate();
+
+  const logout = () => {
+    navigate("/");
+    window.localStorage.removeItem("isUserLoggedIn");
+    backendAPI.get("/api/auth/logout");
+  };
 
   const handleScroll = () => {
     setScrollPosition(window.pageYOffset);
@@ -113,7 +121,11 @@ export default function Header({
                 </MenuGroup>
 
                 <MenuDivider />
-                <MenuItem color="pink.light" icon={<BiLogOut />}>
+                <MenuItem
+                  onClick={() => logout()}
+                  color="pink.light"
+                  icon={<BiLogOut />}
+                >
                   DÉCONNEXION
                 </MenuItem>
               </MenuList>
