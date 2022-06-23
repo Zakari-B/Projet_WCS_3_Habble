@@ -1,31 +1,33 @@
 const nodemailer = require("nodemailer");
 
-async function mailer({ lastname, firstname, email, phone, message }) {
-  // create reusable transporter object using the default SMTP transport
+require("dotenv").config();
+
+// async function mailer({ lastname, firstname, email, phone, message }) {
+const sendMail = async (data, template) => {
   const transporter = nodemailer.createTransport({
-    host: "", // Serveur de messagerie
-    port: 587,
-    secure: false, // true for 465, false for other ports
+    host: process.env.SMTP_HOST,
+    port: process.env.SMTP_PORT,
+    secure: false,
     auth: {
-      user: process.env.MAIL_USERNAME,
-      pass: process.env.MAIL_PASSWORD,
+      user: process.env.SMTP_USER,
+      pass: process.env.SMTP_PASSWORD,
     },
   });
 
-  // send mail with defined transport object
-  const info = await transporter.sendMail({
-    from: `"${lastname} ${firstname}" <${email}>`,
-    to: "admin@habble.fr", // Mettre le vrai mail de habble
-    subject: `Formulaire de contact : ${lastname} ${firstname}`,
-    text: `${message}, ${phone}`,
-  });
+  const mailOption = {
+    from:
+      data.recipient === "habble"
+        ? `${data.firstname} ${data.lastname} <${data.email}>`
+        : `Habble <${process.env.SMTP_USER}>`,
+    to: data.recipient === "habble" ? `Habble <no-reply@abble.fr>` : data.email,
+    subject: template.subject,
+    html: template.body,
+  };
 
-  console.error("Message sent: %s", info.messageId);
-  // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
+  return transporter
+    .sendMail(mailOption)
+    .then((info) => console.warn(info))
+    .catch((err) => console.warn(err));
+};
 
-  // Preview only available when sending through an Ethereal account
-  console.error("Preview URL: %s", nodemailer.getTestMessageUrl(info));
-  // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
-}
-
-mailer().catch(console.error);
+module.exports = { sendMail };
