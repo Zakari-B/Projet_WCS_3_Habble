@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Flex,
   Text,
@@ -26,21 +26,37 @@ export default function Header({
   onDark = false,
   isSticky = false,
   isStickyWhite = false,
-  isSignUp = false,
 }) {
   const [scrollPosition, setScrollPosition] = useState(0);
+  const [isSignUp, setIsSignUp] = useState(
+    JSON.parse(localStorage.getItem("isUserLoggedIn"))
+  );
+  const navigate = useNavigate();
 
   const logout = () => {
-    window.localStorage.removeItem("isUserLoggedIn");
-    backendAPI.get("/api/auth/logout");
+    navigate("/logout");
   };
 
   const handleScroll = () => {
     setScrollPosition(window.pageYOffset);
   };
+
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
+    if (JSON.parse(localStorage.getItem("isUserLoggedIn"))) {
+      backendAPI
+        .get("/api/auth/sessionControl")
+        .then((res) => {
+          if (res.data.sessionExpired === false) {
+            setIsSignUp(true);
+          }
+        })
+        .catch((err) => console.error(err));
+    }
   }, []);
 
   return (
@@ -87,7 +103,7 @@ export default function Header({
               </Text>
             </Link>
           </Flex>
-          {isSignUp ? (
+          {isSignUp === true ? (
             <Menu>
               <MenuButton
                 as={Button}
@@ -120,7 +136,7 @@ export default function Header({
 
                 <MenuDivider />
                 <MenuItem
-                  onClick={() => logout()}
+                  onClick={logout}
                   color="pink.light"
                   icon={<BiLogOut />}
                 >
@@ -179,5 +195,4 @@ Header.propTypes = {
   isSticky: PropTypes.bool.isRequired,
   isStickyWhite: PropTypes.bool.isRequired,
   onDark: PropTypes.bool.isRequired,
-  isSignUp: PropTypes.bool.isRequired,
 };

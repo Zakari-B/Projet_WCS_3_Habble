@@ -9,6 +9,7 @@ import {
   Divider,
   Flex,
   Heading,
+  useToast,
 } from "@chakra-ui/react";
 import backendAPI from "../services/backendAPI";
 import "../App.css";
@@ -24,6 +25,7 @@ const signupForm = () => {
   const signupRole = searchParams.get("role");
 
   const navigate = useNavigate();
+  const toast = useToast();
 
   const handleSubmit = () => {
     backendAPI
@@ -35,15 +37,33 @@ const signupForm = () => {
         role: signupRole,
       })
       .then((response) => {
+        if (response) {
+          toast({
+            title: "Vous avez bien créez votre compte.",
+            description: "Bienvenu chez nous !",
+            status: "success",
+            duration: 2000,
+            position: "bottom-right",
+            isClosable: true,
+          });
+        }
         if (response.data.userAccount.role === "employer") {
           navigate(`/profil-employer/${response.data.employerCreated.id}`);
         } else if (response.data.userAccount.role === "freelancer") {
-          navigate(
-            `/register-onboarding-pro/${response.data.freelancerCreated.id}`
-          );
+          navigate(`/welcome-pro/${response.data.freelancerCreated.id}`);
         }
       })
       .catch((error) => {
+        if (error) {
+          toast({
+            title:
+              "Une erreur est survenue lors de la création de votre compte.",
+            status: "error",
+            duration: 2000,
+            position: "bottom-right",
+            isClosable: true,
+          });
+        }
         console.warn(error);
       });
   };
