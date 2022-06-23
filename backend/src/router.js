@@ -113,5 +113,8 @@ router.delete(
 // Routes for Lieu
 router.post("/annonces/lieu", LieuController.createOne);
 router.get("/annonces/lieux", LieuController.getAll);
+router.get("/annonces/lieu/:id", LieuController.getOne);
+router.put("/annonces/lieu/:id", LieuController.updateOne);
+router.delete("/annonces/lieu/:id", LieuController.deleteOne);
 
 module.exports = router;
