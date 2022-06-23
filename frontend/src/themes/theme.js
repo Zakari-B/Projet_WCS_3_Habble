@@ -71,11 +71,40 @@ const theme = extendTheme({
             color: "purple.light",
           },
         }),
+        solid_gradient: () => ({
+          bgGradient:
+            "linear-gradient(to-r, #a7197f 0%, #4d1582 51%, #a7197f 100%)",
+          bgSize: "200%",
+          color: "white",
+          fontWeight: "500",
+          borderRadius: "4px",
+        }),
         outline: () => ({
           bg: "transparent",
           border: "2px solid",
           fontWeight: "500",
           borderColor: "black",
+        }),
+        outlineAlternative: () => ({
+          bg: "transparent",
+          border: "2px dashed",
+          color: "pink.light",
+          fontWeight: "500",
+          borderColor: "lightgray",
+          _hover: {
+            backgroundColor: "lightgray",
+          },
+        }),
+        outlineWhite: () => ({
+          bg: "transparent",
+          border: "2px solid",
+          fontWeight: "500",
+          borderColor: "white",
+          color: "white",
+          _hover: {
+            color: "pink.light",
+            backgroundColor: "lightgray",
+          },
         }),
         outlineWhitePink: () => ({
           bg: "white",
@@ -112,6 +141,14 @@ const theme = extendTheme({
           borderColor: "purple.average",
           color: "purple.average",
           _hover: { bgColor: "purple.average", color: "white" },
+        }),
+        outline_Pink: () => ({
+          bg: "transparent",
+          border: "2px solid",
+          fontWeight: "500",
+          borderColor: "pink.light",
+          color: "pink.light",
+          _hover: { bgColor: "pink.light", color: "white" },
         }),
         outline_White_Gradient: () => ({
           bg: "transparent",

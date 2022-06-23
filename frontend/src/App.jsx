@@ -8,6 +8,14 @@ import ProAccueil from "./pages/ProAccueil";
 import LoginForm from "./components/LoginForm";
 import PasswordReset from "./components/PasswordReset";
 import ProfilPageProfessional from "./pages/ProfilPageProfessional";
+import Error from "./pages/Error";
+import SearchProfessionals from "./pages/SearchProfessionals";
+import Contact from "./pages/Contact";
+import RegisterOnboardingPro from "./pages/RegisterOnboardingPro";
+import WelcomeInscPro from "./pages/WelcomeInscPro";
+import FormAnnonce from "./components/Profile/Annonce/AnnonceForm";
+import ProfilPageEmployer from "./pages/ProfilPageEmployer";
+import Logout from "./pages/Logout";
 
 import "./App.css";
 
@@ -17,16 +25,30 @@ function App() {
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/le-projet" element={<Mission />} />
-        {/* <Route path="/contact" element={<Contact />} /> */}
-        <Route path="/le-projet" element={<Mission />} />
+        <Route path="/contact" element={<Contact />} />
         <Route path="/mentions-legales" element={<MentionsLegales />} />
         <Route path="/confidentialite" element={<Confidentialite />} />
         <Route path="/professionnel-handicap" element={<ProAccueil />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<LoginForm />} />
-        {/* <Route path="*" element={<Error />} /> */}
+        <Route path="*" element={<Error />} />
         <Route path="/forgot-password" element={<PasswordReset />} />
-        <Route path="/profil" element={<ProfilPageProfessional />} />
+        <Route
+          path="/profil/:freelancerId"
+          element={<ProfilPageProfessional />}
+        />
+        <Route
+          path="/register-onboarding-pro/:freelancerId"
+          element={<RegisterOnboardingPro />}
+        />
+        <Route path="/profils" element={<SearchProfessionals />} />
+        <Route path="/welcome-pro/:freelancerId" element={<WelcomeInscPro />} />
+        <Route path="/deposer-une-annonce" element={<FormAnnonce />} />
+        <Route
+          path="/profil-employer/:employerId"
+          element={<ProfilPageEmployer />}
+        />
+        <Route path="/logout" element={<Logout />} />
       </Routes>
     </div>
   );

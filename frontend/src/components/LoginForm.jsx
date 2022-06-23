@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import {
   Box,
   Text,
@@ -12,7 +12,9 @@ import {
   Divider,
   Flex,
   Heading,
+  useToast,
 } from "@chakra-ui/react";
+import backendAPI from "../services/backendAPI";
 
 import Header from "./Header/Header";
 import Footer from "./Footer";
@@ -21,6 +23,56 @@ const loginForm = () => {
   const [loginEmail, setLoginEmail] = useState("");
   const [loginPassword, setLoginPassword] = useState("");
   const [rememberMe, setRememberMe] = useState(false);
+
+  const navigate = useNavigate();
+  const toast = useToast();
+
+  const handleSubmit = () => {
+    if (loginEmail && loginPassword) {
+      backendAPI
+        .post("/api/auth/login", {
+          email: loginEmail,
+          password: loginPassword,
+          remember: rememberMe,
+        })
+        .then((response) => {
+          if (response) {
+            toast({
+              title: "Vous êtes bien connecté(e).",
+              description: "Content de vous revoir !",
+              status: "success",
+              duration: 2000,
+              position: "bottom-right",
+              isClosable: true,
+            });
+            if (response.status === 200) {
+              window.localStorage.setItem("isUserLoggedIn", true);
+            }
+          }
+          if (response.data.type !== "freelancer") {
+            navigate(`/profil-employer/${response.data.fkId}`);
+          } else {
+            return response.data.profileIsComplete
+              ? navigate(`/profil/${response.data.fkId}`)
+              : navigate(`/register-onboarding-pro/${response.data.fkId}`);
+          }
+          return null;
+        })
+        .catch((error) => {
+          if (error) {
+            toast({
+              title: "Une erreur est survenue lors de la connexion.",
+              description: `${error.response.data.message}`,
+              status: "error",
+              duration: 2000,
+              position: "bottom-right",
+              isClosable: true,
+            });
+          }
+          console.warn(error);
+        });
+    }
+  };
 
   return (
     <Box bgColor="background.gray" h="100vh">
@@ -95,7 +147,7 @@ const loginForm = () => {
             <Button
               variant="solid_PrimaryColor"
               type="button"
-              onClick={() => null()}
+              onClick={handleSubmit}
             >
               Se connecter
             </Button>

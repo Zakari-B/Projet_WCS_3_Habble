@@ -68,9 +68,9 @@ function Mission() {
         handicap
       </Text>
       <Text mb="1rem" fontSize="sm" color="white">
-        Vous avez besoin de l'aide d'un professionnel du handicap rapidement ?
-        De materiel ou un logiciel ? Vous cherchez une structure dédiée ?
-        Trouvez toutes les ressources dont vous avez besoin sont sur Habble :
+        Vous avez besoin de l'aide d'un professionnel du handicap rapidement ? ?
+        Vous cherchez une structure dédiée ? Trouvez toutes les ressources dont
+        vous avez besoin sont sur Habble :
       </Text>
       <UnorderedList ml="2rem">
         <ListItem mb="1rem" fontSize="sm" color="white">
@@ -89,8 +89,8 @@ function Mission() {
         </ListItem>
       </UnorderedList>
       <Text mb="1rem" fontSize="sm" color="white">
-        Echangez par messagerie ou chat en ligne sur ce dont vous avez besoin et
-        à quel moment et payez la prestation directement sur la plateforme en
+        Échangez par messagerie ou chat en ligne sur ce dont vous avez besoin et
+        à quel moment et payer la prestation directement sur la plateforme en
         toute sécurité. Ayez l'esprit tranquille, nous vérifions les
         qualifications des intervenants !
       </Text>
@@ -117,7 +117,7 @@ function Mission() {
           Définition du plan d’aides;
         </ListItem>
         <ListItem mb="1rem" fontSize="sm" color="white">
-          Aide aux démarches administrives.
+          Aide aux démarches administratives.
         </ListItem>
       </UnorderedList>
     </Flex>
@@ -131,16 +131,16 @@ function Mission() {
         mb="1rem"
         color="white"
       >
-        Garanties et paiement sécurisé avec un arbitrage pour les litiges
+        Garanties et arbitrage pour les litiges
       </Text>
       <Text mb="1rem" fontSize="sm" color="white">
-        Nous assurons une sélection drastique des professionnels pour garantir
-        leurs compétences et leur fiabilité afin d'assurer une haute qualité de
-        service.
+        Nous assurons une vérification des compétences des professionnels pour
+        garantir leur fiabilité et d'assurer une haute qualité de service.
+        Chaque intervenant proposé est signataire de notre charte et nous
+        vérifions ses informations.
       </Text>
       <Text mb="1rem" fontSize="sm" color="white">
-        Lorsqu’un utilisateur demande notre assistance, le paiement au
-        professionnel est momentanément suspendu jusqu’à résolution du problème.
+        En cas de conflit, nos services sont disponibles pour vous assister.
       </Text>
     </Flex>
   );
@@ -157,20 +157,9 @@ function Mission() {
         Informations, conseils
       </Text>
       <Text mb="1rem" fontSize="sm" color="white">
-        Notre blog vous permet d'accéder aux dernières actualités du secteur:
-        les droits applicables, des dossiers thématiques, des informations sur
-        les modalités d'accompagnement, ... Enfin, un espace vous permet
-        d'échanger simplement sur vos besoins et de recevoir des conseils
-        d'autres personnes sensibilisées à votre problématique.
+        Notre blog vous permet d'accéder aux dernières actualités du secteur en
+        matière de handicap et d’autonomie.
       </Text>
-      <UnorderedList ml="2rem">
-        <ListItem mb="1rem" fontSize="sm" color="white">
-          Information de qualité actualisée;
-        </ListItem>
-        <ListItem mb="1rem" fontSize="sm" color="white">
-          Echanges entre pairs.
-        </ListItem>
-      </UnorderedList>
     </Flex>
   );
   const coordination = (
@@ -186,21 +175,16 @@ function Mission() {
       </Text>
       <Text mb="1rem" fontSize="sm" color="white">
         Vous recourez à plusieurs intervenants? Simplifiez vous la vie en
-        suivant leur programmation sur un même agenda.
+        suivant leur programmation sur un même agenda. Nous mettons à votre
+        disposition un tableau de bord pour suivre votre projet personnalisé.
       </Text>
       <Text mb="1rem" fontSize="sm" color="white">
-        Nous mettons à votre disposition un tableau de bord pour suivre votre
-        projet personnalisé.
-      </Text>
-      <Text mb="1rem" fontSize="sm" color="white">
-        Vous choississez les informations que vous souhaitez partager avec les
+        Vous choisissez les informations que vous souhaitez partager avec les
         professionnels et vous conservez un accès permanent à l'ensemble de vos
         données.
       </Text>
       <Text mb="1rem" fontSize="sm" color="white">
-        Notre vise donc à faciliter le maintien à domicile de la personne, à
-        garantir une qualité d’accompagnement ainsi qu’à alléger voire supprimer
-        la charge des proches aidants (parents, amis, ...).
+        Notre service facilite le maintien à domicile de la personne.
       </Text>
     </Flex>
   );
@@ -217,31 +201,18 @@ function Mission() {
       </Text>
       <Text mb="1rem" fontSize="sm" color="white">
         Habble est un acteur de l'économie sociale et solidaire. Nous sommes une
-        société d'utilité sociale régit par des valeurs et une charte éthique.
-        Notre but est de changer le regard sur le handicap.
+        association privée non lucrative régie par des valeurs et une charte
+        éthique. Notre but est de changer le regard sur le handicap.
       </Text>
       <Text mb="1rem" fontSize="sm" color="white">
         Notre fonctionnement est simple: toutes les personnes concernées par
         notre service méritent notre écoute et sont invitées à nous faire
-        connaître leurs souhaits d'évolution. Nous avons la conviction que
-        l'intelligence collective est bien plus efficace qu'une organisation
-        pyramidale. Notre structure est autonome et son coût de fonctionnement
-        est garantie par les frais d'assurance qualité et nos prestations
-        d'éditeurs.
-      </Text>
-      <Text mb="1rem" fontSize="sm" color="white">
-        Notre politique est de vous offrir la meilleure expérience possible au
-        juste coût. C'est pourquoi nos frais de gestion sont limités au stricte
-        minimum.
-      </Text>
-      <Text mb="1rem" fontSize="sm" color="white">
-        Nous sommes également engagés pour la planète, notre société veille à
-        préserver l'environnement en appliquant notamment une politique 0
-        papier.
+        connaître leurs souhaits d'évolution. Notre politique est de vous offrir
+        la meilleure expérience possible à moindre coût.
       </Text>
       <Text mb="1rem" fontSize="sm" color="white">
         Le choix d'une structure solidaire nous a donc paru évident ; ce statut
-        reflêtant les valeurs que nous souhaitons porter :
+        reflétant les valeurs que nous souhaitons porter :
       </Text>
       <UnorderedList ml="2rem">
         <ListItem mb="1rem" fontSize="sm" color="white">
@@ -249,9 +220,6 @@ function Mission() {
         </ListItem>
         <ListItem mb="1rem" fontSize="sm" color="white">
           Solidarité, Economie sociale et solidaire
-        </ListItem>
-        <ListItem mb="1rem" fontSize="sm" color="white">
-          Responsabilité sociétale des entreprises, intelligence collective
         </ListItem>
         <ListItem mb="1rem" fontSize="sm" color="white">
           Utilité et impact social
@@ -262,18 +230,6 @@ function Mission() {
         <ListItem mb="1rem" fontSize="sm" color="white">
           Amélioration des conditions d’existence
         </ListItem>
-        <ListItem mb="1rem" fontSize="sm" color="white">
-          Épanouissement de la personne humaine
-        </ListItem>
-        <ListItem mb="1rem" fontSize="sm" color="white">
-          Lutte contre les injustices
-        </ListItem>
-        <ListItem mb="1rem" fontSize="sm" color="white">
-          Responsabilité, formation des individus
-        </ListItem>
-        <ListItem mb="1rem" fontSize="sm" color="white">
-          Innovation économique et sociale
-        </ListItem>
       </UnorderedList>
     </Flex>
   );
@@ -282,11 +238,12 @@ function Mission() {
 
   return (
     <div>
-      <Header onDark={false} isSticky={false} />
+      <Header onDark={false} isSticky={false} isStickyWhite />
       <Flex
         justifyContent="space-between"
+        paddingTop="100px"
         pl="1rem"
-        h="70vh"
+        minH="70vh"
         paddingX={{ base: "15%", lg: "5%" }}
         backgroundColor="#f9f9f9"
       >
@@ -306,8 +263,10 @@ function Mission() {
             lineHeight="1.3"
             fontSize={{ base: "3xl", md: "5xl" }}
             fontWeight="semibold"
+            marginTop="3rem"
           >
-            Habble : votre pouvoir d'agir
+            Habble : <br />
+            Notre priorité, c’est vous
           </Text>
           <Text
             w="90%"
@@ -317,8 +276,8 @@ function Mission() {
             color="#494848"
             lineHeight="1.2"
           >
-            La première plateforme de services gratuite de professionnels du
-            handicap et du soin.
+            La première plateforme de services dédiée à l’accompagnement du
+            handicap à domicile
           </Text>
           <Flex flexDirection="column" justifyContent="space-around" h="50%">
             <Box>
@@ -466,65 +425,25 @@ function Mission() {
           Notre mission
         </Text>
         <Text mb="1rem" fontSize="sm">
-          L’objectif de notre service est de favoriser la qualité de vie des
-          personnes en situation de handicap ou atteintes de problèmes de santé.
-          Il vise à proposer des solutions de répit, d'accompagnement, de soin
-          et de soutien. Il référence toutes les ressources nécessaires à
-          l’accompagnement : information,aides humaines, techniques et
-          technologiques.
-        </Text>
-        <Text mb="1rem" fontSize="sm">
-          {" "}
-          Habble propose deux services complémentaires :
-        </Text>
-        <UnorderedList m="0">
-          <ListItem mb="1rem" fontSize="sm">
-            <strong Style="background: linear-gradient(45deg, #4d1582 0%, #a7197f 100%); background-clip: text; -webkit-background-clip: text; color: transparent;">
-              Habble
-            </strong>
-            , application pour faciliter l'autonomie et le droit au repit des
-            personnes en situation de handicap et/ou connaissant des problèmes
-            de santé. Présentée sous forme d'annuaire, elle permet de trouver
-            des intervenants disponibles et compétents pour les accompagner
-            ponctuellement ou durablement : garde, aide aux devoirs, aide
-            administrative, repas, transport, bien-être... Pour les
-            professionnels (libéraux, autoentrepreneurs, société,
-            association,...), elle permet de mettre en avant leur savoir faire
-            et de faire connaître leur offre de services.
-          </ListItem>
-          <ListItem mb="1rem" fontSize="sm">
-            <strong Style="background: linear-gradient(45deg, #4d1582 0%, #a7197f 100%); background-clip: text; -webkit-background-clip: text; color: transparent;">
-              Handiplanner
-            </strong>
-            , plateforme de services coordonnés dédiée aux acteurs du médico
-            social et des services à la personne. Elle vise à valoriser leur
-            offre et coordonner les interventions. Elle facilite la continuité
-            des accompagnements ainsi que le soutien auprès des aidants. Elle
-            est interopérable avec les dossiers de l'usager et les outils de
-            gestion préexistants.
-          </ListItem>
-        </UnorderedList>
-        <Text mb="1rem" fontSize="sm">
-          Notre solution permet aux personnes en situation de handicap,
-          atteintes de problèmes de santé et à leurs proches de trouver
-          simplement une solution d'aide ou de répit adaptée à leur besoins.
-          Elle s’appuie sur une plateforme digitale facilitant l’accès aux
-          droits et permettant d’apporter un service à la carte (mise en
-          relation, coordination des intervenants libéraux, éducatifs, médico
-          sociaux, services à la personne, transports spécialisés …). Elle vise
-          à mettre en avant les spécificités des acteurs existants et garantir
-          le savoir faire des intervenants. Nos prestations permettent en
-          corollaire aux travailleurs sociaux, médico sociaux et pédagogiques de
-          proposer leur offre de service de manière simple et accessible.
-        </Text>
-        <Text mb="1rem" fontSize="sm">
-          Les services proposés doivent ainsi{" "}
-          <strong>permettre sans délai</strong> la définition d’un plan de
-          compensation en adéquation avec les besoins et capacités de la
-          personne en situation de handicap ou atteinte de problèmes de santé.
-          Ceux-ci doivent permettre un accompagnement adapté, simple et sans
-          délai et enfin faciliter le quotidien de la personne et de son proche
-          de soutien.
+          <strong Style="background: linear-gradient(45deg, #4d1582 0%, #a7197f 100%); background-clip: text; -webkit-background-clip: text; color: transparent;">
+            Habble{" "}
+          </strong>{" "}
+          est une association à but non lucratif. Notre objectif est de
+          favoriser la qualité de vie des personnes en situation de handicap ou
+          atteintes de problèmes de santé. Il propose des{" "}
+          <strong Style="background: linear-gradient(45deg, #4d1582 0%, #a7197f 100%); background-clip: text; -webkit-background-clip: text; color: transparent;">
+            solutions de garde, d'accompagnement éducatif, de répit, ...{" "}
+          </strong>{" "}
+          Il référence toutes les ressources nécessaires à l’accompagnement :
+          éducateurs, assistante sociale, auxiliaire de vie,
+          ergothérapeuthe,..., Notre solution permet de trouver simplement une
+          solution d'aide ou de répit adaptée à son besoin et sans délai. Pour
+          les travailleurs sociaux, médico-sociaux et pédagogiques, notre
+          service permet de proposer leur offre de service de manière simple et
+          accessible.{" "}
+          <strong Style="background: linear-gradient(45deg, #4d1582 0%, #a7197f 100%); background-clip: text; -webkit-background-clip: text; color: transparent;">
+            Nos services sont gratuits !{" "}
+          </strong>
         </Text>
       </Flex>
       <Flex
@@ -1028,16 +947,13 @@ function Mission() {
           Pourquoi s'inscrire ?
         </Text>
         <Text mb="1rem" fontSize="sm">
-          Notre service de mise en relation est gratuit. Dès votre inscription
-          il vous est possible de déposer votre annonce ou de trouver un
-          intervenant.
+          <strong>Notre service de mise en relation est gratuit.</strong> Dès
+          votre inscription il vous est possible de nous transmettre votre
+          besoin ou de trouver un intervenant.
         </Text>
         <Text mb="1rem" fontSize="sm">
           Pour les professionnels, notre site vous aide à développer votre
-          visibilité et faciliter la mise en relation. L’inscription est
-          gratuite et aucun frais ne vous sera demandé pour être présent dans
-          l’annuaire. Nous vous proposons également des services pour vous
-          faciliter le quotidien.
+          visibilité et faciliter la mise en relation.
         </Text>
         <Link _hover={{ textDecor: "none" }} href="/register">
           <Button
@@ -1070,16 +986,22 @@ function Mission() {
           Pourquoi nous aider ?
         </Text>
         <Text mb="1rem" fontSize="sm">
-          Aujourd’hui en France, plus de 12 000 000 de personnes souffrent d'un
-          handicap ou d'un problème de santé. Plus de 50 000 sont sans solution
-          d’accompagnement. Certaines doivent parfois attendre près de 10 ans
-          pour trouver un établissement adapté. Beaucoup souhaitent également un
-          accompagnement à domicile, souple et adapté. Notre service vise à
-          répondre à ces personnes et à leurs proches,à simplifier leur
-          quotidien en apportant un accompagnement à la carte. Votre soutien
-          vise à accélerer le démarrage du service. Votre aide sert à développer
-          la plateforme et informer les personnes en situation de handicap des
-          solutions proposées.
+          Aujourd’hui en France,{" "}
+          <strong>
+            plus de 12 000 000 de personnes souffrent d'un handicap ou d'un
+            problème de santé. Plus de 50 000 sont sans solution
+            d’accompagnement.
+          </strong>{" "}
+          <br /> <br />
+          Certaines doivent parfois attendre près de 10 ans pour trouver un
+          établissement adapté. Beaucoup souhaitent également un accompagnement
+          à domicile, souple et adapté. <br /> <br />
+          Notre service vise à répondre à ces personnes et à leurs proches, à
+          simplifier leur quotidien en apportant un accompagnement à la carte.
+          <br /> <br />
+          Vous pouvez soutenir le développement de notre association. Votre aide
+          sert à développer la plateforme et informer les personnes en situation
+          de handicap des solutions proposées.
         </Text>
         <Link
           _hover={{ textDecor: "none" }}

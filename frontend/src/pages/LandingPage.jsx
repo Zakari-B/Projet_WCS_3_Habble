@@ -42,7 +42,7 @@ export default function LandingPage() {
         bgSize="cover"
         bgPos="center"
       >
-        <Header onDark isSticky />
+        <Header onDark isSticky isStickyWhite={false} />
         <Box
           maxW="1280px"
           w={{ base: "100%", "2xl": "60%" }}
@@ -207,9 +207,9 @@ export default function LandingPage() {
             }}
           >
             <Flex flexDir="column" alignItems="center">
-              <Image src={Chat} pos="relative" w="5rem" />
+              <Image src={Chat} w="5rem" />
               <Heading as="h4" mt="2rem" fontSize="1.5rem" fontWeight="500">
-                Déposez une annonce
+                Transmettez nous votre demande
               </Heading>
               <Text
                 color="#656565"
@@ -220,9 +220,11 @@ export default function LandingPage() {
                 align="center"
               >
                 Inscrivez vous gratuitement à Habble et dîtes nous de quel
-                services vous avez besoin et à quel moment. Recevez des
-                propositions de professionnels, discutez avec eux des détails,
-                choisissez la proposition la plus adaptée puis profitez !
+                service vous avez besoin et à quel moment : garde, éducation
+                spécialisée, aide administrative, auxiliaire de vie,
+                ergothérapeuthe... Recevez des propositions de professionnels,
+                discutez avec eux des détails, choisissez la proposition la plus
+                adaptée puis profitez !
               </Text>
             </Flex>
           </Box>
@@ -254,10 +256,12 @@ export default function LandingPage() {
                 fontSize="md"
                 align="center"
               >
-                Parcourez les profils des professionnels indépendants dans votre
-                région. Ils ont tous été vérifiés pour votre tranquillité
-                d'esprit. Affinez votre recherche avec les options de filtre et
-                de tri : disponibilité, compétences et plus encore.
+                Parcourez les profils des professionnels de votre région. Ils
+                ont tous été vérifiés pour votre tranquillité d'esprit. Affinez
+                votre recherche avec les options de filtre et de tri :
+                disponibilité, compétences et plus encore. <br />
+                <br />
+                Trouver un professionnel du handicap
               </Text>
             </Flex>
           </Box>
@@ -296,8 +300,8 @@ export default function LandingPage() {
               fontWeight="500"
               textAlign={{ base: "center", md: "left" }}
             >
-              Accédez à un réseau de soin et de soutien spécialisé dans le
-              handicap simple, sûr et disponible.
+              Accédez à un réseau de soutien spécialisé dans le handicap simple,
+              sûr et disponible.
             </Heading>
             <Text
               color="#656565"
@@ -355,7 +359,7 @@ export default function LandingPage() {
             </Heading>
             <Text color="#656565" mt="2rem" mb="1rem" fontSize="md">
               Les professionnels indépendants et services spécialisés répondent
-              à des critères stricts : références, qualifications,... Nous
+              à des critères stricts : références, qualifications... Nous
               vérifions les agréments pour plus de sureté et sécurité. <br />
               <br />
               Un contact disponible en cas d'urgence.
@@ -372,9 +376,8 @@ export default function LandingPage() {
               Assurance tous risques
             </Heading>
             <Text color="#656565" mt="2rem" mb="1rem" fontSize="md">
-              Tous les professionels indépendants sont couverts par une
-              assurance tous risques pour garantir la tranquillité d'esprit pour
-              vous et votre famille.
+              Nous vérifions les compétences et informations des professionnels
+              pour garantir la tranquillité d'esprit pour vous et votre famille.
             </Text>
           </Box>
         </Flex>
@@ -550,6 +553,7 @@ export default function LandingPage() {
           </Box>
         </Flex>
       </Box>
+
       <Box
         w="100%"
         bgColor="#5f3984"
@@ -559,51 +563,41 @@ export default function LandingPage() {
         bgSize="70%"
       >
         <Box
-          w={{ base: "100%", "2xl": "50%" }}
-          paddingLeft={{ "2xl": "20rem" }}
+          w={{ base: "100%", lg: "50%" }}
+          pl={{ lg: "5em", "2xl": "20rem" }}
           pb="2rem"
           pt={{ base: "0.5rem", lg: "2rem" }}
-          textAlign="center"
         >
-          <Heading
-            as="h3"
-            fontSize="calc(1rem + 1vw)"
-            color="#f9f9f9"
-            mt="1.563rem"
-            mb="1.25rem"
-            fontWeight="500"
-            textAlign={{ base: "center", md: "left" }}
-          >
-            Vous êtes un professionnel du handicap ou du soin ?
-          </Heading>
-          <Text
-            color="#f9f9f9"
-            m="0 0 0.625rem"
-            mt="2rem"
-            mb="1rem"
-            fontSize="md"
-            textAlign={{ base: "center", md: "left" }}
-          >
-            Faites-vous connaître, choisissez les missions qui vous
-            correspondent et développez votre activité !
-          </Text>
-          <Flex direction={{ lg: "column" }} justify={{ lg: "flex-start" }}>
+          <Flex direction="column" alignItems={{ base: "center", lg: "none" }}>
+            <Heading
+              as="h3"
+              fontSize="calc(1rem + 1vw)"
+              color="#f9f9f9"
+              mt="1.563rem"
+              fontWeight="500"
+            >
+              Vous êtes un professionnel du handicap ou du soin à domicile ?
+            </Heading>
+            <Text
+              color="#f9f9f9"
+              m="0 0 0.625rem"
+              mt="2rem"
+              mb="1rem"
+              fontSize="md"
+            >
+              Educ, AES, Ergo, AESH, Enseignant, Auxiliaire de
+              vie,...Faites-vous connaître, choisissez les missions qui vous
+              correspondent et développez votre activité !
+            </Text>
             <Button
-              w="90%"
+              w={{ base: "75%", lg: "90%" }}
               h="auto"
               p="0.625rem 1.375rem"
-              borderRadius="4px"
               variant="outline_White_Gradient"
-              alignItems="left"
             >
               En savoir plus
             </Button>
-            <Text
-              color="#f9f9f9"
-              mt="2rem"
-              fontSize="sm"
-              textAlign={{ base: "center", md: "left" }}
-            >
+            <Text color="#f9f9f9" mt="2rem" fontSize="sm">
               Inscrivez-vous et détaillez vos services
             </Text>
           </Flex>

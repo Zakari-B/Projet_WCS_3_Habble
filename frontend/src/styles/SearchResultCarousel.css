@@ -1,0 +1,22 @@
+.containerClassName {
+  width: 80%;
+  max-width: 1200px;
+  margin: auto;
+  display: flex;
+  gap: 2%;
+  justify-content: flex-end;
+  font-size: medium;
+  list-style: none;
+  color: #415161;
+  font-weight: 600;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.alldisabled {
+  display: none;
+}
+
+.activePage {
+  color: #a7197f;
+}

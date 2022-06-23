@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useSearchParams } from "react-router-dom";
+import { useNavigate, Link, useSearchParams } from "react-router-dom";
 import {
   Stack,
   Text,
@@ -9,18 +9,64 @@ import {
   Divider,
   Flex,
   Heading,
+  useToast,
 } from "@chakra-ui/react";
+import backendAPI from "../services/backendAPI";
 import "../App.css";
 
 const signupForm = () => {
   const [signupFirstname, setSignupFirstname] = useState("");
   const [signupLastname, setSignupLastname] = useState("");
   const [signupEmail, setSignupEmail] = useState("");
-  const [signupNickname, setSignupNickname] = useState("");
+  // const [signupNickname, setSignupNickname] = useState("");
   const [signupPassword, setSignupPassword] = useState("");
   const [signupPasswordRepeat, setSignupPasswordRepeat] = useState("");
   const [searchParams] = useSearchParams();
-  const role = searchParams.get("role");
+  const signupRole = searchParams.get("role");
+
+  const navigate = useNavigate();
+  const toast = useToast();
+
+  const handleSubmit = () => {
+    backendAPI
+      .post("/api/auth/register", {
+        firstname: signupFirstname,
+        lastname: signupLastname,
+        email: signupEmail,
+        password: signupPassword,
+        role: signupRole,
+      })
+      .then((response) => {
+        if (response) {
+          toast({
+            title: "Vous avez bien créez votre compte.",
+            description: "Bienvenu chez nous !",
+            status: "success",
+            duration: 2000,
+            position: "bottom-right",
+            isClosable: true,
+          });
+        }
+        if (response.data.userAccount.role === "employer") {
+          navigate(`/profil-employer/${response.data.employerCreated.id}`);
+        } else if (response.data.userAccount.role === "freelancer") {
+          navigate(`/welcome-pro/${response.data.freelancerCreated.id}`);
+        }
+      })
+      .catch((error) => {
+        if (error) {
+          toast({
+            title:
+              "Une erreur est survenue lors de la création de votre compte.",
+            status: "error",
+            duration: 2000,
+            position: "bottom-right",
+            isClosable: true,
+          });
+        }
+        console.warn(error);
+      });
+  };
 
   return (
     <Flex bgColor="background.gray" alignItems="center">
@@ -49,7 +95,7 @@ const signupForm = () => {
             fontSize="1.4rem"
             fontWeight="700"
           >
-            {role === "employer"
+            {signupRole === "employer"
               ? "Créer un compte gratuitement"
               : "Inscription Professionnels"}
           </Heading>
@@ -83,7 +129,7 @@ const signupForm = () => {
               onChange={(e) => setSignupEmail(e.target.value)}
             />
           </FormControl>
-          <FormControl>
+          {/* <FormControl>
             <Input
               type="text"
               id="signupNickname"
@@ -92,7 +138,7 @@ const signupForm = () => {
               value={signupNickname}
               onChange={(e) => setSignupNickname(e.target.value)}
             />
-          </FormControl>
+          </FormControl> */}
           <FormControl>
             <Input
               type="password"
@@ -116,7 +162,7 @@ const signupForm = () => {
           <Button
             variant="solid_PrimaryColor"
             type="button"
-            onClick={() => null()}
+            onClick={() => handleSubmit()}
           >
             S'inscrire
           </Button>
