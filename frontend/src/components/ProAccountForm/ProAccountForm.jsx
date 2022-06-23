@@ -40,6 +40,8 @@ import { useParams, useNavigate } from "react-router-dom";
 import { CloseIcon } from "@chakra-ui/icons";
 import { useState, useEffect } from "react";
 
+// import Profil from "./Profil";
+
 export default function ProAccountForm() {
   const { isOpen, onOpen, onClose, onToggle } = useDisclosure();
   const navigate = useNavigate();
@@ -198,6 +200,7 @@ export default function ProAccountForm() {
           >
             Mon profil
           </Heading>
+          {/* <Profil freelancer={freelancerId} /> */}
           <Flex direction={{ base: "column-reverse", md: "row" }} rowGap="5">
             <FormControl>
               <VStack alignItems="left" w={{ md: "85%" }}>
