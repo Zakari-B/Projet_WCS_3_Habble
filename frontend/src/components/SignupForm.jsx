@@ -36,7 +36,7 @@ const signupForm = () => {
       })
       .then((response) => {
         if (response.data.userAccount.role === "employer") {
-          navigate("/");
+          navigate(`/profil-employer/${response.data.employerCreated.id}`);
         } else if (response.data.userAccount.role === "freelancer") {
           navigate(
             `/register-onboarding-pro/${response.data.freelancerCreated.id}`

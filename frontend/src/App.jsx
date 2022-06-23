@@ -41,7 +41,10 @@ function App() {
         />
         <Route path="/profils" element={<SearchProfessionals />} />
         <Route path="/deposer-une-annonce" element={<FormAnnonce />} />
-        <Route path="/profil-employer" element={<ProfilPageEmployer />} />
+        <Route
+          path="/profil-employer/:employerId"
+          element={<ProfilPageEmployer />}
+        />
       </Routes>
     </div>
   );
