@@ -1,5 +1,4 @@
 import { Flex, Box } from "@chakra-ui/react";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Header from "../components/Header/Header";
@@ -7,6 +6,7 @@ import Footer from "../components/Footer";
 import BannerProfileEmployer from "../components/Profile/BannerProfileEmployer";
 import AnnonceCarousel from "../components/Profile/Annonce/AnnonceCarousel";
 import AccountCard from "../components/Profile/Account/AccountCard";
+import backendAPI from "../services/backendAPI";
 
 export default function ProfilPageEmployer({ annonce }) {
   // créer une fonction pour get user
@@ -18,8 +18,8 @@ export default function ProfilPageEmployer({ annonce }) {
   const [user, setUser] = useState({});
   const [employer, setEmployer] = useState({});
   const getuser = () => {
-    axios
-      .get(`http://localhost:5001/api/employers/${employerId}/user`)
+    backendAPI
+      .get(`/api/employers/${employerId}/user`)
       .then((response) => {
         setUser(response.data);
         setEmployer(response.data.employer[0]);
