@@ -1,4 +1,4 @@
-const resetTemplate = (data) => {
+const contactTemplate = (data) => {
   return {
     subject: `contact de la part de ${data.lastname} ${data.firstname}`,
     body: `
@@ -99,4 +99,4 @@ const resetTemplate = (data) => {
   };
 };
 
-module.exports = resetTemplate;
+module.exports = contactTemplate;
