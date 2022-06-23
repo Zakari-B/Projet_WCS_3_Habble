@@ -7,6 +7,7 @@ const DiplomeController = require("./controllers/DiplomeController");
 const FormationController = require("./controllers/FormationController");
 const ExperienceProController = require("./controllers/ExperienceProController");
 const ServiceController = require("./controllers/ServiceControllers");
+const ExpertiseController = require("./controllers/ExpertiseControllers");
 
 // const auth = require("./middlewares/auth");
 const {
@@ -112,5 +113,12 @@ router.get("/services", ServiceController.getAll);
 router.get("/services/:id", ServiceController.getOne);
 router.put("/services/:id", ServiceController.updateOne);
 router.delete("/services/:id", ServiceController.deleteOne);
+
+// Routes for expertises
+router.post("/expertises", ExpertiseController.createOne);
+router.get("/expertises", ExpertiseController.getAll);
+router.get("/expertises/:id", ExpertiseController.getOne);
+router.put("/expertises/:id", ExpertiseController.updateOne);
+router.delete("/expertises/:id", ExpertiseController.deleteOne);
 
 module.exports = router;
