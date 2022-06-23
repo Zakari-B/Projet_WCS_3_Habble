@@ -57,7 +57,6 @@ model employer {
   dateCreated DateTime  @default(now()) @db.Timestamp(0)
   picture     String    @db.VarChar(1000)
   fk_user_id  user      @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  annonce     annonce[]
 }
 
 model documents {
@@ -96,7 +95,6 @@ model expertises {
   name                  String                  @db.VarChar(100)
   category              String                  @db.VarChar(100)
   freelancer_expertises freelancer_expertises[]
-  annonce_expertises    annonce_expertises[]
 }
 
 model formations {
@@ -140,24 +138,3 @@ model diplomes {
   fk_id          freelancer @relation(fields: [freelancerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
 
-model annonce {
-  id          Int     @id @default(autoincrement())
-  title       String  @db.VarChar(100)
-  description String? @db.VarChar(500)
-  price       Int
-  emergency   Boolean @default(false)
-
-  location           String               @db.VarChar(100)
-  employerId         Int
-  fk_id              employer             @relation(fields: [employerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  annonce_expertises annonce_expertises[]
-
-}
-
-model annonce_expertises {
-  id              Int        @id @default(autoincrement())
-  annonceId       Int
-  expertiseId     Int
-  fk_annonce_id   annonce    @relation(fields: [annonceId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  fk_expertise_id expertises @relation(fields: [expertiseId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-}
