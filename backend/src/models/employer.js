@@ -73,13 +73,6 @@ exports.getAllEmployerProfileInfo = async (employerId) => {
       where: {
         id: employerId,
       },
-      // include: {
-      //   annonces: {
-      //     orderBy: {
-      //       dateCreated: "desc",
-      //     },
-      //   },
-      // },
     });
   } finally {
     await prisma.$disconnect();
