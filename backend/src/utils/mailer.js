@@ -3,7 +3,7 @@ const nodemailer = require("nodemailer");
 async function mailer({ lastname, firstname, email, phone, message }) {
   // create reusable transporter object using the default SMTP transport
   const transporter = nodemailer.createTransport({
-    host: "", // Serveur de messagerie
+    host: process.env.SMTP_SERVEUR, // Serveur de messagerie
     port: 587,
     secure: false, // true for 465, false for other ports
     auth: {
@@ -15,7 +15,7 @@ async function mailer({ lastname, firstname, email, phone, message }) {
   // send mail with defined transport object
   const info = await transporter.sendMail({
     from: `"${lastname} ${firstname}" <${email}>`,
-    to: "admin@habble.fr", // Mettre le vrai mail de habble
+    to: "marie.serradori@gmail.com", // Mettre le vrai mail de habble
     subject: `Formulaire de contact : ${lastname} ${firstname}`,
     text: `${message}, ${phone}`,
   });
