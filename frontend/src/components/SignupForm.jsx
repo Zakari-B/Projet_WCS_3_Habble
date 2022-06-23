@@ -49,7 +49,7 @@ const signupForm = () => {
   };
 
   return (
-    <Flex bgColor="background.gray" alignItems="center">
+    <Flex bgColor="background.gray" alignItems="center" paddingTop="80px">
       <Flex
         className="signupForm"
         bgColor="white"

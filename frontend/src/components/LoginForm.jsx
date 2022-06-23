@@ -37,10 +37,17 @@ const loginForm = () => {
           if (response.status === 200) {
             window.localStorage.setItem("isUserLoggedIn", true);
           }
-          if (response.data.type !== "freelancer") {
+          if (
+            response.data.type !== "freelancer" ||
+            response.data.type !== "employer"
+          ) {
             navigate("/");
-          } else {
+          }
+          if (response.data.type === "freelancer") {
             navigate(`/profil/${response.data.fkId}`);
+          }
+          if (response.data.type === "employer") {
+            navigate(`/profil-employer/${response.data.fkId}`);
           }
         })
         .catch((error) => {
@@ -51,8 +58,8 @@ const loginForm = () => {
 
   return (
     <Box bgColor="background.gray" h="100vh">
-      <Header onDark={false} isSticky={false} />
-      <Flex bgColor="background.gray" alignItems="center">
+      <Header onDark={false} isSticky={false} isStickyWhite />
+      <Flex bgColor="background.gray" alignItems="center" paddingY="50px">
         <Flex
           className="loginForm"
           bgColor="white"

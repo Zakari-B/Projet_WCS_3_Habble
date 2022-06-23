@@ -33,7 +33,7 @@ router.get("/users", authorization, UserController.getAll);
 router.get("/users/:id", authorization, UserController.getOne);
 router.put("/users/", authorization, UserController.updateOne);
 router.put("/users/:id", authSelf, UserController.updateOne);
-router.delete("/users/:id", authSelf, UserController.deleteOne);
+router.delete("/users/:id", UserController.deleteOne);
 
 // Routes for Freelancers
 
