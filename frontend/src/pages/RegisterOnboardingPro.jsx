@@ -2,7 +2,7 @@ import { Flex, Box } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer";
-import ProAccountForm from "../components/ProAccountForm";
+import ProAccountForm from "../components/ProAccountForm/ProAccountForm";
 
 export default function RegisterOnboardingPro() {
   const { freelancerId } = useParams();

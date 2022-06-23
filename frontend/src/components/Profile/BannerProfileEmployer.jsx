@@ -7,7 +7,6 @@ import {
   Tag,
   Avatar,
 } from "@chakra-ui/react";
-// import { useState } from "react";
 
 export default function BannerProfile({ employer }) {
   return (
