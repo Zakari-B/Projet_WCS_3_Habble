@@ -19,7 +19,7 @@ export default function ProfilPageEmployer({ annonce }) {
   const [employer, setEmployer] = useState({});
   const getuser = () => {
     axios
-      .get(`http://localhost:5001/api/employers/${employerId}/user`)
+      .get(`http://localhost:5000/api/employers/${employerId}/user`)
       .then((response) => {
         setUser(response.data);
         setEmployer(response.data.employer[0]);

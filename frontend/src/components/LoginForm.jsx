@@ -50,7 +50,7 @@ const loginForm = () => {
             }
           }
           if (response.data.type !== "freelancer") {
-            navigate("/");
+            navigate(`/profil-employer/${response.data.fkId}`);
           } else {
             return response.data.profileIsComplete
               ? navigate(`/profil/${response.data.fkId}`)

@@ -92,7 +92,7 @@ export default function ProAccountForm() {
 
   const getOnefreelancer = () => {
     axios
-      .get(`http://localhost:5001/api/freelancers/${freelancerId}`)
+      .get(`http://localhost:5000/api/freelancers/${freelancerId}`)
       .then((response) => {
         setDisplayName(response.data.displayName);
         setActivityPro(response.data.activityDescription);
@@ -116,11 +116,11 @@ export default function ProAccountForm() {
   const updateFreelancerCompletedProfile = (e) => {
     e.preventDefault();
     axios
-      .get(`http://localhost:5001/api/freelancers/${freelancerId}/user`)
+      .get(`http://localhost:5000/api/freelancers/${freelancerId}/user`)
       .then((response) => {
         const userId = response.data.id;
         axios
-          .put(`http://localhost:5001/api/freelancers/${freelancerId}`, {
+          .put(`http://localhost:5000/api/freelancers/${freelancerId}`, {
             displayName,
             activityDescription: activityPro,
             zipCode: cityPro,
@@ -135,7 +135,7 @@ export default function ProAccountForm() {
           })
           .then(() => {
             if (response) {
-              axios.put(`http://localhost:5001/api/users/${userId}`, {
+              axios.put(`http://localhost:5000/api/users/${userId}`, {
                 profileIsComplete: true,
               });
               navigate(`/profil/${freelancerId}`);
@@ -149,7 +149,7 @@ export default function ProAccountForm() {
   const updateFreelancerUncompletedProfile = (e) => {
     e.preventDefault();
     axios
-      .put(`http://localhost:5001/api/freelancers/${freelancerId}`, {
+      .put(`http://localhost:5000/api/freelancers/${freelancerId}`, {
         displayName,
         activityDescription: activityPro,
         zipCode: cityPro,
