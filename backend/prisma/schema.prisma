@@ -57,6 +57,7 @@ model employer {
   dateCreated DateTime  @default(now()) @db.Timestamp(0)
   picture     String    @db.VarChar(1000)
   fk_user_id  user      @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  annonce     annonce[]
 }
 
 model documents {
@@ -80,6 +81,7 @@ model services {
   id                  Int                   @id @default(autoincrement())
   name                String                @db.VarChar(255)
   freelancer_services freelancer_services[]
+  annonce_services    annonce_services[]
 }
 
 model freelancer_expertises {
@@ -138,3 +140,36 @@ model diplomes {
   fk_id          freelancer @relation(fields: [freelancerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
 
+model annonce {
+  id              Int                @id @default(autoincrement())
+  employerId      Int
+  title           String             @db.VarChar(100)
+  description     String             @db.VarChar(500)
+  price           Int
+  emergency       Boolean            @default(false)
+  annonce_service annonce_services[]
+  fk_employer_id  employer           @relation(fields: [employerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  annonce_lieu    annonce_lieu[]
+}
+
+model annonce_services {
+  id            Int      @id @default(autoincrement())
+  annonceId     Int
+  serviceId     Int
+  fk_annonce_id annonce  @relation(fields: [annonceId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  fk_service_id services @relation(fields: [serviceId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+}
+
+model lieu {
+  id           Int            @id @default(autoincrement())
+  name         String         @db.VarChar(100)
+  annonce_lieu annonce_lieu[]
+}
+
+model annonce_lieu {
+  id            Int     @id @default(autoincrement())
+  annonceId     Int
+  lieuId        Int
+  fk_annonce_id annonce @relation(fields: [annonceId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  fk_lieu_id    lieu    @relation(fields: [lieuId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+}

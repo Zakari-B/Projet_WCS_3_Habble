@@ -658,7 +658,7 @@ export default function ProAccountForm() {
                 value="Infirmité motric cérébrale"
                 onChange={updateExpertise}
               >
-                <Text fontSize="sm">Infirmité motric cérébrale</Text>
+                <Text fontSize="sm">Infirmité motrice cérébrale</Text>
               </Checkbox>
               <Checkbox
                 iconColor="pink.light"
