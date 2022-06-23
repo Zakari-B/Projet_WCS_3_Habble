@@ -48,7 +48,7 @@ const signupForm = () => {
           });
         }
         if (response.data.userAccount.role === "employer") {
-          navigate("/");
+          navigate(`/profil-employer/${response.data.employerCreated.id}`);
         } else if (response.data.userAccount.role === "freelancer") {
           navigate(`/welcome-pro/${response.data.freelancerCreated.id}`);
         }
