@@ -34,11 +34,10 @@ import {
   Image,
 } from "@chakra-ui/react";
 
-import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
-
 import { CloseIcon } from "@chakra-ui/icons";
 import { useState, useEffect } from "react";
+import backendAPI from "../../services/backendAPI";
 
 export default function ProAccountForm() {
   const { isOpen, onOpen, onClose, onToggle } = useDisclosure();
@@ -91,8 +90,8 @@ export default function ProAccountForm() {
   // Appel axios pour récuperer le displayName du freelancer
 
   const getOnefreelancer = () => {
-    axios
-      .get(`http://localhost:5001/api/freelancers/${freelancerId}`)
+    backendAPI
+      .get(`/api/freelancers/${freelancerId}`)
       .then((response) => {
         setDisplayName(response.data.displayName);
         setActivityPro(response.data.activityDescription);
@@ -115,41 +114,39 @@ export default function ProAccountForm() {
 
   const updateFreelancerCompletedProfile = (e) => {
     e.preventDefault();
-    axios
-      .get(`http://localhost:5001/api/freelancers/${freelancerId}/user`)
-      .then((response) => {
-        const userId = response.data.id;
-        axios
-          .put(`http://localhost:5001/api/freelancers/${freelancerId}`, {
-            displayName,
-            activityDescription: activityPro,
-            zipCode: cityPro,
-            phone: phonePro,
-            experienceYear: experienceYearPro,
-            price: pricePro,
-            description: descriptionPro,
-            acceptEmails: acceptEmailPro,
-            siret: siretPro,
-            available: false,
-            picture: picturePro,
-          })
-          .then(() => {
-            if (response) {
-              axios.put(`http://localhost:5001/api/users/${userId}`, {
-                profileIsComplete: true,
-              });
-              navigate(`/profil/${freelancerId}`);
-            }
-          });
-      });
+    backendAPI.get(`/api/freelancers/${freelancerId}/user`).then((response) => {
+      const userId = response.data.id;
+      backendAPI
+        .put(`/api/freelancers/${freelancerId}`, {
+          displayName,
+          activityDescription: activityPro,
+          zipCode: cityPro,
+          phone: phonePro,
+          experienceYear: experienceYearPro,
+          price: pricePro,
+          description: descriptionPro,
+          acceptEmails: acceptEmailPro,
+          siret: siretPro,
+          available: false,
+          picture: picturePro,
+        })
+        .then(() => {
+          if (response) {
+            backendAPI.put(`/api/users/${userId}`, {
+              profileIsComplete: true,
+            });
+            navigate(`/profil/${freelancerId}`);
+          }
+        });
+    });
   };
 
   // Appel axios pour mettre à jour le freelancer avec ses informations si profil incomplet
 
   const updateFreelancerUncompletedProfile = (e) => {
     e.preventDefault();
-    axios
-      .put(`http://localhost:5001/api/freelancers/${freelancerId}`, {
+    backendAPI
+      .put(`/api/freelancers/${freelancerId}`, {
         displayName,
         activityDescription: activityPro,
         zipCode: cityPro,

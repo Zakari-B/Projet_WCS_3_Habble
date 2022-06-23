@@ -7,6 +7,7 @@ const DiplomeController = require("./controllers/DiplomeController");
 const FormationController = require("./controllers/FormationController");
 const ExperienceProController = require("./controllers/ExperienceProController");
 const LieuController = require("./controllers/LieuController");
+const mailController = require("./controllers/mailController");
 
 // const auth = require("./middlewares/auth");
 const {
@@ -28,6 +29,9 @@ router.post(
 router.post("/auth/login", UserController.login);
 router.get("/auth/logout", UserController.logout);
 router.get("/auth/sessionControl", sessionControl);
+
+router.post("/mail/forgotten", mailController.forgotten);
+router.post("/mail/contact", mailController.contact);
 
 router.get("/users", authorization, UserController.getAll);
 router.get("/users/:id", authorization, authSelf, UserController.getOne);
