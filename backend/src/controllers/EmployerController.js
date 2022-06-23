@@ -10,7 +10,9 @@ const { validateEmployer } = require("../utils/validate");
 exports.createOne = async (req, res) => {
   const userAccount = req.userCreated;
   if (userAccount.role !== "employer" && userAccount.role !== "freelancer") {
-    res.status(400).send("Erreur : le rôle de l'utilisateur est incorrect");
+    return res
+      .status(400)
+      .send("Erreur : le rôle de l'utilisateur est incorrect");
   }
   if (userAccount.role === "employer") {
     try {
@@ -22,9 +24,9 @@ exports.createOne = async (req, res) => {
         available: false,
         picture: "",
       });
-      res.status(201).send({ userAccount, employerCreated });
+      return res.status(201).send({ userAccount, employerCreated });
     } catch (e) {
-      res
+      return res
         .status(500)
         .json({ error: "Problème de création de l'entrée employeur" });
     }
