@@ -6,6 +6,7 @@ const EmployerController = require("./controllers/EmployerController");
 const DiplomeController = require("./controllers/DiplomeController");
 const FormationController = require("./controllers/FormationController");
 const ExperienceProController = require("./controllers/ExperienceProController");
+const LieuController = require("./controllers/LieuController");
 
 // const auth = require("./middlewares/auth");
 const {
@@ -103,4 +104,8 @@ router.delete(
   "/freelancers/:freelancerid/experiencePro/:id",
   ExperienceProController.deleteOne
 );
+
+// Routes for Lieu
+router.post("/employers/lieu", LieuController.createOne);
+
 module.exports = router;

@@ -106,3 +106,14 @@ exports.validateEmployer = (data, forCreation = true) => {
   }
   return false;
 };
+
+exports.validateLocation = (data, forCreation = true) => {
+  const presence = forCreation ? "required" : "optional";
+  const validationErrors = Joi.object({
+    name: Joi.string().max(100).presence(presence),
+  }).validate(data, { abortEarly: false }).error;
+  if (validationErrors) {
+    return validationErrors;
+  }
+  return false;
+};
