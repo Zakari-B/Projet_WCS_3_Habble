@@ -12,17 +12,50 @@ import {
   Textarea,
   Flex,
   Heading,
+  useToast,
 } from "@chakra-ui/react";
+import backendAPI from "../services/backendAPI";
 
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer";
 
 const contact = () => {
+  const toast = useToast();
   const [contactLastname, setContactLastname] = useState("");
   const [contactFirstname, setContactFirstname] = useState("");
   const [contactEmail, setContactEmail] = useState("");
   const [contactPhone, setContactPhone] = useState("");
   const [contactMessage, setContactMessage] = useState("");
+
+  const sendContact = () => {
+    backendAPI
+      .post("/api/mail/contact", {
+        lastname: contactLastname,
+        firstname: contactFirstname,
+        email: contactEmail,
+        phone: contactPhone,
+        message: contactMessage,
+        recipient: "habble",
+      })
+      .then(() =>
+        toast({
+          title: "Votre message a bien été envoyé",
+          status: "success",
+          position: "bottom-right",
+          duration: 7000,
+          isClosable: true,
+        })
+      )
+      .catch(() =>
+        toast({
+          title: "Votre message n'a pas pu être envoyé",
+          status: "error",
+          position: "bottom-right",
+          duration: 7000,
+          isClosable: true,
+        })
+      );
+  };
 
   return (
     <Box bgColor="background.gray" h="100vh">
@@ -176,7 +209,7 @@ const contact = () => {
               justifyContent="center"
               fontSize="1rem"
               type="button"
-              onClick={() => null()}
+              onClick={() => sendContact()}
             >
               Envoyer
             </Button>
