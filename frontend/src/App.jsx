@@ -12,9 +12,11 @@ import Error from "./pages/Error";
 import SearchProfessionals from "./pages/SearchProfessionals";
 import Contact from "./pages/Contact";
 import RegisterOnboardingPro from "./pages/RegisterOnboardingPro";
+import WelcomeInscPro from "./pages/WelcomeInscPro";
 import FormAnnonce from "./components/Profile/Annonce/AnnonceForm";
 import ProfilPageEmployer from "./pages/ProfilPageEmployer";
 import AnnoncesDashboard from "./pages/AnnoncesDashboard";
+import Logout from "./pages/Logout";
 
 import "./App.css";
 
@@ -40,6 +42,7 @@ function App() {
           element={<RegisterOnboardingPro />}
         />
         <Route path="/profils" element={<SearchProfessionals />} />
+        <Route path="/welcome-pro/:freelancerId" element={<WelcomeInscPro />} />
         <Route path="/deposer-une-annonce" element={<FormAnnonce />} />
         <Route
           path="/profil-employer/:employerId"
@@ -49,6 +52,7 @@ function App() {
           path="/profil/:roleid/mes-annonces"
           element={<AnnoncesDashboard />}
         />
+        <Route path="/logout" element={<Logout />} />
         <Route path="*" element={<Error />} />
       </Routes>
     </div>
