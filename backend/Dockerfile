@@ -19,4 +19,4 @@ COPY ./backend .
 
 RUN npm install
 
-CMD [ "/start.sh" ]
+CMD [ "npm", "start" ]
