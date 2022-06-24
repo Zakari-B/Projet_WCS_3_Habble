@@ -19,6 +19,4 @@ COPY ./backend .
 
 RUN npm install
 
-RUN npx prisma migrate deploy
-
-CMD [ "npm", "start" ]
+CMD [ "/start.sh" ]
