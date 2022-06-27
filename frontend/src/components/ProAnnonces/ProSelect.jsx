@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Flex,
   Box,
@@ -16,6 +17,33 @@ import {
 } from "@chakra-ui/react";
 
 function ProSelect() {
+  // eslint-disable-next-line no-unused-vars
+  const [fakeData, setFakeDate] = useState([
+    {
+      id: 0,
+      title: "Garde d'enfant",
+      number: 5,
+      price: "40.0€/heure",
+      date: "20/06/2022",
+      state: "En cours",
+      action: <Button>Modifier</Button>,
+    },
+    {
+      id: 1,
+      title: "Soutien scolaire",
+      number: 0,
+      price: "20.0€/heure",
+      date: "27/06/2022",
+      state: "En suspens",
+      action: <Button>Modifier</Button>,
+    },
+  ]);
+  const [option, setOption] = useState("");
+
+  const handleFilter = (e) => {
+    setOption(e.target.value);
+  };
+
   return (
     <>
       <Box
@@ -43,8 +71,13 @@ function ProSelect() {
             <Text fontWeight="bold" color="purple.average" fontSize="1.5rem">
               État
             </Text>
-            <Select placeholder="Choisissez une option" w="100%">
+            <Select
+              placeholder="Choisissez une option"
+              w="100%"
+              onChange={handleFilter}
+            >
               <option>En suspens</option>
+              <option>En cours</option>
             </Select>
           </VStack>
         </Flex>
@@ -80,18 +113,21 @@ function ProSelect() {
                 <Th fontSize="1rem">Action</Th>
               </Tr>
             </Thead>
-            <Tbody>
-              <Tr>
-                <Td>Garde d'enfant</Td>
-                <Td isNumeric>0</Td>
-                <Td>40.0€/heure</Td>
-                <Td>27/6/2022</Td>
-                <Td>En suspens</Td>
-                <Td>
-                  <Button>Modifier</Button>
-                </Td>
-              </Tr>
-            </Tbody>
+            {fakeData &&
+              fakeData
+                .filter((opt) => opt.state.includes(option))
+                .map((data) => (
+                  <Tbody key={data.id}>
+                    <Tr>
+                      <Td>{data.title}</Td>
+                      <Td isNumeric>{data.number}</Td>
+                      <Td>{data.price}</Td>
+                      <Td>{data.date}</Td>
+                      <Td>{data.state}</Td>
+                      <Td>{data.action}</Td>
+                    </Tr>
+                  </Tbody>
+                ))}
           </Table>
         </TableContainer>
       </Box>
