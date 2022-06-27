@@ -7,6 +7,8 @@ const DiplomeController = require("./controllers/DiplomeController");
 const FormationController = require("./controllers/FormationController");
 const ExperienceProController = require("./controllers/ExperienceProController");
 const mailController = require("./controllers/mailController");
+const fileController = require("./controllers/FileController");
+const multer = require("./middlewares/multer");
 
 // const auth = require("./middlewares/auth");
 const {
@@ -28,6 +30,8 @@ router.post(
 router.post("/auth/login", UserController.login);
 router.get("/auth/logout", UserController.logout);
 router.get("/auth/sessionControl", sessionControl);
+
+router.post("/file", authorization, multer, fileController.addOne);
 
 router.post("/mail/forgotten", mailController.forgotten);
 router.post("/mail/contact", mailController.contact);
