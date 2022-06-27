@@ -8,10 +8,12 @@ const authorization = async (req, res, next) => {
   }
   try {
     const data = await verifyAccessToken(token);
-    req.userId = data.payload.id;
-    req.userRole = data.payload.role;
+    req.userId = data.payload.user.id;
+    req.userRole = data.payload.user.role;
     if (req.userRole === "freelancer") {
-      const freelancerEntry = await freelancer.findOneByUserId(req.userId);
+      const freelancerEntry = await freelancer.findOneFreelancerByUserId(
+        req.userId
+      );
       if (freelancerEntry) {
         req.roleId = freelancerEntry.id;
       }
@@ -25,6 +27,14 @@ const authorization = async (req, res, next) => {
 
 const authSelf = async (req, res, next) => {
   if (req.userId === parseInt(req.params.id, 10)) {
+    return next();
+  }
+  return res.sendStatus(401);
+};
+
+const authSelfRole = async (req, res, next) => {
+  // ne trouve pas req.params.freelancerid
+  if (req.roleId === parseInt(req.params.id, 10)) {
     return next();
   }
   return res.sendStatus(401);
@@ -55,4 +65,4 @@ const sessionControl = async (req, res) => {
   }
 };
 
-module.exports = { authorization, authSelf, sessionControl };
+module.exports = { authorization, authSelf, sessionControl, authSelfRole };

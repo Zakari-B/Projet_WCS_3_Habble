@@ -9,9 +9,6 @@ import AccountCard from "../components/ProfileFreelancer/Account/AccountCard";
 import backendAPI from "../services/backendAPI";
 
 export default function ProfilPageEmployer({ annonce }) {
-  // créer une fonction pour get user
-  // utiliser useeffect pour appeler ces deux fonctions
-
   const navigate = useNavigate();
 
   const { employerId } = useParams();
@@ -29,6 +26,18 @@ export default function ProfilPageEmployer({ annonce }) {
         navigate("/error");
       });
   };
+
+  useEffect(() => {
+    if (JSON.parse(localStorage.getItem("isUserLoggedIn"))) {
+      backendAPI.get("/api/auth/sessionControl").then((res) => {
+        if (res.code === "401") {
+          navigate("/login");
+        }
+      });
+    } else {
+      navigate("/login");
+    }
+  }, []);
 
   useEffect(() => getuser(), []);
 
@@ -69,7 +78,6 @@ export default function ProfilPageEmployer({ annonce }) {
           </Flex>
         </Flex>
       </Flex>
-      )
       <Footer />
     </Box>
   );

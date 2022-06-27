@@ -26,14 +26,14 @@ exports.validateFreelancer = (data, forCreation = true) => {
     activityDescription: Joi.string().max(255).presence(presence),
     userId: Joi.number().presence(presence).options({ convert: false }),
     zipCode: Joi.string().max(10).presence(presence),
-    phone: Joi.string().max(300).presence(presence),
+    phone: Joi.string().max(300).presence("optional").allow(null, ""),
     experienceYear: Joi.number().presence(presence),
     price: Joi.number().presence(presence).options({ convert: false }),
     description: Joi.string().max(1000).presence(presence),
     acceptEmails: Joi.boolean().presence(presence),
     siret: Joi.number().presence(presence).options({ convert: false }),
     available: Joi.boolean().presence(presence),
-    picture: Joi.string().max(1000).allow(null, ""),
+    picture: Joi.string().max(1000).presence("optional").allow(null, ""),
   }).validate(data, { abortEarly: false }).error;
   if (validationErrors) {
     return validationErrors;

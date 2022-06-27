@@ -14,6 +14,7 @@ import Verifications from "../components/ProfileFreelancer/Verifications";
 import Tarif from "../components/ProfileFreelancer/Tarif";
 import MissionCarousel from "../components/ProfileFreelancer/Mission/MissionCarousel";
 import { getListforAnId } from "../services/ProfileProUtils";
+import backendAPI from "../services/backendAPI";
 
 export default function ProfilPageProfessional() {
   const navigate = useNavigate();
@@ -38,6 +39,18 @@ export default function ProfilPageProfessional() {
         navigate("/error");
       });
   };
+
+  useEffect(() => {
+    if (JSON.parse(localStorage.getItem("isUserLoggedIn"))) {
+      backendAPI.get("/api/auth/sessionControl").then((res) => {
+        if (res.code === "401") {
+          navigate("/login");
+        }
+      });
+    } else {
+      navigate("/login");
+    }
+  }, []);
 
   useEffect(() => {
     getfreelancer();

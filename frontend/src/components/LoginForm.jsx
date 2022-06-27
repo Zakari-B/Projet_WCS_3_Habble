@@ -41,7 +41,7 @@ const loginForm = () => {
               title: "Vous êtes bien connecté(e).",
               description: "Content de vous revoir !",
               status: "success",
-              duration: 2000,
+              duration: 7000,
               position: "bottom-right",
               isClosable: true,
             });
@@ -49,12 +49,19 @@ const loginForm = () => {
               window.localStorage.setItem("isUserLoggedIn", true);
             }
           }
-          if (response.data.type !== "freelancer") {
-            navigate(`/profil-employer/${response.data.fkId}`);
-          } else {
+          if (
+            response.data.type !== "freelancer" ||
+            response.data.type !== "employer"
+          ) {
+            navigate("/");
+          }
+          if (response.data.type === "freelancer") {
             return response.data.profileIsComplete
               ? navigate(`/profil/${response.data.fkId}`)
               : navigate(`/register-onboarding-pro/${response.data.fkId}`);
+          }
+          if (response.data.type === "employer") {
+            navigate(`/profil-employer/${response.data.fkId}`);
           }
           return null;
         })
@@ -64,7 +71,7 @@ const loginForm = () => {
               title: "Une erreur est survenue lors de la connexion.",
               description: `${error.response.data.message}`,
               status: "error",
-              duration: 2000,
+              duration: 7000,
               position: "bottom-right",
               isClosable: true,
             });
@@ -76,8 +83,8 @@ const loginForm = () => {
 
   return (
     <Box bgColor="background.gray" h="100vh">
-      <Header onDark={false} isSticky={false} />
-      <Flex bgColor="background.gray" alignItems="center">
+      <Header onDark={false} isSticky={false} isStickyWhite />
+      <Flex bgColor="background.gray" alignItems="center" paddingY="50px">
         <Flex
           className="loginForm"
           bgColor="white"
