@@ -15,7 +15,7 @@ import RegisterOnboardingPro from "./pages/RegisterOnboardingPro";
 import WelcomeInscPro from "./pages/WelcomeInscPro";
 import FormAnnonce from "./components/Profile/Annonce/AnnonceForm";
 import ProfilPageEmployer from "./pages/ProfilPageEmployer";
-import AnnoncesDashboard from "./pages/AnnoncesDashboard";
+import AnnoncesPageEmployer from "./pages/AnnoncesPageEmployer";
 import Logout from "./pages/Logout";
 
 import "./App.css";
@@ -49,8 +49,8 @@ function App() {
           element={<ProfilPageEmployer />}
         />
         <Route
-          path="/profil/:roleid/mes-annonces"
-          element={<AnnoncesDashboard />}
+          path="/profil-employer/:roleid/mes-annonces/:id"
+          element={<AnnoncesPageEmployer />}
         />
         <Route path="/logout" element={<Logout />} />
         <Route path="*" element={<Error />} />
