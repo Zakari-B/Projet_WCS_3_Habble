@@ -15,6 +15,7 @@ import RegisterOnboardingPro from "./pages/RegisterOnboardingPro";
 import WelcomeInscPro from "./pages/WelcomeInscPro";
 import FormAnnonce from "./components/Profile/Annonce/AnnonceForm";
 import ProfilPageEmployer from "./pages/ProfilPageEmployer";
+import AnnoncesDashboard from "./pages/AnnoncesDashboard";
 import Logout from "./pages/Logout";
 
 import "./App.css";
@@ -31,7 +32,6 @@ function App() {
         <Route path="/professionnel-handicap" element={<ProAccueil />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<LoginForm />} />
-        <Route path="*" element={<Error />} />
         <Route path="/forgot-password" element={<PasswordReset />} />
         <Route
           path="/profil/:freelancerId"
@@ -48,7 +48,12 @@ function App() {
           path="/profil-employer/:employerId"
           element={<ProfilPageEmployer />}
         />
+        <Route
+          path="/profil/:roleid/mes-annonces"
+          element={<AnnoncesDashboard />}
+        />
         <Route path="/logout" element={<Logout />} />
+        <Route path="*" element={<Error />} />
       </Routes>
     </div>
   );

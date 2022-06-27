@@ -100,15 +100,16 @@ export default function FormationForm({ updated, setUpdated }) {
           isClosable: true,
         })
       )
-      .catch(() =>
+      .catch((e) => {
+        console.error(e);
         toast({
           title: "Votre formation n'a pas pu être ajoutée",
           status: "error",
           position: "bottom-right",
           duration: 7000,
           isClosable: true,
-        })
-      );
+        });
+      });
     handleReset();
     setIsVisible(false);
     setUpdated(!updated);

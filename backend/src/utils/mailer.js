@@ -19,7 +19,10 @@ const sendMail = async (data, template) => {
       data.recipient === "habble"
         ? `${data.firstname} ${data.lastname} <${data.email}>`
         : `Habble <${process.env.SMTP_USER}>`,
-    to: data.recipient === "habble" ? `Habble <no-reply@abble.fr>` : data.email,
+    to:
+      data.recipient === "habble"
+        ? `Habble <marie.serradori@gmail.com>`
+        : data.email,
     subject: template.subject,
     html: template.body,
   };
