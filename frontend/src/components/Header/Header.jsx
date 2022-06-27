@@ -127,7 +127,9 @@ export default function Header({
                 <MenuGroup title="Profil" color="purple.dark">
                   <MenuItem icon={<BiUser />}>MON PROFIL</MenuItem>
                   <MenuItem icon={<GrAnnounce />} color="purple.dark">
-                    MES ANNONCES
+                    <Link to="/profil/:freelanderId/annonces">
+                      MES ANNONCES
+                    </Link>
                   </MenuItem>
                   <MenuItem icon={<BiChat />} color="purple.dark">
                     MES MESSAGES

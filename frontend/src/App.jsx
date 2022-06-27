@@ -16,6 +16,7 @@ import WelcomeInscPro from "./pages/WelcomeInscPro";
 import FormAnnonce from "./components/Profile/Annonce/AnnonceForm";
 import ProfilPageEmployer from "./pages/ProfilPageEmployer";
 import Logout from "./pages/Logout";
+import ProAnnonces from "./pages/ProAnnonces";
 
 import "./App.css";
 
@@ -49,6 +50,10 @@ function App() {
           element={<ProfilPageEmployer />}
         />
         <Route path="/logout" element={<Logout />} />
+        <Route
+          path="/profil/:freelanderId/annonces"
+          element={<ProAnnonces />}
+        />
       </Routes>
     </div>
   );
