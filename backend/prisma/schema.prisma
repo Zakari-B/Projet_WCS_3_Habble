@@ -94,7 +94,7 @@ model freelancer_expertises {
 
 model expertises {
   id                    Int                     @id @default(autoincrement())
-  name                  String                  @db.VarChar(100)
+  name                  String                  @db.VarChar(100) @unique
   category              String                  @db.VarChar(100)
   freelancer_expertises freelancer_expertises[]
 }
@@ -162,7 +162,7 @@ model annonce_services {
 
 model lieu {
   id           Int            @id @default(autoincrement())
-  name         String         @db.VarChar(100)
+  name         String         @db.VarChar(100) @unique
   annonce_lieu annonce_lieu[]
 }
 
