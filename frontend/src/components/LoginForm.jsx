@@ -41,7 +41,7 @@ const loginForm = () => {
               title: "Vous êtes bien connecté(e).",
               description: "Content de vous revoir !",
               status: "success",
-              duration: 2000,
+              duration: 7000,
               position: "bottom-right",
               isClosable: true,
             });
@@ -71,7 +71,7 @@ const loginForm = () => {
               title: "Une erreur est survenue lors de la connexion.",
               description: `${error.response.data.message}`,
               status: "error",
-              duration: 2000,
+              duration: 7000,
               position: "bottom-right",
               isClosable: true,
             });

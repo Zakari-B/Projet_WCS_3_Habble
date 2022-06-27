@@ -42,30 +42,76 @@ const signupForm = () => {
             title: "Vous avez bien créez votre compte.",
             description: "Bienvenu chez nous !",
             status: "success",
-            duration: 2000,
+            duration: 7000,
             position: "bottom-right",
             isClosable: true,
           });
-        }
-        if (response.data.userAccount.role === "employer") {
-          navigate(`/profil-employer/${response.data.employerCreated.id}`);
-        } else if (response.data.userAccount.role === "freelancer") {
-          navigate(`/welcome-pro/${response.data.freelancerCreated.id}`);
         }
       })
-      .catch((error) => {
-        if (error) {
-          toast({
-            title:
-              "Une erreur est survenue lors de la création de votre compte.",
-            status: "error",
-            duration: 2000,
-            position: "bottom-right",
-            isClosable: true,
+      .then(() => {
+        backendAPI
+          .post("/api/auth/login", {
+            email: signupEmail,
+            password: signupPassword,
+          })
+          .then((newresponse) => {
+            if (newresponse.status === 200) {
+              window.localStorage.setItem("isUserLoggedIn", true);
+            }
+
+            if (newresponse) {
+              toast({
+                title: "Connexion Réussie",
+                description: "Bienvenue sur votre compte !",
+                status: "success",
+                duration: 7000,
+                position: "bottom-right",
+                isClosable: true,
+              });
+            }
+
+            if (
+              newresponse.data.type !== "freelancer" ||
+              newresponse.data.type !== "employer"
+            ) {
+              navigate("/");
+            }
+            if (newresponse.data.type === "freelancer") {
+              return newresponse.data.profil
+                ? navigate(`/profil/${newresponse.data.fkId}`)
+                : navigate(`/register-onboarding-pro/${newresponse.data.fkId}`);
+            }
+            if (newresponse.data.type === "employer") {
+              navigate(`/profil-employer/${newresponse.data.fkId}`);
+            }
+            return null;
+          })
+          .catch((error) => {
+            if (error) {
+              toast({
+                title: "Une erreur est survenue lors du login",
+                status: "error",
+                duration: 7000,
+                position: "bottom-right",
+                isClosable: true,
+              });
+            }
+            console.warn(error);
           });
-        }
-        console.warn(error);
       });
+    // .catch((error) => {
+    //   if (error) {
+    //     toast({
+    //       title:
+    //         "Une erreur est survenue lors de la création de votre compte.",
+    //       status: "error",
+    //       duration: 7000,
+    //       position: "bottom-right",
+    //       isClosable: true,
+    //     });
+    //   }
+    //   console.warn(error);
+    // });
   };
 
   return (

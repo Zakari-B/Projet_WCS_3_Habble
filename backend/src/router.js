@@ -33,7 +33,7 @@ router.get("/auth/sessionControl", authorization, sessionControl);
 router.post("/mail/forgotten", mailController.forgotten);
 router.post("/mail/contact", mailController.contact);
 
-router.get("/users", authorization, UserController.getAll);
+router.get("/users", UserController.getAll);
 router.get("/users/:id", authorization, UserController.getOne);
 router.put("/users/", authorization, UserController.updateOne);
 router.put("/users/:id", authSelf, UserController.updateOne);
@@ -42,7 +42,7 @@ router.delete("/users/:id", UserController.deleteOne);
 router.get("/freelancers/:id/user", FreelancerController.getUser);
 // Routes for Freelancers
 
-router.get("/freelancers/", authorization, FreelancerController.getAll);
+router.get("/freelancers/", FreelancerController.getAll);
 router.get("/freelancers/:id", authorization, FreelancerController.getOne);
 router.put(
   "/freelancers/:id",
