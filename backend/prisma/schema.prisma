@@ -79,7 +79,7 @@ model freelancer_services {
 
 model services {
   id                  Int                   @id @default(autoincrement())
-  name                String                @db.VarChar(255)
+  name                String                @db.VarChar(255) @unique
   freelancer_services freelancer_services[]
   annonce_services    annonce_services[]
 }
