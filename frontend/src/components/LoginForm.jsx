@@ -12,6 +12,7 @@ import {
   Divider,
   Flex,
   Heading,
+  useToast,
 } from "@chakra-ui/react";
 import backendAPI from "../services/backendAPI";
 
@@ -24,6 +25,7 @@ const loginForm = () => {
   const [rememberMe, setRememberMe] = useState(false);
 
   const navigate = useNavigate();
+  const toast = useToast();
 
   const handleSubmit = () => {
     if (loginEmail && loginPassword) {
@@ -34,16 +36,39 @@ const loginForm = () => {
           remember: rememberMe,
         })
         .then((response) => {
-          if (response.status === 200) {
-            window.localStorage.setItem("isUserLoggedIn", true);
+          if (response) {
+            toast({
+              title: "Vous êtes bien connecté(e).",
+              description: "Content de vous revoir !",
+              status: "success",
+              duration: 2000,
+              position: "bottom-right",
+              isClosable: true,
+            });
+            if (response.status === 200) {
+              window.localStorage.setItem("isUserLoggedIn", true);
+            }
           }
           if (response.data.type !== "freelancer") {
-            navigate("/");
+            navigate(`/profil-employer/${response.data.fkId}`);
           } else {
-            navigate("/profil");
+            return response.data.profileIsComplete
+              ? navigate(`/profil/${response.data.fkId}`)
+              : navigate(`/register-onboarding-pro/${response.data.fkId}`);
           }
+          return null;
         })
         .catch((error) => {
+          if (error) {
+            toast({
+              title: "Une erreur est survenue lors de la connexion.",
+              description: `${error.response.data.message}`,
+              status: "error",
+              duration: 2000,
+              position: "bottom-right",
+              isClosable: true,
+            });
+          }
           console.warn(error);
         });
     }
@@ -122,7 +147,7 @@ const loginForm = () => {
             <Button
               variant="solid_PrimaryColor"
               type="button"
-              onClick={() => handleSubmit()}
+              onClick={handleSubmit}
             >
               Se connecter
             </Button>
