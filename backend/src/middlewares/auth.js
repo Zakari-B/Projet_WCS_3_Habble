@@ -33,13 +33,11 @@ const authSelf = async (req, res, next) => {
 };
 
 const authSelfRole = async (req, res, next) => {
-  if (
-    req.roleId === parseInt(req.params.employerid, 10) ||
-    req.roleId === parseInt(req.params.freelancerid, 10)
-  ) {
+  // ne trouve pas req.params.freelancerid
+  if (req.roleId === parseInt(req.params.id, 10)) {
     return next();
   }
-  return res.status(401).send("c'est une erreur");
+  return res.sendStatus(401);
 };
 
 const sessionControl = async (req, res) => {

@@ -3,9 +3,9 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer";
-import BannerProfileEmployer from "../components/Profile/BannerProfileEmployer";
-import AnnonceCarousel from "../components/Profile/Annonce/AnnonceCarousel";
-import AccountCard from "../components/Profile/Account/AccountCard";
+import BannerProfileEmployer from "../components/ProfilEmployer/BannerProfileEmployer";
+import AnnonceCarousel from "../components/ProfilEmployer/Annonce/AnnonceCarousel";
+import AccountCard from "../components/ProfileFreelancer/Account/AccountCard";
 import backendAPI from "../services/backendAPI";
 
 export default function ProfilPageEmployer({ annonce }) {

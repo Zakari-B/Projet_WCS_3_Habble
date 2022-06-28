@@ -6,6 +6,9 @@ const EmployerController = require("./controllers/EmployerController");
 const DiplomeController = require("./controllers/DiplomeController");
 const FormationController = require("./controllers/FormationController");
 const ExperienceProController = require("./controllers/ExperienceProController");
+const LieuController = require("./controllers/LieuController");
+const ServiceController = require("./controllers/ServiceControllers");
+const ExpertiseController = require("./controllers/ExpertiseControllers");
 const mailController = require("./controllers/mailController");
 
 // const auth = require("./middlewares/auth");
@@ -154,4 +157,25 @@ router.delete(
   authSelfRole,
   ExperienceProController.deleteOne
 );
+
+// Routes for Lieu
+router.post("/annonces/lieu", LieuController.createOne);
+router.get("/annonces/lieux", LieuController.getAll);
+router.get("/annonces/lieu/:id", LieuController.getOne);
+router.put("/annonces/lieu/:id", LieuController.updateOne);
+router.delete("/annonces/lieu/:id", LieuController.deleteOne);
+// Routes for services
+router.post("/services", ServiceController.createOne);
+router.get("/services", ServiceController.getAll);
+router.get("/services/:id", ServiceController.getOne);
+router.put("/services/:id", ServiceController.updateOne);
+router.delete("/services/:id", ServiceController.deleteOne);
+
+// Routes for expertises
+router.post("/expertises", ExpertiseController.createOne);
+router.get("/expertises", ExpertiseController.getAll);
+router.get("/expertises/:id", ExpertiseController.getOne);
+router.put("/expertises/:id", ExpertiseController.updateOne);
+router.delete("/expertises/:id", ExpertiseController.deleteOne);
+
 module.exports = router;
