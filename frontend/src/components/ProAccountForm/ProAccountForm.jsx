@@ -27,6 +27,7 @@ import {
   ModalCloseButton,
   ModalBody,
   Image,
+  useToast,
 } from "@chakra-ui/react";
 
 import { useParams, useNavigate } from "react-router-dom";
@@ -39,15 +40,14 @@ import backendAPI from "../../services/backendAPI";
 export default function ProAccountForm() {
   const { isOpen, onOpen, onClose, onToggle } = useDisclosure();
   const navigate = useNavigate();
+  const toast = useToast();
   const { freelancerId } = useParams();
   // useState pour chaque input //
   const [displayName, setDisplayName] = useState("");
   const [activityPro, setActivityPro] = useState("");
   const [cityPro, setCityPro] = useState("");
   const [phonePro, setPhonePro] = useState("");
-  const [picturePro, setPicturePro] = useState(
-    "https://secure.gravatar.com/avatar/c308ee24184a32cdf10650eb7e311157?s=125&d=mm&r=G"
-  );
+  const [picturePro, setPicturePro] = useState();
   const [experienceYearPro, setExperienceYearPro] = useState();
   const [pricePro, setPricePro] = useState();
   const [descriptionPro, setDescriptionPro] = useState("");
@@ -149,7 +149,17 @@ export default function ProAccountForm() {
         available: false,
         picture: picturePro,
       })
-      .then(() => {
+      .then((response) => {
+        if (response) {
+          toast({
+            title: "Vos données ont bien été sauvgardées.",
+            description: "N'hésitez pas à revenir completer votre profil !",
+            status: "success",
+            duration: 7000,
+            position: "bottom-right",
+            isClosable: true,
+          });
+        }
         navigate("/");
       });
   };
