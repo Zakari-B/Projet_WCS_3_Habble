@@ -56,23 +56,23 @@ export default function AnnonceOffers({ offers }) {
           fontWeight="700"
           fontSize="20px"
         >
-          Offres reçues (3)
+          Offres reçues ({offers.length})
         </Heading>
       </Flex>
       <TableContainer>
         <Table variant="simple">
           <Thead bgColor="gray.200">
             <Tr>
-              <Th>OFFRES(3)</Th>
+              <Th>OFFRES({offers.length})</Th>
               <Th>REPUTATION</Th>
               <Th> DETAILS</Th>
-              <Th> ACTIONS</Th>
+              <Th> ACTION</Th>
             </Tr>
           </Thead>
           <Tbody>
             {offers.map((offer) => (
               <Tr>
-                <Td>
+                <Td role="group">
                   <Flex alignItems="center" gap="20px">
                     {offer.freelancer.picture ? (
                       <Image
