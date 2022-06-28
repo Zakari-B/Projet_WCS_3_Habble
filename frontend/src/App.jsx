@@ -13,7 +13,7 @@ import SearchProfessionals from "./pages/SearchProfessionals";
 import Contact from "./pages/Contact";
 import RegisterOnboardingPro from "./pages/RegisterOnboardingPro";
 import WelcomeInscPro from "./pages/WelcomeInscPro";
-import FormAnnonce from "./components/Profile/Annonce/AnnonceForm";
+import AnnonceForm from "./components/ProfilEmployer/Annonce/AnnonceForm";
 import ProfilPageEmployer from "./pages/ProfilPageEmployer";
 import AnnoncesPageEmployer from "./pages/AnnoncesPageEmployer";
 import Logout from "./pages/Logout";
@@ -43,7 +43,7 @@ function App() {
         />
         <Route path="/profils" element={<SearchProfessionals />} />
         <Route path="/welcome-pro/:freelancerId" element={<WelcomeInscPro />} />
-        <Route path="/deposer-une-annonce" element={<FormAnnonce />} />
+        <Route path="/deposer-une-annonce" element={<AnnonceForm />} />
         <Route
           path="/profil-employer/:employerId"
           element={<ProfilPageEmployer />}
