@@ -104,8 +104,8 @@ export default function ProAccountForm() {
 
   const updateFreelancerCompletedProfile = (e) => {
     e.preventDefault();
-    backendAPI.get(`/api/freelancers/${freelancerId}/user`).then((response) => {
-      const userId = response.data.id;
+    backendAPI.get(`/api/freelancers/${freelancerId}/user`).then(() => {
+      // const userId = response.data.id;
       backendAPI
         .put(`/api/freelancers/${freelancerId}`, {
           displayName,
@@ -120,13 +120,35 @@ export default function ProAccountForm() {
           available: false,
           picture: picturePro,
         })
-        .then(() => {
+        .then((response) => {
+          // if (result) {
+          //   backendAPI.put(`/api/users/${userId}`, {
+          //     profileIsComplete: true,
+          //   });
+          // }
           if (response) {
-            backendAPI.put(`/api/users/${userId}`, {
-              profileIsComplete: true,
+            toast({
+              title: "Vos données ont bien été enregistrées.",
+              description: "Bienvenue sur votre profil !",
+              status: "success",
+              duration: 7000,
+              position: "bottom-right",
+              isClosable: true,
             });
-            navigate(`/profil/freelancer/${freelancerId}`);
+            navigate(`/profil/${freelancerId}`);
           }
+        })
+        .catch((error) => {
+          if (error) {
+            toast({
+              title: "Veuillez renseigner tous les champs obligatoires",
+              status: "error",
+              duration: 7000,
+              position: "bottom-right",
+              isClosable: true,
+            });
+          }
+          console.warn(error);
         });
     });
   };
