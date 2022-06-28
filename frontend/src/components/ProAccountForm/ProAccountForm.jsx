@@ -67,13 +67,29 @@ export default function ProAccountForm() {
     backendAPI
       .get(`/api/freelancers/${freelancerId}`)
       .then((response) => {
-        setDisplayName(response.data.displayName);
-        setActivityPro(response.data.activityDescription);
-        setCityPro(response.data.zipCode);
+        setDisplayName(
+          response.data.displayName === "undefined"
+            ? ""
+            : response.data.displayName
+        );
+        setActivityPro(
+          response.data.activityDescription === "undefined"
+            ? ""
+            : response.data.activityDescription
+        );
+        setCityPro(
+          response.data.zipCode === "undefined" ? "" : response.data.zipCode
+        );
         setPhonePro(response.data.phone);
-        setExperienceYearPro(response.data.experienceYear);
-        setPricePro(response.data.price);
-        setDescriptionPro(response.data.description);
+        setExperienceYearPro(
+          response.data.experienceYear === 0 ? "" : response.data.experienceYear
+        );
+        setPricePro(response.data.price === 0 ? "" : response.data.price);
+        setDescriptionPro(
+          response.data.description === "undefined"
+            ? ""
+            : response.data.description
+        );
         setAcceptEmailPro(response.data.acceptEmail);
         setSiretPro(response.data.siret);
       })
@@ -121,13 +137,13 @@ export default function ProAccountForm() {
     e.preventDefault();
     backendAPI
       .put(`/api/freelancers/${freelancerId}`, {
-        displayName,
-        activityDescription: activityPro,
-        zipCode: cityPro,
+        displayName: displayName === "" ? "undefined" : displayName,
+        activityDescription: activityPro === "" ? "undefined" : activityPro,
+        zipCode: cityPro === "" ? "undefined" : cityPro,
         phone: phonePro,
-        experienceYear: experienceYearPro,
-        price: pricePro,
-        description: descriptionPro,
+        experienceYear: experienceYearPro === "" ? 0 : experienceYearPro,
+        price: pricePro === "" ? 0 : pricePro,
+        description: descriptionPro === "" ? "undefined" : descriptionPro,
         acceptEmails: acceptEmailPro,
         siret: siretPro,
         available: false,
@@ -424,7 +440,7 @@ export default function ProAccountForm() {
                   <NumberInput
                     min={0}
                     w="80px"
-                    value={pricePro}
+                    value={pricePro === 0 ? "" : pricePro}
                     onChange={(value) => {
                       setPricePro(parseFloat(value));
                     }}
@@ -522,7 +538,7 @@ export default function ProAccountForm() {
               fontWeight: "500",
               color: "gray",
             }}
-            value={siretPro}
+            value={siretPro === 0 ? "" : siretPro}
             onChange={(e) => setSiretPro(parseInt(e.target.value, 10))}
           />
           <Text fontSize="xs" color="gray.light">
