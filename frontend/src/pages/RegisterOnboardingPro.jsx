@@ -8,8 +8,13 @@ export default function RegisterOnboardingPro() {
   const { freelancerId } = useParams();
   return (
     <Box h="100vh">
-      <Header onDark={false} isSticky={false} />
-      <Flex bgColor="background.gray" direction="column" justify="flex-start">
+      <Header onDark={false} isSticky={false} isStickyWhite />
+      <Flex
+        bgColor="background.gray"
+        direction="column"
+        justify="flex-start"
+        paddingTop="100px"
+      >
         <ProAccountForm freelancerId={freelancerId} />
       </Flex>
       <Footer />

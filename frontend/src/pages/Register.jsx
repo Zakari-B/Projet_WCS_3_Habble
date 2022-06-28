@@ -20,11 +20,16 @@ export default function Register() {
 
   return (
     <Box bgColor="background.gray" h="100vh">
-      <Header onDark={false} isSticky={false} />
+      <Header onDark={false} isSticky={false} isStickyWhite />
       {role === "freelancer" || role === "employer" ? (
         <SignupForm />
       ) : (
-        <Flex bgColor="background.gray" alignItems="center" h="85vh">
+        <Flex
+          bgColor="background.gray"
+          alignItems="center"
+          h="90vh"
+          paddingTop="100px"
+        >
           <Flex
             direction="column"
             bgColor="white"

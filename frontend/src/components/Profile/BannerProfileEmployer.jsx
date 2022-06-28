@@ -42,21 +42,14 @@ export default function BannerProfile({ employer }) {
           ) : (
             <Avatar
               src="https://bit.ly/broken-link"
-              height="200px"
-              width="200px"
+              height="auto"
+              width={{ base: "80%", md: "100%%" }}
               maxW="200"
               maxH="200"
             />
           )}
         </Flex>
         <Flex direction="column" w={{ base: "95%", md: "40%" }} margin="auto 0">
-          <FormLabel htmlFor="availabilityToggle" mb="2rem">
-            {employer.available ? (
-              <Tag color="purple">Profil vérifié</Tag>
-            ) : (
-              <Tag color="red">Profil non vérifié</Tag>
-            )}
-          </FormLabel>
           <Text
             fontSize="2rem"
             fontWeight="700"
@@ -66,14 +59,22 @@ export default function BannerProfile({ employer }) {
             {employer.displayName}
           </Text>
 
-          <Text
-            color="white"
-            marginBottom="1.2rem"
-            textAlign={{ base: "center", md: "left" }}
-          >
+          <Text color="white" textAlign={{ base: "center", md: "left" }}>
             Membre depuis le {employer.dateCreated}
           </Text>
-
+          <FormLabel
+            htmlFor="availabilityToggle"
+            mt="10px"
+            alignSelf={{ base: "center", md: "flex-start" }}
+          >
+            {employer.picture ? (
+              <Tag variant="solid" colorScheme="green">
+                Profil vérifié
+              </Tag>
+            ) : (
+              <Tag color="red">Profil non vérifié</Tag>
+            )}
+          </FormLabel>
           <Flex
             direction={{ base: "column", sm: "row" }}
             p="0.75rem"
