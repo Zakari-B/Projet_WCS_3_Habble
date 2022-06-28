@@ -65,26 +65,21 @@ export default function Expertises() {
           h="fit-content"
           w="fit-content%"
         >
-          <Checkbox
-            iconColor="pink.light"
-            colorScheme="white"
-            borderColor="gray"
-            _checked={{ borderColor: "pink.light" }}
-            value="Démence"
-            onChange={updateExpertise}
-          >
-            <Text fontSize="sm">Démence</Text>
-          </Checkbox>
-          <Checkbox
-            iconColor="pink.light"
-            colorScheme="white"
-            borderColor="gray"
-            _checked={{ borderColor: "pink.light" }}
-            value="Maladie d'Alzheimer"
-            onChange={updateExpertise}
-          >
-            <Text fontSize="sm">Maladie d'Alzheimer</Text>
-          </Checkbox>
+          {expertise.map(
+            (element) =>
+              element.category === "Soins aux personnes agées" && (
+                <Checkbox
+                  iconColor="pink.light"
+                  colorScheme="white"
+                  borderColor="gray"
+                  _checked={{ borderColor: "pink.light" }}
+                  value={element.name}
+                  onChange={updateExpertise}
+                >
+                  <Text fontSize="sm">{element.name}</Text>
+                </Checkbox>
+              )
+          )}
         </Flex>
       </CheckboxGroup>
       <FormLabel
@@ -104,56 +99,21 @@ export default function Expertises() {
           h="fit-content"
           w="fit-content%"
         >
-          <Checkbox
-            iconColor="pink.light"
-            colorScheme="white"
-            borderColor="gray"
-            _checked={{ borderColor: "pink.light" }}
-            value="Arthrite"
-            onChange={updateExpertise}
-          >
-            <Text fontSize="sm">Arthrite</Text>
-          </Checkbox>
-          <Checkbox
-            iconColor="pink.light"
-            colorScheme="white"
-            borderColor="gray"
-            _checked={{ borderColor: "pink.light" }}
-            value="Asthme"
-            onChange={updateExpertise}
-          >
-            <Text fontSize="sm">Asthme</Text>
-          </Checkbox>
-          <Checkbox
-            iconColor="pink.light"
-            colorScheme="white"
-            borderColor="gray"
-            _checked={{ borderColor: "pink.light" }}
-            value="Diabète"
-            onChange={updateExpertise}
-          >
-            <Text fontSize="sm">Diabète</Text>
-          </Checkbox>
-          <Checkbox
-            iconColor="pink.light"
-            colorScheme="white"
-            borderColor="gray"
-            _checked={{ borderColor: "pink.light" }}
-            value="Maladie respiratoire"
-            onChange={updateExpertise}
-          >
-            <Text fontSize="sm">Maladie respiratoire</Text>
-          </Checkbox>
-          <Checkbox
-            iconColor="pink.light"
-            colorScheme="white"
-            borderColor="gray"
-            _checked={{ borderColor: "pink.light" }}
-            value="Maladie cardiovasculaire"
-            onChange={updateExpertise}
-          >
-            <Text fontSize="sm">Maladie cardiovasculaire</Text>
-          </Checkbox>
+          {expertise.map(
+            (element) =>
+              element.category === "Maladies chroniques" && (
+                <Checkbox
+                  iconColor="pink.light"
+                  colorScheme="white"
+                  borderColor="gray"
+                  _checked={{ borderColor: "pink.light" }}
+                  value={element.name}
+                  onChange={updateExpertise}
+                >
+                  <Text fontSize="sm">{element.name}</Text>
+                </Checkbox>
+              )
+          )}
         </Flex>
       </CheckboxGroup>
       <FormLabel
@@ -173,166 +133,21 @@ export default function Expertises() {
           h="fit-content"
           w="fit-content%"
         >
-          <Checkbox
-            iconColor="pink.light"
-            colorScheme="white"
-            borderColor="gray"
-            _checked={{ borderColor: "pink.light" }}
-            value="Lésion cérébrale acquise"
-            onChange={updateExpertise}
-          >
-            <Text fontSize="sm">Lésion cérébrale acquise</Text>
-          </Checkbox>
-          <Checkbox
-            iconColor="pink.light"
-            colorScheme="white"
-            borderColor="gray"
-            _checked={{ borderColor: "pink.light" }}
-            value="Autisme"
-            onChange={updateExpertise}
-          >
-            <Text fontSize="sm">Autisme</Text>
-          </Checkbox>
-          <Checkbox
-            iconColor="pink.light"
-            colorScheme="white"
-            borderColor="gray"
-            _checked={{ borderColor: "pink.light" }}
-            value="Infirmité motric cérébrale"
-            onChange={updateExpertise}
-          >
-            <Text fontSize="sm">Infirmité motric cérébrale</Text>
-          </Checkbox>
-          <Checkbox
-            iconColor="pink.light"
-            colorScheme="white"
-            borderColor="gray"
-            _checked={{ borderColor: "pink.light" }}
-            value="Syndrome de down (trisomie 21)"
-            onChange={updateExpertise}
-          >
-            <Text fontSize="sm">Syndrome de down (trisomie 21)</Text>
-          </Checkbox>
-          <Checkbox
-            iconColor="pink.light"
-            colorScheme="white"
-            borderColor="gray"
-            _checked={{ borderColor: "pink.light" }}
-            value="Fibrose kystique"
-            onChange={updateExpertise}
-          >
-            <Text fontSize="sm">Fibrose kystique</Text>
-          </Checkbox>
-          <Checkbox
-            iconColor="pink.light"
-            colorScheme="white"
-            borderColor="gray"
-            _checked={{ borderColor: "pink.light" }}
-            value="Épilepsie"
-            onChange={updateExpertise}
-          >
-            <Text fontSize="sm">Épilepsie</Text>
-          </Checkbox>
-          <Checkbox
-            iconColor="pink.light"
-            colorScheme="white"
-            borderColor="gray"
-            _checked={{ borderColor: "pink.light" }}
-            value="Déficience auditive"
-            onChange={updateExpertise}
-          >
-            <Text fontSize="sm">Déficience auditive</Text>
-          </Checkbox>
-          <Checkbox
-            iconColor="pink.light"
-            colorScheme="white"
-            borderColor="gray"
-            _checked={{ borderColor: "pink.light" }}
-            value="Handicap intellectuel"
-            onChange={updateExpertise}
-          >
-            <Text fontSize="sm">Handicap intellectuel</Text>
-          </Checkbox>
-          <Checkbox
-            iconColor="pink.light"
-            colorScheme="white"
-            borderColor="gray"
-            _checked={{ borderColor: "pink.light" }}
-            value="Maladie du motoneurone"
-            onChange={updateExpertise}
-          >
-            <Text fontSize="sm">Maladie du motoneurone</Text>
-          </Checkbox>
-          <Checkbox
-            iconColor="pink.light"
-            colorScheme="white"
-            borderColor="gray"
-            _checked={{ borderColor: "pink.light" }}
-            value="Dystrophie musculaire"
-            onChange={updateExpertise}
-          >
-            <Text fontSize="sm">Dystrophie musculaire</Text>
-          </Checkbox>
-          <Checkbox
-            iconColor="pink.light"
-            colorScheme="white"
-            borderColor="gray"
-            _checked={{ borderColor: "pink.light" }}
-            value="Handicap physique, moteur"
-            onChange={updateExpertise}
-          >
-            <Text fontSize="sm">Handicap physique, moteur</Text>
-          </Checkbox>
-          <Checkbox
-            iconColor="pink.light"
-            colorScheme="white"
-            borderColor="gray"
-            _checked={{ borderColor: "pink.light" }}
-            value="Spina-bifida"
-            onChange={updateExpertise}
-          >
-            <Text fontSize="sm">Spina-bifida</Text>
-          </Checkbox>
-          <Checkbox
-            iconColor="pink.light"
-            colorScheme="white"
-            borderColor="gray"
-            _checked={{ borderColor: "pink.light" }}
-            value="Lésion de la moelle épinière"
-            onChange={updateExpertise}
-          >
-            <Text fontSize="sm">Lésion de la moelle épinière</Text>
-          </Checkbox>
-          <Checkbox
-            iconColor="pink.light"
-            colorScheme="white"
-            borderColor="gray"
-            _checked={{ borderColor: "pink.light" }}
-            value="Handicap visuel"
-            onChange={updateExpertise}
-          >
-            <Text fontSize="sm">Handicap visuel</Text>
-          </Checkbox>
-          <Checkbox
-            iconColor="pink.light"
-            colorScheme="white"
-            borderColor="gray"
-            _checked={{ borderColor: "pink.light" }}
-            value="Handicap auditif"
-            onChange={updateExpertise}
-          >
-            <Text fontSize="sm">Handicap auditif</Text>
-          </Checkbox>
-          <Checkbox
-            iconColor="pink.light"
-            colorScheme="white"
-            borderColor="gray"
-            _checked={{ borderColor: "pink.light" }}
-            value="Trouble DYS"
-            onChange={updateExpertise}
-          >
-            <Text fontSize="sm">Trouble DYS</Text>
-          </Checkbox>
+          {expertise.map(
+            (element) =>
+              element.category === "Handicap" && (
+                <Checkbox
+                  iconColor="pink.light"
+                  colorScheme="white"
+                  borderColor="gray"
+                  _checked={{ borderColor: "pink.light" }}
+                  value={element.name}
+                  onChange={updateExpertise}
+                >
+                  <Text fontSize="sm">{element.name}</Text>
+                </Checkbox>
+              )
+          )}
         </Flex>
       </CheckboxGroup>
       <FormLabel
@@ -352,112 +167,21 @@ export default function Expertises() {
           h="fit-content"
           w="fit-content%"
         >
-          <Checkbox
-            iconColor="pink.light"
-            colorScheme="white"
-            borderColor="gray"
-            _checked={{ borderColor: "pink.light" }}
-            value="Anxiété"
-            onChange={updateExpertise}
-          >
-            <Text fontSize="sm">Anxiété</Text>
-          </Checkbox>
-          <Checkbox
-            iconColor="pink.light"
-            colorScheme="white"
-            borderColor="gray"
-            _checked={{ borderColor: "pink.light" }}
-            value="Trouble bipolaire"
-            onChange={updateExpertise}
-          >
-            <Text fontSize="sm">Trouble bipolaire</Text>
-          </Checkbox>
-          <Checkbox
-            iconColor="pink.light"
-            colorScheme="white"
-            borderColor="gray"
-            _checked={{ borderColor: "pink.light" }}
-            value="Dépression"
-            onChange={updateExpertise}
-          >
-            <Text fontSize="sm">Dépression</Text>
-          </Checkbox>
-          <Checkbox
-            iconColor="pink.light"
-            colorScheme="white"
-            borderColor="gray"
-            _checked={{ borderColor: "pink.light" }}
-            value="Troubles de l'alimentation"
-            onChange={updateExpertise}
-          >
-            <Text fontSize="sm">Troubles de l'alimentation</Text>
-          </Checkbox>
-          <Checkbox
-            iconColor="pink.light"
-            colorScheme="white"
-            borderColor="gray"
-            _checked={{ borderColor: "pink.light" }}
-            value="Trouble de la thésaurisation"
-            onChange={updateExpertise}
-          >
-            <Text fontSize="sm">Trouble de la thésaurisation</Text>
-          </Checkbox>
-          <Checkbox
-            iconColor="pink.light"
-            colorScheme="white"
-            borderColor="gray"
-            _checked={{ borderColor: "pink.light" }}
-            value="Trouble obsessionnel-compulsif (TOC)"
-            onChange={updateExpertise}
-          >
-            <Text fontSize="sm">Trouble obsessionnel-compulsif (TOC)</Text>
-          </Checkbox>
-          <Checkbox
-            iconColor="pink.light"
-            colorScheme="white"
-            borderColor="gray"
-            _checked={{ borderColor: "pink.light" }}
-            value="Trouble de stress post-traumatique (TSPT)"
-            onChange={updateExpertise}
-          >
-            <Text fontSize="sm">
-              {" "}
-              Trouble de stress post-traumatique (TSPT)
-            </Text>
-          </Checkbox>
-          <Checkbox
-            iconColor="pink.light"
-            colorScheme="white"
-            borderColor="gray"
-            _checked={{ borderColor: "pink.light" }}
-            value="Skizophrénie"
-            onChange={updateExpertise}
-          >
-            <Text fontSize="sm">Skizophrénie</Text>
-          </Checkbox>
-          <Checkbox
-            iconColor="pink.light"
-            colorScheme="white"
-            borderColor="gray"
-            _checked={{ borderColor: "pink.light" }}
-            value="Abus de substances et toxicomanie"
-            onChange={updateExpertise}
-          >
-            <Text fontSize="sm">Abus de substances et toxicomanie</Text>
-          </Checkbox>
-          <Checkbox
-            iconColor="pink.light"
-            colorScheme="white"
-            borderColor="gray"
-            _checked={{ borderColor: "pink.light" }}
-            value="Trouble de l'attention avec ou sans hyperactivité (TDAH)"
-            onChange={updateExpertise}
-          >
-            <Text fontSize="sm">
-              {" "}
-              Trouble de l'attention avec ou sans hyperactivité (TDAH)
-            </Text>
-          </Checkbox>
+          {expertise.map(
+            (element) =>
+              element.category === "Santé mentale" && (
+                <Checkbox
+                  iconColor="pink.light"
+                  colorScheme="white"
+                  borderColor="gray"
+                  _checked={{ borderColor: "pink.light" }}
+                  value={element.name}
+                  onChange={updateExpertise}
+                >
+                  <Text fontSize="sm">{element.name}</Text>
+                </Checkbox>
+              )
+          )}
         </Flex>
       </CheckboxGroup>
     </Flex>
