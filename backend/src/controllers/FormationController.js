@@ -25,14 +25,6 @@ const createOne = async (req, res) => {
     return res.status(422).json(error.details);
   }
 
-  // const freeId = await verifyAccessToken(req.cookies.userToken);
-
-  // if (freeId.payload.fkId !== freelancerId) {
-  //   return res
-  //     .status(401)
-  //     .send("Vous n'avez pas les droits pour créer une formation sur ce profil");
-  // }
-
   try {
     const formationCreated = await createOneFormation({
       ...req.body,

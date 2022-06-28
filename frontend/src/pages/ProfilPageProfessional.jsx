@@ -14,6 +14,7 @@ import Verifications from "../components/Profile/Verifications";
 import Tarif from "../components/Profile/Tarif";
 import MissionCarousel from "../components/Profile/Mission/MissionCarousel";
 import { getListforAnId } from "../services/ProfileProUtils";
+import backendAPI from "../services/backendAPI";
 
 export default function ProfilPageProfessional() {
   const navigate = useNavigate();
@@ -38,6 +39,18 @@ export default function ProfilPageProfessional() {
         navigate("/error");
       });
   };
+
+  useEffect(() => {
+    if (JSON.parse(localStorage.getItem("isUserLoggedIn"))) {
+      backendAPI.get("/api/auth/sessionControl").then((res) => {
+        if (res.code === "401") {
+          navigate("/login");
+        }
+      });
+    } else {
+      navigate("/login");
+    }
+  }, []);
 
   useEffect(() => {
     getfreelancer();
