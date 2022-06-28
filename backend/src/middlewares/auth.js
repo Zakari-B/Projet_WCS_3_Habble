@@ -8,10 +8,12 @@ const authorization = async (req, res, next) => {
   }
   try {
     const data = await verifyAccessToken(token);
-    req.userId = data.payload.id;
-    req.userRole = data.payload.role;
+    req.userId = data.payload.user.id;
+    req.userRole = data.payload.user.role;
     if (req.userRole === "freelancer") {
-      const freelancerEntry = await freelancer.findOneByUserId(req.userId);
+      const freelancerEntry = await freelancer.findOneFreelancerByUserId(
+        req.userId
+      );
       if (freelancerEntry) {
         req.roleId = freelancerEntry.id;
       }
@@ -28,6 +30,16 @@ const authSelf = async (req, res, next) => {
     return next();
   }
   return res.sendStatus(401);
+};
+
+const authSelfRole = async (req, res, next) => {
+  if (
+    req.roleId === parseInt(req.params.employerid, 10) ||
+    req.roleId === parseInt(req.params.freelancerid, 10)
+  ) {
+    return next();
+  }
+  return res.status(401).send("c'est une erreur");
 };
 
 const sessionControl = async (req, res) => {
@@ -57,4 +69,4 @@ const sessionControl = async (req, res) => {
   }
 };
 
-module.exports = { authorization, authSelf, sessionControl };
+module.exports = { authorization, authSelf, sessionControl, authSelfRole };

@@ -11,6 +11,7 @@ import {
   MenuItem,
   MenuDivider,
 } from "@chakra-ui/react";
+
 import { useState, useEffect } from "react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import PropTypes from "prop-types";
@@ -71,7 +72,7 @@ export default function Header({
       position={isSticky || isStickyWhite ? "fixed" : "relative"}
       paddingX={{ base: "2%", lg: "5%" }}
       paddingY="30px"
-      bgColor={(isSticky || isStickyWhite) && "white"}
+      bgColor={((isSticky && scrollPosition > 50) || isStickyWhite) && "white"}
       w={isSticky || isStickyWhite ? "100vw" : "100vp"}
       zIndex="999"
     >
@@ -128,9 +129,15 @@ export default function Header({
               <MenuList marginLeft="150px">
                 <MenuGroup title="Profil" color="purple.dark">
                   <MenuItem icon={<BiUser />}>MON PROFIL</MenuItem>
-                  <MenuItem icon={<GrAnnounce />} color="purple.dark">
-                    MES ANNONCES
-                  </MenuItem>
+                  <Link
+                    to="/profil/id/mes-annonces"
+                    w="-webkit-fill-available%"
+                  >
+                    <MenuItem icon={<GrAnnounce />} color="purple.dark">
+                      MES ANNONCES
+                    </MenuItem>
+                  </Link>
+
                   <MenuItem icon={<BiChat />} color="purple.dark">
                     MES MESSAGES
                   </MenuItem>
