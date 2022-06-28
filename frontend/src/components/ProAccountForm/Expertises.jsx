@@ -14,13 +14,15 @@ export default function Expertises() {
   // useState pour chaque input //
   const [expertise, setExpertise] = useState([]);
 
+  const [expertiseList, setExpertiseList] = useState([]);
+
   // fonction retrait et d'ajout d'une expertise //
   const updateExpertise = (e) => {
-    if (e.target.checked && !expertise.includes(e.target.value)) {
-      setExpertise([...expertise, e.target.value]);
+    if (e.target.checked && !expertiseList.includes(e.target.value)) {
+      setExpertiseList([...expertiseList, e.target.value]);
     } else if (!e.target.checked) {
-      expertise.splice(expertise.indexOf(e.target.value), 1);
-      setExpertise(expertise);
+      expertiseList.splice(expertiseList.indexOf(e.target.value), 1);
+      setExpertiseList(expertiseList);
     }
   };
 
