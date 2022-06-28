@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import {
   Flex,
   Heading,
@@ -15,13 +16,20 @@ import {
   ModalCloseButton,
 } from "@chakra-ui/react";
 import UploadedDocs from "./UploadedDocs";
-import fakeData from "../../../assets/fakeData.json";
 import backendAPI from "../../../services/backendAPI";
 
-export default function DocumentCarousel() {
+export default function DocumentCarousel({ updated, setUpdated }) {
   const [files, setFiles] = useState([]);
   const [fileType, setFileType] = useState([]);
+  const [profileDocuments, setProfileDocuments] = useState([]);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { freelancerId } = useParams();
+
+  useEffect(() => {
+    backendAPI.get(`api/freelancers/${freelancerId}/documents`).then((res) => {
+      setProfileDocuments(res.data);
+    });
+  }, []);
 
   const handleForm = (e) => {
     e.preventDefault();
@@ -136,9 +144,15 @@ export default function DocumentCarousel() {
         w={{ base: "100%", "2xl": "90%" }}
         m="auto"
       >
-        {fakeData.map((elem) => (
-          <UploadedDocs key={`${elem.name}_${elem.id}`} data={elem} />
-        ))}
+        {profileDocuments &&
+          profileDocuments.map((elem) => (
+            <UploadedDocs
+              key={elem.id}
+              data={elem}
+              updated={updated}
+              setUpdated={setUpdated}
+            />
+          ))}
       </Flex>
     </Flex>
   );

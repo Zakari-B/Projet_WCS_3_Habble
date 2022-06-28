@@ -8,6 +8,7 @@ const FormationController = require("./controllers/FormationController");
 const ExperienceProController = require("./controllers/ExperienceProController");
 const mailController = require("./controllers/mailController");
 const fileController = require("./controllers/FileController");
+const DocumentsController = require("./controllers/DocumentsController");
 const multer = require("./middlewares/multer");
 
 // const auth = require("./middlewares/auth");
@@ -68,6 +69,20 @@ router.get("/employers/", EmployerController.getAll);
 router.get("/employers/:id", EmployerController.getOne);
 router.put("/employers/:id", EmployerController.updateOne);
 router.get("/employers/:id/user", EmployerController.getUserFromEmployer);
+
+// Routes for documentsController
+
+router.get(
+  "/freelancers/:freelancerid/documents",
+  authorization,
+  DocumentsController.getAll
+);
+router.delete(
+  "/freelancers/:freelancerid/documents/:id",
+  authorization,
+  authSelfRole,
+  DocumentsController.deleteOne
+);
 
 // Routes for Diplomes
 router.post(
