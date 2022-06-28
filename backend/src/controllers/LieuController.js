@@ -3,7 +3,6 @@ const {
   createOneLocation,
   getAllLocations,
   getOneLocation,
-  //   getAllLocationsbyAnnonceId,
   updateOneLocation,
   deleteOneLocation,
 } = require("../models/lieu");
