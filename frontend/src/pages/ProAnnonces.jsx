@@ -9,7 +9,8 @@ import {
 } from "@chakra-ui/react";
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer";
-import ProSelect from "../components/ProAnnonces/ProSelect";
+import EmployerSelect from "../components/EmployerAnnonces/EmployerSelect";
+import EmployerPrevious from "../components/EmployerAnnonces/EmployerPrevious";
 
 function ProAnnonces() {
   return (
@@ -50,10 +51,10 @@ function ProAnnonces() {
 
           <TabPanels>
             <TabPanel>
-              <ProSelect />
+              <EmployerSelect />
             </TabPanel>
             <TabPanel>
-              <p>two!</p>
+              <EmployerPrevious />
             </TabPanel>
           </TabPanels>
         </Tabs>

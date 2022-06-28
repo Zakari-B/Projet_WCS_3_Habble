@@ -16,7 +16,7 @@ import {
   Button,
 } from "@chakra-ui/react";
 
-function ProSelect() {
+function EmployerSelect() {
   // eslint-disable-next-line no-unused-vars
   const [fakeData, setFakeDate] = useState([
     {
@@ -39,9 +39,17 @@ function ProSelect() {
     },
   ]);
   const [option, setOption] = useState("");
+  const [input, setInput] = useState("");
 
   const handleFilter = (e) => {
     setOption(e.target.value);
+  };
+  const handleChange = (e) => {
+    setInput(e.target.value);
+  };
+  const handleReset = () => {
+    setOption("");
+    setInput("");
   };
 
   return (
@@ -61,7 +69,12 @@ function ProSelect() {
             <Text fontWeight="bold" color="purple.average" fontSize="1.5rem">
               Mot-clés
             </Text>
-            <Input placeholder="Cherchez une annonce par mot-clé" w="100%" />
+            <Input
+              placeholder="Cherchez une annonce par mot-clé"
+              w="100%"
+              value={input}
+              onChange={handleChange}
+            />
           </VStack>
           <VStack
             w={{ base: "100%", lg: "38%" }}
@@ -81,15 +94,17 @@ function ProSelect() {
             </Select>
           </VStack>
         </Flex>
-        <Text
+        <Button
           color="pink.light"
+          bgColor="white"
           fontWeight="bold"
-          fontSize="1rem"
-          textAlign="left"
-          p="0 2.5rem 2.5rem 2.5rem"
+          onClick={handleReset}
+          _hover={{ bgColor: "white" }}
+          _focus={{ bgColor: "white" }}
+          mb="1rem"
         >
           Supprimez tous les filtres
-        </Text>
+        </Button>
       </Box>
 
       <Box
@@ -115,7 +130,10 @@ function ProSelect() {
             </Thead>
             {fakeData &&
               fakeData
-                .filter((opt) => opt.state.includes(option))
+                .filter(
+                  (opt) =>
+                    opt.title.includes(input) && opt.state.includes(option)
+                )
                 .map((data) => (
                   <Tbody key={data.id}>
                     <Tr>
@@ -135,4 +153,4 @@ function ProSelect() {
   );
 }
 
-export default ProSelect;
+export default EmployerSelect;
