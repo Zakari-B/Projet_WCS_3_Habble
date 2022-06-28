@@ -10,6 +10,7 @@ import {
 import { CloseIcon } from "@chakra-ui/icons";
 
 import { useState, useEffect } from "react";
+
 import backendAPI from "../../services/backendAPI";
 
 export default function Services() {
@@ -85,39 +86,6 @@ export default function Services() {
         {services.map((element) => (
           <option value={element.name}>{element.name}</option>
         ))}
-        {/* <option value="Conseils éducatifs">Conseils éducatifs</option>
-        <option value="Activités ludiques et sportives">
-          Activités ludiques et sportives
-        </option>
-        <option value="Garde d’enfant">Garde d’enfant</option>
-        <option value="Coaching professionnel">Coaching professionnel</option>
-        <option value="Compagnie et support social">
-          Compagnie et support social
-        </option>
-        <option value="Service original">Service original</option>
-        <option value="Aide à domicile">Aide à domicile</option>
-        <option value="Rééducation, paramédical">
-          Rééducation, paramédical
-        </option>
-        <option value="Soins personnels : toilette, habillement, …">
-          Soins personnels : toilette, habillement, …
-        </option>
-        <option value="Soins infirmiers">Soins infirmiers</option>
-        <option value="Aide administrative, démarches, dossiers">
-          Aide administrative, démarches, dossiers
-        </option>
-        <option value="Soutien scolaire">Soutien scolaire</option>
-        <option value="Soutien à la parentalité">
-          Soutien à la parentalité
-        </option>
-        <option value="Soutien psychologique">Soutien psychologique</option>
-        <option value="Transport, logistique, voyage">
-          Transport, logistique, voyage
-        </option>
-        <option value="Santé">Santé</option>
-        <option value="Bien être">Bien être</option>
-        <option value="Aide technique">Aide technique</option>
-        <option value="Agencement PMR">Agencement PMR</option> */}
       </Select>
     </Box>
   );
