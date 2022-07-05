@@ -30,14 +30,14 @@ export default function AnnoncesPageEmployer() {
     {
       id: 1,
       annonceId: 1,
-      freelancerId: 7,
+      freelancerId: 3,
       price: 20.0,
       message:
         "Bonjour je peux vous aider sur la partie accompagnement scolaireBonjour je peux vous aider sur la partie accompagnement scolaireBonjour je peux vous aider sur la partie accompagnement scolaireBonjour je peux vous aider sur la partie accompagnement scolaire",
-      availableIn: "4 jours",
+      availableIn: "15 jours",
       status: "Acceptée",
       freelancer: {
-        displayName: "MarieS",
+        displayName: "Mama S",
         activityDescription: "Assistante devoir",
         zipCode: "83600",
         experienceYear: 3,
@@ -84,6 +84,7 @@ export default function AnnoncesPageEmployer() {
   //   .catch((error) => {
   //     console.warn(error);
   //   });
+
   return (
     <Box h="100vh">
       <Header onDark={false} isSticky={false} isStickyWhite />

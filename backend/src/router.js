@@ -9,6 +9,8 @@ const ExperienceProController = require("./controllers/ExperienceProController")
 const LieuController = require("./controllers/LieuController");
 const ServiceController = require("./controllers/ServiceControllers");
 const ExpertiseController = require("./controllers/ExpertiseControllers");
+const OfferController = require("./controllers/OfferController");
+
 const mailController = require("./controllers/mailController");
 
 // const auth = require("./middlewares/auth");
@@ -177,5 +179,11 @@ router.get("/expertises", ExpertiseController.getAll);
 router.get("/expertises/:id", ExpertiseController.getOne);
 router.put("/expertises/:id", ExpertiseController.updateOne);
 router.delete("/expertises/:id", ExpertiseController.deleteOne);
+
+// Routes for offers
+router.post(
+  "/freelancers/:freelancerid/annonces/:annonceid/offers",
+  OfferController.createOne
+);
 
 module.exports = router;

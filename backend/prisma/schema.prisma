@@ -45,6 +45,7 @@ model freelancer {
   freelancer_expertises freelancer_expertises[]
   experience_pro        experience_pro[]
   diplomes              diplomes[]
+  annonce_offers        annonce_offers[]
 }
 
 model employer {
@@ -79,7 +80,7 @@ model freelancer_services {
 
 model services {
   id                  Int                   @id @default(autoincrement())
-  name                String                @db.VarChar(255) @unique
+  name                String                @unique @db.VarChar(255)
   freelancer_services freelancer_services[]
   annonce_services    annonce_services[]
 }
@@ -94,7 +95,7 @@ model freelancer_expertises {
 
 model expertises {
   id                    Int                     @id @default(autoincrement())
-  name                  String                  @db.VarChar(100) @unique
+  name                  String                  @unique @db.VarChar(100)
   category              String                  @db.VarChar(100)
   freelancer_expertises freelancer_expertises[]
 }
@@ -150,6 +151,19 @@ model annonce {
   annonce_service annonce_services[]
   fk_employer_id  employer           @relation(fields: [employerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   annonce_lieu    annonce_lieu[]
+  annonce_offers  annonce_offers[]
+}
+
+model annonce_offers {
+  id           Int        @id @default(autoincrement())
+  annonceId    Int
+  freelancerId Int
+  price        Float
+  description  String     @db.VarChar(500)
+  availableIn  String     @db.VarChar(500)
+  status       String     @default("En attente") @db.VarChar(500)
+  freelancer   freelancer @relation(fields: [freelancerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  annonce      annonce    @relation(fields: [annonceId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
 
 model annonce_services {
@@ -162,7 +176,7 @@ model annonce_services {
 
 model lieu {
   id           Int            @id @default(autoincrement())
-  name         String         @db.VarChar(100) @unique
+  name         String         @unique @db.VarChar(100)
   annonce_lieu annonce_lieu[]
 }
 

@@ -12,6 +12,8 @@ export default function AnnonceRecap({ annonce, offers }) {
     tagColor = "gray";
   }
 
+  const role = localStorage.getItem("role");
+
   return (
     <Flex
       direction="column"
@@ -149,7 +151,11 @@ export default function AnnonceRecap({ annonce, offers }) {
           </Flex>
         </Flex>
         <Flex direction="column" gap="10px" alignItems="flex-end">
-          <Button variant="solid_PrimaryColor">Modifier</Button>
+          {role === "employer" ? (
+            <Button variant="solid_PrimaryColor">Modifier</Button>
+          ) : (
+            <Button variant="solid_PrimaryColor">Faire une Proposition</Button>
+          )}
         </Flex>
       </Flex>
     </Flex>

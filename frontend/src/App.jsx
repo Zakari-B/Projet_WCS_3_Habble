@@ -49,7 +49,11 @@ function App() {
           element={<ProfilPageEmployer />}
         />
         <Route
-          path="/profil-employer/:roleid/mes-annonces/:id"
+          path="/profil-employer/:employerId/mes-annonces/:id"
+          element={<AnnoncesPageEmployer />}
+        />
+        <Route
+          path="/profil/:freelancerId/mes-annonces/:id"
           element={<AnnoncesPageEmployer />}
         />
         <Route path="/logout" element={<Logout />} />
