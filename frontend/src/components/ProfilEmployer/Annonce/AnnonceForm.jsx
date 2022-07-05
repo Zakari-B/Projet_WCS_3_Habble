@@ -41,6 +41,7 @@ export default function AnnonceForm() {
   const [tags, setTags] = useState([]);
   const [location, setLocation] = useState([]);
   const [emergency, setEmergency] = useState(false);
+  const [status] = useState("En cours");
 
   const { employerId } = useParams();
 
@@ -50,7 +51,7 @@ export default function AnnonceForm() {
   };
 
   // fonction retrait d'ajout d'un item //
-  const expertise = (e) => {
+  const service = (e) => {
     if (e.target.value !== "" && !tags.includes(e.target.value)) {
       setTags([...tags, e.target.value]);
       e.target.value = "";
@@ -93,6 +94,9 @@ export default function AnnonceForm() {
       description,
       emergency,
       price,
+      service,
+      location,
+      status,
     })
       .then(() => {
         navigate(`/profil-employer/${employerId}`);
@@ -256,9 +260,9 @@ export default function AnnonceForm() {
                   fontWeight="500"
                   color="gray"
                   placeholder="Choisissez un ou plusieurs services dans la liste, tapez des mots clés pour filtrer"
-                  onChange={expertise}
+                  onChange={service}
                   onKeyUp={(event) =>
-                    event.key === "Enter" ? expertise(event) : null
+                    event.key === "Enter" ? service(event) : null
                   }
                 >
                   <option value="Conseils éducatifs">Conseils éducatifs</option>
