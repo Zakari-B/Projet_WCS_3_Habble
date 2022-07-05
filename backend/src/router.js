@@ -199,7 +199,7 @@ router.get(
 
 // Routes for offers
 router.post(
-  "/freelancers/:id/annonces/:annonceid/offers",
+  "/freelancers/:freelancerid/annonces/:annonceid/offers",
   authorization,
   authSelfRole,
   OfferController.createOne
@@ -208,7 +208,7 @@ router.get("/offers", authorization, OfferController.getAll);
 router.get("/offers/:id", authorization, OfferController.getOne);
 
 router.get(
-  "/annonce/:annonceid/offers",
+  "/annonces/:annonceid/offers",
   authorization,
   OfferController.getAllForAnAnnonce
 );
@@ -218,10 +218,17 @@ router.get(
 );
 
 router.put(
-  "/offers/:id",
+  "/freelancers/:freelancerid/offers/:id",
   authorization,
   authSelfRole,
   OfferController.updateOne
+);
+
+router.delete(
+  "/freelancers/:freelancerid/offers/:id",
+  authorization,
+  authSelfRole,
+  OfferController.deleteOne
 );
 
 router.get("/expertises/:id", ExpertiseController.getOne);

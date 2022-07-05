@@ -57,11 +57,18 @@ const getOneOffer = async (id) => {
 
 const updateOneOffer = async (id, data) => {
   try {
-    const offer = await prisma.annonce_offers.update({
+    return await prisma.annonce_offers.update({
       where: { id },
       data: { ...data },
     });
-    return offer;
+  } finally {
+    await prisma.$disconnect();
+  }
+};
+
+const deleteOneOffer = async (id) => {
+  try {
+    return await prisma.annonce_offers.delete({ where: { id } });
   } finally {
     await prisma.$disconnect();
   }
@@ -74,4 +81,5 @@ module.exports = {
   getOneOfferForOneAnnonceAndFreelancer,
   getOneOffer,
   updateOneOffer,
+  deleteOneOffer,
 };

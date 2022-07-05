@@ -8,10 +8,7 @@ const {
   getOneOfferForOneAnnonceAndFreelancer,
   getOneOffer,
   updateOneOffer,
-  //   getAllDiplomabyFreelancerId,
-  //   getOneDiplomabyFreelancerId,
-  //   updateOneDiploma,
-  //   deleteOneDiploma,
+  deleteOneOffer,
 } = require("../models/offer");
 const {
   validateOfferCreation,
@@ -92,7 +89,7 @@ const getOneOfferForOneAnnonceAndOneFreelancer = async (req, res) => {
 
 const createOne = async (req, res) => {
   // on récupère l'id du freelancer dans la requête
-  const freelancerId = parseInt(req.params.id, 10);
+  const freelancerId = parseInt(req.params.freelancerid, 10);
   const annonceId = parseInt(req.params.annonceid, 10);
 
   // on check si le freelancer existe et on renvoie une 404 si il n'existe pas
@@ -114,7 +111,7 @@ const createOne = async (req, res) => {
     annonceId
   );
 
-  if (existingAnnonce) {
+  if (existingAnnonce.length > 0) {
     return res
       .status(409)
       .send("Vous ne pouvez pas proposer plusieurs offres pour une annonce");
@@ -187,39 +184,25 @@ const updateOne = async (req, res) => {
   }
 };
 
-// const deleteOne = async (req, res) => {
-//   const freelancerId = parseInt(req.params.freelancerid, 10);
-//   const diplomeID = parseInt(req.params.id, 10);
+const deleteOne = async (req, res) => {
+  const offerId = parseInt(req.params.id, 10);
 
-//   // on check les droits de mofification de formulaire
-//   // const freeId = await verifyAccessToken(req.cookies.userToken);
-//   // if (freeId.payload.fkId !== freelancerId) {
-//   //   return res
-//   //     .status(401)
-//   //     .send(
-//   //       "Vous n'avez pas les droits pour supprimer un diplôme sur ce profil"
-//   //     );
-//   // }
+  const offer = await getOneOffer(offerId);
 
-//   // on check qu'un displome existe pour le couple freelancer/diplome
-//   const diploma = await getOneDiplomabyFreelancerId(freelancerId, diplomeID);
+  if (!offer) {
+    res.status(404).send("Aucune offre n'existe");
+  }
 
-//   if (!diploma) {
-//     res
-//       .status(404)
-//       .send("Aucun diplôme diplôme correspondant pour ce professionnel");
-//   }
-
-//   try {
-//     await deleteOneDiploma(diploma.id);
-//     return res.status(200).send("Le diplôme a été supprimé avec succès");
-//   } catch (e) {
-//     console.error(e);
-//     return res
-//       .status(500)
-//       .json({ error: "Problème de suppression de l'entrée diplôme" });
-//   }
-// };
+  try {
+    await deleteOneOffer(offerId);
+    return res.status(200).send("L'offre a été retirée avec succès");
+  } catch (e) {
+    console.error(e);
+    return res
+      .status(500)
+      .json({ error: "Problème de suppression de l'entrée offre" });
+  }
+};
 module.exports = {
   createOne,
   getAll,
@@ -227,4 +210,5 @@ module.exports = {
   getOneOfferForOneAnnonceAndOneFreelancer,
   getOne,
   updateOne,
+  deleteOne,
 };
