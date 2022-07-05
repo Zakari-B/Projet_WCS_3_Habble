@@ -95,7 +95,6 @@ export default function AnnonceForm() {
       emergency,
       price,
       service,
-      location,
       status,
     })
       .then(() => {

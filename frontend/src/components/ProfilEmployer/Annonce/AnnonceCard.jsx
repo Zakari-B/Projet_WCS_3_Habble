@@ -19,9 +19,19 @@ export default function AnnonceCard({ annonce }) {
 
   return (
     <Flex direction="column" gap="10px" paddingY="10px">
-      <Heading as="h2" color="purple.average" fontSize="1.5em" fontWeight="700">
-        {annonce.title}
-      </Heading>
+      <Flex justify="space-between">
+        <Heading
+          as="h2"
+          color="purple.average"
+          fontSize="1.5em"
+          fontWeight="700"
+        >
+          {annonce.title}
+        </Heading>
+        <Tag colorScheme="teal" size="sm">
+          {annonce.status}
+        </Tag>
+      </Flex>
       <Heading as="h3" color="purple.average" fontSize="16px" fontWeight="600">
         {annonce.description}
       </Heading>
@@ -31,7 +41,7 @@ export default function AnnonceCard({ annonce }) {
       <Text color="purple.average" fontSize="14px">
         {annonce.service}
       </Text>
-      <Tag colorScheme="teal">{annonce.status}</Tag>
+
       <Flex gap="20px">
         <Link to="/deposer-une-annonce">
           <Button
