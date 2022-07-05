@@ -26,7 +26,6 @@ export default function AnnonceRecap({ annonce, offers }) {
 
   const { freelancerId } = useParams();
   const { isOpen, onOpen, onClose } = useDisclosure();
-
   const currentFreeOffer = offers.filter(
     (offer) => offer.freelancerId === parseInt(freelancerId, 10)
   );
@@ -194,11 +193,13 @@ export default function AnnonceRecap({ annonce, offers }) {
           {role === "employer" && (
             <Button variant="solid_PrimaryColor">Modifier</Button>
           )}
-          {currentFreeOffer.length === 0 ? (
+
+          {role === "freelancer" && currentFreeOffer.length === 0 && (
             <Button variant="solid_PrimaryColor" onClick={onOpen}>
               Faire une Proposition
             </Button>
-          ) : (
+          )}
+          {role === "freelancer" && currentFreeOffer.length !== 0 && (
             <Button variant="solid_PrimaryColor" onClick={handleDelete}>
               Retirer ma Proposition
             </Button>
