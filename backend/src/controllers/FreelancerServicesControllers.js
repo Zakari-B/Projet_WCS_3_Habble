@@ -66,7 +66,7 @@ const deleteOne = async (req, res) => {
 
   try {
     await deleteOneByFreelancer(parseInt(serviceCheck[0].id, 10));
-    return res.status(200).json({ Succès: `Service supprimé avec succès` });
+    return res.status(200).json({ Succès: `Service supprimé avec succès ` });
   } catch (e) {
     console.warn(e);
     return res.sendStatus(500);

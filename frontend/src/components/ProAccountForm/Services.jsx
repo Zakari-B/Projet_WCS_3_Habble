@@ -10,26 +10,31 @@ import {
 import { CloseIcon } from "@chakra-ui/icons";
 
 import { useState, useEffect } from "react";
-// import { useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 import backendAPI from "../../services/backendAPI";
 
 export default function Services() {
+  const { freelancerId } = useParams();
   // useState pour chaque input //
   const [tags, setTags] = useState([]);
   const [services, setServices] = useState([]);
-  // const [freelancerServices, setFreelancerServices] = useState([]);
+  const [test, setTest] = useState("");
 
   // fonction retrait d'un item //
   const removeItem = (indexToRemove) => {
     setTags([...tags.filter((_, index) => index !== indexToRemove)]);
+    backendAPI.delete(`/api/freelancers/${freelancerId}/services/${test}`);
   };
-
   // fonction retrait d'ajout d'un item //
   const addItem = (e) => {
-    if (e.target.value !== "" && !tags.includes(e.target.value)) {
-      setTags([...tags, e.target.value]);
-      e.target.value = "";
+    const nameService = e.target.options[e.target.selectedIndex].text;
+    if (nameService !== "" && !tags.includes(nameService)) {
+      setTags([...tags, nameService]);
+      setTest(e.target.value);
+      backendAPI.post(
+        `/api/freelancers/${freelancerId}/services/${e.target.value}`
+      );
     }
   };
 
@@ -45,22 +50,8 @@ export default function Services() {
       });
   };
 
-  // const freelancerId = user.freelancer[0].id;
-
-  // const getAllServicesByFreelancer = () => {
-  //   backendAPI
-  //     .get(`/api/freelancers/${freelancerId}/services`)
-  //     .then((response) => {
-  //       console.log(response.data);
-  //     })
-  //     .catch((error) => {
-  //       console.warn(error);
-  //     });
-  // };
-
   useEffect(() => {
     getAllServices();
-    // getAllServicesByFreelancer();
   }, []);
 
   return (
@@ -102,9 +93,7 @@ export default function Services() {
         onKeyUp={(event) => (event.key === "Enter" ? addItem(event) : null)}
       >
         {services.map((element) => (
-          <option value={element.name} id={element.id}>
-            {element.name}
-          </option>
+          <option value={element.id}>{element.name}</option>
         ))}
       </Select>
     </Box>

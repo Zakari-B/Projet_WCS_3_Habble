@@ -42,7 +42,6 @@ export default function ProAccountForm() {
   const [pricePro, setPricePro] = useState();
   const [descriptionPro, setDescriptionPro] = useState("");
   const [acceptEmailPro, setAcceptEmailPro] = useState(false);
-
   const [siretPro, setSiretPro] = useState();
 
   // Appel axios pour récuperer un user
@@ -416,7 +415,7 @@ export default function ProAccountForm() {
               >
                 Sélectionnez un ou plusieurs services que vous proposez *
               </FormLabel>
-              <Services user={user.freelancer} />
+              <Services />
             </Flex>
           </FormControl>
           <Checkbox
