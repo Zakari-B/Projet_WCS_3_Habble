@@ -1,5 +1,6 @@
 const { verifyAccessToken } = require("../helpers/jwtHelper");
 const freelancer = require("../models/freelancer");
+const employer = require("../models/employer");
 
 const authorization = async (req, res, next) => {
   const token = req.cookies.userToken;
@@ -16,6 +17,12 @@ const authorization = async (req, res, next) => {
       );
       if (freelancerEntry) {
         req.roleId = freelancerEntry.id;
+      }
+    }
+    if (req.userRole === "employer") {
+      const employerEntry = await employer.findOneEmployerByUserId(req.userId);
+      if (employerEntry) {
+        req.roleId = employerEntry.id;
       }
     }
     return next();

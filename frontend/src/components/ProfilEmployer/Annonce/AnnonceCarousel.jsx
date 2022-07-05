@@ -1,40 +1,54 @@
-import { Flex, Heading, Text, Button, Collapse } from "@chakra-ui/react";
-import { useState, useMemo } from "react";
-import { Link } from "react-router-dom";
+import { Flex, Heading, Text, Button } from "@chakra-ui/react";
+import { useState, useEffect } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import AnnonceCard from "./AnnonceCard";
-import AnnonceFormContext from "../../../contexts/AnnonceFormContext";
-import FormAnnonce from "./AnnonceForm";
+import backendAPI from "../../../services/backendAPI";
 
 export default function AnnonceCarousel() {
-  const [annoncelist] = useState([
-    {
-      id: 1,
-      title: "Aide aux devoirs",
-      description:
-        "J'ai besoin d'aide pour les devoirs de mon fils souffrant de troubles autistiques",
-      expertise: "conseils éducatifs",
-      price: 40,
-      zipCode: "83000",
-      location: "domicile",
-      emergency: true,
-    },
-    {
-      id: 1,
-      title: "Aide aux devoirs",
-      description:
-        "J'ai besoin d'aide pour les devoirs de mon fils souffrant de troubles autistiques",
-      expertise: "conseils éducatifs",
-      price: 40,
-      zipCode: "83000",
-      location: "domicile",
-      emergency: true,
-    },
-  ]);
-  const [isVisible, setIsVisible] = useState(false);
-  const context = useMemo(() => ({ isVisible, setIsVisible }), []);
-  const toggleForm = () => {
-    setIsVisible(!isVisible);
+  // const [annoncelist] = useState([
+  //   {
+  //     id: 1,
+  //     title: "Aide aux devoirs",
+  //     description:
+  //       "J'ai besoin d'aide pour les devoirs de mon fils souffrant de troubles autistiques",
+  //     expertise: "conseils éducatifs",
+  //     price: 40,
+  //     zipCode: "83000",
+  //     location: "domicile",
+  //     emergency: true,
+  //   },
+  //   {
+  //     id: 1,
+  //     title: "Aide aux devoirs",
+  //     description:
+  //       "J'ai besoin d'aide pour les devoirs de mon fils souffrant de troubles autistiques",
+  //     expertise: "conseils éducatifs",
+  //     price: 40,
+  //     zipCode: "83000",
+  //     location: "domicile",
+  //     emergency: true,
+  //   },
+  // ]);
+
+  const { employerId } = useParams();
+  const navigate = useNavigate();
+  const [announcements, setAnnouncements] = useState([]);
+
+  const getannouncements = () => {
+    backendAPI
+      .get(`api/employers/${employerId}/annonces`)
+      .then((response) => {
+        setAnnouncements(response.data);
+      })
+      .catch((error) => {
+        console.warn(error);
+        navigate("/error");
+      });
   };
+
+  useEffect(() => {
+    getannouncements();
+  }, []);
 
   return (
     <Flex
@@ -49,32 +63,19 @@ export default function AnnonceCarousel() {
         <Heading as="h2" color="purple.light" fontSize="1.5em" fontWeight="700">
           Mes annonces
         </Heading>
-        {!isVisible && (
-          <Link to="/deposer-une-annonce">
-            <Button variant="outline_Pink" onClick={toggleForm}>
-              Ajouter
-            </Button>
-          </Link>
-        )}
+        <Link to={`/deposer-une-annonce/${employerId}`}>
+          <Button variant="outline_Pink">Ajouter</Button>
+        </Link>
       </Flex>
-      <Collapse in={isVisible}>
-        {isVisible && (
-          <AnnonceFormContext.Provider value={context}>
-            <FormAnnonce />
-          </AnnonceFormContext.Provider>
-        )}
-      </Collapse>
 
       <Flex direction="column">
-        {annoncelist.length === 0 ? (
+        {announcements.length === 0 ? (
           <Text color="gray" fontSize="16px" fontWeight="500">
             Il n'y a pas encore d'activité.
           </Text>
         ) : (
-          annoncelist.map((annonce) => (
-            <AnnonceFormContext.Provider value={context}>
-              <AnnonceCard annonce={annonce} key={annonce.id} />
-            </AnnonceFormContext.Provider>
+          announcements.map((annonce) => (
+            <AnnonceCard annonce={annonce} key={annonce.id} />
           ))
         )}
       </Flex>

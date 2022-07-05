@@ -43,7 +43,10 @@ function App() {
         />
         <Route path="/profils" element={<SearchProfessionals />} />
         <Route path="/welcome-pro/:freelancerId" element={<WelcomeInscPro />} />
-        <Route path="/deposer-une-annonce" element={<AnnonceForm />} />
+        <Route
+          path="/deposer-une-annonce/:employerId"
+          element={<AnnonceForm />}
+        />
         <Route
           path="/profil-employer/:employerId"
           element={<ProfilPageEmployer />}

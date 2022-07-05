@@ -10,6 +10,7 @@ const LieuController = require("./controllers/LieuController");
 const ServiceController = require("./controllers/ServiceControllers");
 const ExpertiseController = require("./controllers/ExpertiseControllers");
 const mailController = require("./controllers/mailController");
+const AnnonceController = require("./controllers/AnnonceController");
 
 // const auth = require("./middlewares/auth");
 const {
@@ -177,5 +178,25 @@ router.get("/expertises", ExpertiseController.getAll);
 router.get("/expertises/:id", ExpertiseController.getOne);
 router.put("/expertises/:id", ExpertiseController.updateOne);
 router.delete("/expertises/:id", ExpertiseController.deleteOne);
+
+// Routes for announcements
+router.post(
+  "/employers/:employerid/annonce",
+  authorization,
+  AnnonceController.createOne
+);
+router.get(
+  "/employers/:employerid/annonces",
+  AnnonceController.getAllByEmployerId
+);
+router.get("/annonces", AnnonceController.getAll);
+router.get(
+  "/employers/:employerid/annonce/:id",
+  AnnonceController.getOneByEmployerId
+);
+// router.get("/expertises", ExpertiseController.getAll);
+// router.get("/expertises/:id", ExpertiseController.getOne);
+// router.put("/expertises/:id", ExpertiseController.updateOne);
+// router.delete("/expertises/:id", ExpertiseController.deleteOne);
 
 module.exports = router;

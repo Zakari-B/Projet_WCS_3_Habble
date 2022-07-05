@@ -22,19 +22,27 @@ import {
   List,
   ListItem,
   IconButton,
+  useToast,
 } from "@chakra-ui/react";
 import { CloseIcon } from "@chakra-ui/icons";
 import { useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import Header from "../../Header/Header";
 import Footer from "../../Footer";
+import { addToList } from "../../../services/ProfileProUtils";
 
 export default function AnnonceForm() {
-  const [displayTitle, setDisplayTitle] = useState("");
+  const toast = useToast();
+  const navigate = useNavigate();
+
+  const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [pricePro, setPricePro] = useState("");
+  const [price, setPrice] = useState();
   const [tags, setTags] = useState([]);
   const [location, setLocation] = useState([]);
-  const [emergency, setEmergency] = useState([]);
+  const [emergency, setEmergency] = useState(false);
+
+  const { employerId } = useParams();
 
   // fonction retrait d'un item //
   const removeItem = (indexToRemove) => {
@@ -60,13 +68,56 @@ export default function AnnonceForm() {
   };
 
   const updateEmergency = (e) => {
-    if (e.target.checked && !emergency.includes(e.target.value)) {
-      setEmergency([...emergency, e.target.value]);
-    } else if (!e.target.checked) {
-      emergency.splice(emergency.indexOf(e.target.value), 1);
-      setEmergency(emergency);
+    if (e.target.checked) {
+      setEmergency(true);
     }
   };
+
+  // const createOneAnnouncement = () => {
+  //   backendAPI
+  //     .get(`/api/employers/${employerId}/annonce/${id}`)
+  //     .then((response) => {
+  //       setDisplayTitle(response.data.title);
+  //       setDescription(response.data.description);
+  //       setEmergency(response.data.emergency);
+  //     })
+  //     .catch((error) => {
+  //       console.warn(error);
+  //     });
+  // };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    addToList("employers", "annonce", employerId, {
+      title,
+      description,
+      emergency,
+      price,
+    })
+      .then(() => {
+        navigate(`/profil-employer/${employerId}`);
+      })
+      .then(() =>
+        toast({
+          title: "Votre annonce a bien été crée",
+          status: "success",
+          position: "bottom-right",
+          duration: 7000,
+          isClosable: true,
+        })
+      )
+      .catch((e) => {
+        console.error(e);
+        toast({
+          title: "Votre annonce n'a pas pu être ajoutée",
+          status: "error",
+          position: "bottom-right",
+          duration: 7000,
+          isClosable: true,
+        });
+      });
+  };
+
   return (
     <Box h="100vh">
       <Header onDark={false} isSticky={false} isStickyWhite={false} isSignUp />
@@ -112,7 +163,7 @@ export default function AnnonceForm() {
               </FormLabel>
               <Input
                 type="text"
-                id="proFormTitle"
+                id="title"
                 name="title"
                 placeholder="Résumez votre besoin ici"
                 _placeholder={{
@@ -120,8 +171,8 @@ export default function AnnonceForm() {
                   fontWeight: "500",
                   color: "gray",
                 }}
-                value={displayTitle}
-                onChange={(e) => setDisplayTitle(e.target.value)}
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
               />
               <FormLabel
                 htmlFor="description"
@@ -274,8 +325,8 @@ export default function AnnonceForm() {
                 <NumberInput
                   min={0}
                   w="80px"
-                  value={pricePro}
-                  onChange={(value) => setPricePro(value)}
+                  value={price}
+                  onChange={(value) => setPrice(parseInt(value, 10))}
                 >
                   <NumberInputField
                     id="proFormPrice"
@@ -408,6 +459,7 @@ export default function AnnonceForm() {
                   variant="solid_PrimaryColor"
                   type="submit"
                   marginTop="2rem"
+                  onClick={handleSubmit}
                 >
                   J'ai terminé, je dépose mon annonce
                 </Button>
