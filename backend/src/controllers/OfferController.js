@@ -3,15 +3,57 @@ const { findOneFreelancer } = require("../models/freelancer");
 
 const {
   createOneOffer,
+  getAllOffers,
+  getAllForOneAnnonce,
+  getOneOfferForOneAnnonceAndFreelancer,
+  getOneOffer,
+  updateOneOffer,
   //   getAllDiplomabyFreelancerId,
   //   getOneDiplomabyFreelancerId,
   //   updateOneDiploma,
   //   deleteOneDiploma,
 } = require("../models/offer");
-const { validateOfferCreation } = require("../utils/validate");
+const {
+  validateOfferCreation,
+  validateOfferUpdate,
+} = require("../utils/validate");
 
-const createOne = async (req, res) => {
-  // on récupère l'id du freelancer dans la requête
+const getAll = async (req, res) => {
+  try {
+    const offerList = await getAllOffers();
+    if (offerList.length === 0) {
+      res.status(404).send("Il n'y a aucune annonce pour le moment");
+    }
+    return res.status(201).send(offerList);
+  } catch (e) {
+    console.error(e);
+    return res.status(500).json({ error: "Problème de lecture des offres" });
+  }
+};
+
+const getAllForAnAnnonce = async (req, res) => {
+  const annonceId = parseInt(req.params.annonceid, 10);
+
+  // const annonce = await findOne(annonceId) (à checker avec Lora)
+  //   if (!annonce) {
+  //     return res.status(404).send(`L'annonce demandée n'existe pas`);
+  //   }
+
+  try {
+    const annonceList = await getAllForOneAnnonce(annonceId);
+    if (annonceList.length === 0) {
+      res.status(404).send("Il n'y a aucune offre pour cette annonce");
+    }
+    return res.status(201).send(annonceList);
+  } catch (e) {
+    console.error(e);
+    return res
+      .status(500)
+      .json({ error: "Problème de lecture des offres pour cette annonce" });
+  }
+};
+
+const getOneOfferForOneAnnonceAndOneFreelancer = async (req, res) => {
   const freelancerId = parseInt(req.params.freelancerid, 10);
   const annonceId = parseInt(req.params.annonceid, 10);
 
@@ -28,8 +70,55 @@ const createOne = async (req, res) => {
   //     return res.status(404).send(`L'annonce demandée n'existe pas`);
   //   }
 
+  try {
+    const annonceList = await getOneOfferForOneAnnonceAndFreelancer(
+      freelancerId,
+      annonceId
+    );
+    if (annonceList.length === 0) {
+      res
+        .status(404)
+        .send("Il n'y a aucune offre pour cette annonce et ce freelancer");
+    }
+    return res.status(201).send(annonceList);
+  } catch (e) {
+    console.error(e);
+    return res.status(500).json({
+      error:
+        "Problème de lecture des offres pour cette annonce et ce freelancer",
+    });
+  }
+};
+
+const createOne = async (req, res) => {
+  // on récupère l'id du freelancer dans la requête
+  const freelancerId = parseInt(req.params.id, 10);
+  const annonceId = parseInt(req.params.annonceid, 10);
+
+  // on check si le freelancer existe et on renvoie une 404 si il n'existe pas
+  const freelancer = await findOneFreelancer(freelancerId);
+  if (!freelancer) {
+    return res.status(404).send(`Freelancer #${freelancerId} not found.`);
+  }
+
+  // on check si l'annonce existe et on renvoie une 404 si elle n'existe pas
+
+  // const annonce = await findOne(annonceId) (à checker avec Lora)
+  //   if (!annonce) {
+  //     return res.status(404).send(`L'annonce demandée n'existe pas`);
+  //   }
+
   // on check si une offre existe dejà pour ce freelancer et cette annonce
-  // retourne 409 si c'est le cas (à créer)
+  const existingAnnonce = await getOneOfferForOneAnnonceAndFreelancer(
+    freelancerId,
+    annonceId
+  );
+
+  if (existingAnnonce) {
+    return res
+      .status(409)
+      .send("Vous ne pouvez pas proposer plusieurs offres pour une annonce");
+  }
 
   // on check si les champs du diplome sont bons
   const error = validateOfferCreation(req.body, true);
@@ -51,75 +140,52 @@ const createOne = async (req, res) => {
   }
 };
 
-// const getAll = async (req, res) => {
-//   const freelancerId = parseInt(req.params.freelancerid, 10);
-//   try {
-//     const diplomalist = await getAllDiplomabyFreelancerId(freelancerId);
-//     return res.status(201).send(diplomalist);
-//   } catch (e) {
-//     console.error(e);
-//     return res.status(500).json({ error: "Problème de lecture des diplômes" });
-//   }
-// };
+const getOne = async (req, res) => {
+  const id = parseInt(req.params.id, 10);
 
-// const getOne = async (req, res) => {
-//   const freelancerId = parseInt(req.params.freelancerid, 10);
-//   const diplomeID = parseInt(req.params.id, 10);
+  try {
+    const offer = await getOneOffer(id);
+    if (!offer) {
+      res.status(404).send("Aucune offre trouvée ");
+    } else {
+      return res.status(201).send(offer);
+    }
+  } catch (e) {
+    console.error(e);
+    return res.status(500).json({ error: "Problème de lecture de l'offre" });
+  }
+  return null;
+};
 
-//   try {
-//     const diploma = await getOneDiplomabyFreelancerId(freelancerId, diplomeID);
-//     if (!diploma) {
-//       res.status(404).send("Aucun diplôme trouvé pour ce professionnel");
-//     } else {
-//       return res.status(201).send(diploma);
-//     }
-//   } catch (e) {
-//     console.error(e);
-//     return res.status(500).json({ error: "Problème de lecture du diplôme" });
-//   }
-//   return null;
-// };
+const updateOne = async (req, res) => {
+  const offerId = parseInt(req.params.id, 10);
 
-// const updateOne = async (req, res) => {
-//   const freelancerId = parseInt(req.params.freelancerid, 10);
-//   const diplomeID = parseInt(req.params.id, 10);
+  // on check qu'un displome existe pour le couple freelancer/diplome
+  const offer = await getOneOffer(offerId);
 
-//   // // on check les droits de mofification de formulaire
-//   // const freeId = await verifyAccessToken(req.cookies.userToken);
-//   // if (freeId.payload.fkId !== freelancerId) {
-//   //   return res
-//   //     .status(401)
-//   //     .send(
-//   //       "Vous n'avez pas les droits pour modifier un diplôme sur ce profil"
-//   //     );
-//   // }
+  if (!offer) {
+    res
+      .status(404)
+      .send("Aucun diplôme diplôme correspondant pour ce professionnel");
+  }
 
-//   // on check qu'un displome existe pour le couple freelancer/diplome
-//   const diploma = await getOneDiplomabyFreelancerId(freelancerId, diplomeID);
+  // on check les erreurs de formulaire
+  const error = validateOfferUpdate(req.body, false);
+  if (error) {
+    console.error(error);
+    return res.status(422).json(error.details);
+  }
 
-//   if (!diploma) {
-//     res
-//       .status(404)
-//       .send("Aucun diplôme diplôme correspondant pour ce professionnel");
-//   }
-
-//   // on check les erreurs de formulaire
-//   const error = validateDiploma(req.body, false);
-//   if (error) {
-//     console.error(error);
-//     return res.status(422).json(error.details);
-//   }
-
-//   try {
-//     const diplomaupdated = await updateOneDiploma(diploma.id, req.body);
-//     return res.status(201).send(diplomaupdated);
-//   } catch (e) {
-//     console.error(e);
-//     return res
-//       .status(500)
-//       .json({ error: "Problème de modification de l'entrée diplôme" });
-//   }
-// };
+  try {
+    const offerUpdated = await updateOneOffer(offerId, req.body);
+    return res.status(201).send(offerUpdated);
+  } catch (e) {
+    console.error(e);
+    return res
+      .status(500)
+      .json({ error: "Problème de modification de l'entrée offre" });
+  }
+};
 
 // const deleteOne = async (req, res) => {
 //   const freelancerId = parseInt(req.params.freelancerid, 10);
@@ -154,4 +220,11 @@ const createOne = async (req, res) => {
 //       .json({ error: "Problème de suppression de l'entrée diplôme" });
 //   }
 // };
-module.exports = { createOne };
+module.exports = {
+  createOne,
+  getAll,
+  getAllForAnAnnonce,
+  getOneOfferForOneAnnonceAndOneFreelancer,
+  getOne,
+  updateOne,
+};

@@ -27,15 +27,6 @@ const createOne = async (req, res) => {
     return res.status(422).json(error.details);
   }
 
-  //   const emplId = await verifyAccessToken(req.cookies.userToken);
-
-  //   // si tout est ok on va créer le diplome
-  //   if (emplId.payload.fkId !== employerId) {
-  //     return res
-  //       .status(401)
-  //       .send("Vous n'avez pas les droits pour créer un diplôme sur ce profil");
-  //   }
-
   try {
     const announcementcreated = await createOneAnnouncement({
       ...req.body,
@@ -86,7 +77,7 @@ const getOneByEmployerId = async (req, res) => {
       employerId,
       annonceId
     );
-    if (!announcement) {
+    if (announcement.length === 0) {
       res.status(404).send("Il n'y a pas encore d'activité");
     } else {
       return res.status(201).send(announcement);

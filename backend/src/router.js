@@ -199,11 +199,32 @@ router.get(
 
 // Routes for offers
 router.post(
-  "/freelancers/:freelancerid/annonces/:annonceid/offers",
+  "/freelancers/:id/annonces/:annonceid/offers",
+  authorization,
+  authSelfRole,
   OfferController.createOne
 );
-// router.get("/expertises", ExpertiseController.getAll);
-// router.get("/expertises/:id", ExpertiseController.getOne);
+router.get("/offers", authorization, OfferController.getAll);
+router.get("/offers/:id", authorization, OfferController.getOne);
+
+router.get(
+  "/annonce/:annonceid/offers",
+  authorization,
+  OfferController.getAllForAnAnnonce
+);
+router.get(
+  "/freelancers/:freelancerid/annonces/:annonceid/offers",
+  OfferController.getOneOfferForOneAnnonceAndOneFreelancer
+);
+
+router.put(
+  "/offers/:id",
+  authorization,
+  authSelfRole,
+  OfferController.updateOne
+);
+
+router.get("/expertises/:id", ExpertiseController.getOne);
 // router.put("/expertises/:id", ExpertiseController.updateOne);
 // router.delete("/expertises/:id", ExpertiseController.deleteOne);
 

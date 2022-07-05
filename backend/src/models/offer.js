@@ -12,6 +12,66 @@ const createOneOffer = async (offer) => {
   }
 };
 
+const getAllOffers = async () => {
+  try {
+    return await prisma.annonce_offers.findMany();
+  } finally {
+    await prisma.$disconnect();
+  }
+};
+
+const getAllForOneAnnonce = async (annonceId) => {
+  try {
+    return await prisma.annonce_offers.findMany({
+      where: { annonceId },
+      include: { freelancer: { select: { displayName: true, picture: true } } },
+    });
+  } finally {
+    await prisma.$disconnect();
+  }
+};
+
+const getOneOfferForOneAnnonceAndFreelancer = async (
+  freelancerId,
+  annonceId
+) => {
+  try {
+    return await prisma.annonce_offers.findMany({
+      where: { annonceId, freelancerId },
+    });
+  } finally {
+    await prisma.$disconnect();
+  }
+};
+
+const getOneOffer = async (id) => {
+  try {
+    return await prisma.annonce_offers.findUnique({
+      where: { id },
+      include: { freelancer: { select: { displayName: true, picture: true } } },
+    });
+  } finally {
+    await prisma.$disconnect();
+  }
+};
+
+const updateOneOffer = async (id, data) => {
+  try {
+    const offer = await prisma.annonce_offers.update({
+      where: { id },
+      data: { ...data },
+    });
+    return offer;
+  } finally {
+    await prisma.$disconnect();
+  }
+};
+
 module.exports = {
   createOneOffer,
+  getAllOffers,
+  getAllForOneAnnonce,
+  getOneOfferForOneAnnonceAndFreelancer,
+  getOneOffer,
+  updateOneOffer,
 };

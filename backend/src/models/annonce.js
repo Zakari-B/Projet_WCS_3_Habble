@@ -32,7 +32,7 @@ const getAllAnnouncements = async () => {
 
 const getOneAnnouncementByEmployerId = async (employerId, id) => {
   try {
-    return await prisma.annonce.findUnique({
+    return await prisma.annonce.findMany({
       where: { employerId, id },
     });
   } finally {
