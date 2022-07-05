@@ -72,4 +72,10 @@ const deleteOne = async (req, res) => {
       .json({ error: "Problème de suppression de l'entrée service" });
   }
 };
-module.exports = { createOne, getAll, getOne, updateOne, deleteOne };
+module.exports = {
+  createOne,
+  getAll,
+  getOne,
+  updateOne,
+  deleteOne,
+};

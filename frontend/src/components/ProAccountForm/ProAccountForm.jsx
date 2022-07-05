@@ -416,7 +416,7 @@ export default function ProAccountForm() {
               >
                 Sélectionnez un ou plusieurs services que vous proposez *
               </FormLabel>
-              <Services />
+              <Services user={user.freelancer} />
             </Flex>
           </FormControl>
           <Checkbox

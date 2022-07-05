@@ -10,6 +10,7 @@ import {
 import { CloseIcon } from "@chakra-ui/icons";
 
 import { useState, useEffect } from "react";
+// import { useParams } from "react-router-dom";
 
 import backendAPI from "../../services/backendAPI";
 
@@ -17,6 +18,7 @@ export default function Services() {
   // useState pour chaque input //
   const [tags, setTags] = useState([]);
   const [services, setServices] = useState([]);
+  // const [freelancerServices, setFreelancerServices] = useState([]);
 
   // fonction retrait d'un item //
   const removeItem = (indexToRemove) => {
@@ -43,7 +45,23 @@ export default function Services() {
       });
   };
 
-  useEffect(() => getAllServices(), []);
+  // const freelancerId = user.freelancer[0].id;
+
+  // const getAllServicesByFreelancer = () => {
+  //   backendAPI
+  //     .get(`/api/freelancers/${freelancerId}/services`)
+  //     .then((response) => {
+  //       console.log(response.data);
+  //     })
+  //     .catch((error) => {
+  //       console.warn(error);
+  //     });
+  // };
+
+  useEffect(() => {
+    getAllServices();
+    // getAllServicesByFreelancer();
+  }, []);
 
   return (
     <Box borderColor="gray.200" borderWidth="1.5px" borderRadius="10px">
@@ -84,7 +102,9 @@ export default function Services() {
         onKeyUp={(event) => (event.key === "Enter" ? addItem(event) : null)}
       >
         {services.map((element) => (
-          <option value={element.name}>{element.name}</option>
+          <option value={element.name} id={element.id}>
+            {element.name}
+          </option>
         ))}
       </Select>
     </Box>
