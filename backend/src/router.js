@@ -10,8 +10,10 @@ const LieuController = require("./controllers/LieuController");
 const ServiceController = require("./controllers/ServiceControllers");
 const ExpertiseController = require("./controllers/ExpertiseControllers");
 const mailController = require("./controllers/mailController");
+const fileController = require("./controllers/FileController");
+const DocumentsController = require("./controllers/DocumentsController");
+const multer = require("./middlewares/multer");
 
-// const auth = require("./middlewares/auth");
 const {
   authorization,
   authSelf,
@@ -32,6 +34,8 @@ router.post(
 router.post("/auth/login", UserController.login);
 router.get("/auth/logout", authorization, UserController.logout);
 router.get("/auth/sessionControl", authorization, sessionControl);
+
+router.post("/file", authorization, multer, fileController.addOne);
 
 router.post("/mail/forgotten", mailController.forgotten);
 router.post("/mail/contact", mailController.contact);
@@ -67,6 +71,20 @@ router.get("/employers/", EmployerController.getAll);
 router.get("/employers/:id", EmployerController.getOne);
 router.put("/employers/:id", EmployerController.updateOne);
 router.get("/employers/:id/user", EmployerController.getUserFromEmployer);
+
+// Routes for documentsController
+
+router.get(
+  "/freelancers/:freelancerid/documents",
+  authorization,
+  DocumentsController.getAll
+);
+router.delete(
+  "/freelancers/:freelancerid/documents/:id",
+  authorization,
+  authSelfRole,
+  DocumentsController.deleteOne
+);
 
 // Routes for Diplomes
 router.post(
