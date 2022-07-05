@@ -1,4 +1,7 @@
-const { createOneCoordinator } = require("../models/coordinator");
+const {
+  createOneCoordinator,
+  getAllCoordinatorsProfileInfo,
+} = require("../models/coordinator");
 
 exports.createOne = async (req, res, next) => {
   const userAccount = req.userCreated;
@@ -28,4 +31,18 @@ exports.createOne = async (req, res, next) => {
     next();
   }
   return null;
+};
+
+exports.getOne = async (req, res) => {
+  const coordinatorId = parseInt(req.params.id, 10);
+  try {
+    const coordinator = await getAllCoordinatorsProfileInfo(coordinatorId);
+    if (!coordinator) {
+      return res.status(404).send(`Coordinator ${coordinatorId} not found.`);
+    }
+    return res.status(200).json(coordinator);
+  } catch (e) {
+    return res.status(500).send(e);
+    //   .json({ error: "Problème de lecture du coordinateurs" });
+  }
 };

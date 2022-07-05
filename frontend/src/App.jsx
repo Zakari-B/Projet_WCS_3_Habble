@@ -17,6 +17,7 @@ import AnnonceForm from "./components/ProfilEmployer/Annonce/AnnonceForm";
 import ProfilPageEmployer from "./pages/ProfilPageEmployer";
 import AnnoncesDashboard from "./pages/AnnoncesDashboard";
 import Logout from "./pages/Logout";
+import ProfilPageCoordinator from "./pages/ProfilPageCoordinator";
 
 import "./App.css";
 
@@ -36,6 +37,10 @@ function App() {
         <Route
           path="/profil/:freelancerId"
           element={<ProfilPageProfessional />}
+        />
+        <Route
+          path="/test/:coordinatorId"
+          element={<ProfilPageCoordinator />}
         />
         <Route
           path="/register-onboarding-pro/:freelancerId"

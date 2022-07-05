@@ -63,6 +63,22 @@ router.get(
 );
 // route delete a valider (si besoin)
 
+// Routes for Coordinators
+// router.get("/coordinators/", CoordinatorController.getAll);
+router.get("/coordinators/:id", authorization, CoordinatorController.getOne);
+// router.put(
+//   "/coordinators/:id",
+//   authorization,
+//   authSelfRole,
+//   CoordinatorController.updateOne
+// );
+
+// router.get(
+//   "/coordinators/:id/user",
+//   authorization,
+//   CoordinatorController.getUser
+// );
+
 // Routes for Employers
 
 router.get("/employers/", EmployerController.getAll);

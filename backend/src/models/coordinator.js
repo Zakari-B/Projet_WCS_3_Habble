@@ -51,28 +51,11 @@ exports.updateOneCoordinator = async (coordinatorId, data) => {
   }
 };
 
-exports.getAllCoordinatorProfileInfo = async (coordinatorId) => {
+exports.getAllCoordinatorsProfileInfo = async (coordinatorId) => {
   try {
     return await prisma.coordinator.findUnique({
       where: {
         id: coordinatorId,
-      },
-      include: {
-        diplomes: {
-          orderBy: {
-            dateCreated: "desc",
-          },
-        },
-        formations: {
-          orderBy: {
-            dateCreated: "desc",
-          },
-        },
-        experience_pro: {
-          orderBy: {
-            dateCreated: "desc",
-          },
-        },
       },
     });
   } finally {
