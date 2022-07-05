@@ -7,7 +7,8 @@ import DocumentCarousel from "../components/ProfileFreelancer/DocumentUpload/Doc
 import BannerProfile from "../components/ProfileFreelancer/BannerProfile";
 import AccountCard from "../components/ProfileFreelancer/Account/AccountCard";
 import Verifications from "../components/ProfileFreelancer/Verifications";
-import MissionCarousel from "../components/ProfileFreelancer/Mission/MissionCarousel";
+import Accompagnement from "../components/ProfilCoordinator/Accompagnement";
+import Agrement from "../components/ProfilCoordinator/Agrement";
 import { getListforAnId } from "../services/ProfileProUtils";
 import backendAPI from "../services/backendAPI";
 
@@ -83,6 +84,7 @@ export default function ProfilPageCoordinator() {
           >
             <AccountCard user={fakeUser} />
             <Verifications />
+            <Accompagnement />
           </Flex>
           <Flex
             bgColor="background.gray"
@@ -91,7 +93,7 @@ export default function ProfilPageCoordinator() {
             gap="20px"
           >
             <DocumentCarousel setUpdated={setUpdated} />
-            <MissionCarousel />
+            <Agrement />
           </Flex>
         </Flex>
       </Flex>
