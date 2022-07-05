@@ -2,47 +2,47 @@ const { PrismaClient } = require("@prisma/client");
 
 const prisma = new PrismaClient();
 
-exports.getAllFreelancers = async () => {
+exports.getAllCoordinators = async () => {
   try {
-    return await prisma.freelancer.findMany();
+    return await prisma.coordinator.findMany();
   } finally {
     await prisma.$disconnect();
   }
 };
 
-exports.findOneFreelancerByUserId = async (id) => {
+exports.findOneCoordinatorByUserId = async (id) => {
   try {
-    return await prisma.freelancer.findUnique({
+    return await prisma.coordinator.findUnique({
       where: { userId: id },
     });
   } finally {
     await prisma.$disconnect();
   }
 };
-exports.findOneFreelancer = async (freelancerId) => {
+exports.findOneCoordinator = async (coordinatorId) => {
   try {
-    return await prisma.freelancer.findUnique({
-      where: { id: freelancerId },
+    return await prisma.coordinator.findUnique({
+      where: { id: coordinatorId },
     });
   } finally {
     await prisma.$disconnect();
   }
 };
 
-exports.createOneFreelancer = async (freelancer) => {
+exports.createOneCoordinator = async (coordinator) => {
   try {
-    return await prisma.freelancer.create({
-      data: { ...freelancer },
+    return await prisma.coordinator.create({
+      data: { ...coordinator },
     });
   } finally {
     await prisma.$disconnect();
   }
 };
 
-exports.updateOneFreelancer = async (freelancerId, data) => {
+exports.updateOneCoordinator = async (coordinatorId, data) => {
   try {
-    const message = await prisma.freelancer.update({
-      where: { id: freelancerId },
+    const message = await prisma.coordinator.update({
+      where: { id: coordinatorId },
       data: { ...data },
     });
     return message;
@@ -51,11 +51,11 @@ exports.updateOneFreelancer = async (freelancerId, data) => {
   }
 };
 
-exports.getAllFreelancersProfileInfo = async (freelancerId) => {
+exports.getAllCoordinatorProfileInfo = async (coordinatorId) => {
   try {
-    return await prisma.freelancer.findUnique({
+    return await prisma.coordinator.findUnique({
       where: {
-        id: freelancerId,
+        id: coordinatorId,
       },
       include: {
         diplomes: {
@@ -80,7 +80,7 @@ exports.getAllFreelancersProfileInfo = async (freelancerId) => {
   }
 };
 
-exports.getUserFromFreelancer = async (userId) => {
+exports.getUserFromCoordinator = async (userId) => {
   try {
     return await prisma.user.findUnique({
       where: {

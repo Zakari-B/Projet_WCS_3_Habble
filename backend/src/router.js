@@ -2,6 +2,7 @@ const express = require("express");
 
 const UserController = require("./controllers/UsersController");
 const FreelancerController = require("./controllers/FreelancerController");
+const CoordinatorController = require("./controllers/CoordinatorController");
 const EmployerController = require("./controllers/EmployerController");
 const DiplomeController = require("./controllers/DiplomeController");
 const FormationController = require("./controllers/FormationController");
@@ -27,6 +28,7 @@ router.post(
   "/auth/register",
   UserController.createOne,
   FreelancerController.createOne,
+  CoordinatorController.createOne,
   EmployerController.createOne
 );
 router.post("/auth/login", UserController.login);
