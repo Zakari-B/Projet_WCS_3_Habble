@@ -14,7 +14,6 @@ const fileController = require("./controllers/FileController");
 const DocumentsController = require("./controllers/DocumentsController");
 const multer = require("./middlewares/multer");
 
-// const auth = require("./middlewares/auth");
 const {
   authorization,
   authSelf,
