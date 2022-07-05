@@ -15,6 +15,23 @@ function signAccessToken(payload) {
   });
 }
 
+function expirationToken() {
+  return new Promise((resolve, reject) => {
+    jwt.sign(
+      { expiration: "Ce token dure une heure" },
+      accessTokenSecret,
+      { expiresIn: "1h" },
+      (err, token) => {
+        if (err) {
+          console.error(err);
+          reject(err);
+        }
+        resolve(token);
+      }
+    );
+  });
+}
+
 function verifyAccessToken(token) {
   return new Promise((resolve, reject) => {
     jwt.verify(token, accessTokenSecret, (err, payload) => {
@@ -28,4 +45,4 @@ function verifyAccessToken(token) {
   });
 }
 
-module.exports = { signAccessToken, verifyAccessToken };
+module.exports = { signAccessToken, expirationToken, verifyAccessToken };

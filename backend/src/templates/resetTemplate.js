@@ -1,4 +1,4 @@
-const resetTemplate = (link) => {
+const resetTemplate = (data) => {
   return {
     subject: "Réinitialisation de mot de passe",
     body: `
@@ -89,7 +89,10 @@ const resetTemplate = (link) => {
         text-size-adjust: none;
       "
     >
-    <h1>Test ${link}</h1>
+    <h1>Demande de réinitialisation de mot de passe</h1>
+    <p>Bonjour, vous avez demandé à réinitialiser votre mot de passe. Vous pouvez le faire sur le lien suivant :</p>
+    <p>${data.resetLink}</p>
+    <p>Si cette demande ne provient pas de vous, vous pouvez ignorer cet email</p>
     </body>
     `,
   };

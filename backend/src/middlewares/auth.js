@@ -1,13 +1,21 @@
-const { verifyAccessToken } = require("../helpers/jwtHelper");
+require("dotenv").config();
+
+const crypto = require("crypto");
+const { expirationToken, verifyAccessToken } = require("../helpers/jwtHelper");
 const freelancer = require("../models/freelancer");
+const user = require("../models/user");
+const token = require("../models/token");
+const { resetHash } = require("../helpers/argonHelper");
+const { sendMail } = require("../utils/mailer");
+const resetTemplate = require("../templates/resetTemplate");
 
 const authorization = async (req, res, next) => {
-  const token = req.cookies.userToken;
-  if (!token) {
+  const authToken = req.cookies.userToken;
+  if (!authToken) {
     return res.sendStatus(401);
   }
   try {
-    const data = await verifyAccessToken(token);
+    const data = await verifyAccessToken(authToken);
     req.userId = data.payload.user.id;
     req.userRole = data.payload.user.role;
     if (req.userRole === "freelancer") {
@@ -41,14 +49,14 @@ const authSelfRole = async (req, res, next) => {
 };
 
 const sessionControl = async (req, res) => {
-  const token = req.cookies.userToken;
-  if (!token) {
+  const authToken = req.cookies.userToken;
+  if (!authToken) {
     res.status(401).json({
       sessionExpired: true,
     });
   }
   try {
-    const data = await verifyAccessToken(token);
+    const data = await verifyAccessToken(authToken);
     if (!data) {
       res.status(401).json({
         sessionExpired: true,
@@ -67,4 +75,33 @@ const sessionControl = async (req, res) => {
   }
 };
 
-module.exports = { authorization, authSelf, sessionControl, authSelfRole };
+const resetPassword = async (email) => {
+  const userToReset = await user.findOneByEmail(email);
+  if (!userToReset) {
+    return "Cet utilisateur n'existe pas";
+  }
+  const checkForToken = await token.findOne(userToReset.id);
+  if (checkForToken) {
+    await token.deleteOne(userToReset.id);
+  }
+  const resetToken = crypto.randomBytes(32).toString("hex");
+  const hash = await resetHash(resetToken);
+  const expirationTime = await expirationToken();
+  await token.createOne({
+    userId: userToReset.id,
+    token: hash,
+    expiration: expirationTime,
+  });
+
+  const resetLink = `${process.env.FRONTEND_URL}/api/auth/passwordReset?token=${resetToken}&id=${userToReset.id}`;
+  sendMail({ recipient: "habble" }, resetTemplate);
+  return resetLink;
+};
+
+module.exports = {
+  authorization,
+  authSelf,
+  authSelfRole,
+  sessionControl,
+  resetPassword,
+};
