@@ -12,6 +12,7 @@ const ExpertiseController = require("./controllers/ExpertiseControllers");
 const OfferController = require("./controllers/OfferController");
 
 const mailController = require("./controllers/mailController");
+const AnnonceController = require("./controllers/AnnonceController");
 
 // const auth = require("./middlewares/auth");
 const {
@@ -180,10 +181,30 @@ router.get("/expertises/:id", ExpertiseController.getOne);
 router.put("/expertises/:id", ExpertiseController.updateOne);
 router.delete("/expertises/:id", ExpertiseController.deleteOne);
 
+// Routes for announcements
+router.post(
+  "/employers/:employerid/annonce",
+  authorization,
+  AnnonceController.createOne
+);
+router.get(
+  "/employers/:employerid/annonces",
+  AnnonceController.getAllByEmployerId
+);
+router.get("/annonces", AnnonceController.getAll);
+router.get(
+  "/employers/:employerid/annonce/:id",
+  AnnonceController.getOneByEmployerId
+);
+
 // Routes for offers
 router.post(
   "/freelancers/:freelancerid/annonces/:annonceid/offers",
   OfferController.createOne
 );
+// router.get("/expertises", ExpertiseController.getAll);
+// router.get("/expertises/:id", ExpertiseController.getOne);
+// router.put("/expertises/:id", ExpertiseController.updateOne);
+// router.delete("/expertises/:id", ExpertiseController.deleteOne);
 
 module.exports = router;

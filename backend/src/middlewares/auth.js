@@ -1,5 +1,6 @@
 const { verifyAccessToken } = require("../helpers/jwtHelper");
 const freelancer = require("../models/freelancer");
+const employer = require("../models/employer");
 
 const authorization = async (req, res, next) => {
   const token = req.cookies.userToken;
@@ -16,6 +17,12 @@ const authorization = async (req, res, next) => {
       );
       if (freelancerEntry) {
         req.roleId = freelancerEntry.id;
+      }
+    }
+    if (req.userRole === "employer") {
+      const employerEntry = await employer.findOneEmployerByUserId(req.userId);
+      if (employerEntry) {
+        req.roleId = employerEntry.id;
       }
     }
     return next();
@@ -59,6 +66,8 @@ const sessionControl = async (req, res) => {
       userId: data.payload.user.id,
       userRole: data.payload.user.role,
       roleId: data.payload.fkId,
+      firstname: data.payload.user.firstname,
+      lastname: data.payload.user.lastname,
     });
   } catch (e) {
     console.warn(e);

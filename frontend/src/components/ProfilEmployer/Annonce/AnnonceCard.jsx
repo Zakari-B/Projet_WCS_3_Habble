@@ -5,6 +5,7 @@ import {
   Button,
   Divider,
   useDisclosure,
+  Tag,
 } from "@chakra-ui/react";
 import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
 import { Link } from "react-router-dom";
@@ -15,6 +16,7 @@ import DeleteConfirmModal from "../../DeleteConfirmModal";
 
 export default function AnnonceCard({ annonce }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
+
   return (
     <Flex direction="column" gap="10px" paddingY="10px">
       <Heading as="h2" color="purple.average" fontSize="1.5em" fontWeight="700">
@@ -27,8 +29,9 @@ export default function AnnonceCard({ annonce }) {
         {annonce.location}
       </Heading>
       <Text color="purple.average" fontSize="14px">
-        {annonce.expertise}
+        {annonce.service}
       </Text>
+      <Tag colorScheme="teal">{annonce.status}</Tag>
       <Flex gap="20px">
         <Link to="/deposer-une-annonce">
           <Button
@@ -61,7 +64,8 @@ AnnonceCard.propTypes = {
   annonce: PropTypes.shape({
     id: PropTypes.number.isRequired,
     description: PropTypes.string.isRequired,
-    expertise: PropTypes.string.isRequired,
+    service: PropTypes.string.isRequired,
     location: PropTypes.string.isRequired,
+    status: PropTypes.string.isRequired,
   }).isRequired,
 };

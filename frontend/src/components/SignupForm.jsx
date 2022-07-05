@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import React, { useState } from "react";
 import { useNavigate, Link, useSearchParams } from "react-router-dom";
 import {
@@ -35,6 +36,20 @@ const signupForm = () => {
         email: signupEmail,
         password: signupPassword,
         role: signupRole,
+      })
+      .catch((error) => {
+        console.warn(error);
+        if (error) {
+          toast({
+            title:
+              "Une erreur est survenue lors de la création de votre compte.",
+            status: "error",
+            duration: 7000,
+            position: "bottom-right",
+            isClosable: true,
+          });
+          console.warn(error);
+        }
       })
       .then((response) => {
         if (response) {
@@ -79,7 +94,7 @@ const signupForm = () => {
             if (newresponse.data.type === "freelancer") {
               return newresponse.data.profil
                 ? navigate(`/profil/${newresponse.data.fkId}`)
-                : navigate(`/register-onboarding-pro/${newresponse.data.fkId}`);
+                : navigate(`/welcome-pro/${newresponse.data.fkId}`);
             }
             if (newresponse.data.type === "employer") {
               navigate(`/profil-employer/${newresponse.data.fkId}`);
@@ -99,19 +114,6 @@ const signupForm = () => {
             console.warn(error);
           });
       });
-    // .catch((error) => {
-    //   if (error) {
-    //     toast({
-    //       title:
-    //         "Une erreur est survenue lors de la création de votre compte.",
-    //       status: "error",
-    //       duration: 7000,
-    //       position: "bottom-right",
-    //       isClosable: true,
-    //     });
-    //   }
-    //   console.warn(error);
-    // });
   };
 
   return (

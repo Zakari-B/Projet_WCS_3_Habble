@@ -148,6 +148,7 @@ model annonce {
   description     String             @db.VarChar(500)
   price           Int
   emergency       Boolean            @default(false)
+  status          String             @db.VarChar(100) @default("En cours")
   annonce_service annonce_services[]
   fk_employer_id  employer           @relation(fields: [employerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   annonce_lieu    annonce_lieu[]
