@@ -11,16 +11,17 @@ datasource db {
 }
 
 model user {
-  id                Int          @id @default(autoincrement())
-  firstname         String       @db.VarChar(100)
-  lastname          String       @db.VarChar(100)
-  email             String       @unique @db.VarChar(100)
-  hashedPassword    String       @db.VarChar(255)
-  role              String       @db.VarChar(100)
-  profileIsComplete Boolean      @default(false)
-  dateCreated       DateTime     @default(now()) @db.Timestamp(0)
+  id                Int           @id @default(autoincrement())
+  firstname         String        @db.VarChar(100)
+  lastname          String        @db.VarChar(100)
+  email             String        @unique @db.VarChar(100)
+  hashedPassword    String        @db.VarChar(255)
+  role              String        @db.VarChar(100)
+  profileIsComplete Boolean       @default(false)
+  dateCreated       DateTime      @default(now()) @db.Timestamp(0)
   freelancer        freelancer[]
   employer          employer[]
+  coordinator       coordinator[]
 }
 
 model freelancer {
@@ -60,13 +61,34 @@ model employer {
   annonce     annonce[]
 }
 
+model coordinator {
+  id                  Int         @id @default(autoincrement())
+  displayName         String      @db.VarChar(100)
+  activityDescription String      @db.VarChar(255)
+  userId              Int         @unique
+  zipCode             String      @db.VarChar(10)
+  phone               String?     @db.VarChar(30)
+  experienceYear      Int
+  price               Float
+  description         String      @db.VarChar(1000)
+  acceptEmails        Boolean     @default(false)
+  siret               Int?
+  available           Boolean     @default(false)
+  dateCreated         DateTime    @default(now()) @db.Timestamp(0)
+  picture             String?     @db.VarChar(1000)
+  fk_user_id          user        @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  documents           documents[]
+}
+
 model documents {
-  id               Int        @id @default(autoincrement())
-  name             String     @db.VarChar(255)
-  freelancerId     Int
-  documentLink     String     @db.VarChar(300)
-  verified         Boolean    @default(false)
-  fk_freelancer_id freelancer @relation(fields: [freelancerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  id                Int         @id @default(autoincrement())
+  name              String      @db.VarChar(255)
+  freelancerId      Int
+  coordinatorId     Int
+  documentLink      String      @db.VarChar(300)
+  verified          Boolean     @default(false)
+  fk_freelancer_id  freelancer  @relation(fields: [freelancerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  fk_coordinator_id coordinator @relation(fields: [coordinatorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
 
 model freelancer_services {
@@ -79,7 +101,7 @@ model freelancer_services {
 
 model services {
   id                  Int                   @id @default(autoincrement())
-  name                String                @db.VarChar(255) @unique
+  name                String                @unique @db.VarChar(255)
   freelancer_services freelancer_services[]
   annonce_services    annonce_services[]
 }
@@ -94,7 +116,7 @@ model freelancer_expertises {
 
 model expertises {
   id                    Int                     @id @default(autoincrement())
-  name                  String                  @db.VarChar(100) @unique
+  name                  String                  @unique @db.VarChar(100)
   category              String                  @db.VarChar(100)
   freelancer_expertises freelancer_expertises[]
 }
@@ -162,7 +184,7 @@ model annonce_services {
 
 model lieu {
   id           Int            @id @default(autoincrement())
-  name         String         @db.VarChar(100) @unique
+  name         String         @unique @db.VarChar(100)
   annonce_lieu annonce_lieu[]
 }
 
