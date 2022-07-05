@@ -40,6 +40,16 @@ const getOneAnnouncementByEmployerId = async (employerId, id) => {
   }
 };
 
+const getOneAnnouncement = async (id) => {
+  try {
+    return await prisma.annonce.findUnique({
+      where: { id },
+    });
+  } finally {
+    await prisma.$disconnect();
+  }
+};
+
 // const updateOneDiploma = async (id, data) => {
 //   try {
 //     const diploma = await prisma.diplomes.update({
@@ -65,6 +75,7 @@ module.exports = {
   getAllAnnouncements,
   createOneAnnouncement,
   getOneAnnouncementByEmployerId,
+  getOneAnnouncement,
   //   updateOneDiploma,
   //   deleteOneDiploma,
 };

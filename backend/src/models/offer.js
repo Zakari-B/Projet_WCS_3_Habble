@@ -24,7 +24,7 @@ const getAllForOneAnnonce = async (annonceId) => {
   try {
     return await prisma.annonce_offers.findMany({
       where: { annonceId },
-      include: { freelancer: { select: { displayName: true, picture: true } } },
+      include: { freelancer: true },
     });
   } finally {
     await prisma.$disconnect();
@@ -38,6 +38,7 @@ const getOneOfferForOneAnnonceAndFreelancer = async (
   try {
     return await prisma.annonce_offers.findMany({
       where: { annonceId, freelancerId },
+      include: { freelancer: true },
     });
   } finally {
     await prisma.$disconnect();

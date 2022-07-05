@@ -9,6 +9,7 @@ import {
   Th,
   Td,
   Avatar,
+  Tag,
   Text,
   TableContainer,
   Box,
@@ -16,74 +17,59 @@ import {
   IconButton,
   useDisclosure,
 } from "@chakra-ui/react";
-import { useState } from "react";
-import { SearchIcon } from "@chakra-ui/icons";
+import { useState, useEffect } from "react";
+import { SearchIcon, EditIcon } from "@chakra-ui/icons";
 import { useParams } from "react-router-dom";
 import { MdStar, MdCall } from "react-icons/md";
-import { getOneItemOfList } from "../../services/ProfileProUtils";
+import { getOneItemfromtwoLists } from "../../services/ProfileProUtils";
 import AcceptOfferModal from "./AcceptOfferModal";
 import OfferDetailModal from "./OfferDetailModal";
-
-// import { useState } from "react";
+import EditOfferModal from "./EditOfferModal";
 
 export default function AnnonceOffers({ offers }) {
-  console.warn(offers);
   const {
     isOpen: isAcceptOpen,
     onOpen: onAcceptOpen,
     onClose: onAcceptClose,
   } = useDisclosure();
+
   const {
     isOpen: isDetailOpen,
     onOpen: onDetailOpen,
     onClose: onDetailClose,
   } = useDisclosure();
 
-  const { employerId } = useParams();
+  const {
+    isOpen: isEditOpen,
+    onOpen: onEditOpen,
+    onClose: onEditClose,
+  } = useDisclosure();
 
-  console.warn(employerId);
+  const { employerId } = useParams();
   const { freelancerId } = useParams();
   const { id } = useParams();
-  const [freelancerCurrentOffer, setFreelancerCurrentOffer] = useState({
-    id: 1,
-    annonceId: 1,
-    freelancerId: 3,
-    price: 20.0,
-    message:
-      "Bonjour je peux vous aider sur la partie accompagnement scolaireBonjour je peux vous aider sur la partie accompagnement scolaireBonjour je peux vous aider sur la partie accompagnement scolaireBonjour je peux vous aider sur la partie accompagnement scolaire",
-    availableIn: "4 jours",
-    status: "Acceptée",
-    freelancer: {
-      displayName: "MarieS",
-      activityDescription: "Assistante devoir",
-      zipCode: "83600",
-      experienceYear: 3,
-      picture: "",
-    },
-  });
-
+  const [currentOffer, setCurrentOffer] = useState({});
+  const [freelancerCurrentOffer, setFreelancerCurrentOffer] = useState({});
   const role = localStorage.getItem("role");
-  let offersForAFreelancer = [];
-  console.warn(employerId);
   // si le role est employer on va voir toutes les offres
-  // se le role est freelancer on va checker si une offre existe pour ce freelancer
 
-  if (freelancerId) {
-    const idCheck = freelancerId;
-    offersForAFreelancer = offers.filter(
-      (offer) => offer.freelancerId === idCheck
-    );
-    console.warn(offersForAFreelancer);
-  }
+  // si le role est freelancer on va checker si une offre existe pour ce freelancer
 
-  // si une offre existe on affiche l'offre en question
-  if (offersForAFreelancer.length > 0) {
-    getOneItemOfList("freelancer", "offers", freelancerId, id).then((res) =>
-      setFreelancerCurrentOffer(res.data)
-    );
-  }
-
-  // si elle n'existe pas on va afficher un message au freelancer
+  useEffect(() => {
+    if (freelancerId) {
+      getOneItemfromtwoLists(
+        "freelancers",
+        "annonces",
+        "offers",
+        freelancerId,
+        id
+      )
+        .then((res) => {
+          setFreelancerCurrentOffer(res.data[0]);
+        })
+        .catch(() => setFreelancerCurrentOffer(""));
+    }
+  }, []);
 
   return (
     <Flex
@@ -107,17 +93,20 @@ export default function AnnonceOffers({ offers }) {
         >
           {role === "employer"
             ? `Offres reçues (${offers.length})`
-            : `Offres en cours`}
+            : `Mon Offre`}
         </Heading>
       </Flex>
       <TableContainer>
         <Table variant="simple">
           <Thead bgColor="gray.200">
             <Tr>
-              <Th>OFFRES({offers.length})</Th>
+              <Th>
+                {role === "employer" ? `OFFRES(${offers.length})` : `MON OFFRE`}
+              </Th>
               <Th>REPUTATION</Th>
               <Th> DETAILS</Th>
               <Th> ACTION</Th>
+              <Th> STATUS</Th>
             </Tr>
           </Thead>
           {employerId ? (
@@ -160,7 +149,10 @@ export default function AnnonceOffers({ offers }) {
                             size="sm"
                             fontSize="12px"
                             variant="solid_PrimaryColor"
-                            onClick={onAcceptOpen}
+                            onClick={() => {
+                              setCurrentOffer(offer);
+                              onAcceptOpen();
+                            }}
                           >
                             Accepter l'offre
                           </Button>
@@ -172,11 +164,6 @@ export default function AnnonceOffers({ offers }) {
                           >
                             Contact
                           </Button>
-                          <AcceptOfferModal
-                            isOpen={isAcceptOpen}
-                            onOpen={onAcceptOpen}
-                            onClose={onAcceptClose}
-                          />
                         </Flex>
                       </Flex>
                     </Flex>
@@ -213,96 +200,146 @@ export default function AnnonceOffers({ offers }) {
                         w="50px"
                         aria-label="Search database"
                         icon={<SearchIcon />}
+                        onClick={() => {
+                          setCurrentOffer(offer);
+                          onDetailOpen();
+                        }}
+                      />
+                    </Flex>
+                  </Td>
+                  <Td>
+                    <Tag>{offer.status}</Tag>
+                  </Td>
+                </Tr>
+              ))}
+              <OfferDetailModal
+                key={`${currentOffer.id}_${currentOffer.freelancer?.displayName}`}
+                isOpen={isDetailOpen}
+                onOpen={onDetailOpen}
+                onClose={onDetailClose}
+                offer={currentOffer}
+              />
+              <AcceptOfferModal
+                isOpen={isAcceptOpen}
+                onOpen={onAcceptOpen}
+                onClose={onAcceptClose}
+                offer={currentOffer}
+              />
+            </Tbody>
+          ) : (
+            <Tbody>
+              {!freelancerCurrentOffer ? (
+                <Tr>
+                  <Td>
+                    <Flex alignItems="center" gap="20px">
+                      <Text fontSize="sm">
+                        Vous n'avez pas encore fait d'offre pour cette annonce
+                      </Text>
+                    </Flex>
+                  </Td>
+                </Tr>
+              ) : (
+                <Tr>
+                  <Td role="group">
+                    <Flex alignItems="center" gap="20px">
+                      {freelancerCurrentOffer.freelancer?.picture ? (
+                        <Image
+                          src={freelancerCurrentOffer.freelancer?.picture}
+                          height="60px"
+                          width="60px"
+                          borderRadius="100%"
+                          border="1px solid gray.200"
+                        />
+                      ) : (
+                        <Avatar
+                          src="https://bit.ly/broken-link"
+                          height="60px"
+                          width="60px"
+                          maxW="60px"
+                          maxH="60px"
+                        />
+                      )}
+                      <Flex direction="column" gap="5px">
+                        <Text
+                          color="#415161"
+                          lineHeight="1.5em"
+                          fontWeight="700"
+                        >
+                          {freelancerCurrentOffer.freelancer?.displayName}
+                        </Text>
+                        <Text fontSize="sm">
+                          {
+                            freelancerCurrentOffer.freelancer
+                              ?.activityDescription
+                          }
+                        </Text>
+                        <Text fontSize="sm">
+                          {freelancerCurrentOffer.freelancer?.zipCode}
+                        </Text>
+                      </Flex>
+                    </Flex>
+                  </Td>
+                  <Td>
+                    <Flex direction="column" gap="5px">
+                      <Flex mt={2} align="center">
+                        <Box as={MdStar} color="pink.light" fontSize="md" />
+                        <Text fontSize="md" color="purple.average">
+                          <b>4.84</b> (190)
+                        </Text>
+                      </Flex>
+                      <Text fontSize="sm">
+                        {freelancerCurrentOffer.freelancer?.experienceYear}{" "}
+                        année(s) d'expérience
+                      </Text>
+                      <Text fontSize="sm">0 mission(s) effectuée(s)</Text>
+                    </Flex>
+                  </Td>
+                  <Td>
+                    <Flex direction="column" gap="5px">
+                      <Text
+                        fontSize="md"
+                        color="purple.average"
+                        fontWeight="700"
+                      >
+                        {freelancerCurrentOffer.price?.toFixed(2)}€
+                      </Text>
+                      <Text fontSize="sm">
+                        en {freelancerCurrentOffer.availableIn}
+                      </Text>
+                    </Flex>
+                  </Td>
+                  <Td>
+                    <Flex gap="5px">
+                      <IconButton
+                        w="50px"
+                        aria-label="View Offer"
+                        icon={<SearchIcon />}
                         onClick={onDetailOpen}
+                      />
+                      <IconButton
+                        w="50px"
+                        aria-label="Modify Offer"
+                        icon={<EditIcon />}
+                        onClick={onEditOpen}
                       />
                       <OfferDetailModal
                         isOpen={isDetailOpen}
                         onOpen={onDetailOpen}
                         onClose={onDetailClose}
-                        offer={offers[0]}
+                        offer={freelancerCurrentOffer}
+                      />
+                      <EditOfferModal
+                        isOpen={isEditOpen}
+                        onOpen={onEditOpen}
+                        onClose={onEditClose}
                       />
                     </Flex>
                   </Td>
+                  <Td>
+                    <Tag>{freelancerCurrentOffer.status}</Tag>
+                  </Td>
                 </Tr>
-              ))}
-            </Tbody>
-          ) : (
-            <Tbody>
-              <Tr>
-                <Td role="group">
-                  <Flex alignItems="center" gap="20px">
-                    {freelancerCurrentOffer.freelancer.picture ? (
-                      <Image
-                        src={freelancerCurrentOffer.freelancer.picture}
-                        height="60px"
-                        width="60px"
-                        borderRadius="100%"
-                        border="1px solid gray.200"
-                      />
-                    ) : (
-                      <Avatar
-                        src="https://bit.ly/broken-link"
-                        height="60px"
-                        width="60px"
-                        maxW="60px"
-                        maxH="60px"
-                      />
-                    )}
-                    <Flex direction="column" gap="5px">
-                      <Text color="#415161" lineHeight="1.5em" fontWeight="700">
-                        {freelancerCurrentOffer.freelancer.displayName}
-                      </Text>
-                      <Text fontSize="sm">
-                        {freelancerCurrentOffer.freelancer.activityDescription}
-                      </Text>
-                      <Text fontSize="sm">
-                        {freelancerCurrentOffer.freelancer.zipCode}
-                      </Text>
-                    </Flex>
-                  </Flex>
-                </Td>
-                <Td>
-                  <Flex direction="column" gap="5px">
-                    <Flex mt={2} align="center">
-                      <Box as={MdStar} color="pink.light" fontSize="md" />
-                      <Text fontSize="md" color="purple.average">
-                        <b>4.84</b> (190)
-                      </Text>
-                    </Flex>
-                    <Text fontSize="sm">
-                      {freelancerCurrentOffer.freelancer.experienceYear}{" "}
-                      année(s) d'expérience
-                    </Text>
-                    <Text fontSize="sm">0 mission(s) effectuée(s)</Text>
-                  </Flex>
-                </Td>
-                <Td>
-                  <Flex direction="column" gap="5px">
-                    <Text fontSize="md" color="purple.average" fontWeight="700">
-                      {freelancerCurrentOffer.price.toFixed(2)}€
-                    </Text>
-                    <Text fontSize="sm">
-                      en {freelancerCurrentOffer.availableIn}
-                    </Text>
-                  </Flex>
-                </Td>
-                <Td>
-                  <Flex direction="column" gap="5px">
-                    <IconButton
-                      w="50px"
-                      aria-label="Search database"
-                      icon={<SearchIcon />}
-                      onClick={onDetailOpen}
-                    />
-                    <OfferDetailModal
-                      isOpen={isDetailOpen}
-                      onOpen={onDetailOpen}
-                      onClose={onDetailClose}
-                      offer={freelancerCurrentOffer}
-                    />
-                  </Flex>
-                </Td>
-              </Tr>
+              )}
             </Tbody>
           )}
         </Table>

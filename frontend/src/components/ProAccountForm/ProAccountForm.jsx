@@ -135,7 +135,7 @@ export default function ProAccountForm() {
             backendAPI.put(`/api/users/${userId}`, {
               profileIsComplete: true,
             });
-            navigate(`/profil/freelancer/${freelancerId}`);
+            navigate(`/profil/${freelancerId}`);
           }
         });
     });

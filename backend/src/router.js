@@ -192,6 +192,7 @@ router.get(
   AnnonceController.getAllByEmployerId
 );
 router.get("/annonces", AnnonceController.getAll);
+router.get("/annonces/:id", AnnonceController.getOne);
 router.get(
   "/employers/:employerid/annonce/:id",
   AnnonceController.getOneByEmployerId
@@ -200,8 +201,7 @@ router.get(
 // Routes for offers
 router.post(
   "/freelancers/:freelancerid/annonces/:annonceid/offers",
-  authorization,
-  authSelfRole,
+
   OfferController.createOne
 );
 router.get("/offers", authorization, OfferController.getAll);

@@ -24,7 +24,7 @@ export default function OfferDetailModal({ isOpen, onClose, offer }) {
           fontSize="lg"
           bgColor="#FAFAFA"
         >
-          L'Offre de {offer.freelancer.displayName}
+          L'Offre de {offer.freelancer?.displayName}
         </ModalHeader>
         <ModalCloseButton />
         <ModalBody paddingY="30px">
@@ -39,9 +39,9 @@ export default function OfferDetailModal({ isOpen, onClose, offer }) {
               minW="30%"
               borderRadius="8px"
             >
-              {offer.freelancer.picture ? (
+              {offer.freelancer?.picture ? (
                 <Image
-                  src={offer.freelancer.picture}
+                  src={offer.freelancer?.picture}
                   height="60px"
                   width="60px"
                   borderRadius="100%"
@@ -58,12 +58,12 @@ export default function OfferDetailModal({ isOpen, onClose, offer }) {
               )}
               <Flex direction="column" gap="5px" alignItems="center">
                 <Text color="#415161" lineHeight="1.5em" fontWeight="700">
-                  {offer.freelancer.displayName}
+                  {offer.freelancer?.displayName}
                 </Text>
                 <Text fontSize="sm">
-                  {offer.freelancer.activityDescription}
+                  {offer.freelancer?.activityDescription}
                 </Text>
-                <Text fontSize="sm">{offer.freelancer.zipCode}</Text>
+                <Text fontSize="sm">{offer.freelancer?.zipCode}</Text>
               </Flex>
             </Flex>
             <Flex direction="column" gap="5px" alignItems="flex-start">
@@ -75,7 +75,7 @@ export default function OfferDetailModal({ isOpen, onClose, offer }) {
               >
                 Message
               </Text>
-              <Text fontSize="sm">{offer.message}</Text>
+              <Text fontSize="sm">{offer.description}</Text>
               <Text
                 color="#415161"
                 lineHeight="1.5em"
@@ -85,7 +85,7 @@ export default function OfferDetailModal({ isOpen, onClose, offer }) {
                 Prix
               </Text>
               <Text color="pink.light" fontWeight="700" fontSize="sm">
-                {offer.price.toFixed(2)}€
+                {offer.price?.toFixed(2)}€
               </Text>
               <Text
                 color="#415161"

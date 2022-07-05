@@ -4,6 +4,7 @@ const {
   getAllAnnouncementsbyEmployerId,
   getAllAnnouncements,
   getOneAnnouncementByEmployerId,
+  getOneAnnouncement,
   //   getOneDiplomabyFreelancerId,
   //   updateOneDiploma,
   //   deleteOneDiploma,
@@ -89,6 +90,21 @@ const getOneByEmployerId = async (req, res) => {
   return null;
 };
 
+const getOne = async (req, res) => {
+  const annonceId = parseInt(req.params.id, 10);
+  try {
+    const announcement = await getOneAnnouncement(annonceId);
+    if (announcement.length === 0) {
+      res.status(404).send("Cette annonce n'existe pas");
+    } else {
+      return res.status(201).send(announcement);
+    }
+  } catch (e) {
+    console.error(e);
+    return res.status(500).json({ error: "Problème de lecture de l'annonce" });
+  }
+  return null;
+};
 // const updateOne = async (req, res) => {
 //   const freelancerId = parseInt(req.params.freelancerid, 10);
 //   const diplomeID = parseInt(req.params.id, 10);
@@ -163,5 +179,11 @@ const getOneByEmployerId = async (req, res) => {
 //       .json({ error: "Problème de suppression de l'entrée diplôme" });
 //   }
 // };
-module.exports = { createOne, getAllByEmployerId, getAll, getOneByEmployerId };
+module.exports = {
+  createOne,
+  getAllByEmployerId,
+  getAll,
+  getOneByEmployerId,
+  getOne,
+};
 // getOne, updateOne, deleteOne

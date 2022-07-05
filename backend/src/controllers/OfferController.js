@@ -39,7 +39,7 @@ const getAllForAnAnnonce = async (req, res) => {
   try {
     const annonceList = await getAllForOneAnnonce(annonceId);
     if (annonceList.length === 0) {
-      res.status(404).send("Il n'y a aucune offre pour cette annonce");
+      return res.status(404).send("Il n'y a aucune offre pour cette annonce");
     }
     return res.status(201).send(annonceList);
   } catch (e) {
@@ -73,7 +73,7 @@ const getOneOfferForOneAnnonceAndOneFreelancer = async (req, res) => {
       annonceId
     );
     if (annonceList.length === 0) {
-      res
+      return res
         .status(404)
         .send("Il n'y a aucune offre pour cette annonce et ce freelancer");
     }
@@ -143,15 +143,13 @@ const getOne = async (req, res) => {
   try {
     const offer = await getOneOffer(id);
     if (!offer) {
-      res.status(404).send("Aucune offre trouvée ");
-    } else {
-      return res.status(201).send(offer);
+      return res.status(404).send("Aucune offre trouvée ");
     }
+    return res.status(200).send(offer);
   } catch (e) {
     console.error(e);
     return res.status(500).json({ error: "Problème de lecture de l'offre" });
   }
-  return null;
 };
 
 const updateOne = async (req, res) => {
@@ -161,9 +159,9 @@ const updateOne = async (req, res) => {
   const offer = await getOneOffer(offerId);
 
   if (!offer) {
-    res
+    return res
       .status(404)
-      .send("Aucun diplôme diplôme correspondant pour ce professionnel");
+      .send("Aucune offre correspondante pour cette annonce");
   }
 
   // on check les erreurs de formulaire
@@ -175,7 +173,7 @@ const updateOne = async (req, res) => {
 
   try {
     const offerUpdated = await updateOneOffer(offerId, req.body);
-    return res.status(201).send(offerUpdated);
+    return res.status(200).send(offerUpdated);
   } catch (e) {
     console.error(e);
     return res
@@ -190,7 +188,7 @@ const deleteOne = async (req, res) => {
   const offer = await getOneOffer(offerId);
 
   if (!offer) {
-    res.status(404).send("Aucune offre n'existe");
+    return res.status(404).send("Aucune offre n'existe");
   }
 
   try {

@@ -12,7 +12,7 @@ import {
 } from "@chakra-ui/react";
 import PropTypes from "prop-types";
 
-export default function AcceptOfferModal({ isOpen, onClose }) {
+export default function AcceptOfferModal({ isOpen, onClose, offer }) {
   return (
     <Modal size="xl" isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
@@ -24,7 +24,7 @@ export default function AcceptOfferModal({ isOpen, onClose }) {
           fontSize="lg"
           bgColor="#FAFAFA"
         >
-          Accepter l'offre
+          {`Accepter l'offre de ${offer.freelancer?.displayName}`}
         </ModalHeader>
         <ModalCloseButton />
         <ModalBody paddingY="30px">
