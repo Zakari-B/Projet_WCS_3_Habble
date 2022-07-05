@@ -33,7 +33,7 @@ export default function Register() {
           <Flex
             direction="column"
             bgColor="white"
-            w={{ sm: "100%", md: "750px" }}
+            w={{ sm: "95%", lg: "55%" }}
             m="auto"
             alignItems="center"
             boxShadow="0px 1px 1px 0px rgb(185 184 184 / 75%)"
@@ -48,14 +48,14 @@ export default function Register() {
               paddingY="60px"
               justify="center"
               alignItems="flex-start"
-              wrap="wrap"
+              wrap={{ base: "wrap", lg: "nowrap" }}
             >
               <VStack
-                w={{ sm: "100%", md: "40%" }}
+                w={{ sm: "100%", lg: "33%" }}
                 p="20px"
                 alignItems="center"
-                borderRight={{ base: "none", md: "1px solid #eee" }}
-                borderBottom={{ base: "1px solid #eee", md: "none" }}
+                borderRight={{ base: "none", lg: "1px solid #eee" }}
+                borderBottom={{ base: "1px solid #eee", lg: "none" }}
               >
                 <Text color="#415161" fontWeight="700">
                   Une aide
@@ -76,8 +76,32 @@ export default function Register() {
                 </Link>
               </VStack>
               <VStack
+                w={{ sm: "100%", lg: "33%" }}
                 p="20px"
-                w={{ sm: "100%", md: "40%" }}
+                alignItems="center"
+                borderRight={{ base: "none", lg: "1px solid #eee" }}
+                borderBottom={{ base: "1px solid #eee", lg: "none" }}
+              >
+                <Text color="#415161" fontWeight="700">
+                  A coordoner
+                </Text>
+                <Text color="#415161">
+                  Vous êtes un service de répit? Coordoner vos intervenants,
+                  gérez les missions et recevez des demandes.
+                </Text>
+                <Link to="/register/?role=coordinator">
+                  <Button
+                    variant="solid_PrimaryColor"
+                    src="/register/?role=coordinator"
+                    fontWeight="700"
+                  >
+                    S'INSCRIRE
+                  </Button>
+                </Link>
+              </VStack>
+              <VStack
+                p="20px"
+                w={{ sm: "100%", lg: "33%" }}
                 alignItems="center"
               >
                 <Text color="#415161" fontWeight="700">
