@@ -52,9 +52,9 @@ const updateOneAnnouncement = async (employerId, id, data) => {
   }
 };
 
-const deleteOneAnnouncement = async (id) => {
+const deleteOneAnnouncement = async (employerId, id) => {
   try {
-    return await prisma.annonce.delete({ where: { id } });
+    return await prisma.annonce.deleteMany({ where: { employerId, id } });
   } finally {
     await prisma.$disconnect();
   }

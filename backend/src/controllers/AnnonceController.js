@@ -8,32 +8,20 @@ const {
   deleteOneAnnouncement,
 } = require("../models/annonce");
 const { validateAnnouncement } = require("../utils/validate");
-// const { verifyAccessToken } = require("../helpers/jwtHelper");
 
 const createOne = async (req, res) => {
-  // on récupère l'id du freelancer dans la requête
   const employerId = parseInt(req.params.employerid, 10);
-  // on check si le freelancer existe et on renvoie une 404 si il n'existe pas
+
   const employer = await findOneEmployer(employerId);
   if (!employer) {
     return res.status(404).send(`Employer #${employerId} not found.`);
   }
 
-  // on check si les champs du diplome sont bons
   const error = validateAnnouncement(req.body, true);
   if (error) {
     console.error(error);
     return res.status(422).json(error.details);
   }
-
-  //   const emplId = await verifyAccessToken(req.cookies.userToken);
-
-  //   // si tout est ok on va créer le diplome
-  //   if (emplId.payload.fkId !== employerId) {
-  //     return res
-  //       .status(401)
-  //       .send("Vous n'avez pas les droits pour créer un diplôme sur ce profil");
-  //   }
 
   try {
     const announcementcreated = await createOneAnnouncement({
@@ -48,35 +36,6 @@ const createOne = async (req, res) => {
       .json({ error: "Problème de création de l'entrée annonce" });
   }
 };
-
-// const updateOne = async (req, res) => {
-//   const employerId = parseInt(req.params.employerid, 10);
-//   const annonceId = parseInt(req.params.id, 10);
-//   const annonce = await getOneAnnouncementByEmployerId(employerId, annonceId);
-
-//   if (!annonce) {
-//     return res
-//       .status(404)
-//       .send("Aucune annonce correspondante pour cette personne");
-//   }
-
-//   // on check les erreurs de formulaire
-//   const error = validateAnnouncement(req.body, true);
-//   if (error) {
-//     console.error(error);
-//     return res.status(422).json(error.details);
-//   }
-
-//   try {
-//     const annonceupdated = await updateOneAnnouncement(annonce.id, req.body);
-//     return res.status(201).send(annonceupdated);
-//   } catch (e) {
-//     console.error(e);
-//     return res
-//       .status(500)
-//       .json({ error: "Problème de modification de l'entrée annonce" });
-//   }
-// };
 
 const getAllByEmployerId = async (req, res) => {
   const employerId = parseInt(req.params.employerid, 10);
@@ -160,7 +119,7 @@ const updateOne = async (req, res) => {
 };
 
 const deleteOne = async (req, res) => {
-  const employerId = parseInt(req.params.freelancerid, 10);
+  const employerId = parseInt(req.params.employerid, 10);
   const annonceId = parseInt(req.params.id, 10);
 
   const annonce = await getOneAnnouncementByEmployerId(employerId, annonceId);
@@ -170,7 +129,7 @@ const deleteOne = async (req, res) => {
   }
 
   try {
-    await deleteOneAnnouncement(annonce.id);
+    await deleteOneAnnouncement(employerId, annonceId);
     return res.status(200).send("L'annonce a été supprimée avec succès");
   } catch (e) {
     console.error(e);
@@ -188,4 +147,3 @@ module.exports = {
   updateOne,
   deleteOne,
 };
-// getOne, updateOne, deleteOne

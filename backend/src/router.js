@@ -240,9 +240,5 @@ router.delete(
   "/annonce/:annonceId/services/:serviceId",
   AnnonceServicesController.deleteOne
 );
-// router.get("/expertises", ExpertiseController.getAll);
-// router.get("/expertises/:id", ExpertiseController.getOne);
-// router.put("/expertises/:id", ExpertiseController.updateOne);
-// router.delete("/expertises/:id", ExpertiseController.deleteOne);
 
 module.exports = router;
