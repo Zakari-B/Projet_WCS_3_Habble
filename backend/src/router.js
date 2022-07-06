@@ -39,7 +39,7 @@ router.get("/auth/sessionControl", authorization, sessionControl);
 
 router.post("/file", authorization, multer, fileController.addOne);
 
-router.post("/mail/forgotten", mailController.forgotten);
+router.post("/maiyl/forgotten", mailController.forgotten);
 router.post("/mail/contact", mailController.contact);
 
 router.get("/users", UserController.getAll);
