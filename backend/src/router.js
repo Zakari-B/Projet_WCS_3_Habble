@@ -11,6 +11,7 @@ const ServiceController = require("./controllers/ServiceControllers");
 const ExpertiseController = require("./controllers/ExpertiseControllers");
 const mailController = require("./controllers/mailController");
 const FreelancerServicesController = require("./controllers/FreelancerServicesControllers");
+const FreelancerExpertisesController = require("./controllers/FreelancerExpertisesControllers");
 
 // const auth = require("./middlewares/auth");
 const {
@@ -169,6 +170,7 @@ router.get("/annonces/lieux", LieuController.getAll);
 router.get("/annonces/lieu/:id", LieuController.getOne);
 router.put("/annonces/lieu/:id", LieuController.updateOne);
 router.delete("/annonces/lieu/:id", LieuController.deleteOne);
+
 // Routes for services
 router.post("/services", ServiceController.createOne);
 router.get("/services", ServiceController.getAll);
@@ -201,5 +203,24 @@ router.get("/expertises", ExpertiseController.getAll);
 router.get("/expertises/:id", ExpertiseController.getOne);
 router.put("/expertises/:id", ExpertiseController.updateOne);
 router.delete("/expertises/:id", ExpertiseController.deleteOne);
+
+// Routes for services of one freelancer
+
+router.get(
+  "/freelancers/:freelancerId/expertises",
+  FreelancerExpertisesController.getAll
+);
+router.get(
+  "/freelancers/:freelancerId/expertises/:expertiseId",
+  FreelancerExpertisesController.getOneByFreelancerId
+);
+router.post(
+  "/freelancers/:freelancerId/expertises/:expertiseId",
+  FreelancerExpertisesController.createOne
+);
+router.delete(
+  "/freelancers/:freelancerId/expertises/:expertiseId",
+  FreelancerExpertisesController.deleteOne
+);
 
 module.exports = router;
