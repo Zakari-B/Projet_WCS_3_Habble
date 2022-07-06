@@ -86,6 +86,7 @@ const getOneByEmployerId = async (req, res) => {
   }
   return null;
 };
+
 const updateOne = async (req, res) => {
   const employerId = parseInt(req.params.employerid, 10);
   const annonceId = parseInt(req.params.id, 10);
