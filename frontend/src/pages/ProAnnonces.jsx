@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import {
   Tabs,
   TabList,
@@ -11,8 +13,25 @@ import Header from "../components/Header/Header";
 import Footer from "../components/Footer";
 import EmployerSelect from "../components/EmployerAnnonces/EmployerSelect";
 import EmployerPrevious from "../components/EmployerAnnonces/EmployerPrevious";
+import { getSubListforAnId } from "../services/ProfileProUtils";
 
 function ProAnnonces() {
+  // const { freelancerId } = useParams();
+  const { employerId } = useParams();
+  const [annonces, setAnnonces] = useState([]);
+
+  useEffect(() => {
+    getSubListforAnId("employers", employerId, "annonces").then((res) => {
+      setAnnonces(res.data);
+    });
+  }, []);
+  const currentAnnonces = annonces.filter(
+    (annonce) => annonce.status !== "Terminé"
+  );
+
+  const oldAnnonces = annonces.filter(
+    (annonce) => annonce.status === "Terminé"
+  );
   return (
     <Box h="100vh">
       <Header onDark={false} isSticky={false} isStickyWhite />
@@ -51,10 +70,10 @@ function ProAnnonces() {
 
           <TabPanels>
             <TabPanel>
-              <EmployerSelect />
+              <EmployerSelect annonces={currentAnnonces} />
             </TabPanel>
             <TabPanel>
-              <EmployerPrevious />
+              <EmployerPrevious annonces={oldAnnonces} />
             </TabPanel>
           </TabPanels>
         </Tabs>

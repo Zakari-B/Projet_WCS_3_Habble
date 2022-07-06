@@ -8,6 +8,7 @@ import {
   Avatar,
   MenuList,
   MenuGroup,
+  Tag,
   MenuItem,
   MenuDivider,
 } from "@chakra-ui/react";
@@ -33,6 +34,7 @@ export default function Header({
     JSON.parse(localStorage.getItem("isUserLoggedIn"))
   );
   const [data, setData] = useState();
+
   const navigate = useNavigate();
 
   const logout = () => {
@@ -128,14 +130,43 @@ export default function Header({
               </MenuButton>
               <MenuList marginLeft="150px">
                 <MenuGroup title="Profil" color="purple.dark">
-                  <MenuItem icon={<BiUser />}>MON PROFIL</MenuItem>
-                  <MenuItem icon={<GrAnnounce />} color="purple.dark">
-                    <Link to="/profil/:freelanderId/mes-annonces">
-                      MES ANNONCES
-                    </Link>
+                  <MenuItem
+                    icon={<BiUser />}
+                    onClick={() => {
+                      if (data.data.userRole === "freelancer") {
+                        navigate(`/profil/${data.data.roleId}`);
+                      }
+                      if (data.data.userRole === "employer") {
+                        navigate(`/profil-employer/${data.data.roleId}`);
+                      }
+                    }}
+                  >
+                    MON PROFIL
                   </MenuItem>
-                  <MenuItem icon={<BiChat />} color="purple.dark">
-                    MES MESSAGES
+
+                  <MenuItem
+                    icon={<GrAnnounce />}
+                    color="purple.dark"
+                    onClick={() => {
+                      if (data.data.userRole === "freelancer") {
+                        navigate(`/profil/${data.data.roleId}/mes-annonces`);
+                      }
+                      if (data.data.userRole === "employer") {
+                        navigate(
+                          `/profil-employer/${data.data.roleId}/mes-annonces`
+                        );
+                      }
+                    }}
+                  >
+                    MES ANNONCES
+                  </MenuItem>
+                  <MenuItem icon={<BiChat />} disabled>
+                    <Flex gap="5px" alignItems="center">
+                      <Text> MES MESSAGES</Text>
+                      <Tag size="sm" colorScheme="purple">
+                        SOON
+                      </Tag>
+                    </Flex>
                   </MenuItem>
                 </MenuGroup>
 

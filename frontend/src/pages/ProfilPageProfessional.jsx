@@ -103,7 +103,7 @@ export default function ProfilPageProfessional() {
             direction="column"
             gap="20px"
           >
-            <DocumentCarousel />
+            <DocumentCarousel updated={updated} setUpdated={setUpdated} />
             <FormationCarousel
               formations={formations}
               updated={updated}

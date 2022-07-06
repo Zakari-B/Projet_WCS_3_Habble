@@ -65,6 +65,10 @@ function App() {
           path="/profil/:freelanderId/mes-annonces"
           element={<ProAnnonces />}
         />
+        <Route
+          path="/profil-employer/:employerId/mes-annonces"
+          element={<ProAnnonces />}
+        />
         <Route path="*" element={<Error />} />
       </Routes>
     </div>

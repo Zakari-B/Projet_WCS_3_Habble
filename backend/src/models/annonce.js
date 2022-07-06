@@ -16,6 +16,7 @@ const getAllAnnouncementsbyEmployerId = async (employerId) => {
   try {
     return await prisma.annonce.findMany({
       where: { employerId },
+      include: { annonce_offers: true },
     });
   } finally {
     await prisma.$disconnect();
