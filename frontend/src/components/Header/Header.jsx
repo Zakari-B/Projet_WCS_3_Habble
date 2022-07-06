@@ -129,15 +129,11 @@ export default function Header({
               <MenuList marginLeft="150px">
                 <MenuGroup title="Profil" color="purple.dark">
                   <MenuItem icon={<BiUser />}>MON PROFIL</MenuItem>
-                  <Link
-                    to="/profil/id/mes-annonces"
-                    w="-webkit-fill-available%"
-                  >
-                    <MenuItem icon={<GrAnnounce />} color="purple.dark">
+                  <MenuItem icon={<GrAnnounce />} color="purple.dark">
+                    <Link to="/profil/:freelanderId/mes-annonces">
                       MES ANNONCES
-                    </MenuItem>
-                  </Link>
-
+                    </Link>
+                  </MenuItem>
                   <MenuItem icon={<BiChat />} color="purple.dark">
                     MES MESSAGES
                   </MenuItem>

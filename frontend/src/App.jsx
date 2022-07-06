@@ -17,6 +17,7 @@ import AnnonceForm from "./components/ProfilEmployer/Annonce/AnnonceForm";
 import ProfilPageEmployer from "./pages/ProfilPageEmployer";
 import AnnoncesPageEmployer from "./pages/AnnoncesPageEmployer";
 import Logout from "./pages/Logout";
+import ProAnnonces from "./pages/ProAnnonces";
 
 import "./App.css";
 
@@ -60,6 +61,10 @@ function App() {
           element={<AnnoncesPageEmployer />}
         />
         <Route path="/logout" element={<Logout />} />
+        <Route
+          path="/profil/:freelanderId/mes-annonces"
+          element={<ProAnnonces />}
+        />
         <Route path="*" element={<Error />} />
       </Routes>
     </div>
