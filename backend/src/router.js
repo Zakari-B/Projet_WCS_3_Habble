@@ -15,6 +15,8 @@ const AnnonceController = require("./controllers/AnnonceController");
 const fileController = require("./controllers/FileController");
 const DocumentsController = require("./controllers/DocumentsController");
 const multer = require("./middlewares/multer");
+const FreelancerServicesController = require("./controllers/FreelancerServicesControllers");
+const AnnonceServicesController = require("./controllers/AnnonceServicesController");
 
 const {
   authorization,
@@ -191,6 +193,25 @@ router.get("/services/:id", ServiceController.getOne);
 router.put("/services/:id", ServiceController.updateOne);
 router.delete("/services/:id", ServiceController.deleteOne);
 
+// Routes for services of one freelancer
+
+router.get(
+  "/freelancers/:freelancerId/services",
+  FreelancerServicesController.getAll
+);
+router.get(
+  "/freelancers/:freelancerId/services/:serviceId",
+  FreelancerServicesController.getOneByFreelancerId
+);
+router.post(
+  "/freelancers/:freelancerId/services/:serviceId",
+  FreelancerServicesController.createOne
+);
+router.delete(
+  "/freelancers/:freelancerId/services/:serviceId",
+  FreelancerServicesController.deleteOne
+);
+
 // Routes for expertises
 router.post("/expertises", ExpertiseController.createOne);
 router.get("/expertises", ExpertiseController.getAll);
@@ -213,6 +234,11 @@ router.get("/annonces/:id", AnnonceController.getOne);
 router.get(
   "/employers/:employerid/annonce/:id",
   AnnonceController.getOneByEmployerId
+);
+router.put("/employers/:employerid/annonce/:id", AnnonceController.updateOne);
+router.delete(
+  "/employers/:employerid/annonce/:id",
+  AnnonceController.deleteOne
 );
 
 // Routes for offers
@@ -248,8 +274,27 @@ router.delete(
   OfferController.deleteOne
 );
 
+// Routes for expertises
 router.get("/expertises/:id", ExpertiseController.getOne);
 // router.put("/expertises/:id", ExpertiseController.updateOne);
 // router.delete("/expertises/:id", ExpertiseController.deleteOne);
+
+// Routes for services of one annonce
+router.get(
+  "/employer/:employerId/annonce/:annonceId/services",
+  AnnonceServicesController.getAll
+);
+router.get(
+  "/annonce/:annonceId/services/:serviceId",
+  AnnonceServicesController.getOneByAnnonceId
+);
+router.post(
+  "/employer/:employerId/annonce/:annonceId/services/:serviceId",
+  AnnonceServicesController.createOne
+);
+router.delete(
+  "/annonce/:annonceId/services/:serviceId",
+  AnnonceServicesController.deleteOne
+);
 
 module.exports = router;

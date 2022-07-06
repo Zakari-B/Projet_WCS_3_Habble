@@ -51,25 +51,25 @@ const getOneAnnouncement = async (id) => {
   }
 };
 
-// const updateOneDiploma = async (id, data) => {
-//   try {
-//     const diploma = await prisma.diplomes.update({
-//       where: { id },
-//       data: { ...data },
-//     });
-//     return diploma;
-//   } finally {
-//     await prisma.$disconnect();
-//   }
-// };
+const updateOneAnnouncement = async (employerId, id, data) => {
+  try {
+    const annonce = await prisma.annonce.updateMany({
+      where: { employerId, id },
+      data: { ...data },
+    });
+    return annonce;
+  } finally {
+    await prisma.$disconnect();
+  }
+};
 
-// const deleteOneDiploma = async (id) => {
-//   try {
-//     return await prisma.diplomes.delete({ where: { id } });
-//   } finally {
-//     await prisma.$disconnect();
-//   }
-// };
+const deleteOneAnnouncement = async (employerId, id) => {
+  try {
+    return await prisma.annonce.deleteMany({ where: { employerId, id } });
+  } finally {
+    await prisma.$disconnect();
+  }
+};
 
 module.exports = {
   getAllAnnouncementsbyEmployerId,
@@ -77,6 +77,6 @@ module.exports = {
   createOneAnnouncement,
   getOneAnnouncementByEmployerId,
   getOneAnnouncement,
-  //   updateOneDiploma,
-  //   deleteOneDiploma,
+  updateOneAnnouncement,
+  deleteOneAnnouncement,
 };
