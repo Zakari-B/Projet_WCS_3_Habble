@@ -17,6 +17,7 @@ import AnnonceForm from "./components/ProfilEmployer/Annonce/AnnonceForm";
 import ProfilPageEmployer from "./pages/ProfilPageEmployer";
 import AnnoncesDashboard from "./pages/AnnoncesDashboard";
 import Logout from "./pages/Logout";
+import PasswordResetForm from "./pages/PasswordReset";
 
 import "./App.css";
 
@@ -53,6 +54,7 @@ function App() {
           element={<AnnoncesDashboard />}
         />
         <Route path="/logout" element={<Logout />} />
+        <Route path="/passwordReset" element={<PasswordResetForm />} />
         <Route path="*" element={<Error />} />
       </Routes>
     </div>

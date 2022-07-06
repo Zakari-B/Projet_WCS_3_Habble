@@ -12,20 +12,20 @@ const createOne = async (token) => {
   }
 };
 
-const findOne = async (userId) => {
+const findOne = async (tokenUserId) => {
   try {
     return await prisma.token.findUnique({
-      where: { id: userId },
+      where: { userId: tokenUserId },
     });
   } finally {
     await prisma.$disconnect();
   }
 };
 
-const deleteOne = async (userId) => {
+const deleteOne = async (tokenUserId) => {
   try {
-    return await prisma.user.delete({
-      where: { id: userId },
+    return await prisma.token.delete({
+      where: { userId: tokenUserId },
     });
   } finally {
     await prisma.$disconnect();

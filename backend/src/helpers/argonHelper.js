@@ -31,8 +31,20 @@ const resetHash = (token) => {
   });
 };
 
+const verifyHash = (token, hashedToken) => {
+  return argon2.verify(hashedToken, token, {
+    type: argon2.argon2id,
+    memoryCost: 2 ** 16,
+    timeCost: 5,
+    parallelism: 1,
+    secret,
+    salt,
+  });
+};
+
 module.exports = {
   hashPassword,
   verifyPassword,
   resetHash,
+  verifyHash,
 };

@@ -75,12 +75,13 @@ const sessionControl = async (req, res) => {
   }
 };
 
-const resetPassword = async (email) => {
+const forgotPassword = async (req, res) => {
+  const { email } = req.body;
   const userToReset = await user.findOneByEmail(email);
   if (!userToReset) {
-    return "Cet utilisateur n'existe pas";
+    return res.status(404).send("Cet utilisateur n'existe pas");
   }
-  const checkForToken = await token.findOne(userToReset.id);
+  const checkForToken = await token.findOne(parseInt(userToReset.id, 10));
   if (checkForToken) {
     await token.deleteOne(userToReset.id);
   }
@@ -93,9 +94,20 @@ const resetPassword = async (email) => {
     expiration: expirationTime,
   });
 
-  const resetLink = `${process.env.FRONTEND_URL}/api/auth/passwordReset?token=${resetToken}&id=${userToReset.id}`;
-  sendMail({ recipient: "habble" }, resetTemplate);
-  return resetLink;
+  const resetLink = `${process.env.FRONTEND_URL}/passwordReset?token=${resetToken}&id=${userToReset.id}`;
+  sendMail(
+    {
+      firstname: "Habble",
+      lastname: "",
+      email: "no-reply@habble.com",
+      recipient: "habble",
+    },
+    resetTemplate(resetLink)
+  );
+  // CHANGER HABBLE (utilisé pour les tests) PAR userToReset.email
+  return res.status(200).json({
+    message: "Demande de réinitialisation de mot de passe effectuée.",
+  });
 };
 
 module.exports = {
@@ -103,5 +115,5 @@ module.exports = {
   authSelf,
   authSelfRole,
   sessionControl,
-  resetPassword,
+  forgotPassword,
 };

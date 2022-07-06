@@ -1,7 +1,15 @@
 const { Prisma } = require("@prisma/client");
-const { hashPassword, verifyPassword } = require("../helpers/argonHelper");
+const {
+  hashPassword,
+  verifyPassword,
+  verifyHash,
+} = require("../helpers/argonHelper");
+const { verifyAccessToken } = require("../helpers/jwtHelper");
 const user = require("../models/user");
+const token = require("../models/token");
 const { validateUser } = require("../utils/validate");
+const { sendMail } = require("../utils/mailer");
+const resetTemplateEnd = require("../templates/resetTemplateEnd");
 
 const createOne = async (req, res, next) => {
   const { firstname, lastname, email, password, role } = req.body;
@@ -160,6 +168,39 @@ const deleteOne = async (req, res) => {
   }
 };
 
+const resetPassword = async (req, res) => {
+  const { userToken, userId, password } = req.body;
+  const passwordResetToken = await token.findOne(userId);
+  if (!passwordResetToken) {
+    return res.status(401).send("Token invalide ou expiré");
+  }
+  const expired = await verifyAccessToken(passwordResetToken.expiration);
+  if (Math.floor(Date.now() / 1000) > expired.exp) {
+    return res.status(401).send("Token invalide ou expiré");
+  }
+  const valid = await verifyHash(userToken, passwordResetToken.token);
+  if (!valid) {
+    return res.status(401).send("Token invalide ou expiré");
+  }
+  const newHashedPassword = await hashPassword(password);
+  await user.updateOne(userId, {
+    hashedPassword: `${newHashedPassword}`,
+  });
+  const userToReset = await user.findOne(userId);
+  sendMail(
+    {
+      firstname: "Habble",
+      lastname: "",
+      email: "no-reply@habble.com",
+      recipient: "habble",
+    },
+    resetTemplateEnd(userToReset.firstname)
+  );
+  // CHANGER HABBLE (utilisé pour les tests) PAR userToReset.email
+  await token.deleteOne(userId);
+  return res.status(200).json({ message: "Mot de passe réinitialisé." });
+};
+
 module.exports = {
   createOne,
   login,
@@ -168,4 +209,5 @@ module.exports = {
   getOne,
   updateOne,
   deleteOne,
+  resetPassword,
 };
