@@ -20,7 +20,6 @@ export default function Services() {
   const [servicesList, setServicesList] = useState([]);
   const [serviceName, setServiceName] = useState([]);
   const [serviceNumber, setServiceNumber] = useState([]);
-
   // fonction retrait d'un item //
   const removeItem = (indexToRemove) => {
     const serviceId = serviceNumber.filter(
@@ -58,9 +57,21 @@ export default function Services() {
         console.warn(error);
       });
   };
+  const getAllServicesByFreelancer = () => {
+    backendAPI
+      .get(`/api/freelancers/${freelancerId}/services`)
+      .then((response) => {
+        setServiceName(response.data.map((e) => e.fk_services_id.name));
+        setServiceNumber(response.data.map((e) => e.fk_services_id.id));
+      })
+      .catch((error) => {
+        console.warn(error);
+      });
+  };
 
   useEffect(() => {
     getAllServices();
+    getAllServicesByFreelancer();
   }, []);
 
   return (
