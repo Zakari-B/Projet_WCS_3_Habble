@@ -17,21 +17,30 @@ import backendAPI from "../../services/backendAPI";
 export default function Services() {
   const { freelancerId } = useParams();
   // useState pour chaque input //
-  const [tags, setTags] = useState([]);
-  const [services, setServices] = useState([]);
-  const [test, setTest] = useState("");
+  const [servicesList, setServicesList] = useState([]);
+  const [serviceName, setServiceName] = useState([]);
+  const [serviceNumber, setServiceNumber] = useState([]);
 
   // fonction retrait d'un item //
   const removeItem = (indexToRemove) => {
-    setTags([...tags.filter((_, index) => index !== indexToRemove)]);
-    backendAPI.delete(`/api/freelancers/${freelancerId}/services/${test}`);
+    const serviceId = serviceNumber.filter(
+      (_, index) => index === indexToRemove
+    );
+    setServiceName([
+      ...serviceName.filter((_, index) => index !== indexToRemove),
+    ]);
+    setServiceNumber([
+      ...serviceNumber.filter((_, index) => index !== indexToRemove),
+    ]);
+    backendAPI.delete(`/api/freelancers/${freelancerId}/services/${serviceId}`);
   };
+
   // fonction retrait d'ajout d'un item //
   const addItem = (e) => {
     const nameService = e.target.options[e.target.selectedIndex].text;
-    if (nameService !== "" && !tags.includes(nameService)) {
-      setTags([...tags, nameService]);
-      setTest(e.target.value);
+    if (nameService !== "" && !serviceName.includes(nameService)) {
+      setServiceName([...serviceName, nameService]);
+      setServiceNumber([...serviceNumber, e.target.value]);
       backendAPI.post(
         `/api/freelancers/${freelancerId}/services/${e.target.value}`
       );
@@ -43,7 +52,7 @@ export default function Services() {
     backendAPI
       .get("/api/services")
       .then((response) => {
-        setServices(response.data);
+        setServicesList(response.data);
       })
       .catch((error) => {
         console.warn(error);
@@ -65,7 +74,7 @@ export default function Services() {
         h="fit-content"
         w="fit-content"
       >
-        {tags.map((element, index) => (
+        {serviceName.map((element, index) => (
           <ListItem m="0.2rem" p="0.2rem" bgColor="#f2f5f7" display="flex">
             <Text fontSize="0.9rem" fontWeight="400">
               {element}
@@ -92,7 +101,7 @@ export default function Services() {
         onChange={addItem}
         onKeyUp={(event) => (event.key === "Enter" ? addItem(event) : null)}
       >
-        {services.map((element) => (
+        {servicesList.map((element) => (
           <option value={element.id}>{element.name}</option>
         ))}
       </Select>
