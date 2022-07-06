@@ -7,6 +7,7 @@ import {
   Tag,
   Avatar,
 } from "@chakra-ui/react";
+import dateFormat from "dateformat";
 
 export default function BannerProfile({ employer }) {
   return (
@@ -60,7 +61,7 @@ export default function BannerProfile({ employer }) {
           </Text>
 
           <Text color="white" textAlign={{ base: "center", md: "left" }}>
-            Membre depuis le {employer.dateCreated}
+            Membre depuis le {dateFormat(employer.dateCreated, "dd/mm/yyyy")}
           </Text>
           <FormLabel
             htmlFor="availabilityToggle"

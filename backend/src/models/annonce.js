@@ -16,6 +16,7 @@ const getAllAnnouncementsbyEmployerId = async (employerId) => {
   try {
     return await prisma.annonce.findMany({
       where: { employerId },
+      include: { annonce_offers: true },
     });
   } finally {
     await prisma.$disconnect();
@@ -34,6 +35,16 @@ const getOneAnnouncementByEmployerId = async (employerId, id) => {
   try {
     return await prisma.annonce.findMany({
       where: { employerId, id },
+    });
+  } finally {
+    await prisma.$disconnect();
+  }
+};
+
+const getOneAnnouncement = async (id) => {
+  try {
+    return await prisma.annonce.findUnique({
+      where: { id },
     });
   } finally {
     await prisma.$disconnect();
@@ -65,6 +76,7 @@ module.exports = {
   getAllAnnouncements,
   createOneAnnouncement,
   getOneAnnouncementByEmployerId,
+  getOneAnnouncement,
   updateOneAnnouncement,
   deleteOneAnnouncement,
 };

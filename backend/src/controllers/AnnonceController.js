@@ -4,6 +4,7 @@ const {
   getAllAnnouncementsbyEmployerId,
   getAllAnnouncements,
   getOneAnnouncementByEmployerId,
+  getOneAnnouncement,
   updateOneAnnouncement,
   deleteOneAnnouncement,
 } = require("../models/annonce");
@@ -75,8 +76,24 @@ const getOneByEmployerId = async (req, res) => {
       employerId,
       annonceId
     );
-    if (!announcement) {
+    if (announcement.length === 0) {
       res.status(404).send("Il n'y a pas encore d'activité");
+    } else {
+      return res.status(201).send(announcement);
+    }
+  } catch (e) {
+    console.error(e);
+    return res.status(500).json({ error: "Problème de lecture de l'annonce" });
+  }
+  return null;
+};
+
+const getOne = async (req, res) => {
+  const annonceId = parseInt(req.params.id, 10);
+  try {
+    const announcement = await getOneAnnouncement(annonceId);
+    if (announcement.length === 0) {
+      res.status(404).send("Cette annonce n'existe pas");
     } else {
       return res.status(201).send(announcement);
     }
@@ -145,6 +162,7 @@ module.exports = {
   getAllByEmployerId,
   getAll,
   getOneByEmployerId,
+  getOne,
   updateOne,
   deleteOne,
 };

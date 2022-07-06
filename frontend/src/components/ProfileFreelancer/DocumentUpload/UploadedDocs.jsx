@@ -3,7 +3,7 @@ import { Flex, Box, Text, Link, Button, useDisclosure } from "@chakra-ui/react";
 import { DeleteIcon, LinkIcon } from "@chakra-ui/icons";
 import DeleteConfirmModal from "../../DeleteConfirmModal";
 
-export default function UploadedDoc({ data }) {
+export default function UploadedDoc({ data, updated, setUpdated }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
@@ -18,7 +18,7 @@ export default function UploadedDoc({ data }) {
         role="group"
         h="240px"
         w="100%"
-        bgImage={`url(${data.documentLink})`}
+        bgImage={`url(http://localhost:3000/backend/public/uploads/${data.documentLink})`}
         bgSize="contain"
         bgRepeat="no-repeat"
         bgPosition="center"
@@ -71,6 +71,10 @@ export default function UploadedDoc({ data }) {
             onOpen={onOpen}
             isOpen={isOpen}
             onClose={onClose}
+            item={data}
+            type="documents"
+            updated={updated}
+            setUpdated={setUpdated}
           />
         </Box>
       </Box>

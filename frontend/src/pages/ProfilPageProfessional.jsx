@@ -74,7 +74,7 @@ export default function ProfilPageProfessional() {
         bgColor="background.gray"
         direction="column"
         justify="flex-start"
-        paddingY="30péx"
+        paddingY="30px"
         paddingTop="150px"
       >
         <BannerProfile freelancer={freelancer} />
@@ -103,7 +103,7 @@ export default function ProfilPageProfessional() {
             direction="column"
             gap="20px"
           >
-            <DocumentCarousel />
+            <DocumentCarousel updated={updated} setUpdated={setUpdated} />
             <FormationCarousel
               formations={formations}
               updated={updated}

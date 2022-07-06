@@ -1,3 +1,5 @@
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import {
   Flex,
   Heading,
@@ -14,10 +16,41 @@ import {
   ModalCloseButton,
 } from "@chakra-ui/react";
 import UploadedDocs from "./UploadedDocs";
-import fakeData from "../../../assets/fakeData.json";
+import backendAPI from "../../../services/backendAPI";
 
-export default function DocumentCarousel() {
+export default function DocumentCarousel({ updated, setUpdated }) {
+  const [files, setFiles] = useState([]);
+  const [fileType, setFileType] = useState([]);
+  const [profileDocuments, setProfileDocuments] = useState([]);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { freelancerId } = useParams();
+
+  useEffect(() => {
+    backendAPI.get(`api/freelancers/${freelancerId}/documents`).then((res) => {
+      setProfileDocuments(res.data);
+    });
+  }, []);
+
+  const handleForm = (e) => {
+    e.preventDefault();
+
+    const formData = new FormData();
+
+    formData.append("file", files[0]);
+    formData.append("name", fileType);
+
+    backendAPI
+      .post("/api/file", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((res) => {
+        console.warn(res);
+        onClose();
+      });
+  };
+
   return (
     <Flex
       direction="column"
@@ -52,7 +85,12 @@ export default function DocumentCarousel() {
             <Heading as="h2" fontSize="1.4rem" fontWeight="700">
               Type de document
             </Heading>
-            <Select margin="20px auto" id="docType" placeholder="--Choisir--">
+            <Select
+              onChange={(e) => setFileType(e.target.value)}
+              margin="20px auto"
+              id="docType"
+              placeholder="--Choisir--"
+            >
               <option>Carte d'identité</option>
               <option>SIRET</option>
               <option>Casier judiciaire</option>
@@ -70,7 +108,8 @@ export default function DocumentCarousel() {
                   id="fileInputHandler"
                   style={{ display: "none" }}
                   type="file"
-                  accept="image/png, image/jpeg, image/jpg"
+                  accept="application/pdf, image/png, image/jpeg, image/jpg"
+                  onChange={(e) => setFiles(e.target.files)}
                 />
               </label>
             </Button>
@@ -82,7 +121,12 @@ export default function DocumentCarousel() {
           </ModalBody>
 
           <ModalFooter justifyContent={{ base: "center", md: "flex-end" }}>
-            <Button variant="solid_PrimaryColor" mr={3}>
+            <Button
+              onClick={handleForm}
+              type="submit"
+              variant="solid_PrimaryColor"
+              mr={3}
+            >
               Enregistrer
             </Button>
             <Button variant="ghost" fontWeight="700" onClick={onClose}>
@@ -100,9 +144,15 @@ export default function DocumentCarousel() {
         w={{ base: "100%", "2xl": "90%" }}
         m="auto"
       >
-        {fakeData.map((elem) => (
-          <UploadedDocs key={`${elem.name}_${elem.id}`} data={elem} />
-        ))}
+        {profileDocuments &&
+          profileDocuments.map((elem) => (
+            <UploadedDocs
+              key={elem.id}
+              data={elem}
+              updated={updated}
+              setUpdated={setUpdated}
+            />
+          ))}
       </Flex>
     </Flex>
   );

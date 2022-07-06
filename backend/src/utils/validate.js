@@ -118,6 +118,33 @@ exports.validateLocation = (data, forCreation = true) => {
   return false;
 };
 
+exports.validateOfferCreation = (data, forCreation = true) => {
+  const presence = forCreation ? "required" : "optional";
+  const validationErrors = Joi.object({
+    price: Joi.number().presence(presence).options({ convert: false }),
+    description: Joi.string().max(500).presence(presence),
+    availableIn: Joi.string().max(500).presence(presence),
+  }).validate(data, { abortEarly: false }).error;
+  if (validationErrors) {
+    return validationErrors;
+  }
+  return false;
+};
+
+exports.validateOfferUpdate = (data, forCreation = false) => {
+  const presence = forCreation ? "required" : "optional";
+  const validationErrors = Joi.object({
+    price: Joi.number().presence(presence).options({ convert: false }),
+    description: Joi.string().max(500).presence(presence),
+    availableIn: Joi.string().max(500).presence(presence),
+    status: Joi.string().max(500).presence(presence),
+  }).validate(data, { abortEarly: false }).error;
+  if (validationErrors) {
+    return validationErrors;
+  }
+  return false;
+};
+
 exports.validateAnnouncement = (data, forCreation = true) => {
   const presence = forCreation ? "required" : "optional";
   const validationErrors = Joi.object({
