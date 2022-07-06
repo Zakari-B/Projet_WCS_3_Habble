@@ -13,6 +13,7 @@ const ExpertiseController = require("./controllers/ExpertiseControllers");
 const mailController = require("./controllers/mailController");
 const fileController = require("./controllers/FileController");
 const DocumentsController = require("./controllers/DocumentsController");
+const FamilyController = require("./controllers/FamilyController");
 const multer = require("./middlewares/multer");
 
 const {
@@ -213,5 +214,12 @@ router.get("/expertises", ExpertiseController.getAll);
 router.get("/expertises/:id", ExpertiseController.getOne);
 router.put("/expertises/:id", ExpertiseController.updateOne);
 router.delete("/expertises/:id", ExpertiseController.deleteOne);
+
+// Routes pour famille/accompagnement
+router.post("/famille", FamilyController.createOne);
+router.get("/familles", FamilyController.getAll);
+router.get("/famille/:id", FamilyController.getOne);
+router.put("/famille/:id", FamilyController.updateOne);
+router.delete("/famille/:id", FamilyController.deleteOne);
 
 module.exports = router;
