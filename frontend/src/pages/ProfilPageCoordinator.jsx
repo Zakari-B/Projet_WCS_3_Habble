@@ -59,7 +59,7 @@ export default function ProfilPageCoordinator() {
 
   return (
     <Box h="100vh">
-      <Header onDark={false} isSticky={false} isStickyWhite isSignUp />
+      <Header onDark={false} isSticky={false} isStickyWhite />
       <Flex
         bgColor="background.gray"
         direction="column"
@@ -93,7 +93,7 @@ export default function ProfilPageCoordinator() {
             gap="20px"
           >
             <DocumentCarousel setUpdated={setUpdated} />
-            <Agrement />
+            <Agrement setUpdated={setUpdated} />
           </Flex>
         </Flex>
       </Flex>

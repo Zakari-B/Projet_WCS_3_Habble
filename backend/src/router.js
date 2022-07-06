@@ -217,9 +217,9 @@ router.delete("/expertises/:id", ExpertiseController.deleteOne);
 
 // Routes pour famille/accompagnement
 router.post("/famille", authorization, FamilyController.createOne);
-router.get("/familles", FamilyController.getAll);
-router.get("/famille/:id", FamilyController.getOne);
-router.put("/famille/:id", FamilyController.updateOne);
-router.delete("/famille/:id", FamilyController.deleteOne);
+router.get("/familles", authorization, FamilyController.getAll);
+router.get("/famille/:id", authorization, FamilyController.getOne);
+router.put("/famille/:id", authorization, FamilyController.updateOne);
+router.delete("/famille/:id", authorization, FamilyController.deleteOne);
 
 module.exports = router;

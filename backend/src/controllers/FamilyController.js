@@ -9,12 +9,12 @@ const {
 const { validateFamily } = require("../utils/validate");
 
 const createOne = async (req, res) => {
-  // on récupère l'id du freelancer dans la requête
+  // on récupère l'id du coordinateur dans la requête
   const coordinatorId = parseInt(req.roleId, 10);
-  // on check si le freelancer existe et on renvoie une 404 si il n'existe pas
+  // on check si le coordinateur existe et on renvoie une 404 si il n'existe pas
   const coordinator = await findOneCoordinator(coordinatorId);
   if (!coordinator) {
-    return res.status(404).send(`Freelancer #${coordinatorId} not found.`);
+    return res.status(404).send(`Coordinateur #${coordinatorId} not found.`);
   }
 
   // on check si les champs du diplome sont bons
@@ -39,7 +39,7 @@ const createOne = async (req, res) => {
 };
 
 const getAll = async (req, res) => {
-  const coordinatorId = parseInt(req.params.coordinatorid, 10);
+  const coordinatorId = parseInt(req.roleId, 10);
   try {
     const familylist = await getAllFamilybyCoordinatorId(coordinatorId);
     return res.status(201).send(familylist);
@@ -50,7 +50,7 @@ const getAll = async (req, res) => {
 };
 
 const getOne = async (req, res) => {
-  const coordinatorId = parseInt(req.params.coordinatorid, 10);
+  const coordinatorId = parseInt(req.roleId, 10);
   const familyID = parseInt(req.params.id, 10);
 
   try {
@@ -68,10 +68,10 @@ const getOne = async (req, res) => {
 };
 
 const updateOne = async (req, res) => {
-  const coordinatorId = parseInt(req.params.coordinatorid, 10);
+  const coordinatorId = parseInt(req.roleId, 10);
   const familyID = parseInt(req.params.id, 10);
 
-  // on check qu'un displome existe pour le couple freelancer/diplome
+  // on check qu'une famille existe pour le couple coordinateur/famille
   const family = await getOneFamilybyCoordinatorId(coordinatorId, familyID);
 
   if (!family) {
@@ -97,7 +97,7 @@ const updateOne = async (req, res) => {
 };
 
 const deleteOne = async (req, res) => {
-  const coordinatorId = parseInt(req.params.coordinatorid, 10);
+  const coordinatorId = parseInt(req.roleId, 10);
   const familyID = parseInt(req.params.id, 10);
 
   // on check qu'un displome existe pour le couple freelancer/diplome

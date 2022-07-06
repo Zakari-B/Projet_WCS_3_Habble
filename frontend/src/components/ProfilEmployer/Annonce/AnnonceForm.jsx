@@ -69,7 +69,7 @@ export default function AnnonceForm() {
   };
   return (
     <Box h="100vh">
-      <Header onDark={false} isSticky={false} isStickyWhite={false} isSignUp />
+      <Header onDark={false} isSticky={false} isStickyWhite={false} />
       <Flex bgColor="background.gray" direction="column" justify="flex-start">
         <FormControl
           alignSelf="center"
