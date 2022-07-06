@@ -12,16 +12,6 @@ const createOneLocation = async (location) => {
   }
 };
 
-// const getAllLocationsbyAnnonceId = async (annonceId) => {
-//   try {
-//     return await prisma.lieu.findMany({
-//       where: { annonceId },
-//     });
-//   } finally {
-//     await prisma.$disconnect();
-//   }
-// };
-
 const getAllLocations = async () => {
   try {
     return await prisma.lieu.findMany();
@@ -62,7 +52,6 @@ const deleteOneLocation = async (id) => {
 
 module.exports = {
   createOneLocation,
-  //   getAllLocationsbyAnnonceId,
   getAllLocations,
   getOneLocation,
   updateOneLocation,

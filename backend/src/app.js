@@ -25,6 +25,7 @@ app.use(express.static(path.join(__dirname, "..", "..", "frontend", "dist")));
 
 // API routes
 app.use("/api", router);
+app.use("/uploads", express.static(path.join(__dirname, "../public/uploads")));
 
 // Redirect all requests to the REACT app
 app.get("*", (req, res) => {

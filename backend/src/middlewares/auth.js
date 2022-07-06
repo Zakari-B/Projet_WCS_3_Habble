@@ -58,6 +58,8 @@ const sessionControl = async (req, res) => {
       userId: data.payload.user.id,
       userRole: data.payload.user.role,
       roleId: data.payload.fkId,
+      firstname: data.payload.user.firstname,
+      lastname: data.payload.user.lastname,
     });
   } catch (e) {
     console.warn(e);
