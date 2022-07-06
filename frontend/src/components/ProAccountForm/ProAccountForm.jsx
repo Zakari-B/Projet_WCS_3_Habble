@@ -110,7 +110,7 @@ export default function ProAccountForm() {
       })
       .then((response) => {
         backendAPI.put(`/api/users/${userId}`, {
-          profileIsComplete: !user.profileIsComplete,
+          profileIsComplete: true,
         });
         if (response) {
           toast({

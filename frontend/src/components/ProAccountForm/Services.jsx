@@ -16,37 +16,11 @@ import backendAPI from "../../services/backendAPI";
 
 export default function Services() {
   const { freelancerId } = useParams();
-  // useState pour chaque input //
   const [servicesList, setServicesList] = useState([]);
   const [serviceName, setServiceName] = useState([]);
   const [serviceNumber, setServiceNumber] = useState([]);
-  // fonction retrait d'un item //
-  const removeItem = (indexToRemove) => {
-    const serviceId = serviceNumber.filter(
-      (_, index) => index === indexToRemove
-    );
-    setServiceName([
-      ...serviceName.filter((_, index) => index !== indexToRemove),
-    ]);
-    setServiceNumber([
-      ...serviceNumber.filter((_, index) => index !== indexToRemove),
-    ]);
-    backendAPI.delete(`/api/freelancers/${freelancerId}/services/${serviceId}`);
-  };
 
-  // fonction retrait d'ajout d'un item //
-  const addItem = (e) => {
-    const nameService = e.target.options[e.target.selectedIndex].text;
-    if (nameService !== "" && !serviceName.includes(nameService)) {
-      setServiceName([...serviceName, nameService]);
-      setServiceNumber([...serviceNumber, e.target.value]);
-      backendAPI.post(
-        `/api/freelancers/${freelancerId}/services/${e.target.value}`
-      );
-    }
-  };
-
-  // axios qui va chercher les services
+  // axios qui va chercher la liste des services
   const getAllServices = () => {
     backendAPI
       .get("/api/services")
@@ -57,6 +31,8 @@ export default function Services() {
         console.warn(error);
       });
   };
+
+  // axios qui va chercher les services d'un freelancer
   const getAllServicesByFreelancer = () => {
     backendAPI
       .get(`/api/freelancers/${freelancerId}/services`)
@@ -73,6 +49,32 @@ export default function Services() {
     getAllServices();
     getAllServicesByFreelancer();
   }, []);
+
+  // fonction retrait d'ajout d'un item //
+  const addItem = (e) => {
+    const nameService = e.target.options[e.target.selectedIndex].text;
+    if (nameService !== "" && !serviceName.includes(nameService)) {
+      setServiceName([...serviceName, nameService]);
+      setServiceNumber([...serviceNumber, e.target.value]);
+      backendAPI.post(
+        `/api/freelancers/${freelancerId}/services/${e.target.value}`
+      );
+    }
+  };
+
+  // fonction retrait d'un item //
+  const removeItem = (indexToRemove) => {
+    const serviceId = serviceNumber.filter(
+      (_, index) => index === indexToRemove
+    );
+    setServiceName([
+      ...serviceName.filter((_, index) => index !== indexToRemove),
+    ]);
+    setServiceNumber([
+      ...serviceNumber.filter((_, index) => index !== indexToRemove),
+    ]);
+    backendAPI.delete(`/api/freelancers/${freelancerId}/services/${serviceId}`);
+  };
 
   return (
     <Box borderColor="gray.200" borderWidth="1.5px" borderRadius="10px">
