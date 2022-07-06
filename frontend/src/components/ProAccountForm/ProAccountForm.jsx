@@ -114,8 +114,8 @@ export default function ProAccountForm() {
 
   const updateFreelancerCompletedProfile = (e) => {
     e.preventDefault();
-    backendAPI.get(`/api/freelancers/${freelancerId}/user`).then((response) => {
-      const userId = response.data.id;
+    backendAPI.get(`/api/freelancers/${freelancerId}/user`).then(() => {
+      // const userId = response.data.id;
       backendAPI
         .put(`/api/freelancers/${freelancerId}`, {
           displayName,
@@ -131,12 +131,12 @@ export default function ProAccountForm() {
           picture: picturePro,
         })
         .then(() => {
-          if (response) {
-            backendAPI.put(`/api/users/${userId}`, {
-              profileIsComplete: true,
-            });
-            navigate(`/profil/${freelancerId}`);
-          }
+          // if (response) {
+          //   backendAPI.put(`/api/users/${userId}`, {
+          //     profileIsComplete: true,
+          //   });
+          // }
+          navigate(`/profil/${freelancerId}`);
         });
     });
   };
