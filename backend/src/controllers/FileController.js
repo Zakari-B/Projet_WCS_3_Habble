@@ -4,14 +4,22 @@ const fileModel = require("../models/file");
 
 exports.addOne = async (req, res) => {
   // CHANGER LE ID INSCRIT EN DUR UNE FOIS LA PR CORRESPONDANTE INTEGREE A DEV
-
   if (!req.file) {
     res.sendStatus(400);
-  } else {
+  } else if (req.userRole === "freelancer") {
     const data = await fileModel.createOne({
       name: req.body.name,
       documentLink: req.file.filename,
-      freelancerId: 14,
+      freelancerId: req.roleId,
+      verified: false,
+    });
+    console.warn(data);
+    res.sendStatus(200);
+  } else if (req.userRole === "coordinator") {
+    const data = await fileModel.createOne({
+      name: req.body.name,
+      documentLink: req.file.filename,
+      coordinatorId: req.roleId,
       verified: false,
     });
     console.warn(data);

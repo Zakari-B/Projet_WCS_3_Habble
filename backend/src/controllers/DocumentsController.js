@@ -7,7 +7,13 @@ const {
 } = require("../models/documents");
 
 const getAll = async (req, res) => {
-  const freelancerId = parseInt(req.params.freelancerid, 10);
+  let freelancerId = 0;
+  if (req.params.freelancerid) {
+    freelancerId = parseInt(req.params.freelancerid, 10);
+  }
+  if (req.params.coordinatorId) {
+    freelancerId = parseInt(req.params.coordinatorId, 10);
+  }
   try {
     const docList = await getAllDocumentsByFreelancerId(freelancerId);
     return res.status(200).send(docList);

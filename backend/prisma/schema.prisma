@@ -83,14 +83,14 @@ model coordinator {
 }
 
 model documents {
-  id                Int         @id @default(autoincrement())
-  name              String      @db.VarChar(255)
-  freelancerId      Int
-  coordinatorId     Int
-  documentLink      String      @db.VarChar(300)
-  verified          Boolean     @default(false)
-  fk_freelancer_id  freelancer  @relation(fields: [freelancerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  fk_coordinator_id coordinator @relation(fields: [coordinatorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  id                Int          @id @default(autoincrement())
+  name              String       @db.VarChar(255)
+  freelancerId      Int?
+  coordinatorId     Int?
+  documentLink      String       @db.VarChar(300)
+  verified          Boolean      @default(false)
+  fk_freelancer_id  freelancer?  @relation(fields: [freelancerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  fk_coordinator_id coordinator? @relation(fields: [coordinatorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
 
 model freelancer_services {
@@ -206,16 +206,16 @@ model annonce_lieu {
 }
 
 model family {
-  id             Int         @id @default(autoincrement())
-  firstname      String      @db.VarChar(100)
-  lastname       String      @db.VarChar(100)
-  legalGuardian  String      @db.VarChar(100)
-  adress         String      @db.VarChar(255)
-  phoneNumber    String      @db.VarChar(20)
-  email          String      @db.VarChar(100)
-  need           String      @db.VarChar(1000)
-  disabilityType String      @db.VarChar(100)
-  coordinatorId  Int
-  coordinator    coordinator @relation(fields: [coordinatorId], references: [id])
-  annonce        annonce[]
+  id                 Int         @id @default(autoincrement())
+  firstname          String      @db.VarChar(100)
+  lastname           String      @db.VarChar(100)
+  legalGuardian      String      @db.VarChar(100)
+  adress             String      @db.VarChar(255)
+  phoneNumber        String      @db.VarChar(20)
+  email              String      @db.VarChar(100)
+  disabilityType     String      @db.VarChar(100)
+  complementary_info String      @db.Text
+  coordinatorId      Int
+  coordinator        coordinator @relation(fields: [coordinatorId], references: [id])
+  annonce            annonce[]
 }

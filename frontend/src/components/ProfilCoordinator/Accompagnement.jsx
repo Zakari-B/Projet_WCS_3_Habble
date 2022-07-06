@@ -20,6 +20,7 @@ import {
   InputGroup,
   InputLeftAddon,
   Select,
+  Textarea,
 } from "@chakra-ui/react";
 
 export default function Accompagnement() {
@@ -32,6 +33,7 @@ export default function Accompagnement() {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [email, setEmail] = useState("");
   const [disability, setDisability] = useState("");
+  const [informations, setInformations] = useState("");
 
   const handleLastname = (e) => {
     setLastname(e.target.value);
@@ -56,6 +58,9 @@ export default function Accompagnement() {
   };
   const handleDisability = (e) => {
     setDisability(e.target.value);
+  };
+  const handleInformations = (e) => {
+    setInformations(e.target.value);
   };
 
   return (
@@ -272,6 +277,27 @@ export default function Accompagnement() {
                   <option>Maladies invalidantes</option>
                 </Select>
               </FormControl>
+              <FormLabel
+                htmlFor="name"
+                fontSize="md"
+                fontWeight="800"
+                color="purple.average"
+                mt="1rem"
+              >
+                Informations complémentaires
+              </FormLabel>
+              <Textarea
+                w={{ base: "95%", lg: "65%" }}
+                type="email"
+                informations={informations}
+                placeholder="Informations complémentaires que vous voulez ajouter"
+                _placeholder={{
+                  fontSize: "0.8rem",
+                  fontWeight: "500",
+                  color: "gray",
+                }}
+                onChange={handleInformations}
+              />
             </ModalBody>
 
             <ModalFooter justifyContent={{ base: "center", md: "flex-end" }}>

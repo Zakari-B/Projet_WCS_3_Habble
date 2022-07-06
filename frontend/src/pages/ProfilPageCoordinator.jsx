@@ -15,12 +15,12 @@ import backendAPI from "../services/backendAPI";
 export default function ProfilPageCoordinator() {
   const navigate = useNavigate();
 
-  const { coordinatorId } = useParams();
+  const { freelancerId } = useParams();
   const [coordinator, setCoordinator] = useState({});
   const [updated, setUpdated] = useState(false);
 
   const getCoordinator = () => {
-    getListforAnId("coordinators", coordinatorId)
+    getListforAnId("coordinators", freelancerId)
       .then((response) => {
         setCoordinator(response.data);
       })
