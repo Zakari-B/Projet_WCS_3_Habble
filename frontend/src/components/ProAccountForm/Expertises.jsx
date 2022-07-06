@@ -16,7 +16,6 @@ export default function Expertises() {
   // useState pour chaque input //
   const [expertise, setExpertise] = useState([]);
   const [expertiseList, setExpertiseList] = useState([]);
-  // const [test, setTest] = useState([]);
 
   // fonction retrait et d'ajout d'une expertise //
   const updateExpertise = (e) => {
@@ -57,7 +56,6 @@ export default function Expertises() {
         setExpertiseList(
           response.data.map((e) => e.fk_expertise_id.id.toString())
         );
-        // setTest(response.data.map((e) => e.fk_expertise_id));
       })
       .catch((error) => {
         console.warn(error);
@@ -69,7 +67,6 @@ export default function Expertises() {
     getAllExpertisesByFreelancer();
   }, []);
 
-  // console.log(expertiseList);
   return (
     <Flex flexDirection="column" gap="5">
       <FormLabel
