@@ -10,7 +10,7 @@ const { validateFamily } = require("../utils/validate");
 
 const createOne = async (req, res) => {
   // on récupère l'id du freelancer dans la requête
-  const coordinatorId = parseInt(req.params.coordinatorid, 10);
+  const coordinatorId = parseInt(req.roleId, 10);
   // on check si le freelancer existe et on renvoie une 404 si il n'existe pas
   const coordinator = await findOneCoordinator(coordinatorId);
   if (!coordinator) {
@@ -18,10 +18,10 @@ const createOne = async (req, res) => {
   }
 
   // on check si les champs du diplome sont bons
-  const error = validateFamily(req.body, true);
-  if (error) {
-    console.error(error);
-    return res.status(422).json(error.details);
+  const error1 = validateFamily(req.body, true);
+  if (error1) {
+    console.error(error1);
+    return res.status(422).json(error1.details);
   }
 
   try {

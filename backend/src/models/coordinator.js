@@ -20,6 +20,7 @@ exports.findOneCoordinatorByUserId = async (id) => {
   }
 };
 exports.findOneCoordinator = async (coordinatorId) => {
+  // console.log(coordinatorId);
   try {
     return await prisma.coordinator.findUnique({
       where: { id: coordinatorId },

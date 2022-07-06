@@ -216,7 +216,7 @@ router.put("/expertises/:id", ExpertiseController.updateOne);
 router.delete("/expertises/:id", ExpertiseController.deleteOne);
 
 // Routes pour famille/accompagnement
-router.post("/famille", FamilyController.createOne);
+router.post("/famille", authorization, FamilyController.createOne);
 router.get("/familles", FamilyController.getAll);
 router.get("/famille/:id", FamilyController.getOne);
 router.put("/famille/:id", FamilyController.updateOne);
