@@ -8,7 +8,7 @@ import {
   Tag,
 } from "@chakra-ui/react";
 import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 import PropTypes from "prop-types";
 
@@ -16,6 +16,8 @@ import DeleteConfirmModal from "../../DeleteConfirmModal";
 
 export default function AnnonceCard({ annonce }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const { employerId } = useParams();
+  // const annonceid = annonce.id;
 
   return (
     <Flex direction="column" gap="10px" paddingY="10px">
@@ -43,7 +45,7 @@ export default function AnnonceCard({ annonce }) {
       </Text>
 
       <Flex gap="20px">
-        <Link to="/deposer-une-annonce">
+        <Link to={`/deposer-une-annonce/${employerId}/annonce/${annonce.id}`}>
           <Button
             leftIcon={<EditIcon />}
             variant="text"

@@ -32,7 +32,7 @@ const getAllAnnouncements = async () => {
 
 const getOneAnnouncementByEmployerId = async (employerId, id) => {
   try {
-    return await prisma.annonce.findUnique({
+    return await prisma.annonce.findMany({
       where: { employerId, id },
     });
   } finally {
@@ -40,31 +40,31 @@ const getOneAnnouncementByEmployerId = async (employerId, id) => {
   }
 };
 
-// const updateOneDiploma = async (id, data) => {
-//   try {
-//     const diploma = await prisma.diplomes.update({
-//       where: { id },
-//       data: { ...data },
-//     });
-//     return diploma;
-//   } finally {
-//     await prisma.$disconnect();
-//   }
-// };
+const updateOneAnnouncement = async (employerId, id, data) => {
+  try {
+    const annonce = await prisma.annonce.updateMany({
+      where: { employerId, id },
+      data: { ...data },
+    });
+    return annonce;
+  } finally {
+    await prisma.$disconnect();
+  }
+};
 
-// const deleteOneDiploma = async (id) => {
-//   try {
-//     return await prisma.diplomes.delete({ where: { id } });
-//   } finally {
-//     await prisma.$disconnect();
-//   }
-// };
+const deleteOneAnnouncement = async (id) => {
+  try {
+    return await prisma.annonce.delete({ where: { id } });
+  } finally {
+    await prisma.$disconnect();
+  }
+};
 
 module.exports = {
   getAllAnnouncementsbyEmployerId,
   getAllAnnouncements,
   createOneAnnouncement,
   getOneAnnouncementByEmployerId,
-  //   updateOneDiploma,
-  //   deleteOneDiploma,
+  updateOneAnnouncement,
+  deleteOneAnnouncement,
 };

@@ -1,35 +1,10 @@
 import { Flex, Heading, Text, Button } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import AnnonceCard from "./AnnonceCard";
 import backendAPI from "../../../services/backendAPI";
 
 export default function AnnonceCarousel() {
-  // const [annoncelist] = useState([
-  //   {
-  //     id: 1,
-  //     title: "Aide aux devoirs",
-  //     description:
-  //       "J'ai besoin d'aide pour les devoirs de mon fils souffrant de troubles autistiques",
-  //     expertise: "conseils éducatifs",
-  //     price: 40,
-  //     zipCode: "83000",
-  //     location: "domicile",
-  //     emergency: true,
-  //   },
-  //   {
-  //     id: 1,
-  //     title: "Aide aux devoirs",
-  //     description:
-  //       "J'ai besoin d'aide pour les devoirs de mon fils souffrant de troubles autistiques",
-  //     expertise: "conseils éducatifs",
-  //     price: 40,
-  //     zipCode: "83000",
-  //     location: "domicile",
-  //     emergency: true,
-  //   },
-  // ]);
-
   const { employerId } = useParams();
   const navigate = useNavigate();
   const [announcements, setAnnouncements] = useState([]);
@@ -39,6 +14,26 @@ export default function AnnonceCarousel() {
       .get(`api/employers/${employerId}/annonces`)
       .then((response) => {
         setAnnouncements(response.data);
+      })
+      .catch((error) => {
+        console.warn(error);
+        navigate("/error");
+      });
+  };
+
+  const postAnnonce = () => {
+    backendAPI
+      .post(`api/employers/${employerId}/annonce`, {
+        title: "coucou",
+        description: "coucou",
+        emergency: false,
+        price: 0,
+        status: "En cours",
+      })
+      .then((response) => {
+        navigate(
+          `/deposer-une-annonce/${employerId}/annonce/${response.data.id}`
+        );
       })
       .catch((error) => {
         console.warn(error);
@@ -63,9 +58,10 @@ export default function AnnonceCarousel() {
         <Heading as="h2" color="purple.light" fontSize="1.5em" fontWeight="700">
           Mes annonces
         </Heading>
-        <Link to={`/deposer-une-annonce/${employerId}`}>
-          <Button variant="outline_Pink">Ajouter</Button>
-        </Link>
+
+        <Button variant="outline_Pink" onClick={postAnnonce}>
+          Ajouter
+        </Button>
       </Flex>
 
       <Flex direction="column">

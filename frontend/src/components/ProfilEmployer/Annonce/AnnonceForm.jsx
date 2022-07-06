@@ -25,11 +25,11 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { CloseIcon } from "@chakra-ui/icons";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Header from "../../Header/Header";
 import Footer from "../../Footer";
-import { addToList } from "../../../services/ProfileProUtils";
+import backendAPI from "../../../services/backendAPI";
 
 export default function AnnonceForm() {
   const toast = useToast();
@@ -41,9 +41,11 @@ export default function AnnonceForm() {
   const [tags, setTags] = useState([]);
   const [location, setLocation] = useState([]);
   const [emergency, setEmergency] = useState(false);
+  const [services, setServices] = useState([]);
+
   const [status] = useState("En cours");
 
-  const { employerId } = useParams();
+  const { employerId, annonceId } = useParams();
 
   // fonction retrait d'un item //
   const removeItem = (indexToRemove) => {
@@ -74,29 +76,17 @@ export default function AnnonceForm() {
     }
   };
 
-  // const createOneAnnouncement = () => {
-  //   backendAPI
-  //     .get(`/api/employers/${employerId}/annonce/${id}`)
-  //     .then((response) => {
-  //       setDisplayTitle(response.data.title);
-  //       setDescription(response.data.description);
-  //       setEmergency(response.data.emergency);
-  //     })
-  //     .catch((error) => {
-  //       console.warn(error);
-  //     });
-  // };
-
   const handleSubmit = (event) => {
     event.preventDefault();
-    addToList("employers", "annonce", employerId, {
-      title,
-      description,
-      emergency,
-      price,
-      service,
-      status,
-    })
+    backendAPI
+      .put(`/api/employers/${employerId}/annonce/${annonceId}`, {
+        title,
+        description,
+        emergency,
+        price,
+        service,
+        status,
+      })
       .then(() => {
         navigate(`/profil-employer/${employerId}`);
       })
@@ -121,6 +111,31 @@ export default function AnnonceForm() {
       });
   };
 
+  const getAllServices = () => {
+    backendAPI
+      .get("/api/services")
+      .then((response) => {
+        setServices(response.data);
+      })
+      .catch((error) => {
+        console.warn(error);
+      });
+  };
+
+  useEffect(() => {
+    getAllServices();
+    // getAllServicesByFreelancer();
+  }, []);
+
+  const addItem = (e) => {
+    const nameService = e.target.options[e.target.selectedIndex].text;
+    if (nameService !== "" && !tags.includes(nameService)) {
+      setTags([...tags, nameService]);
+      backendAPI.post(
+        `/api/employer/${employerId}/annonce/${annonceId}/services/${e.target.value}`
+      );
+    }
+  };
   return (
     <Box h="100vh">
       <Header onDark={false} isSticky={false} isStickyWhite={false} isSignUp />
@@ -259,48 +274,14 @@ export default function AnnonceForm() {
                   fontWeight="500"
                   color="gray"
                   placeholder="Choisissez un ou plusieurs services dans la liste, tapez des mots clés pour filtrer"
-                  onChange={service}
+                  onChange={addItem}
                   onKeyUp={(event) =>
-                    event.key === "Enter" ? service(event) : null
+                    event.key === "Enter" ? addItem(event) : null
                   }
                 >
-                  <option value="Conseils éducatifs">Conseils éducatifs</option>
-                  <option value="Activités ludiques et sportives">
-                    Activités ludiques et sportives
-                  </option>
-                  <option value="Garde d’enfant">Garde d’enfant</option>
-                  <option value="Coaching professionnel">
-                    Coaching professionnel
-                  </option>
-                  <option value="Compagnie et support social">
-                    Compagnie et support social
-                  </option>
-                  <option value="Service original">Service original</option>
-                  <option value="Aide à domicile">Aide à domicile</option>
-                  <option value="Rééducation, paramédical">
-                    Rééducation, paramédical
-                  </option>
-                  <option value="Soins personnels : toilette, habillement, …">
-                    Soins personnels : toilette, habillement, …
-                  </option>
-                  <option value="Soins infirmiers">Soins infirmiers</option>
-                  <option value="Aide administrative, démarches, dossiers">
-                    Aide administrative, démarches, dossiers
-                  </option>
-                  <option value="Soutien scolaire">Soutien scolaire</option>
-                  <option value="Soutien à la parentalité">
-                    Soutien à la parentalité
-                  </option>
-                  <option value="Soutien psychologique">
-                    Soutien psychologique
-                  </option>
-                  <option value="Transport, logistique, voyage">
-                    Transport, logistique, voyage
-                  </option>
-                  <option value="Santé">Santé</option>
-                  <option value="Bien être">Bien être</option>
-                  <option value="Aide technique">Aide technique</option>
-                  <option value="Agencement PMR">Agencement PMR</option>
+                  {services.map((element) => (
+                    <option value={element.id}>{element.name}</option>
+                  ))}
                 </Select>
               </Box>
               <Text fontSize="xs" as="i" color="gray.400">
