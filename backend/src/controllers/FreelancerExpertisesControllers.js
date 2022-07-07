@@ -3,16 +3,16 @@ const {
   createOneByFreelancer,
   deleteOneByFreelancer,
   getOneServiceByFreelancerId,
-} = require("../models/FreelancerServices");
+} = require("../models/FreelancerExpertises");
 
 const getAll = async (req, res) => {
   const freelancerId = parseInt(req.params.freelancerId, 10);
   try {
-    const servicesList = await getAllByFreelancer(freelancerId);
-    if (servicesList.length === 0) {
+    const expertisesList = await getAllByFreelancer(freelancerId);
+    if (expertisesList.length === 0) {
       return res.status(404).send("Aucune réponses trouvé");
     }
-    return res.status(200).json(servicesList);
+    return res.status(200).json(expertisesList);
   } catch (e) {
     console.warn(e);
     return res.sendStatus(500);
@@ -21,32 +21,37 @@ const getAll = async (req, res) => {
 
 const getOneByFreelancerId = async (req, res) => {
   const freelancerId = parseInt(req.params.freelancerId, 10);
-  const serviceId = parseInt(req.params.serviceId, 10);
+  const expertiseId = parseInt(req.params.expertiseId, 10);
 
   try {
-    const service = await getOneServiceByFreelancerId(freelancerId, serviceId);
-    if (service.length === 0) {
-      res.status(404).send("Il n'y a pas encore de service");
+    const expertise = await getOneServiceByFreelancerId(
+      freelancerId,
+      expertiseId
+    );
+    if (expertise.length === 0) {
+      res.status(404).send("Il n'y a pas encore d'expertises");
     } else {
-      return res.status(201).send(service);
+      return res.status(201).send(expertise);
     }
   } catch (e) {
     console.error(e);
-    return res.status(500).json({ error: "Problème de lecture du service" });
+    return res
+      .status(500)
+      .json({ error: "Problème de lecture de l'expertise" });
   }
   return null;
 };
 
 const createOne = async (req, res) => {
   const freelancerId = parseInt(req.params.freelancerId, 10);
-  const serviceId = parseInt(req.params.serviceId, 10);
+  const expertiseId = parseInt(req.params.expertiseId, 10);
 
   try {
-    const serviceCreated = await createOneByFreelancer({
+    const expertiseCreated = await createOneByFreelancer({
       freelancerId,
-      serviceId,
+      expertiseId,
     });
-    return res.status(201).json({ serviceCreated });
+    return res.status(201).json({ expertiseCreated });
   } catch (e) {
     console.warn(e);
     return res.status(500).json(e);
@@ -55,18 +60,18 @@ const createOne = async (req, res) => {
 
 const deleteOne = async (req, res) => {
   const freelancerId = parseInt(req.params.freelancerId, 10);
-  const serviceId = parseInt(req.params.serviceId, 10);
-  const serviceCheck = await getOneServiceByFreelancerId(
+  const expertiseId = parseInt(req.params.expertiseId, 10);
+  const expertiseCheck = await getOneServiceByFreelancerId(
     freelancerId,
-    serviceId
+    expertiseId
   );
-  if (!serviceCheck) {
+  if (!expertiseCheck) {
     return res.status(404).json({ Erreur: "Aucune réponses trouvé" });
   }
 
   try {
-    await deleteOneByFreelancer(parseInt(serviceCheck[0].id, 10));
-    return res.status(200).json({ Succès: `Service supprimé avec succès ` });
+    await deleteOneByFreelancer(parseInt(expertiseCheck[0].id, 10));
+    return res.status(200).json({ Succès: `Expertise supprimé avec succès ` });
   } catch (e) {
     console.warn(e);
     return res.sendStatus(500);

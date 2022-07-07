@@ -69,6 +69,7 @@ const findOne = async (userId) => {
   try {
     return await prisma.user.findUnique({
       where: { id: userId },
+      include: { freelancer: true },
     });
   } finally {
     await prisma.$disconnect();

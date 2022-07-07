@@ -7,22 +7,32 @@ import {
 } from "@chakra-ui/react";
 
 import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 
 import backendAPI from "../../services/backendAPI";
 
 export default function Expertises() {
+  const { freelancerId } = useParams();
   // useState pour chaque input //
   const [expertise, setExpertise] = useState([]);
-
   const [expertiseList, setExpertiseList] = useState([]);
 
   // fonction retrait et d'ajout d'une expertise //
   const updateExpertise = (e) => {
     if (e.target.checked && !expertiseList.includes(e.target.value)) {
       setExpertiseList([...expertiseList, e.target.value]);
+      backendAPI.post(
+        `/api/freelancers/${freelancerId}/expertises/${e.target.value}`
+      );
     } else if (!e.target.checked) {
+      const expertiseListFilter = expertiseList.filter(
+        (elem) => elem !== e.target.value
+      );
       expertiseList.splice(expertiseList.indexOf(e.target.value), 1);
-      setExpertiseList(expertiseList);
+      setExpertiseList(expertiseListFilter);
+      backendAPI.delete(
+        `/api/freelancers/${freelancerId}/expertises/${e.target.value}`
+      );
     }
   };
 
@@ -38,7 +48,24 @@ export default function Expertises() {
       });
   };
 
-  useEffect(() => getOneExpertise(), []);
+  // axios qui va chercher les services d'un freelancer
+  const getAllExpertisesByFreelancer = () => {
+    backendAPI
+      .get(`/api/freelancers/${freelancerId}/expertises`)
+      .then((response) => {
+        setExpertiseList(
+          response.data.map((e) => e.fk_expertise_id.id.toString())
+        );
+      })
+      .catch((error) => {
+        console.warn(error);
+      });
+  };
+
+  useEffect(() => {
+    getOneExpertise();
+    getAllExpertisesByFreelancer();
+  }, []);
 
   return (
     <Flex flexDirection="column" gap="5">
@@ -75,7 +102,7 @@ export default function Expertises() {
                   colorScheme="white"
                   borderColor="gray"
                   _checked={{ borderColor: "pink.light" }}
-                  value={element.name}
+                  value={element.id.toString()}
                   onChange={updateExpertise}
                 >
                   <Text fontSize="sm">{element.name}</Text>
@@ -109,7 +136,7 @@ export default function Expertises() {
                   colorScheme="white"
                   borderColor="gray"
                   _checked={{ borderColor: "pink.light" }}
-                  value={element.name}
+                  value={element.id.toString()}
                   onChange={updateExpertise}
                 >
                   <Text fontSize="sm">{element.name}</Text>
@@ -143,7 +170,7 @@ export default function Expertises() {
                   colorScheme="white"
                   borderColor="gray"
                   _checked={{ borderColor: "pink.light" }}
-                  value={element.name}
+                  value={element.id.toString()}
                   onChange={updateExpertise}
                 >
                   <Text fontSize="sm">{element.name}</Text>
@@ -177,7 +204,7 @@ export default function Expertises() {
                   colorScheme="white"
                   borderColor="gray"
                   _checked={{ borderColor: "pink.light" }}
-                  value={element.name}
+                  value={element.id.toString()}
                   onChange={updateExpertise}
                 >
                   <Text fontSize="sm">{element.name}</Text>

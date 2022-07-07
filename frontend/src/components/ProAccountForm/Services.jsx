@@ -10,58 +10,71 @@ import {
 import { CloseIcon } from "@chakra-ui/icons";
 
 import { useState, useEffect } from "react";
-// import { useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 import backendAPI from "../../services/backendAPI";
 
 export default function Services() {
-  // useState pour chaque input //
-  const [tags, setTags] = useState([]);
-  const [services, setServices] = useState([]);
-  // const [freelancerServices, setFreelancerServices] = useState([]);
+  const { freelancerId } = useParams();
+  const [servicesList, setServicesList] = useState([]);
+  const [serviceName, setServiceName] = useState([]);
+  const [serviceNumber, setServiceNumber] = useState([]);
 
-  // fonction retrait d'un item //
-  const removeItem = (indexToRemove) => {
-    setTags([...tags.filter((_, index) => index !== indexToRemove)]);
-  };
-
-  // fonction retrait d'ajout d'un item //
-  const addItem = (e) => {
-    if (e.target.value !== "" && !tags.includes(e.target.value)) {
-      setTags([...tags, e.target.value]);
-      e.target.value = "";
-    }
-  };
-
-  // axios qui va chercher les services
+  // axios qui va chercher la liste des services
   const getAllServices = () => {
     backendAPI
       .get("/api/services")
       .then((response) => {
-        setServices(response.data);
+        setServicesList(response.data);
       })
       .catch((error) => {
         console.warn(error);
       });
   };
 
-  // const freelancerId = user.freelancer[0].id;
-
-  // const getAllServicesByFreelancer = () => {
-  //   backendAPI
-  //     .get(`/api/freelancers/${freelancerId}/services`)
-  //     .then((response) => {
-  //       console.log(response.data);
-  //     })
-  //     .catch((error) => {
-  //       console.warn(error);
-  //     });
-  // };
+  // axios qui va chercher les services d'un freelancer
+  const getAllServicesByFreelancer = () => {
+    backendAPI
+      .get(`/api/freelancers/${freelancerId}/services`)
+      .then((response) => {
+        setServiceName(response.data.map((e) => e.fk_services_id.name));
+        setServiceNumber(response.data.map((e) => e.fk_services_id.id));
+      })
+      .catch((error) => {
+        console.warn(error);
+      });
+  };
 
   useEffect(() => {
     getAllServices();
-    // getAllServicesByFreelancer();
+    getAllServicesByFreelancer();
   }, []);
+
+  // fonction retrait d'ajout d'un item //
+  const addItem = (e) => {
+    const nameService = e.target.options[e.target.selectedIndex].text;
+    if (nameService !== "" && !serviceName.includes(nameService)) {
+      setServiceName([...serviceName, nameService]);
+      setServiceNumber([...serviceNumber, e.target.value]);
+      backendAPI.post(
+        `/api/freelancers/${freelancerId}/services/${e.target.value}`
+      );
+    }
+  };
+
+  // fonction retrait d'un item //
+  const removeItem = (indexToRemove) => {
+    const serviceId = serviceNumber.filter(
+      (_, index) => index === indexToRemove
+    );
+    setServiceName([
+      ...serviceName.filter((_, index) => index !== indexToRemove),
+    ]);
+    setServiceNumber([
+      ...serviceNumber.filter((_, index) => index !== indexToRemove),
+    ]);
+    backendAPI.delete(`/api/freelancers/${freelancerId}/services/${serviceId}`);
+  };
 
   return (
     <Box borderColor="gray.200" borderWidth="1.5px" borderRadius="10px">
@@ -74,7 +87,7 @@ export default function Services() {
         h="fit-content"
         w="fit-content"
       >
-        {tags.map((element, index) => (
+        {serviceName.map((element, index) => (
           <ListItem m="0.2rem" p="0.2rem" bgColor="#f2f5f7" display="flex">
             <Text fontSize="0.9rem" fontWeight="400">
               {element}
@@ -101,10 +114,8 @@ export default function Services() {
         onChange={addItem}
         onKeyUp={(event) => (event.key === "Enter" ? addItem(event) : null)}
       >
-        {services.map((element) => (
-          <option value={element.name} id={element.id}>
-            {element.name}
-          </option>
+        {servicesList.map((element) => (
+          <option value={element.id}>{element.name}</option>
         ))}
       </Select>
     </Box>
