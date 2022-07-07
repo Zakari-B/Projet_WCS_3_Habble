@@ -22,6 +22,8 @@ export default function Expertises() {
     getAllExpertisesByFreelancer();
   }, []);
 
+  const category = expertiseList.map((e) => e.category);
+
   return (
     <Flex
       direction="column"
@@ -46,134 +48,147 @@ export default function Expertises() {
         <Text fontSize="0.8rem" color="#9da4a9" fontWeight="500" mb="3rem">
           Auto-déclaré
         </Text>
-        <Flex direction="column" h="fit-content" mb="2rem">
-          <Text fontSize="lg" fontWeight="600" color="purple.average" pb="1rem">
-            Soins aux personnes agées
-          </Text>
-          <Flex
-            justifyContent="left"
-            columnGap="3"
-            rowGap="2"
-            flexWrap="wrap"
-            h="fit-content"
-            w="fit-content"
-          >
-            {expertiseList.map(
-              (element) =>
-                element.category === "Soins aux personnes agées" && (
-                  <Text
-                    m="0.2rem"
-                    p="0.2rem"
-                    bgColor="#f2f5f7"
-                    fontSize="sm"
-                    w="fit-content"
-                  >
-                    {element.name}
-                  </Text>
-                )
-            )}
-          </Flex>
-        </Flex>
         <Flex direction="column" justifyContent="space-between" h="fit-content">
-          <Flex direction="column" h="fit-content" mb="2rem">
-            <Text
-              fontSize="lg"
-              fontWeight="600"
-              color="purple.average"
-              pb="1rem"
-            >
-              Maladies chroniques
-            </Text>
-            <Flex
-              justifyContent="left"
-              columnGap="3"
-              rowGap="2"
-              flexWrap="wrap"
-              h="fit-content"
-              w="fit-content"
-            >
-              {expertiseList.map(
-                (element) =>
-                  element.category === "Maladies chroniques" && (
-                    <Text
-                      m="0.2rem"
-                      p="0.2rem"
-                      bgColor="#f2f5f7"
-                      fontSize="sm"
-                      w="fit-content"
-                    >
-                      {element.name}
-                    </Text>
-                  )
-              )}
+          {category.includes("Soins aux personnes agées") && (
+            <Flex direction="column" h="fit-content" mb="2rem">
+              <Text
+                fontSize="lg"
+                fontWeight="600"
+                color="purple.average"
+                pb="1rem"
+              >
+                Soins aux personnes agées
+              </Text>
+              <Flex
+                justifyContent="left"
+                columnGap="3"
+                rowGap="2"
+                flexWrap="wrap"
+                h="fit-content"
+                w="fit-content"
+              >
+                {expertiseList.map(
+                  (element) =>
+                    element.category === "Soins aux personnes agées" && (
+                      <Text
+                        m="0.2rem"
+                        p="0.2rem"
+                        bgColor="#f2f5f7"
+                        fontSize="sm"
+                        w="fit-content"
+                      >
+                        {element.name}
+                      </Text>
+                    )
+                )}
+              </Flex>
             </Flex>
-          </Flex>
-          <Flex direction="column" h="fit-content" mb="2rem">
-            <Text
-              fontSize="lg"
-              fontWeight="600"
-              color="purple.average"
-              pb="1rem"
-            >
-              Handicap
-            </Text>
-            <Flex
-              justifyContent="left"
-              columnGap="3"
-              rowGap="2"
-              flexWrap="wrap"
-              h="fit-content"
-              w="fit-content"
-            >
-              {expertiseList.map(
-                (element) =>
-                  element.category === "Handicap" && (
-                    <Text
-                      m="0.2rem"
-                      p="0.2rem"
-                      bgColor="#f2f5f7"
-                      fontSize="sm"
-                      w="fit-content"
-                    >
-                      {element.name}
-                    </Text>
-                  )
-              )}
+          )}
+          {category.includes("Maladies chroniques") && (
+            <Flex direction="column" h="fit-content" mb="2rem">
+              <Text
+                fontSize="lg"
+                fontWeight="600"
+                color="purple.average"
+                pb="1rem"
+              >
+                Maladies chroniques
+              </Text>
+              <Flex
+                justifyContent="left"
+                columnGap="3"
+                rowGap="2"
+                flexWrap="wrap"
+                h="fit-content"
+                w="fit-content"
+              >
+                {expertiseList.map(
+                  (element) =>
+                    element.category === "Maladies chroniques" && (
+                      <Text
+                        m="0.2rem"
+                        p="0.2rem"
+                        bgColor="#f2f5f7"
+                        fontSize="sm"
+                        w="fit-content"
+                      >
+                        {element.name}
+                      </Text>
+                    )
+                )}
+              </Flex>
             </Flex>
-          </Flex>
-          <Flex direction="column" h="fit-content" mb="2rem">
-            <Text
-              fontSize="lg"
-              fontWeight="600"
-              color="purple.average"
-              pb="1rem"
-            >
-              Santé mentale
-            </Text>
-            <Flex
-              justifyContent="left"
-              columnGap="3"
-              rowGap="2"
-              flexWrap="wrap"
-              h="fit-content"
-              w="fit-content"
-            >
-              {expertiseList.map(
-                (element) =>
-                  element.category === "Santé mentale" && (
-                    <Text
-                      m="0.2rem"
-                      p="0.2rem"
-                      bgColor="#f2f5f7"
-                      fontSize="sm"
-                      w="fit-content"
-                    >
-                      {element.name}
-                    </Text>
-                  )
-              )}
+          )}
+          {category.includes("Handicap") && (
+            <Flex direction="column" h="fit-content" mb="2rem">
+              <Text
+                fontSize="lg"
+                fontWeight="600"
+                color="purple.average"
+                pb="1rem"
+              >
+                Handicap
+              </Text>
+              <Flex
+                justifyContent="left"
+                columnGap="3"
+                rowGap="2"
+                flexWrap="wrap"
+                h="fit-content"
+                w="fit-content"
+              >
+                {expertiseList.map(
+                  (element) =>
+                    element.category === "Handicap" && (
+                      <Text
+                        m="0.2rem"
+                        p="0.2rem"
+                        bgColor="#f2f5f7"
+                        fontSize="sm"
+                        w="fit-content"
+                      >
+                        {element.name}
+                      </Text>
+                    )
+                )}
+              </Flex>
             </Flex>
-          </Flex>
+          )}
+          {category.includes("Santé mentale") && (
+            <Flex direction="column" h="fit-content" mb="2rem">
+              <Text
+                fontSize="lg"
+                fontWeight="600"
+                color="purple.average"
+                pb="1rem"
+              >
+                Santé mentale
+              </Text>
+              <Flex
+                justifyContent="left"
+                columnGap="3"
+                rowGap="2"
+                flexWrap="wrap"
+                h="fit-content"
+                w="fit-content"
+              >
+                {expertiseList.map(
+                  (element) =>
+                    element.category === "Santé mentale" && (
+                      <Text
+                        m="0.2rem"
+                        p="0.2rem"
+                        bgColor="#f2f5f7"
+                        fontSize="sm"
+                        w="fit-content"
+                      >
+                        {element.name}
+                      </Text>
+                    )
+                )}
+              </Flex>
+            </Flex>
+          )}
         </Flex>
       </Flex>
     </Flex>
