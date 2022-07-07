@@ -9,6 +9,7 @@ import {
   Image,
 } from "@chakra-ui/react";
 import { useState } from "react";
+import dateFormat from "dateformat";
 
 export default function BannerProfile({ freelancer }) {
   const [available, setAvailable] = useState(freelancer.available);
@@ -114,7 +115,7 @@ export default function BannerProfile({ freelancer }) {
             marginBottom="1.2rem"
             textAlign={{ base: "center", md: "left" }}
           >
-            Membre depuis le {freelancer.dateCreated}
+            Membre depuis le {dateFormat(freelancer.dateCreated, "dd/mm/yyyy")}
           </Text>
           <Text color="white" textAlign={{ base: "center", md: "left" }}>
             [[VIGNETTES SERVICES PROPOSES]]
