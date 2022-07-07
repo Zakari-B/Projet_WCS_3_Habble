@@ -41,7 +41,6 @@ const authSelf = async (req, res, next) => {
 };
 
 const authSelfRole = async (req, res, next) => {
-  // ne trouve pas req.params.freelancerid
   if (req.roleId === parseInt(req.params.freelancerid, 10)) {
     return next();
   }
