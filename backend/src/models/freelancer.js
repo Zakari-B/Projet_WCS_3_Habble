@@ -19,10 +19,10 @@ exports.findOneFreelancerByUserId = async (id) => {
     await prisma.$disconnect();
   }
 };
-exports.findOneFreelancer = async (freelancerId) => {
+exports.findOneFreelancer = async (freelancerid) => {
   try {
     return await prisma.freelancer.findUnique({
-      where: { id: freelancerId },
+      where: { id: freelancerid },
     });
   } finally {
     await prisma.$disconnect();
@@ -51,11 +51,11 @@ exports.updateOneFreelancer = async (freelancerId, data) => {
   }
 };
 
-exports.getAllFreelancersProfileInfo = async (freelancerId) => {
+exports.getAllFreelancersProfileInfo = async (freelancerid) => {
   try {
     return await prisma.freelancer.findUnique({
       where: {
-        id: freelancerId,
+        id: freelancerid,
       },
       include: {
         diplomes: {

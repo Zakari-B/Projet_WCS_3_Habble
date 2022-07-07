@@ -24,7 +24,7 @@ exports.getAll = async (req, res) => {
 };
 
 exports.getOne = async (req, res) => {
-  const freelancerId = parseInt(req.params.id, 10);
+  const freelancerId = parseInt(req.params.freelancerid, 10);
   try {
     const freelancer = await getAllFreelancersProfileInfo(freelancerId);
     if (!freelancer) {
@@ -69,7 +69,7 @@ exports.createOne = async (req, res, next) => {
 };
 
 exports.updateOne = async (req, res) => {
-  const freelancerId = parseInt(req.params.id, 10);
+  const freelancerId = parseInt(req.params.freelancerid, 10);
   const error = validateFreelancer(req.body, false);
   if (error) {
     console.error(error);

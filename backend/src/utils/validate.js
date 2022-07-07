@@ -124,7 +124,7 @@ exports.validateFamily = (data, forCreation = true) => {
     firstname: Joi.string().max(100).presence(presence),
     lastname: Joi.string().max(100).presence(presence),
     legalGuardian: Joi.string().max(100).presence(presence),
-    adress: Joi.string().max(255).presence(presence),
+    address: Joi.string().max(255).presence(presence),
     phoneNumber: Joi.string().max(20).presence(presence),
     email: Joi.string().max(100).presence(presence),
     disabilityType: Joi.string().max(100).presence(presence),

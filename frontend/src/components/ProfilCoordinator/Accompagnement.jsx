@@ -21,19 +21,23 @@ import {
   InputLeftAddon,
   Select,
   Textarea,
+  useToast,
 } from "@chakra-ui/react";
+import { useParams } from "react-router-dom";
+import { addToList } from "../../services/ProfileProUtils";
 
 export default function Accompagnement() {
+  const toast = useToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [lastname, setLastname] = useState("");
   const [firstname, setFirstname] = useState("");
-  const [guardianFirstname, setGuardianFirstname] = useState("");
-  const [guardianLastname, setGuardianLastname] = useState("");
+  const [guardian, setGuardian] = useState("");
   const [address, setAddress] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [email, setEmail] = useState("");
   const [disability, setDisability] = useState("");
-  const [informations, setInformations] = useState("");
+  const [information, setInformation] = useState("");
+  const { coordinatorId } = useParams();
 
   const handleLastname = (e) => {
     setLastname(e.target.value);
@@ -41,11 +45,8 @@ export default function Accompagnement() {
   const handleFirstname = (e) => {
     setFirstname(e.target.value);
   };
-  const handleGuardianFirstname = (e) => {
-    setGuardianFirstname(e.target.value);
-  };
-  const handleGuardianLastname = (e) => {
-    setGuardianLastname(e.target.value);
+  const handleGuardian = (e) => {
+    setGuardian(e.target.value);
   };
   const handleAddress = (e) => {
     setAddress(e.target.value);
@@ -60,7 +61,40 @@ export default function Accompagnement() {
     setDisability(e.target.value);
   };
   const handleInformations = (e) => {
-    setInformations(e.target.value);
+    setInformation(e.target.value);
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    addToList("coordinators", "famille", coordinatorId, {
+      firstname,
+      lastname,
+      legalGuardian: guardian,
+      address,
+      phoneNumber,
+      email,
+      disabilityType: disability,
+      complementary_info: information,
+    })
+      .then(() => {
+        toast({
+          title: "Votre famille a bien été ajoutée",
+          status: "success",
+          position: "bottom-right",
+          duration: 7000,
+          isClosable: true,
+        });
+      })
+      .catch(() => {
+        toast({
+          title: "Votre famille n'a pas pu être ajoutée",
+          status: "error",
+          position: "bottom-right",
+          duration: 7000,
+          isClosable: true,
+        });
+      });
+    onClose();
   };
 
   return (
@@ -161,28 +195,16 @@ export default function Accompagnement() {
                 </FormLabel>
                 <HStack>
                   <Input
-                    w={{ base: "45.8%", md: "47%", lg: "32.1%" }}
+                    w={{ base: "95%", lg: "65%" }}
                     type="text"
-                    lastname={guardianLastname}
-                    placeholder="Nom du représentant"
+                    lastname={guardian}
+                    placeholder="Nom et prénom du représentant"
                     _placeholder={{
                       fontSize: "0.8rem",
                       fontWeight: "500",
                       color: "gray",
                     }}
-                    onChange={handleGuardianLastname}
-                  />
-                  <Input
-                    w={{ base: "45.8%", md: "47%", lg: "32.1%" }}
-                    type="text"
-                    firstname={guardianFirstname}
-                    placeholder="Prénom du représentant"
-                    _placeholder={{
-                      fontSize: "0.8rem",
-                      fontWeight: "500",
-                      color: "gray",
-                    }}
-                    onChange={handleGuardianFirstname}
+                    onChange={handleGuardian}
                   />
                 </HStack>
                 <FormLabel
@@ -289,7 +311,7 @@ export default function Accompagnement() {
               <Textarea
                 w={{ base: "95%", lg: "65%" }}
                 type="email"
-                informations={informations}
+                informations={information}
                 placeholder="Informations complémentaires que vous voulez ajouter"
                 _placeholder={{
                   fontSize: "0.8rem",
@@ -301,7 +323,11 @@ export default function Accompagnement() {
             </ModalBody>
 
             <ModalFooter justifyContent={{ base: "center", md: "flex-end" }}>
-              <Button variant="solid_PrimaryColor" mr={3}>
+              <Button
+                variant="solid_PrimaryColor"
+                mr={3}
+                onClick={handleSubmit}
+              >
                 Enregistrer
               </Button>
               <Button variant="ghost" fontWeight="700" onClick={onClose}>
