@@ -1,12 +1,26 @@
 import { Flex, Text, Heading } from "@chakra-ui/react";
-// import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+
+import backendAPI from "../../../services/backendAPI";
 
 export default function Expertises() {
-  // const [handicap, setHandicap] = useState([]);
-  // const [santMentale, setSantMentale] = useState([]);
-  // const [maladies, setMaladies] = useState([]);
-  // const [personnesAgees, setpersonnesAgees] = useState([]);
-  // axios pour aller chercher les expertises (route /api/freelancers/:id/expertises)
+  const { freelancerId } = useParams();
+  const [expertiseList, setExpertiseList] = useState([]);
+
+  const getAllExpertisesByFreelancer = () => {
+    backendAPI
+      .get(`/api/freelancers/${freelancerId}/expertises`)
+      .then((response) => {
+        setExpertiseList(response.data.map((e) => e.fk_expertise_id));
+      })
+      .catch((error) => {
+        console.warn(error);
+      });
+  };
+  useEffect(() => {
+    getAllExpertisesByFreelancer();
+  }, []);
 
   return (
     <Flex
@@ -34,7 +48,7 @@ export default function Expertises() {
         </Text>
         <Flex direction="column" h="fit-content" mb="2rem">
           <Text fontSize="lg" fontWeight="600" color="purple.average" pb="1rem">
-            Handicap
+            Soins aux personnes agées
           </Text>
           <Flex
             justifyContent="left"
@@ -44,73 +58,23 @@ export default function Expertises() {
             h="fit-content"
             w="fit-content"
           >
-            <Text
-              m="0.2rem"
-              p="0.2rem"
-              bgColor="#f2f5f7"
-              fontSize="sm"
-              w="fit-content"
-            >
-              [[EXPERTISE]]
-            </Text>
-            <Text
-              m="0.2rem"
-              p="0.2rem"
-              bgColor="#f2f5f7"
-              fontSize="sm"
-              w="fit-content"
-            >
-              [[EXPERTISE]]
-            </Text>
-            <Text
-              m="0.2rem"
-              p="0.2rem"
-              bgColor="#f2f5f7"
-              fontSize="sm"
-              w="fit-content"
-            >
-              [[EXPERTISE]]
-            </Text>
-            <Text
-              m="0.2rem"
-              p="0.2rem"
-              bgColor="#f2f5f7"
-              fontSize="sm"
-              w="fit-content"
-            >
-              [[EXPERTISE]]
-            </Text>
+            {expertiseList.map(
+              (element) =>
+                element.category === "Soins aux personnes agées" && (
+                  <Text
+                    m="0.2rem"
+                    p="0.2rem"
+                    bgColor="#f2f5f7"
+                    fontSize="sm"
+                    w="fit-content"
+                  >
+                    {element.name}
+                  </Text>
+                )
+            )}
           </Flex>
         </Flex>
         <Flex direction="column" justifyContent="space-between" h="fit-content">
-          <Flex direction="column" h="fit-content" mb="2rem">
-            <Text
-              fontSize="lg"
-              fontWeight="600"
-              color="purple.average"
-              pb="1rem"
-            >
-              Santé mentale
-            </Text>
-            <Flex
-              justifyContent="left"
-              columnGap="3"
-              rowGap="2"
-              flexWrap="wrap"
-              h="fit-content"
-              w="fit-content"
-            >
-              <Text
-                m="0.2rem"
-                p="0.2rem"
-                bgColor="#f2f5f7"
-                fontSize="sm"
-                w="fit-content"
-              >
-                [[EXPERTISE]]
-              </Text>
-            </Flex>
-          </Flex>
           <Flex direction="column" h="fit-content" mb="2rem">
             <Text
               fontSize="lg"
@@ -128,15 +92,20 @@ export default function Expertises() {
               h="fit-content"
               w="fit-content"
             >
-              <Text
-                m="0.2rem"
-                p="0.2rem"
-                bgColor="#f2f5f7"
-                fontSize="sm"
-                w="fit-content"
-              >
-                [[EXPERTISE]]
-              </Text>
+              {expertiseList.map(
+                (element) =>
+                  element.category === "Maladies chroniques" && (
+                    <Text
+                      m="0.2rem"
+                      p="0.2rem"
+                      bgColor="#f2f5f7"
+                      fontSize="sm"
+                      w="fit-content"
+                    >
+                      {element.name}
+                    </Text>
+                  )
+              )}
             </Flex>
           </Flex>
           <Flex direction="column" h="fit-content" mb="2rem">
@@ -146,7 +115,7 @@ export default function Expertises() {
               color="purple.average"
               pb="1rem"
             >
-              Soins aux personnes agées
+              Handicap
             </Text>
             <Flex
               justifyContent="left"
@@ -156,15 +125,53 @@ export default function Expertises() {
               h="fit-content"
               w="fit-content"
             >
-              <Text
-                m="0.2rem"
-                p="0.2rem"
-                bgColor="#f2f5f7"
-                fontSize="sm"
-                w="fit-content"
-              >
-                [[EXPERTISE]]
-              </Text>
+              {expertiseList.map(
+                (element) =>
+                  element.category === "Handicap" && (
+                    <Text
+                      m="0.2rem"
+                      p="0.2rem"
+                      bgColor="#f2f5f7"
+                      fontSize="sm"
+                      w="fit-content"
+                    >
+                      {element.name}
+                    </Text>
+                  )
+              )}
+            </Flex>
+          </Flex>
+          <Flex direction="column" h="fit-content" mb="2rem">
+            <Text
+              fontSize="lg"
+              fontWeight="600"
+              color="purple.average"
+              pb="1rem"
+            >
+              Santé mentale
+            </Text>
+            <Flex
+              justifyContent="left"
+              columnGap="3"
+              rowGap="2"
+              flexWrap="wrap"
+              h="fit-content"
+              w="fit-content"
+            >
+              {expertiseList.map(
+                (element) =>
+                  element.category === "Santé mentale" && (
+                    <Text
+                      m="0.2rem"
+                      p="0.2rem"
+                      bgColor="#f2f5f7"
+                      fontSize="sm"
+                      w="fit-content"
+                    >
+                      {element.name}
+                    </Text>
+                  )
+              )}
             </Flex>
           </Flex>
         </Flex>

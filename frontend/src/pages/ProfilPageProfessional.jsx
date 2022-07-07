@@ -39,7 +39,6 @@ export default function ProfilPageProfessional() {
         navigate("/error");
       });
   };
-
   useEffect(() => {
     if (JSON.parse(localStorage.getItem("isUserLoggedIn"))) {
       backendAPI.get("/api/auth/sessionControl").then((res) => {
