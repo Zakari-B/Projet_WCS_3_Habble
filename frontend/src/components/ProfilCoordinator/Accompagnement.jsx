@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Flex,
   Heading,
@@ -25,6 +25,7 @@ import {
 } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
 import { addToList } from "../../services/ProfileProUtils";
+import backendAPI from "../../services/backendAPI";
 
 export default function Accompagnement() {
   const toast = useToast();
@@ -37,6 +38,7 @@ export default function Accompagnement() {
   const [email, setEmail] = useState("");
   const [disability, setDisability] = useState("");
   const [information, setInformation] = useState("");
+  const [family, setFamily] = useState([]);
   const { coordinatorId } = useParams();
 
   const handleLastname = (e) => {
@@ -97,6 +99,13 @@ export default function Accompagnement() {
     onClose();
   };
 
+  useEffect(() => {
+    backendAPI
+      .get(`/api/coordinators/${coordinatorId}/familles`)
+      .then((res) => setFamily(res.data))
+      .catch((err) => console.warn(err));
+  }, []);
+
   return (
     <Flex
       direction="column"
@@ -118,12 +127,19 @@ export default function Accompagnement() {
           Mes accompagnements
         </Heading>
         <VStack alignItems="left">
-          <Text color="purple.average" fontSize="14px">
-            Romain Domizi
-          </Text>
-          <Text color="purple.average" fontSize="14px">
-            Eleonor Tatin
-          </Text>
+          {family.length === 0 ? (
+            <Text color="purple.average" fontSize="14px">
+              Vous n'avez pas encore créé de famille.
+            </Text>
+          ) : (
+            family.map((fam) => {
+              return (
+                <Text color="purple.average" fontSize="14px">
+                  {fam.firstname} {fam.lastname}
+                </Text>
+              );
+            })
+          )}
         </VStack>
 
         <Button variant="solid_PrimaryColor" onClick={onOpen} mt="1rem">

@@ -247,10 +247,26 @@ router.post(
   authorization,
   FamilyController.createOne
 );
-router.get("/familles", authorization, FamilyController.getAll);
-router.get("/famille/:id", authorization, FamilyController.getOne);
-router.put("/famille/:id", authorization, FamilyController.updateOne);
-router.delete("/famille/:id", authorization, FamilyController.deleteOne);
+router.get(
+  "/coordinators/:coordinatorId/familles",
+  authorization,
+  FamilyController.getAll
+);
+router.get(
+  "/coordinators/:coordinatorId/famille/:familleId",
+  authorization,
+  FamilyController.getOne
+);
+router.put(
+  "/coordinators/:coordinaatorId/famille/:familleId",
+  authorization,
+  FamilyController.updateOne
+);
+router.delete(
+  "/coordinators/:coordinatorId/famille/:familleId",
+  authorization,
+  FamilyController.deleteOne
+);
 
 // Routes for services of one freelancer
 

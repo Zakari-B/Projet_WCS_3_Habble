@@ -38,7 +38,10 @@ function App() {
           path="/profil/:freelancerId"
           element={<ProfilPageProfessional />}
         />
-        <Route path="/test/:freelancerId" element={<ProfilPageCoordinator />} />
+        <Route
+          path="/profil-coordinator/:freelancerId"
+          element={<ProfilPageCoordinator />}
+        />
         <Route
           path="/register-onboarding-pro/:freelancerId"
           element={<RegisterOnboardingPro />}
