@@ -8,6 +8,7 @@ import {
   Avatar,
   MenuList,
   MenuGroup,
+  Tag,
   MenuItem,
   MenuDivider,
 } from "@chakra-ui/react";
@@ -18,7 +19,7 @@ import PropTypes from "prop-types";
 import { BiLogOut, BiChat, BiUser } from "react-icons/bi";
 import { GrAnnounce } from "react-icons/gr";
 import backendAPI from "../../services/backendAPI";
-
+// import { getListforAnId } from "../../services/ProfileProUtils";
 import HeaderDrawer from "./HeaderDrawer";
 import Logo from "../Logo";
 import "../../styles/header.css";
@@ -33,6 +34,7 @@ export default function Header({
     JSON.parse(localStorage.getItem("isUserLoggedIn"))
   );
   const [data, setData] = useState();
+
   const navigate = useNavigate();
 
   const logout = () => {
@@ -128,18 +130,43 @@ export default function Header({
               </MenuButton>
               <MenuList marginLeft="150px">
                 <MenuGroup title="Profil" color="purple.dark">
-                  <MenuItem icon={<BiUser />}>MON PROFIL</MenuItem>
-                  <Link
-                    to="/profil/id/mes-annonces"
-                    w="-webkit-fill-available%"
+                  <MenuItem
+                    icon={<BiUser />}
+                    onClick={() => {
+                      if (data.data.userRole === "freelancer") {
+                        navigate(`/profil/${data.data.roleId}`);
+                      }
+                      if (data.data.userRole === "employer") {
+                        navigate(`/profil-employer/${data.data.roleId}`);
+                      }
+                    }}
                   >
-                    <MenuItem icon={<GrAnnounce />} color="purple.dark">
-                      MES ANNONCES
-                    </MenuItem>
-                  </Link>
+                    MON PROFIL
+                  </MenuItem>
 
-                  <MenuItem icon={<BiChat />} color="purple.dark">
-                    MES MESSAGES
+                  <MenuItem
+                    icon={<GrAnnounce />}
+                    color="purple.dark"
+                    onClick={() => {
+                      if (data.data.userRole === "freelancer") {
+                        navigate(`/profil/${data.data.roleId}/mes-annonces`);
+                      }
+                      if (data.data.userRole === "employer") {
+                        navigate(
+                          `/profil-employer/${data.data.roleId}/mes-annonces`
+                        );
+                      }
+                    }}
+                  >
+                    MES ANNONCES
+                  </MenuItem>
+                  <MenuItem icon={<BiChat />} disabled>
+                    <Flex gap="5px" alignItems="center">
+                      <Text> MES MESSAGES</Text>
+                      <Tag size="sm" colorScheme="purple">
+                        SOON
+                      </Tag>
+                    </Flex>
                   </MenuItem>
                 </MenuGroup>
 

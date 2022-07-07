@@ -73,7 +73,7 @@ export default function ProfilPageProfessional() {
         bgColor="background.gray"
         direction="column"
         justify="flex-start"
-        paddingY="30péx"
+        paddingY="30px"
         paddingTop="150px"
       >
         <BannerProfile freelancer={freelancer} />
