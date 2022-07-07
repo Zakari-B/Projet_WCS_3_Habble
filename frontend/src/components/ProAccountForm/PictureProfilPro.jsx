@@ -19,14 +19,15 @@ import {
 import { useState } from "react";
 
 export default function PictureProfilePro() {
-  const { isOpen, onOpen, onClose, onToggle } = useDisclosure();
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const [picturePro, setPicturePro] = useState();
 
   // fonction d'enregistrement d'une nouvelle image //
   const handleRegisterPicture = () => {
     setPicturePro(picturePro);
-    onToggle(!isOpen);
+    onClose();
   };
+
   return (
     <VStack align="center" alignSelf="center" mx="auto">
       <Avatar src={picturePro} size="2xl" />
@@ -97,10 +98,9 @@ export default function PictureProfilePro() {
                   <Input
                     type="file"
                     id="inputHandler"
-                    name="name"
+                    name="picturePro"
                     display="none"
-                    value={picturePro}
-                    onChange={(e) => setPicturePro(e.target.value)}
+                    onChange={(e) => setPicturePro(e.target.files)}
                   />{" "}
                   Télécharger votre nouvelle photo
                 </Button>

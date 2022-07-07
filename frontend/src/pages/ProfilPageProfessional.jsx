@@ -53,7 +53,7 @@ export default function ProfilPageProfessional() {
 
   useEffect(() => {
     getfreelancer();
-  }, [updated, freelancer]);
+  }, [updated]);
 
   const fakeUser = {
     id: 1,

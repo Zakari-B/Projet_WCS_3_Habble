@@ -21,7 +21,6 @@ import {
 } from "@chakra-ui/react";
 
 import { useParams, useNavigate } from "react-router-dom";
-// import { CloseIcon } from "@chakra-ui/icons";
 import { useState, useEffect } from "react";
 import Services from "./Services";
 import Epertises from "./Expertises";
@@ -113,7 +112,6 @@ export default function ProAccountForm({ onModal = false, onClose }) {
           profileIsComplete: true,
         });
         if (response) {
-          // onClose();
           toast({
             title: "Vos données ont bien été enregistrées.",
             description: "Bienvenue sur votre profil !",
@@ -296,7 +294,7 @@ export default function ProAccountForm({ onModal = false, onClose }) {
                 />
               </VStack>
             </FormControl>
-            <PictureProfilePro user={user} />
+            <PictureProfilePro />
           </Flex>
           <FormControl>
             <Flex direction="column" rowGap="5" mt="1rem">
