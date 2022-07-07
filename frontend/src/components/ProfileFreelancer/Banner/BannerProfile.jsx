@@ -7,13 +7,15 @@ import {
   FormLabel,
   Avatar,
   Image,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { useState } from "react";
-
+import ModalAccountForm from "./ModalAccountForm";
 import Services from "./Services";
 
 export default function BannerProfile({ freelancer }) {
   const [available, setAvailable] = useState(freelancer.available);
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
     <Flex
@@ -127,9 +129,18 @@ export default function BannerProfile({ freelancer }) {
               w="auto"
               display={{ base: "flex", md: "none" }}
             >
-              <Button marginTop="0.75rem" variant="solid_PrimaryColor">
+              <Button
+                marginTop="0.75rem"
+                variant="solid_PrimaryColor"
+                onClick={onOpen}
+              >
                 Modifier
               </Button>
+              <ModalAccountForm
+                onOpen={onOpen}
+                isOpen={isOpen}
+                onClose={onClose}
+              />
               <Button marginTop="0.75rem" variant="outlineWhite">
                 Voir mon profil en ligne
               </Button>
@@ -143,7 +154,11 @@ export default function BannerProfile({ freelancer }) {
             w="auto"
             display={{ base: "none", md: "flex" }}
           >
-            <Button marginTop="0.75rem" variant="solid_PrimaryColor">
+            <Button
+              marginTop="0.75rem"
+              variant="solid_PrimaryColor"
+              onClick={onOpen}
+            >
               Modifier
             </Button>
             <Button variant="outlineWhite">Voir mon profil en ligne</Button>

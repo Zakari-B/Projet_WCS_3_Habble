@@ -28,7 +28,7 @@ import Epertises from "./Expertises";
 import PictureProfilePro from "./PictureProfilPro";
 import backendAPI from "../../services/backendAPI";
 
-export default function ProAccountForm() {
+export default function ProAccountForm({ onModal = false, onClose }) {
   const navigate = useNavigate();
   const toast = useToast();
   const { freelancerId } = useParams();
@@ -113,6 +113,7 @@ export default function ProAccountForm() {
           profileIsComplete: true,
         });
         if (response) {
+          // onClose();
           toast({
             title: "Vos données ont bien été enregistrées.",
             description: "Bienvenue sur votre profil !",
@@ -121,7 +122,10 @@ export default function ProAccountForm() {
             position: "bottom-right",
             isClosable: true,
           });
-          navigate(`/profil/${freelancerId}`);
+          if (onModal === false) {
+            navigate(`/profil/${freelancerId}`);
+          }
+          onClose();
         }
       })
       .catch((error) => {
@@ -465,34 +469,59 @@ export default function ProAccountForm() {
             Le numéro de Siret est un identifiant de 14 chiffres (exemple :
             12002701600357)
           </Text>
-          <Button
-            variant="solid_PrimaryColor"
-            type="submit"
-            onClick={updateFreelancerCompletedProfile}
-          >
-            Enregistrer
-          </Button>
-          <Button
-            bg="transparent"
-            border="2px solid"
-            fontWeight="500"
-            borderColor="pink.light"
-            color="pink.light"
-            _hover={{ bgcolor: "white" }}
-            type="submit"
-            onClick={updateFreelancerUncompletedProfile}
-          >
-            Sauvegarder les informations
-          </Button>
-          <Link
-            href="/"
-            textAlign="left"
-            fontSize="xs"
-            fontWeight="600"
-            w="100px"
-          >
-            Annulez
-          </Link>
+          {onModal === false ? (
+            <>
+              <Button
+                variant="solid_PrimaryColor"
+                type="submit"
+                onClick={updateFreelancerCompletedProfile}
+              >
+                Enregistrer
+              </Button>
+              <Button
+                bg="transparent"
+                border="2px solid"
+                fontWeight="500"
+                borderColor="pink.light"
+                color="pink.light"
+                _hover={{ bgcolor: "white" }}
+                type="submit"
+                onClick={updateFreelancerUncompletedProfile}
+              >
+                Sauvegarder les informations
+              </Button>
+              <Link
+                href="/"
+                textAlign="left"
+                fontSize="xs"
+                fontWeight="600"
+                w="100px"
+              >
+                Annulez
+              </Link>
+            </>
+          ) : (
+            <>
+              <Button
+                variant="solid_PrimaryColor"
+                type="submit"
+                onClick={updateFreelancerCompletedProfile}
+              >
+                Enregistrer
+              </Button>
+              <Button
+                bgColor="white"
+                _hover={{ bgColor: "white" }}
+                onClick={onClose}
+                textAlign="left"
+                fontSize="xs"
+                fontWeight="600"
+                w="100px"
+              >
+                Annulez
+              </Button>
+            </>
+          )}
           <Divider />
           <Text
             fontSize="xs"
