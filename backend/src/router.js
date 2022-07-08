@@ -20,6 +20,7 @@ const multer = require("./middlewares/multer");
 const FreelancerServicesController = require("./controllers/FreelancerServicesControllers");
 const AnnonceServicesController = require("./controllers/AnnonceServicesController");
 const FreelancerExpertisesController = require("./controllers/FreelancerExpertisesControllers");
+const AnnonceLieuController = require("./controllers/AnnonceLieuController");
 
 const {
   authorization,
@@ -365,6 +366,29 @@ router.post(
 router.delete(
   "/freelancers/:freelancerId/expertises/:expertiseId",
   FreelancerExpertisesController.deleteOne
+);
+
+// routes for locations
+router.get("/locations", LieuController.getAll);
+router.get("/locations/:locationId", LieuController.getOne);
+router.post("/locations/:locationId", LieuController.createOne);
+router.delete("/locations/:locationId", LieuController.deleteOne);
+
+// routes for lieux annoncesx
+
+router.get(
+  "/employer/:employerId/annonce/:annonceId/locations",
+  AnnonceLieuController.getAllByAnnonceId
+);
+
+router.post(
+  "/employer/:employerId/annonce/:annonceId/locations/:locationId",
+  AnnonceLieuController.createOne
+);
+
+router.delete(
+  "/employer/:employerId/annonce/:annonceId/locations/locationId",
+  AnnonceLieuController.deleteOne
 );
 
 module.exports = router;
