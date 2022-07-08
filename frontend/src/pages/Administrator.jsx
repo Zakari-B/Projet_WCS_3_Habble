@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Box,
   Flex,
@@ -20,8 +21,18 @@ export default function Administrator() {
   const [selectedUser, setSelectedUser] = useState("");
   const [userToAdministrate, setUserToAdministrate] = useState("");
   const [userDocuments, setUserDocuments] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
+    if (JSON.parse(localStorage.getItem("isUserLoggedIn"))) {
+      backendAPI.get("/api/auth/sessionControl").then((res) => {
+        if (res.code === "401") {
+          navigate("/error");
+        }
+      });
+    } else {
+      navigate("/error");
+    }
     backendAPI.get("/api/users").then((res) => setUserList(res.data));
   }, []);
 
