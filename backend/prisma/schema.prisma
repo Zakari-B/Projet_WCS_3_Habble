@@ -166,7 +166,6 @@ model diplomes {
 }
 
 model annonce {
-<<<<<<< HEAD
   id                Int                @id @default(autoincrement())
   employerId        Int?
   coordinatorId     Int?
@@ -176,24 +175,13 @@ model annonce {
   price             Int
   emergency         Boolean            @default(false)
   status            String             @default("En cours") @db.VarChar(100)
+  dateCreated       DateTime           @default(now()) @db.Timestamp(0)
   annonce_service   annonce_services[]
-  annonce_lieu      annonce_lieu[]
   fk_employer_id    employer?          @relation(fields: [employerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   fk_coordinator_id coordinator?       @relation(fields: [coordinatorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   fk_family_id      family?            @relation(fields: [familyId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-=======
-  id              Int                @id @default(autoincrement())
-  employerId      Int
-  title           String             @db.VarChar(100)
-  description     String             @db.VarChar(500)
-  price           Int
-  emergency       Boolean            @default(false)
-  status          String             @default("En cours") @db.VarChar(100)
-  dateCreated     DateTime           @default(now()) @db.Timestamp(0)
-  annonce_service annonce_services[]
-  fk_employer_id  employer           @relation(fields: [employerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  annonce_lieu    annonce_lieu[]
-  annonce_offers  annonce_offers[]
+  annonce_lieu      annonce_lieu[]
+  annonce_offers    annonce_offers[]
 }
 
 model annonce_offers {
@@ -207,7 +195,6 @@ model annonce_offers {
   dateCreated  DateTime   @default(now()) @db.Timestamp(0)
   freelancer   freelancer @relation(fields: [freelancerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   annonce      annonce    @relation(fields: [annonceId], references: [id], onDelete: Cascade, onUpdate: Cascade)
->>>>>>> 9a0f4b2cef14ab96150445d1cfa4b4cfead03aa7
 }
 
 model annonce_services {

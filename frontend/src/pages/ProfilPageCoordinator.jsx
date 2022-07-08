@@ -4,6 +4,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer";
 import DocumentCarousel from "../components/ProfileFreelancer/DocumentUpload/DocumentCarousel";
+// import AnnonceCarousel from "../components/ProfilEmployer/Annonce/AnnonceCarousel";
 import BannerProfile from "../components/ProfileFreelancer/BannerProfile";
 import AccountCard from "../components/ProfileFreelancer/Account/AccountCard";
 import Verifications from "../components/ProfileFreelancer/Verifications";
@@ -46,16 +47,17 @@ export default function ProfilPageCoordinator() {
     getCoordinator();
   }, [updated]);
 
-  const fakeUser = {
-    id: 1,
-    firstname: "Lora",
-    lastname: "Perrichon",
-    email: "lora@gmail.com",
-    password: "jhnlzejbfalzebf",
-    pseudo: "LoraLala",
-    role: "freelancer",
-    profileIsComplete: true,
-  };
+  useEffect(() => {
+    if (JSON.parse(localStorage.getItem("isUserLoggedIn"))) {
+      backendAPI.get("/api/auth/sessionControl").then((res) => {
+        if (res.code === "401") {
+          navigate("/login");
+        }
+      });
+    } else {
+      navigate("/login");
+    }
+  }, []);
 
   return (
     <Box h="100vh">
@@ -82,7 +84,7 @@ export default function ProfilPageCoordinator() {
             gap="20px"
             flexDir="column"
           >
-            <AccountCard user={fakeUser} />
+            <AccountCard user={coordinator} />
             <Verifications />
             <Accompagnement />
           </Flex>
@@ -94,6 +96,7 @@ export default function ProfilPageCoordinator() {
           >
             <DocumentCarousel setUpdated={setUpdated} />
             <Agrement setUpdated={setUpdated} />
+            {/* <AnnonceCarousel annonce={fakeAnnonce} /> */}
           </Flex>
         </Flex>
       </Flex>
