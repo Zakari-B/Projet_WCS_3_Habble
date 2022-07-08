@@ -23,11 +23,13 @@ import {
   Textarea,
   useToast,
 } from "@chakra-ui/react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { addToList } from "../../services/ProfileProUtils";
 import backendAPI from "../../services/backendAPI";
 
 export default function Accompagnement() {
+  const navigate = useNavigate();
+
   const toast = useToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [lastname, setLastname] = useState("");
@@ -39,7 +41,7 @@ export default function Accompagnement() {
   const [disability, setDisability] = useState("");
   const [information, setInformation] = useState("");
   const [family, setFamily] = useState([]);
-  const { coordinatorId } = useParams();
+  const { freelancerId } = useParams();
 
   const handleLastname = (e) => {
     setLastname(e.target.value);
@@ -68,7 +70,7 @@ export default function Accompagnement() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    addToList("coordinators", "famille", coordinatorId, {
+    addToList("coordinators", "famille", freelancerId, {
       firstname,
       lastname,
       legalGuardian: guardian,
@@ -101,7 +103,7 @@ export default function Accompagnement() {
 
   useEffect(() => {
     backendAPI
-      .get(`/api/coordinators/${coordinatorId}/familles`)
+      .get(`/api/coordinators/${freelancerId}/familles`)
       .then((res) => setFamily(res.data))
       .catch((err) => console.warn(err));
   }, []);
@@ -134,9 +136,22 @@ export default function Accompagnement() {
           ) : (
             family.map((fam) => {
               return (
-                <Text color="purple.average" fontSize="14px">
+                <Button
+                  color="pink.light"
+                  bgColor="white"
+                  w="100%"
+                  fontWeight="0"
+                  _hover={{ bgColor: "white" }}
+                  _focus={{ bgColor: "white" }}
+                  mb="0.5rem"
+                  onClick={() =>
+                    navigate(
+                      `/profil-coordinator/${freelancerId}/famille/${fam.id}`
+                    )
+                  }
+                >
                   {fam.firstname} {fam.lastname}
-                </Text>
+                </Button>
               );
             })
           )}
