@@ -10,7 +10,7 @@ const getAll = async (req, res) => {
   try {
     const expertisesList = await getAllByFreelancer(freelancerId);
     if (expertisesList.length === 0) {
-      return res.status(404).send("Aucune réponses trouvé");
+      return res.status(404).send("Aucune réponses trouvée");
     }
     return res.status(200).json(expertisesList);
   } catch (e) {

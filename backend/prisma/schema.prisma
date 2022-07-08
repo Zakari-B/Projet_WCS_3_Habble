@@ -186,7 +186,7 @@ model lieu {
 model annonce_lieu {
   id            Int     @id @default(autoincrement())
   annonceId     Int
-  lieuId        Int
+  locationId        Int
   fk_annonce_id annonce @relation(fields: [annonceId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  fk_lieu_id    lieu    @relation(fields: [lieuId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  fk_lieu_id    lieu    @relation(fields: [locationId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 }
