@@ -13,9 +13,11 @@ import SearchProfessionals from "./pages/SearchProfessionals";
 import Contact from "./pages/Contact";
 import RegisterOnboardingPro from "./pages/RegisterOnboardingPro";
 import WelcomeInscPro from "./pages/WelcomeInscPro";
-import FormAnnonce from "./components/Profile/Annonce/AnnonceForm";
+import AnnonceForm from "./components/ProfilEmployer/Annonce/AnnonceForm";
 import ProfilPageEmployer from "./pages/ProfilPageEmployer";
+import AnnoncesPageEmployer from "./pages/AnnoncesPageEmployer";
 import Logout from "./pages/Logout";
+import ProAnnonces from "./pages/ProAnnonces";
 
 import "./App.css";
 
@@ -31,7 +33,6 @@ function App() {
         <Route path="/professionnel-handicap" element={<ProAccueil />} />
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<LoginForm />} />
-        <Route path="*" element={<Error />} />
         <Route path="/forgot-password" element={<PasswordReset />} />
         <Route
           path="/profil/:freelancerId"
@@ -43,12 +44,32 @@ function App() {
         />
         <Route path="/profils" element={<SearchProfessionals />} />
         <Route path="/welcome-pro/:freelancerId" element={<WelcomeInscPro />} />
-        <Route path="/deposer-une-annonce" element={<FormAnnonce />} />
+        <Route
+          path="/deposer-une-annonce/:employerId/annonce/:annonceId"
+          element={<AnnonceForm />}
+        />
         <Route
           path="/profil-employer/:employerId"
           element={<ProfilPageEmployer />}
         />
+        <Route
+          path="/profil-employer/:employerId/mes-annonces/:id"
+          element={<AnnoncesPageEmployer />}
+        />
+        <Route
+          path="/profil/:freelancerId/mes-annonces/:id"
+          element={<AnnoncesPageEmployer />}
+        />
         <Route path="/logout" element={<Logout />} />
+        <Route
+          path="/profil/:freelanderId/mes-annonces"
+          element={<ProAnnonces />}
+        />
+        <Route
+          path="/profil-employer/:employerId/mes-annonces"
+          element={<ProAnnonces />}
+        />
+        <Route path="*" element={<Error />} />
       </Routes>
     </div>
   );

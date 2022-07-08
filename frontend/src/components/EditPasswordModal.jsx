@@ -8,6 +8,7 @@ import {
   ModalBody,
   ModalCloseButton,
   Flex,
+  useToast,
   Button,
   FormControl,
   Input,
@@ -16,6 +17,7 @@ import PropTypes from "prop-types";
 import backendAPI from "../services/backendAPI";
 
 export default function EditPassWordModal({ isOpen, onClose }) {
+  const toast = useToast();
   const [currentPass, setCurrentPass] = useState("");
   const [newPass, setNewPass] = useState("");
   const [newPassRepeat, setNewPassRepeat] = useState("");
@@ -31,10 +33,38 @@ export default function EditPassWordModal({ isOpen, onClose }) {
             newPassword: newPass,
           },
         })
-        .then((res) => console.warn(res));
+        .then((res) => {
+          console.warn(res);
+          toast({
+            title: "Votre mot de passe a bien été modifié",
+            status: "success",
+            position: "bottom-right",
+            duration: 7000,
+            isClosable: true,
+          });
+        })
+        .catch(() =>
+          toast({
+            title: "Votre diplôme n'a pas pu être ajouté",
+            status: "error",
+            position: "bottom-right",
+            duration: 7000,
+            isClosable: true,
+          })
+        );
     } else {
       console.warn("Mots de passe différents");
+      toast({
+        title: "Attention vos mots de passe ne sont pas identiques",
+        status: "error",
+        position: "bottom-right",
+        duration: 7000,
+        isClosable: true,
+      });
     }
+    setCurrentPass("");
+    setNewPass("");
+    setNewPassRepeat("");
   };
 
   return (
@@ -102,7 +132,17 @@ export default function EditPassWordModal({ isOpen, onClose }) {
             >
               Confirmer
             </Button>
-            <Button color="gray.dark" mr={3} onClick={onClose} variant="link">
+            <Button
+              color="gray.dark"
+              mr={3}
+              onClick={() => {
+                onClose();
+                setCurrentPass("");
+                setNewPass("");
+                setNewPassRepeat("");
+              }}
+              variant="link"
+            >
               Annuler
             </Button>
           </ModalFooter>

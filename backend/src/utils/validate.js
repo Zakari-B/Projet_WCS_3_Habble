@@ -26,14 +26,14 @@ exports.validateFreelancer = (data, forCreation = true) => {
     activityDescription: Joi.string().max(255).presence(presence),
     userId: Joi.number().presence(presence).options({ convert: false }),
     zipCode: Joi.string().max(10).presence(presence),
-    phone: Joi.string().max(300).presence(presence),
+    phone: Joi.string().max(300).presence("optional").allow(null, ""),
     experienceYear: Joi.number().presence(presence),
     price: Joi.number().presence(presence).options({ convert: false }),
     description: Joi.string().max(1000).presence(presence),
     acceptEmails: Joi.boolean().presence(presence),
     siret: Joi.number().presence(presence).options({ convert: false }),
     available: Joi.boolean().presence(presence),
-    picture: Joi.string().max(1000).allow(null, ""),
+    picture: Joi.string().max(1000).presence("optional").allow(null, ""),
   }).validate(data, { abortEarly: false }).error;
   if (validationErrors) {
     return validationErrors;
@@ -100,6 +100,61 @@ exports.validateEmployer = (data, forCreation = true) => {
     userId: Joi.number().presence(presence).options({ convert: false }),
     available: Joi.boolean().presence(presence),
     picture: Joi.string().max(1000).presence(presence),
+  }).validate(data, { abortEarly: false }).error;
+  if (validationErrors) {
+    return validationErrors;
+  }
+  return false;
+};
+
+exports.validateLocation = (data, forCreation = true) => {
+  const presence = forCreation ? "required" : "optional";
+  const validationErrors = Joi.object({
+    name: Joi.string().max(100).presence(presence),
+  }).validate(data, { abortEarly: false }).error;
+  if (validationErrors) {
+    return validationErrors;
+  }
+  return false;
+};
+
+exports.validateOfferCreation = (data, forCreation = true) => {
+  const presence = forCreation ? "required" : "optional";
+  const validationErrors = Joi.object({
+    price: Joi.number().presence(presence).options({ convert: false }),
+    description: Joi.string().max(500).presence(presence),
+    availableIn: Joi.string().max(500).presence(presence),
+  }).validate(data, { abortEarly: false }).error;
+  if (validationErrors) {
+    return validationErrors;
+  }
+  return false;
+};
+
+exports.validateOfferUpdate = (data, forCreation = false) => {
+  const presence = forCreation ? "required" : "optional";
+  const validationErrors = Joi.object({
+    price: Joi.number().presence(presence).options({ convert: false }),
+    description: Joi.string().max(500).presence(presence),
+    availableIn: Joi.string().max(500).presence(presence),
+    status: Joi.string().max(500).presence(presence),
+  }).validate(data, { abortEarly: false }).error;
+  if (validationErrors) {
+    return validationErrors;
+  }
+  return false;
+};
+
+exports.validateAnnouncement = (data, forCreation = true) => {
+  const presence = forCreation ? "required" : "optional";
+  const validationErrors = Joi.object({
+    title: Joi.string().max(100).presence(presence),
+    description: Joi.string().max(500).presence(presence),
+    price: Joi.number().presence(presence).options({ convert: false }),
+    emergency: Joi.boolean(),
+    expertise: Joi.string().max(500),
+    location: Joi.string().max(100),
+    status: Joi.string().max(100),
   }).validate(data, { abortEarly: false }).error;
   if (validationErrors) {
     return validationErrors;

@@ -1,5 +1,6 @@
 const { verifyAccessToken } = require("../helpers/jwtHelper");
 const freelancer = require("../models/freelancer");
+const employer = require("../models/employer");
 
 const authorization = async (req, res, next) => {
   const token = req.cookies.userToken;
@@ -8,14 +9,23 @@ const authorization = async (req, res, next) => {
   }
   try {
     const data = await verifyAccessToken(token);
-    req.userId = data.payload.id;
-    req.userRole = data.payload.role;
+    req.userId = data.payload.user.id;
+    req.userRole = data.payload.user.role;
     if (req.userRole === "freelancer") {
-      const freelancerEntry = await freelancer.findOneByUserId(req.userId);
+      const freelancerEntry = await freelancer.findOneFreelancerByUserId(
+        req.userId
+      );
       if (freelancerEntry) {
         req.roleId = freelancerEntry.id;
       }
     }
+    if (req.userRole === "employer") {
+      const employerEntry = await employer.findOneEmployerByUserId(req.userId);
+      if (employerEntry) {
+        req.roleId = employerEntry.id;
+      }
+    }
+
     return next();
   } catch (e) {
     console.error(e);
@@ -27,6 +37,14 @@ const authSelf = async (req, res, next) => {
   if (req.userId === parseInt(req.params.id, 10)) {
     return next();
   }
+  return res.sendStatus(401);
+};
+
+const authSelfRole = async (req, res, next) => {
+  if (req.roleId === parseInt(req.params.freelancerid, 10)) {
+    return next();
+  }
+
   return res.sendStatus(401);
 };
 
@@ -49,10 +67,12 @@ const sessionControl = async (req, res) => {
       userId: data.payload.user.id,
       userRole: data.payload.user.role,
       roleId: data.payload.fkId,
+      firstname: data.payload.user.firstname,
+      lastname: data.payload.user.lastname,
     });
   } catch (e) {
     console.warn(e);
   }
 };
 
-module.exports = { authorization, authSelf, sessionControl };
+module.exports = { authorization, authSelf, sessionControl, authSelfRole };

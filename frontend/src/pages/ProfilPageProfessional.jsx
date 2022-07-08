@@ -3,17 +3,18 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer";
-import FormationCarousel from "../components/Profile/Formation/FormationCarousel";
-import DocumentCarousel from "../components/Profile/DocumentUpload/DocumentCarousel";
-import BannerProfile from "../components/Profile/BannerProfile";
-import AccountCard from "../components/Profile/Account/AccountCard";
-import DiplomeCarousel from "../components/Profile/Diplomes/DiplomeCarousel";
-import ExperienceCarousel from "../components/Profile/Experience/ExperienceCarousel";
-import Expertises from "../components/Profile/Expertises/Expertises";
-import Verifications from "../components/Profile/Verifications";
-import Tarif from "../components/Profile/Tarif";
-import MissionCarousel from "../components/Profile/Mission/MissionCarousel";
+import FormationCarousel from "../components/ProfileFreelancer/Formation/FormationCarousel";
+import DocumentCarousel from "../components/ProfileFreelancer/DocumentUpload/DocumentCarousel";
+import BannerProfile from "../components/ProfileFreelancer/Banner/BannerProfile";
+import AccountCard from "../components/ProfileFreelancer/Account/AccountCard";
+import DiplomeCarousel from "../components/ProfileFreelancer/Diplomes/DiplomeCarousel";
+import ExperienceCarousel from "../components/ProfileFreelancer/Experience/ExperienceCarousel";
+import Expertises from "../components/ProfileFreelancer/Expertises/Expertises";
+import Verifications from "../components/ProfileFreelancer/Verifications";
+import Tarif from "../components/ProfileFreelancer/Tarif";
+import MissionCarousel from "../components/ProfileFreelancer/Mission/MissionCarousel";
 import { getListforAnId } from "../services/ProfileProUtils";
+import backendAPI from "../services/backendAPI";
 
 export default function ProfilPageProfessional() {
   const navigate = useNavigate();
@@ -38,6 +39,17 @@ export default function ProfilPageProfessional() {
         navigate("/error");
       });
   };
+  useEffect(() => {
+    if (JSON.parse(localStorage.getItem("isUserLoggedIn"))) {
+      backendAPI.get("/api/auth/sessionControl").then((res) => {
+        if (res.code === "401") {
+          navigate("/login");
+        }
+      });
+    } else {
+      navigate("/login");
+    }
+  }, []);
 
   useEffect(() => {
     getfreelancer();
@@ -61,7 +73,7 @@ export default function ProfilPageProfessional() {
         bgColor="background.gray"
         direction="column"
         justify="flex-start"
-        paddingY="30péx"
+        paddingY="30px"
         paddingTop="150px"
       >
         <BannerProfile freelancer={freelancer} />
@@ -90,7 +102,7 @@ export default function ProfilPageProfessional() {
             direction="column"
             gap="20px"
           >
-            <DocumentCarousel />
+            <DocumentCarousel updated={updated} setUpdated={setUpdated} />
             <FormationCarousel
               formations={formations}
               updated={updated}

@@ -8,16 +8,18 @@ import {
   Avatar,
   MenuList,
   MenuGroup,
+  Tag,
   MenuItem,
   MenuDivider,
 } from "@chakra-ui/react";
+
 import { useState, useEffect } from "react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import PropTypes from "prop-types";
 import { BiLogOut, BiChat, BiUser } from "react-icons/bi";
 import { GrAnnounce } from "react-icons/gr";
 import backendAPI from "../../services/backendAPI";
-
+// import { getListforAnId } from "../../services/ProfileProUtils";
 import HeaderDrawer from "./HeaderDrawer";
 import Logo from "../Logo";
 import "../../styles/header.css";
@@ -31,6 +33,8 @@ export default function Header({
   const [isSignUp, setIsSignUp] = useState(
     JSON.parse(localStorage.getItem("isUserLoggedIn"))
   );
+  const [data, setData] = useState();
+
   const navigate = useNavigate();
 
   const logout = () => {
@@ -53,6 +57,7 @@ export default function Header({
         .then((res) => {
           if (res.data.sessionExpired === false) {
             setIsSignUp(true);
+            setData(res);
           }
         })
         .catch((err) => console.error(err));
@@ -69,7 +74,7 @@ export default function Header({
       position={isSticky || isStickyWhite ? "fixed" : "relative"}
       paddingX={{ base: "2%", lg: "5%" }}
       paddingY="30px"
-      bgColor={(isSticky || isStickyWhite) && "white"}
+      bgColor={((isSticky && scrollPosition > 50) || isStickyWhite) && "white"}
       w={isSticky || isStickyWhite ? "100vw" : "100vp"}
       zIndex="999"
     >
@@ -119,18 +124,49 @@ export default function Header({
                     size="sm"
                     src="https://images.unsplash.com/photo-1493666438817-866a91353ca9?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9"
                   />
-                  Marie Serradori
+                  {data && `${data.data.firstname} ${data.data.lastname}`}
                   <ChevronDownIcon />
                 </Flex>
               </MenuButton>
               <MenuList marginLeft="150px">
                 <MenuGroup title="Profil" color="purple.dark">
-                  <MenuItem icon={<BiUser />}>MON PROFIL</MenuItem>
-                  <MenuItem icon={<GrAnnounce />} color="purple.dark">
+                  <MenuItem
+                    icon={<BiUser />}
+                    onClick={() => {
+                      if (data.data.userRole === "freelancer") {
+                        navigate(`/profil/${data.data.roleId}`);
+                      }
+                      if (data.data.userRole === "employer") {
+                        navigate(`/profil-employer/${data.data.roleId}`);
+                      }
+                    }}
+                  >
+                    MON PROFIL
+                  </MenuItem>
+
+                  <MenuItem
+                    icon={<GrAnnounce />}
+                    color="purple.dark"
+                    onClick={() => {
+                      if (data.data.userRole === "freelancer") {
+                        navigate(`/profil/${data.data.roleId}/mes-annonces`);
+                      }
+                      if (data.data.userRole === "employer") {
+                        navigate(
+                          `/profil-employer/${data.data.roleId}/mes-annonces`
+                        );
+                      }
+                    }}
+                  >
                     MES ANNONCES
                   </MenuItem>
-                  <MenuItem icon={<BiChat />} color="purple.dark">
-                    MES MESSAGES
+                  <MenuItem icon={<BiChat />} disabled>
+                    <Flex gap="5px" alignItems="center">
+                      <Text> MES MESSAGES</Text>
+                      <Tag size="sm" colorScheme="purple">
+                        SOON
+                      </Tag>
+                    </Flex>
                   </MenuItem>
                 </MenuGroup>
 

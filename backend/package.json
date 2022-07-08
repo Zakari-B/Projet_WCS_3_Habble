@@ -10,6 +10,9 @@
     "lint": "echo '----- Checking Backend...' && npx prettier --debug-check . && eslint --ext .js . && echo '----- Done!'",
     "fix": "prettier --write . && eslint --fix --ext .js ."
   },
+  "prisma": {
+    "seed": "node prisma/seed.js"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -18,10 +21,12 @@
     "argon2": "^0.28.5",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
+    "cron": "^2.0.0",
     "dotenv": "^10.0.0",
     "express": "^4.17.2",
     "joi": "^17.6.0",
     "jsonwebtoken": "^8.5.1",
+    "multer": "^1.4.5-lts.1",
     "mysql2": "^2.3.3",
     "nodemailer": "^6.7.5",
     "template-fullstack": "file:.."
