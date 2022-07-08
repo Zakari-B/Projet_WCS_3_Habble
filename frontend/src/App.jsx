@@ -18,6 +18,7 @@ import ProfilPageEmployer from "./pages/ProfilPageEmployer";
 import AnnoncesDashboard from "./pages/AnnoncesDashboard";
 import Logout from "./pages/Logout";
 import PasswordResetForm from "./pages/PasswordReset";
+import Administrator from "./pages/Administrator";
 
 import "./App.css";
 
@@ -55,6 +56,7 @@ function App() {
         />
         <Route path="/logout" element={<Logout />} />
         <Route path="/passwordReset" element={<PasswordResetForm />} />
+        <Route path="/habbleAdministrationPanel" element={<Administrator />} />
         <Route path="*" element={<Error />} />
       </Routes>
     </div>

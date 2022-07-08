@@ -244,4 +244,9 @@ router.delete(
   FreelancerExpertisesController.deleteOne
 );
 
+// Admin routes
+
+router.get("/users/adminGetOne/:id", UserController.getUserWithRole);
+router.post("/users/:freelancerId/verify/:docId", DocumentsController.verify);
+
 module.exports = router;

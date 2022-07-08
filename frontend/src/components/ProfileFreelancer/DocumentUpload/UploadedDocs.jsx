@@ -18,7 +18,7 @@ export default function UploadedDoc({ data, updated, setUpdated }) {
         role="group"
         h="240px"
         w="100%"
-        bgImage={`url(http://localhost:3000/backend/public/uploads/${data.documentLink})`}
+        bgImage={`url(http://localhost:5000/backend/public/uploads/${data.documentLink})`}
         bgSize="contain"
         bgRepeat="no-repeat"
         bgPosition="center"

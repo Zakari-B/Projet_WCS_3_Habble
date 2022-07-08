@@ -6,6 +6,7 @@ const {
 } = require("../helpers/argonHelper");
 const { verifyAccessToken } = require("../helpers/jwtHelper");
 const user = require("../models/user");
+const freelancer = require("../models/freelancer");
 const token = require("../models/token");
 const { validateUser } = require("../utils/validate");
 const { sendMail } = require("../utils/mailer");
@@ -201,6 +202,27 @@ const resetPassword = async (req, res) => {
   return res.status(200).json({ message: "Mot de passe réinitialisé." });
 };
 
+const getUserWithRole = async (req, res) => {
+  const userId = parseInt(req.params.id, 10);
+  let roleResult;
+  try {
+    const userResult = await user.findOne(userId);
+    delete userResult.hashedPassword;
+    if (userResult.role === "freelancer") {
+      roleResult = await freelancer.findOneFreelancerByUserId(userId);
+    }
+    // if (userResult.role === "coordinator") {
+    //   const roleResult = await freelancer.findOneCoordinatorByUserId(userId);
+    //   console.log(roleResult);
+    // }
+    return res.status(200).json({ userResult, roleResult });
+  } catch (e) {
+    return res
+      .status(500)
+      .json({ error: "Problème dans la requête à la base de données" });
+  }
+};
+
 module.exports = {
   createOne,
   login,
@@ -210,4 +232,5 @@ module.exports = {
   updateOne,
   deleteOne,
   resetPassword,
+  getUserWithRole,
 };

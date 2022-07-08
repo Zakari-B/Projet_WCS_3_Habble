@@ -30,8 +30,20 @@ const deleteOneDocument = async (id) => {
   }
 };
 
+const verifyOneDocument = async (docId, state) => {
+  try {
+    return await prisma.documents.update({
+      where: { id: docId },
+      data: { verified: state },
+    });
+  } finally {
+    await prisma.$disconnect();
+  }
+};
+
 module.exports = {
   getAllDocumentsByFreelancerId,
   getOneDocumentByFreelancerId,
   deleteOneDocument,
+  verifyOneDocument,
 };
