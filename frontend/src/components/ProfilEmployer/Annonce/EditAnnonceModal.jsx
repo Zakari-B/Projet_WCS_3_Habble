@@ -9,7 +9,6 @@ import {
   Box,
   ModalBody,
   ModalCloseButton,
-  Select,
   Flex,
   NumberInput,
   NumberInputStepper,
@@ -24,28 +23,23 @@ import {
   Textarea,
   Stack,
   VStack,
-  List,
   Checkbox,
   CheckboxGroup,
-  ListItem,
-  IconButton,
   Text,
 } from "@chakra-ui/react";
-import { CloseIcon } from "@chakra-ui/icons";
 import PropTypes from "prop-types";
 import backendAPI from "../../../services/backendAPI";
+import Services from "./Services";
+import Lieux from "./Lieux";
 
 export default function EditAnnonceModal({ isOpen, onClose, annonce }) {
-  const { employerId, annonceId } = useParams();
+  const { employerId } = useParams();
   const toast = useToast();
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState();
-  const [tags, setTags] = useState([]);
-  const [location, setLocation] = useState([]);
   const [emergency, setEmergency] = useState(false);
-  const [services, setServices] = useState([]);
 
   const [status] = useState("En cours");
 
@@ -54,22 +48,10 @@ export default function EditAnnonceModal({ isOpen, onClose, annonce }) {
       setTitle(res.data.title);
       setDescription(res.data.description);
       setPrice(res.data.price);
-      // setTags(res.data.tags);
-      setLocation(res.data.location);
       setEmergency(res.data.emergency);
-      // setServices(res.data.services);
     });
   }, []);
 
-  const handleReset = () => {
-    setTitle("");
-    setDescription("");
-    setPrice("");
-    setTags([]);
-    setLocation([]);
-    setEmergency(false);
-    setServices([]);
-  };
   const handleSubmit = (event) => {
     event.preventDefault();
     backendAPI
@@ -78,7 +60,6 @@ export default function EditAnnonceModal({ isOpen, onClose, annonce }) {
         description,
         emergency,
         price,
-        services,
         status,
       })
       .then(() =>
@@ -100,16 +81,10 @@ export default function EditAnnonceModal({ isOpen, onClose, annonce }) {
           isClosable: true,
         });
       });
-    handleReset();
     onClose();
   };
 
   ///
-
-  // fonction retrait d'un item //
-  const removeItem = (indexToRemove) => {
-    setTags([...tags.filter((_, index) => index !== indexToRemove)]);
-  };
 
   const handleTitleChange = (e) => {
     setTitle(e.target.value);
@@ -123,52 +98,9 @@ export default function EditAnnonceModal({ isOpen, onClose, annonce }) {
     setPrice(parseInt(value, 10));
   };
 
-  // fonction retrait d'ajout d'un item //
-  // const service = (e) => {
-  //   if (e.target.value !== "" && !tags.includes(e.target.value)) {
-  //     setTags([...tags, e.target.value]);
-  //     e.target.value = "";
-  //   }
-  // };
-
-  // fonction retrait et d'ajout d'une expertise //
-  const updateLocation = (e) => {
-    if (e.target.checked && !location.includes(e.target.value)) {
-      setLocation([...location, e.target.value]);
-    } else if (!e.target.checked) {
-      location.splice(location.indexOf(e.target.value), 1);
-      setLocation(location);
-    }
-  };
-
   const updateEmergency = (e) => {
     if (e.target.checked) {
       setEmergency(true);
-    }
-  };
-
-  const getAllServices = () => {
-    backendAPI
-      .get("/api/services")
-      .then((response) => {
-        setServices(response.data);
-      })
-      .catch((error) => {
-        console.warn(error);
-      });
-  };
-
-  useEffect(() => {
-    getAllServices();
-  }, []);
-
-  const addItem = (e) => {
-    const nameService = e.target.options[e.target.selectedIndex].text;
-    if (nameService !== "" && !tags.includes(nameService)) {
-      setTags([...tags, nameService]);
-      backendAPI.post(
-        `/api/employer/${employerId}/annonce/${annonceId}/services/${e.target.value}`
-      );
     }
   };
 
@@ -258,59 +190,7 @@ export default function EditAnnonceModal({ isOpen, onClose, annonce }) {
                     Sélectionnez la ou les compétence(s) dont vous pensez avoir
                     besoin * (pas de mauvaises réponses !)
                   </FormLabel>
-                  <Box
-                    borderColor="gray.200"
-                    borderWidth="1.5px"
-                    borderRadius="10px"
-                  >
-                    <List
-                      display="flex"
-                      justifyContent="left"
-                      columnGap="3"
-                      rowGap="2"
-                      flexWrap="wrap"
-                      h="fit-content"
-                      w="fit-content"
-                    >
-                      {tags.map((element, index) => (
-                        <ListItem
-                          m="0.2rem"
-                          p="0.2rem"
-                          bgColor="#f2f5f7"
-                          display="flex"
-                        >
-                          <Text fontSize="0.9rem" fontWeight="400">
-                            {element}
-                          </Text>
-                          <IconButton
-                            as={CloseIcon}
-                            boxSize="12px"
-                            alignSelf="center"
-                            _hover={{ bgColor: "none" }}
-                            onClick={() => removeItem(index)}
-                          />
-                        </ListItem>
-                      ))}
-                    </List>
-                    <Select
-                      border="none"
-                      type="text"
-                      id="formProService"
-                      name="Service"
-                      fontSize="0.8rem"
-                      fontWeight="500"
-                      color="gray"
-                      placeholder="Choisissez un ou plusieurs services dans la liste, tapez des mots clés pour filtrer"
-                      onChange={addItem}
-                      onKeyUp={(event) =>
-                        event.key === "Enter" ? addItem(event) : null
-                      }
-                    >
-                      {services.map((element) => (
-                        <option value={element.id}>{element.name}</option>
-                      ))}
-                    </Select>
-                  </Box>
+                  <Services annonce={annonce} />
                   <Text fontSize="xs" as="i" color="gray.400">
                     Si vous ne savez pas ou ne trouvez pas la compétence,
                     sélectionnez "autre" dans la liste
@@ -357,86 +237,7 @@ export default function EditAnnonceModal({ isOpen, onClose, annonce }) {
                     </Text>
                   </Flex>
                 </Flex>
-
-                <FormLabel
-                  htmlFor="care"
-                  fontSize="sm"
-                  fontWeight="800"
-                  color="purple.average"
-                >
-                  Lieu
-                </FormLabel>
-                <CheckboxGroup>
-                  <Flex
-                    justifyContent="left"
-                    columnGap="3"
-                    rowGap="2"
-                    flexWrap="wrap"
-                    h="fit-content"
-                    w="fit-content%"
-                  >
-                    <Checkbox
-                      iconColor="pink.light"
-                      colorScheme="white"
-                      borderColor="gray"
-                      _checked={{ borderColor: "pink.light" }}
-                      value="domicile"
-                      onChange={updateLocation}
-                    >
-                      <Text fontSize="sm">Domicile</Text>
-                    </Checkbox>
-                    <Checkbox
-                      iconColor="pink.light"
-                      colorScheme="white"
-                      borderColor="gray"
-                      _checked={{ borderColor: "pink.light" }}
-                      value="École"
-                      onChange={updateLocation}
-                    >
-                      <Text fontSize="sm">École</Text>
-                    </Checkbox>
-                    <Checkbox
-                      iconColor="pink.light"
-                      colorScheme="white"
-                      borderColor="gray"
-                      _checked={{ borderColor: "pink.light" }}
-                      value="Travail"
-                      onChange={updateLocation}
-                    >
-                      <Text fontSize="sm">Travail</Text>
-                    </Checkbox>
-                    <Checkbox
-                      iconColor="pink.light"
-                      colorScheme="white"
-                      borderColor="gray"
-                      _checked={{ borderColor: "pink.light" }}
-                      value="Hopital"
-                      onChange={updateLocation}
-                    >
-                      <Text fontSize="sm">Hopital</Text>
-                    </Checkbox>
-                    <Checkbox
-                      iconColor="pink.light"
-                      colorScheme="white"
-                      borderColor="gray"
-                      _checked={{ borderColor: "pink.light" }}
-                      value="Activités et loisirs"
-                      onChange={updateLocation}
-                    >
-                      <Text fontSize="sm">Activités et loisirs</Text>
-                    </Checkbox>
-                    <Checkbox
-                      iconColor="pink.light"
-                      colorScheme="white"
-                      borderColor="gray"
-                      _checked={{ borderColor: "pink.light" }}
-                      value="Autre"
-                      onChange={updateLocation}
-                    >
-                      <Text fontSize="sm">Autre</Text>
-                    </Checkbox>
-                  </Flex>
-                </CheckboxGroup>
+                <Lieux />
                 <FormLabel
                   htmlFor="chronicDiseases"
                   fontSize="sm"
@@ -477,7 +278,7 @@ export default function EditAnnonceModal({ isOpen, onClose, annonce }) {
             type="submit"
             onClick={handleSubmit}
           >
-            Envoyer la proposition
+            Enregistrer l'annonce
           </Button>
           <Button color="gray.dark" mr={3} onClick={onClose} variant="link">
             Annuler

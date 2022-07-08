@@ -11,7 +11,7 @@ import { DeleteIcon } from "@chakra-ui/icons";
 
 import PropTypes from "prop-types";
 
-import DeleteConfirmModal from "../../DeleteConfirmModal";
+import DeleteConfirmModal from "./DeleteConfirmModal";
 import EditAnnonceModal from "./EditAnnonceModal";
 
 export default function AnnonceCard({ annonce }) {
@@ -67,7 +67,12 @@ export default function AnnonceCard({ annonce }) {
           Supprimer
         </Button>
 
-        <DeleteConfirmModal onOpen={onOpen} isOpen={isOpen} onClose={onClose} />
+        <DeleteConfirmModal
+          onOpen={onOpen}
+          isOpen={isOpen}
+          onClose={onClose}
+          annonce={annonce}
+        />
       </Flex>
       <Divider paddingTop="10px" colorScheme="gray" />
 

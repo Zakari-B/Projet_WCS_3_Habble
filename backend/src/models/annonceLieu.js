@@ -4,11 +4,11 @@ const prisma = new PrismaClient();
 
 const getAllByAnnonce = async (annonceId) => {
   try {
-    return await prisma.annonce_services.findMany({
+    return await prisma.annonce_lieu.findMany({
       where: { annonceId },
       include: {
         fk_annonce_id: true,
-        fk_service_id: true,
+        fk_lieu_id: true,
       },
     });
   } finally {
@@ -16,10 +16,18 @@ const getAllByAnnonce = async (annonceId) => {
   }
 };
 
-const getOneServiceByAnnonceId = async (annonceId, serviceId) => {
+const getAll = async () => {
   try {
-    return await prisma.annonce_services.findMany({
-      where: { annonceId, serviceId },
+    return await prisma.annonce_lieu.findMany();
+  } finally {
+    await prisma.$disconnect();
+  }
+};
+
+const getOneLocationByAnnonceId = async (annonceId, locationId) => {
+  try {
+    return await prisma.annonce_lieu.findMany({
+      where: { annonceId, locationId },
     });
   } finally {
     await prisma.$disconnect();
@@ -28,7 +36,7 @@ const getOneServiceByAnnonceId = async (annonceId, serviceId) => {
 
 const createOneByAnnonce = async (data) => {
   try {
-    return await prisma.annonce_services.createMany({
+    return await prisma.annonce_lieu.createMany({
       data,
     });
   } finally {
@@ -38,7 +46,7 @@ const createOneByAnnonce = async (data) => {
 
 const deleteOneByAnnonce = async (id) => {
   try {
-    return await prisma.annonce_services.delete({
+    return await prisma.annonce_lieu.delete({
       where: { id },
     });
   } finally {
@@ -48,7 +56,8 @@ const deleteOneByAnnonce = async (id) => {
 
 module.exports = {
   getAllByAnnonce,
+  getAll,
   createOneByAnnonce,
+  getOneLocationByAnnonceId,
   deleteOneByAnnonce,
-  getOneServiceByAnnonceId,
 };
