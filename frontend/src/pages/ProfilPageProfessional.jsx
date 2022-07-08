@@ -5,7 +5,7 @@ import Header from "../components/Header/Header";
 import Footer from "../components/Footer";
 import FormationCarousel from "../components/ProfileFreelancer/Formation/FormationCarousel";
 import DocumentCarousel from "../components/ProfileFreelancer/DocumentUpload/DocumentCarousel";
-import BannerProfile from "../components/ProfileFreelancer/BannerProfile";
+import BannerProfile from "../components/ProfileFreelancer/Banner/BannerProfile";
 import AccountCard from "../components/ProfileFreelancer/Account/AccountCard";
 import DiplomeCarousel from "../components/ProfileFreelancer/Diplomes/DiplomeCarousel";
 import ExperienceCarousel from "../components/ProfileFreelancer/Experience/ExperienceCarousel";
@@ -39,7 +39,6 @@ export default function ProfilPageProfessional() {
         navigate("/error");
       });
   };
-
   useEffect(() => {
     if (JSON.parse(localStorage.getItem("isUserLoggedIn"))) {
       backendAPI.get("/api/auth/sessionControl").then((res) => {

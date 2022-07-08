@@ -34,6 +34,7 @@ const authorization = async (req, res, next) => {
         req.roleId = coordinatorEntry.id;
       }
     }
+
     return next();
   } catch (e) {
     console.error(e);
@@ -53,6 +54,7 @@ const authSelfRole = async (req, res, next) => {
   if (req.roleId === parseInt(req.params.freelancerid, 10)) {
     return next();
   }
+
   return res.sendStatus(401);
 };
 

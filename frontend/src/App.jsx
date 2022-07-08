@@ -15,9 +15,10 @@ import RegisterOnboardingPro from "./pages/RegisterOnboardingPro";
 import WelcomeInscPro from "./pages/WelcomeInscPro";
 import AnnonceForm from "./components/ProfilEmployer/Annonce/AnnonceForm";
 import ProfilPageEmployer from "./pages/ProfilPageEmployer";
-import AnnoncesDashboard from "./pages/AnnoncesDashboard";
+import AnnoncesPageEmployer from "./pages/AnnoncesPageEmployer";
 import Logout from "./pages/Logout";
 import ProfilPageCoordinator from "./pages/ProfilPageCoordinator";
+import ProAnnonces from "./pages/ProAnnonces";
 
 import "./App.css";
 
@@ -48,16 +49,31 @@ function App() {
         />
         <Route path="/profils" element={<SearchProfessionals />} />
         <Route path="/welcome-pro/:freelancerId" element={<WelcomeInscPro />} />
-        <Route path="/deposer-une-annonce" element={<AnnonceForm />} />
+        <Route
+          path="/deposer-une-annonce/:employerId/annonce/:annonceId"
+          element={<AnnonceForm />}
+        />
         <Route
           path="/profil-employer/:employerId"
           element={<ProfilPageEmployer />}
         />
         <Route
-          path="/profil/:roleid/mes-annonces"
-          element={<AnnoncesDashboard />}
+          path="/profil-employer/:employerId/mes-annonces/:id"
+          element={<AnnoncesPageEmployer />}
+        />
+        <Route
+          path="/profil/:freelancerId/mes-annonces/:id"
+          element={<AnnoncesPageEmployer />}
         />
         <Route path="/logout" element={<Logout />} />
+        <Route
+          path="/profil/:freelanderId/mes-annonces"
+          element={<ProAnnonces />}
+        />
+        <Route
+          path="/profil-employer/:employerId/mes-annonces"
+          element={<ProAnnonces />}
+        />
         <Route path="*" element={<Error />} />
       </Routes>
     </div>

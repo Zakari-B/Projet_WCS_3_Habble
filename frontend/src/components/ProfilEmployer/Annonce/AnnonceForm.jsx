@@ -22,19 +22,30 @@ import {
   List,
   ListItem,
   IconButton,
+  useToast,
 } from "@chakra-ui/react";
 import { CloseIcon } from "@chakra-ui/icons";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import Header from "../../Header/Header";
 import Footer from "../../Footer";
+import backendAPI from "../../../services/backendAPI";
 
 export default function AnnonceForm() {
-  const [displayTitle, setDisplayTitle] = useState("");
+  const toast = useToast();
+  const navigate = useNavigate();
+
+  const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [pricePro, setPricePro] = useState("");
+  const [price, setPrice] = useState();
   const [tags, setTags] = useState([]);
   const [location, setLocation] = useState([]);
-  const [emergency, setEmergency] = useState([]);
+  const [emergency, setEmergency] = useState(false);
+  const [services, setServices] = useState([]);
+
+  const [status] = useState("En cours");
+
+  const { employerId, annonceId } = useParams();
 
   // fonction retrait d'un item //
   const removeItem = (indexToRemove) => {
@@ -42,7 +53,7 @@ export default function AnnonceForm() {
   };
 
   // fonction retrait d'ajout d'un item //
-  const expertise = (e) => {
+  const service = (e) => {
     if (e.target.value !== "" && !tags.includes(e.target.value)) {
       setTags([...tags, e.target.value]);
       e.target.value = "";
@@ -60,11 +71,69 @@ export default function AnnonceForm() {
   };
 
   const updateEmergency = (e) => {
-    if (e.target.checked && !emergency.includes(e.target.value)) {
-      setEmergency([...emergency, e.target.value]);
-    } else if (!e.target.checked) {
-      emergency.splice(emergency.indexOf(e.target.value), 1);
-      setEmergency(emergency);
+    if (e.target.checked) {
+      setEmergency(true);
+    }
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    backendAPI
+      .put(`/api/employers/${employerId}/annonce/${annonceId}`, {
+        title,
+        description,
+        emergency,
+        price,
+        service,
+        status,
+      })
+      .then(() => {
+        navigate(`/profil-employer/${employerId}`);
+      })
+      .then(() =>
+        toast({
+          title: "Votre annonce a bien été crée",
+          status: "success",
+          position: "bottom-right",
+          duration: 7000,
+          isClosable: true,
+        })
+      )
+      .catch((e) => {
+        console.error(e);
+        toast({
+          title: "Votre annonce n'a pas pu être ajoutée",
+          status: "error",
+          position: "bottom-right",
+          duration: 7000,
+          isClosable: true,
+        });
+      });
+  };
+
+  const getAllServices = () => {
+    backendAPI
+      .get("/api/services")
+      .then((response) => {
+        setServices(response.data);
+      })
+      .catch((error) => {
+        console.warn(error);
+      });
+  };
+
+  useEffect(() => {
+    getAllServices();
+    // getAllServicesByFreelancer();
+  }, []);
+
+  const addItem = (e) => {
+    const nameService = e.target.options[e.target.selectedIndex].text;
+    if (nameService !== "" && !tags.includes(nameService)) {
+      setTags([...tags, nameService]);
+      backendAPI.post(
+        `/api/employer/${employerId}/annonce/${annonceId}/services/${e.target.value}`
+      );
     }
   };
   return (
@@ -112,7 +181,7 @@ export default function AnnonceForm() {
               </FormLabel>
               <Input
                 type="text"
-                id="proFormTitle"
+                id="title"
                 name="title"
                 placeholder="Résumez votre besoin ici"
                 _placeholder={{
@@ -120,8 +189,8 @@ export default function AnnonceForm() {
                   fontWeight: "500",
                   color: "gray",
                 }}
-                value={displayTitle}
-                onChange={(e) => setDisplayTitle(e.target.value)}
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
               />
               <FormLabel
                 htmlFor="description"
@@ -205,48 +274,14 @@ export default function AnnonceForm() {
                   fontWeight="500"
                   color="gray"
                   placeholder="Choisissez un ou plusieurs services dans la liste, tapez des mots clés pour filtrer"
-                  onChange={expertise}
+                  onChange={addItem}
                   onKeyUp={(event) =>
-                    event.key === "Enter" ? expertise(event) : null
+                    event.key === "Enter" ? addItem(event) : null
                   }
                 >
-                  <option value="Conseils éducatifs">Conseils éducatifs</option>
-                  <option value="Activités ludiques et sportives">
-                    Activités ludiques et sportives
-                  </option>
-                  <option value="Garde d’enfant">Garde d’enfant</option>
-                  <option value="Coaching professionnel">
-                    Coaching professionnel
-                  </option>
-                  <option value="Compagnie et support social">
-                    Compagnie et support social
-                  </option>
-                  <option value="Service original">Service original</option>
-                  <option value="Aide à domicile">Aide à domicile</option>
-                  <option value="Rééducation, paramédical">
-                    Rééducation, paramédical
-                  </option>
-                  <option value="Soins personnels : toilette, habillement, …">
-                    Soins personnels : toilette, habillement, …
-                  </option>
-                  <option value="Soins infirmiers">Soins infirmiers</option>
-                  <option value="Aide administrative, démarches, dossiers">
-                    Aide administrative, démarches, dossiers
-                  </option>
-                  <option value="Soutien scolaire">Soutien scolaire</option>
-                  <option value="Soutien à la parentalité">
-                    Soutien à la parentalité
-                  </option>
-                  <option value="Soutien psychologique">
-                    Soutien psychologique
-                  </option>
-                  <option value="Transport, logistique, voyage">
-                    Transport, logistique, voyage
-                  </option>
-                  <option value="Santé">Santé</option>
-                  <option value="Bien être">Bien être</option>
-                  <option value="Aide technique">Aide technique</option>
-                  <option value="Agencement PMR">Agencement PMR</option>
+                  {services.map((element) => (
+                    <option value={element.id}>{element.name}</option>
+                  ))}
                 </Select>
               </Box>
               <Text fontSize="xs" as="i" color="gray.400">
@@ -274,8 +309,8 @@ export default function AnnonceForm() {
                 <NumberInput
                   min={0}
                   w="80px"
-                  value={pricePro}
-                  onChange={(value) => setPricePro(value)}
+                  value={price}
+                  onChange={(value) => setPrice(parseInt(value, 10))}
                 >
                   <NumberInputField
                     id="proFormPrice"
@@ -408,6 +443,7 @@ export default function AnnonceForm() {
                   variant="solid_PrimaryColor"
                   type="submit"
                   marginTop="2rem"
+                  onClick={handleSubmit}
                 >
                   J'ai terminé, je dépose mon annonce
                 </Button>
