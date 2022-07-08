@@ -33,6 +33,7 @@ export default function ProAccountForm({ onModal = false, onClose }) {
   const { freelancerId } = useParams();
   // useState pour chaque input //
   const [user, setUser] = useState("");
+  const [freelancerPicture, setFreelancerPicture] = useState("");
   const [displayName, setDisplayName] = useState("");
   const [activityPro, setActivityPro] = useState("");
   const [cityPro, setCityPro] = useState("");
@@ -48,6 +49,7 @@ export default function ProAccountForm({ onModal = false, onClose }) {
   const getOneUser = () => {
     backendAPI.get(`/api/freelancers/${freelancerId}/user`).then((response) => {
       setUser(response.data);
+      setFreelancerPicture(response.data.freelancer[0].picture);
       setDisplayName(
         response.data.freelancer[0].displayName === "undefined"
           ? ""
@@ -105,7 +107,6 @@ export default function ProAccountForm({ onModal = false, onClose }) {
         acceptEmails: acceptEmailPro,
         siret: siretPro,
         available: false,
-        // picture: picturePro,
       })
       .then((response) => {
         backendAPI.put(`/api/users/${userId}`, {
@@ -156,7 +157,6 @@ export default function ProAccountForm({ onModal = false, onClose }) {
         acceptEmails: acceptEmailPro,
         siret: siretPro,
         available: false,
-        // picture: picturePro,
       })
       .then((response) => {
         if (response) {
@@ -294,7 +294,7 @@ export default function ProAccountForm({ onModal = false, onClose }) {
                 />
               </VStack>
             </FormControl>
-            <PictureProfilePro />
+            <PictureProfilePro freelancerPicture={freelancerPicture} />
           </Flex>
           <FormControl>
             <Flex direction="column" rowGap="5" mt="1rem">

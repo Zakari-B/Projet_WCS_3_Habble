@@ -2,7 +2,6 @@ import {
   Flex,
   Input,
   Button,
-  Avatar,
   Box,
   Modal,
   ModalOverlay,
@@ -17,20 +16,41 @@ import {
 } from "@chakra-ui/react";
 
 import { useState } from "react";
+import { useParams } from "react-router-dom";
+import backendAPI from "../../services/backendAPI";
 
-export default function PictureProfilePro() {
+export default function PictureProfilePro({ freelancerPicture }) {
+  const { freelancerId } = useParams();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [picturePro, setPicturePro] = useState();
 
   // fonction d'enregistrement d'une nouvelle image //
   const handleRegisterPicture = () => {
-    setPicturePro(picturePro);
-    onClose();
+    const formData = new FormData();
+
+    formData.append("file", picturePro[0]);
+
+    backendAPI
+      .put(`/api/freelancers/${freelancerId}/picture`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((res) => {
+        console.warn(res);
+        onClose();
+      });
   };
 
   return (
     <VStack align="center" alignSelf="center" mx="auto">
-      <Avatar src={picturePro} size="2xl" />
+      <Image
+        src={`http://localhost:5000/backend/public/uploads/${freelancerPicture})`}
+        height="150px"
+        width="150px"
+        borderRadius="100%"
+        border="1px solid gray.200"
+      />
       <Button
         bg="none"
         _hover={{ bg: "none" }}

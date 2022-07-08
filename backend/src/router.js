@@ -18,7 +18,7 @@ const multer = require("./middlewares/multer");
 const FreelancerServicesController = require("./controllers/FreelancerServicesControllers");
 const AnnonceServicesController = require("./controllers/AnnonceServicesController");
 const FreelancerExpertisesController = require("./controllers/FreelancerExpertisesControllers");
-
+const PictureFreelancerController = require("./controllers/PictureFreelancerController");
 const {
   authorization,
   authSelf,
@@ -51,9 +51,9 @@ router.put("/users/", authorization, UserController.updateOne);
 router.put("/users/:id", authorization, authSelf, UserController.updateOne);
 router.delete("/users/:id", UserController.deleteOne);
 
-router.get("/freelancers/:id/user", FreelancerController.getUser);
 // Routes for Freelancers
 
+router.get("/freelancers/:id/user", FreelancerController.getUser);
 router.get("/freelancers/", FreelancerController.getAll);
 router.get(
   "/freelancers/:freelancerid",
@@ -73,6 +73,14 @@ router.get(
   FreelancerController.getUser
 );
 // route delete a valider (si besoin)
+
+// Routes for upload picture of one freelancer
+router.put(
+  "/freelancers/:freelancerid/picture",
+  authorization,
+  multer,
+  PictureFreelancerController.updateOne
+);
 
 // Routes for Employers
 
@@ -225,6 +233,25 @@ router.get("/expertises/:id", ExpertiseController.getOne);
 router.put("/expertises/:id", ExpertiseController.updateOne);
 router.delete("/expertises/:id", ExpertiseController.deleteOne);
 
+// Routes for expertises of one freelancer
+
+router.get(
+  "/freelancers/:freelancerId/expertises",
+  FreelancerExpertisesController.getAll
+);
+router.get(
+  "/freelancers/:freelancerId/expertises/:expertiseId",
+  FreelancerExpertisesController.getOneByFreelancerId
+);
+router.post(
+  "/freelancers/:freelancerId/expertises/:expertiseId",
+  FreelancerExpertisesController.createOne
+);
+router.delete(
+  "/freelancers/:freelancerId/expertises/:expertiseId",
+  FreelancerExpertisesController.deleteOne
+);
+
 // Routes for announcements
 router.post(
   "/employers/:employerid/annonce",
@@ -301,24 +328,6 @@ router.post(
 router.delete(
   "/annonce/:annonceId/services/:serviceId",
   AnnonceServicesController.deleteOne
-);
-// Routes for services of one freelancer
-
-router.get(
-  "/freelancers/:freelancerId/expertises",
-  FreelancerExpertisesController.getAll
-);
-router.get(
-  "/freelancers/:freelancerId/expertises/:expertiseId",
-  FreelancerExpertisesController.getOneByFreelancerId
-);
-router.post(
-  "/freelancers/:freelancerId/expertises/:expertiseId",
-  FreelancerExpertisesController.createOne
-);
-router.delete(
-  "/freelancers/:freelancerId/expertises/:expertiseId",
-  FreelancerExpertisesController.deleteOne
 );
 
 module.exports = router;
