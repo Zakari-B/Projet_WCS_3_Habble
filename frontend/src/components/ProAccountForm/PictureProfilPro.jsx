@@ -30,22 +30,26 @@ export default function PictureProfilePro({ freelancerPicture }) {
 
     formData.append("file", picturePro[0]);
 
-    backendAPI
-      .put(`/api/freelancers/${freelancerId}/picture`, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      })
-      .then((res) => {
-        console.warn(res);
-        onClose();
-      });
+    backendAPI.put(`/api/freelancers/${freelancerId}/picture`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    onClose();
+  };
+
+  const handleRemovePicture = () => {
+    backendAPI.put(`/api/freelancers/${freelancerId}/removedPicture`);
   };
 
   return (
     <VStack align="center" alignSelf="center" mx="auto">
       <Image
-        src={`http://localhost:5000/backend/public/uploads/${freelancerPicture})`}
+        src={
+          freelancerPicture
+            ? `http://localhost:5001/uploads/${freelancerPicture}`
+            : "https://secure.gravatar.com/avatar/c308ee24184a32cdf10650eb7e311157?s=125&d=mm&r=G"
+        }
         height="150px"
         width="150px"
         borderRadius="100%"
@@ -62,6 +66,18 @@ export default function PictureProfilePro({ freelancerPicture }) {
       >
         {" "}
         Changer votre photo
+      </Button>
+      <Button
+        bg="none"
+        _hover={{ bg: "none" }}
+        color="gray"
+        fontWeight="400"
+        align="center"
+        fontSize={{ base: "md", md: "0.8rem" }}
+        onClick={handleRemovePicture}
+      >
+        {" "}
+        Supprimer votre avatar
       </Button>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />

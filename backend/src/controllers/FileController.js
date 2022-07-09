@@ -11,7 +11,7 @@ exports.addOne = async (req, res) => {
     const data = await fileModel.createOne({
       name: req.body.name,
       documentLink: req.file.filename,
-      freelancerId: 14,
+      freelancerId: 1,
       verified: false,
     });
     console.warn(data);

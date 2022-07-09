@@ -82,6 +82,13 @@ router.put(
   PictureFreelancerController.updateOne
 );
 
+router.put(
+  "/freelancers/:freelancerid/removedPicture",
+  authorization,
+  multer,
+  PictureFreelancerController.removeOne
+);
+
 // Routes for Employers
 
 router.get("/employers/", EmployerController.getAll);
@@ -93,7 +100,7 @@ router.get("/employers/:id/user", EmployerController.getUserFromEmployer);
 
 router.get(
   "/freelancers/:freelancerid/documents",
-  authorization,
+  // authorization,
   DocumentsController.getAll
 );
 router.delete(

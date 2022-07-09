@@ -13,11 +13,3 @@ exports.updateOnePictureFreelancer = async ({ freelancerId, picture }) => {
     await prisma.$disconnect();
   }
 };
-
-// exports.deleteOne = async (id) => {
-//   try {
-//     return await prisma.documents.delete({ where: { id } });
-//   } finally {
-//     await prisma.$disconnect();
-//   }
-// };

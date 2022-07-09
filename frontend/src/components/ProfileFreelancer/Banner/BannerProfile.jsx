@@ -5,7 +5,6 @@ import {
   FormControl,
   Switch,
   FormLabel,
-  Avatar,
   Image,
   useDisclosure,
 } from "@chakra-ui/react";
@@ -66,23 +65,17 @@ export default function BannerProfile({ freelancer }) {
             alignItems="center"
             justifyContent="center"
           >
-            {freelancer.picture ? (
-              <Image
-                src={freelancer.picture}
-                height="200px"
-                width="200px"
-                borderRadius="100%"
-                border="1px solid gray.200"
-              />
-            ) : (
-              <Avatar
-                src="https://bit.ly/broken-link"
-                height="200px"
-                width="200px"
-                maxW="200"
-                maxH="200"
-              />
-            )}
+            <Image
+              src={
+                freelancer.picture
+                  ? `http://localhost:5001/uploads/${freelancer.picture}`
+                  : "https://secure.gravatar.com/avatar/c308ee24184a32cdf10650eb7e311157?s=125&d=mm&r=G"
+              }
+              height="200px"
+              width="200px"
+              borderRadius="100%"
+              border="1px solid gray.200"
+            />
           </Flex>
           <Flex
             direction="column"
