@@ -51,10 +51,10 @@ const getAll = async (req, res) => {
 
 const getOne = async (req, res) => {
   const coordinatorId = parseInt(req.roleId, 10);
-  const familyID = parseInt(req.params.id, 10);
+  const familyId = parseInt(req.params.familyId, 10);
 
   try {
-    const family = await getOneFamilybyCoordinatorId(coordinatorId, familyID);
+    const family = await getOneFamilybyCoordinatorId(coordinatorId, familyId);
     if (!family) {
       res.status(404).send("Aucune famille trouvé pour ce coordinateur");
     } else {

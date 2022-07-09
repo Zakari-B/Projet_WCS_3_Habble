@@ -257,17 +257,17 @@ router.get(
   FamilyController.getAll
 );
 router.get(
-  "/coordinators/:coordinatorId/famille/:familleId",
+  "/coordinators/:coordinatorId/famille/:familyId",
   authorization,
   FamilyController.getOne
 );
 router.put(
-  "/coordinators/:coordinaatorId/famille/:familleId",
+  "/coordinators/:coordinatorId/famille/:familyId",
   authorization,
   FamilyController.updateOne
 );
 router.delete(
-  "/coordinators/:coordinatorId/famille/:familleId",
+  "/coordinators/:coordinatorId/famille/:familyId",
   authorization,
   FamilyController.deleteOne
 );
