@@ -69,7 +69,7 @@ const getOne = async (req, res) => {
 
 const updateOne = async (req, res) => {
   const coordinatorId = parseInt(req.roleId, 10);
-  const familyID = parseInt(req.params.id, 10);
+  const familyID = parseInt(req.params.familyId, 10);
 
   // on check qu'une famille existe pour le couple coordinateur/famille
   const family = await getOneFamilybyCoordinatorId(coordinatorId, familyID);
@@ -98,7 +98,7 @@ const updateOne = async (req, res) => {
 
 const deleteOne = async (req, res) => {
   const coordinatorId = parseInt(req.roleId, 10);
-  const familyID = parseInt(req.params.id, 10);
+  const familyID = parseInt(req.params.familyId, 10);
 
   // on check qu'un displome existe pour le couple freelancer/diplome
   const family = await getOneFamilybyCoordinatorId(coordinatorId, familyID);

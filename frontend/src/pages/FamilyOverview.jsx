@@ -1,15 +1,42 @@
 import React, { useState, useEffect } from "react";
-import { Box, Flex, Heading, Text, Button } from "@chakra-ui/react";
-import { useParams } from "react-router-dom";
+import { Box, Flex, Heading, Text, Button, useToast } from "@chakra-ui/react";
+import { useParams, useNavigate } from "react-router-dom";
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer";
-import { getOneItemOfList } from "../services/ProfileProUtils";
+import { getOneItemOfList, deleteItemList } from "../services/ProfileProUtils";
 import DocumentCarousel from "../components/ProfileFreelancer/DocumentUpload/DocumentCarousel";
 
 function FamilyOverview() {
   const { freelancerId, familyId } = useParams();
+  const toast = useToast();
+  const navigate = useNavigate();
+
   const [oneFamily, setOneFamily] = useState([]);
   const [updated, setUpdated] = useState(false);
+
+  const handleDeletion = () => {
+    deleteItemList("coordinators", "famille", freelancerId, familyId)
+      .then(
+        () =>
+          toast({
+            title: `Accompagnement supprimé avec succès`,
+            status: "success",
+            position: "bottom-right",
+            duration: 7000,
+            isClosable: true,
+          }),
+        navigate(`/profil-coordinator/${freelancerId}`)
+      )
+      .catch((e) =>
+        toast({
+          title: e.message,
+          status: "error",
+          position: "bottom-right",
+          duration: 7000,
+          isClosable: true,
+        })
+      );
+  };
 
   useEffect(() => {
     getOneItemOfList("coordinators", "famille", freelancerId, familyId).then(
@@ -107,6 +134,7 @@ function FamilyOverview() {
               variant="outline_Pink"
               mt="1rem"
               w={{ base: "50%", lg: "20%" }}
+              onClick={handleDeletion}
             >
               Supprimer
             </Button>
