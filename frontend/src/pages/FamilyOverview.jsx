@@ -3,7 +3,7 @@ import { Box, Flex, Heading, Text, Button } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer";
-import backendAPI from "../services/backendAPI";
+import { getOneItemOfList } from "../services/ProfileProUtils";
 import DocumentCarousel from "../components/ProfileFreelancer/DocumentUpload/DocumentCarousel";
 
 function FamilyOverview() {
@@ -12,10 +12,11 @@ function FamilyOverview() {
   const [updated, setUpdated] = useState(false);
 
   useEffect(() => {
-    backendAPI
-      .get(`/api/coordinators/${freelancerId}/famille/${familyId}`)
-      .then((res) => setOneFamily(res.data))
-      .catch((err) => console.warn(err));
+    getOneItemOfList("coordinators", "famille", freelancerId, familyId).then(
+      (res) => {
+        setOneFamily(res.data);
+      }
+    );
   }, [updated]);
 
   return (
