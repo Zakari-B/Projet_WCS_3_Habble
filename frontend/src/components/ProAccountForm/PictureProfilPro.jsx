@@ -54,6 +54,7 @@ export default function PictureProfilePro({ freelancerPicture }) {
         width="150px"
         borderRadius="100%"
         border="1px solid gray.200"
+        objectFit="cover"
       />
       <Button
         bg="none"
@@ -67,18 +68,21 @@ export default function PictureProfilePro({ freelancerPicture }) {
         {" "}
         Changer votre photo
       </Button>
-      <Button
-        bg="none"
-        _hover={{ bg: "none" }}
-        color="gray"
-        fontWeight="400"
-        align="center"
-        fontSize={{ base: "md", md: "0.8rem" }}
-        onClick={handleRemovePicture}
-      >
-        {" "}
-        Supprimer votre avatar
-      </Button>
+      {freelancerPicture && (
+        <Button
+          h="10px"
+          bg="none"
+          _hover={{ bg: "none" }}
+          color="gray"
+          fontWeight="400"
+          align="center"
+          fontSize={{ base: "md", md: "0.8rem" }}
+          onClick={handleRemovePicture}
+        >
+          {" "}
+          Supprimer votre avatar
+        </Button>
+      )}
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent
@@ -112,9 +116,9 @@ export default function PictureProfilePro({ freelancerPicture }) {
                   position="absolute"
                   h="150px"
                   w="150px"
-                  mx="40%"
+                  mx="38%"
                 />
-                <Box h="150px" w="150px" mx="40%">
+                <Box h="150px" w="150px" mx="38%">
                   <Image
                     id="frame"
                     src={
@@ -124,6 +128,7 @@ export default function PictureProfilePro({ freelancerPicture }) {
                     }
                     m="auto"
                     h="150px"
+                    objectFit="cover"
                   />
                 </Box>
               </Box>
