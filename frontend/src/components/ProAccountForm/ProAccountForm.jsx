@@ -1,3 +1,4 @@
+import axios from "axios";
 import {
   Flex,
   Heading,
@@ -14,15 +15,23 @@ import {
   NumberInputStepper,
   NumberIncrementStepper,
   NumberDecrementStepper,
+  TagCloseButton,
   Textarea,
   Checkbox,
+  Tag,
+  TagLeftIcon,
   Link,
   useToast,
+  InputGroup,
+  IconButton,
+  InputLeftElement,
+  List,
+  ListItem,
 } from "@chakra-ui/react";
-
+import { Search2Icon } from "@chakra-ui/icons";
+import { MdRoom } from "react-icons/md";
 import { useParams, useNavigate } from "react-router-dom";
-// import { CloseIcon } from "@chakra-ui/icons";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Services from "./Services";
 import Epertises from "./Expertises";
 import PictureProfilePro from "./PictureProfilPro";
@@ -37,6 +46,8 @@ export default function ProAccountForm() {
   const [displayName, setDisplayName] = useState("");
   const [activityPro, setActivityPro] = useState("");
   const [cityPro, setCityPro] = useState("");
+  const [cityProName, setCityProName] = useState("");
+
   const [phonePro, setPhonePro] = useState("");
   const [experienceYearPro, setExperienceYearPro] = useState();
   const [pricePro, setPricePro] = useState();
@@ -44,6 +55,34 @@ export default function ProAccountForm() {
   const [acceptEmailPro, setAcceptEmailPro] = useState(false);
   const [siretPro, setSiretPro] = useState();
 
+  const [search, setSearch] = useState("");
+  const [addressList, setAddressList] = useState([]);
+  const getAddressList = (signal) => {
+    axios
+      .get(
+        `https://api-adresse.data.gouv.fr/search/?q=${search}&type=municipality&autocomplete=1&limit=3`,
+        { signal }
+      )
+      .then((response) => {
+        setAddressList(response.data.features);
+      });
+  };
+  const previousController = useRef();
+
+  useEffect(() => {
+    if (search.length >= 1) {
+      if (previousController.current) {
+        previousController.current.abort();
+      }
+      const controller = new AbortController();
+      const { signal } = controller;
+      previousController.current = controller;
+      getAddressList(signal);
+    }
+  }, [search]);
+  const handleSearch = (event) => {
+    setSearch(event.target.value);
+  };
   // Appel axios pour récuperer un user
 
   const getOneUser = () => {
@@ -256,7 +295,7 @@ export default function ProAccountForm() {
                 >
                   Code postal de votre lieu d'intervention *
                 </FormLabel>
-                <Input
+                {/* <Input
                   type="text"
                   id="proFormCity"
                   name="city"
@@ -268,7 +307,124 @@ export default function ProAccountForm() {
                   }}
                   value={cityPro}
                   onChange={(e) => setCityPro(e.target.value)}
-                />
+                /> */}
+                {!cityProName ? (
+                  <Flex direction="column" w="100%">
+                    <InputGroup
+                      display="flex"
+                      alignItems="center"
+                      marginBottom="5px"
+                    >
+                      <InputLeftElement
+                        pointerEvents="none"
+                        display="flex"
+                        alignItems="center"
+                        h="100%"
+                      >
+                        <IconButton
+                          variant="unstyled"
+                          color="gray.500"
+                          aria-label="Search database"
+                          icon={<Search2Icon />}
+                        />
+                      </InputLeftElement>
+                      <Input
+                        type="search"
+                        id="proFormCity"
+                        name="city"
+                        variant="outline"
+                        autocomplete="off"
+                        bgColor="white"
+                        h="50px"
+                        placeholder="Veuillez saisir un code postal et selectionnez une ville dans la liste"
+                        value={search}
+                        onChange={handleSearch}
+                      />
+                    </InputGroup>
+
+                    {addressList.length !== 0 && search !== "" && (
+                      <List
+                        bg="white"
+                        width="100%"
+                        borderRadius="4px"
+                        overflow="hidden"
+                        zIndex="997"
+                        boxShadow="rgb(0 0 0 / 4%) 0px 2px 6px"
+                        border="1px solid #ededed"
+                      >
+                        <Flex direction="column" w="-webkit-fill-available">
+                          {addressList.map((city) => (
+                            <ListItem
+                              onClick={() => {
+                                if (city.properties.citycode) {
+                                  setCityPro(city.properties.citycode);
+                                  setCityProName(city.properties.name);
+                                  setSearch("");
+                                }
+                              }}
+                            >
+                              <Flex
+                                direction="row"
+                                p={5}
+                                w="100%"
+                                align="center"
+                              >
+                                <Flex
+                                  pl="20px"
+                                  justifyContent="space-between"
+                                  width="100%"
+                                  alignItems="center"
+                                >
+                                  <Flex
+                                    direction="column"
+                                    alignItems="flex-start"
+                                  >
+                                    <Text
+                                      fontSize="lg"
+                                      align="left"
+                                      color="purple.dark"
+                                      _groupHover={{
+                                        color: "pink.light",
+                                        fontWeight: "700",
+                                      }}
+                                    >
+                                      {city.properties.name} (
+                                      {city.properties.postcode})
+                                    </Text>
+                                    <Text
+                                      fontSize="md"
+                                      align="left"
+                                      color="purple.dark"
+                                    >
+                                      {city.properties.context}
+                                    </Text>
+                                  </Flex>
+                                </Flex>
+                              </Flex>
+                            </ListItem>
+                          ))}
+                        </Flex>
+                      </List>
+                    )}
+                  </Flex>
+                ) : (
+                  <Tag
+                    variant="solid"
+                    bgColor="pink.light"
+                    size="lg"
+                    w="fit-content"
+                  >
+                    <TagLeftIcon as={MdRoom} />
+                    {cityProName}
+                    <TagCloseButton
+                      onClick={() => {
+                        setCityPro("");
+                        setCityProName("");
+                        setSearch("");
+                      }}
+                    />
+                  </Tag>
+                )}
                 <FormLabel
                   htmlFor="phone"
                   fontSize="md"

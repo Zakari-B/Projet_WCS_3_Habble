@@ -11,7 +11,7 @@ import {
 import { useState } from "react";
 import dateFormat from "dateformat";
 
-export default function BannerProfile({ freelancer }) {
+export default function BannerProfile({ freelancer, city }) {
   const [available, setAvailable] = useState(freelancer.available);
 
   return (
@@ -95,13 +95,13 @@ export default function BannerProfile({ freelancer }) {
             {freelancer.displayName}
           </Text>
           <Text
-            fontSize="1.5rem"
+            fontSize="1.2rem"
             fontWeight="700"
             color="white"
-            marginBottom="1.2rem"
+            marginBottom="1rem"
             textAlign={{ base: "center", md: "left" }}
           >
-            {freelancer.activityDescription} à {freelancer.zipCode} [[VILLE]]
+            {`${freelancer.activityDescription} à ${city.ville_nom} (${city.ville_departement})`}
           </Text>
           <Text
             color="white"

@@ -52,18 +52,24 @@ router.put("/users/:id", authorization, authSelf, UserController.updateOne);
 router.delete("/users/:id", UserController.deleteOne);
 
 router.get("/freelancers/:id/user", FreelancerController.getUser);
-// Routes for Freelancers
 
+// Routes for Freelancers
 router.get("/freelancers/", FreelancerController.getAll);
+router.get("/freelancers/search", FreelancerController.getAllWithinDistance);
+router.get(
+  "/freelancers/:freelancerid/city",
+  authorization,
+  FreelancerController.getOneFreelancerWithCityInfo
+);
 router.get(
   "/freelancers/:freelancerid",
   authorization,
   FreelancerController.getOne
 );
+
 router.put(
   "/freelancers/:freelancerid",
-  authorization,
-  authSelfRole,
+
   FreelancerController.updateOne
 );
 
@@ -137,6 +143,7 @@ router.get(
   authorization,
   FormationController.getAll
 );
+
 router.get(
   "/freelancers/:freelancerid/formations/:id",
   authorization,

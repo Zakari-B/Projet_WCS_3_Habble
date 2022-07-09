@@ -1,16 +1,25 @@
 import {
   Flex,
+  Tag,
   Button,
   Text,
   Image,
   Heading,
-  // Tag,
   Avatar,
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { BsGeoAltFill } from "react-icons/bs";
+import { useEffect, useState } from "react";
+import { getSubListforAnId } from "../../services/ProfileProUtils";
 
 export default function ProfileCard({ freelancer }) {
+  const [city, setCity] = useState([]);
+  useEffect(() => {
+    getSubListforAnId("freelancers", freelancer.id, "city").then((response) => {
+      setCity(response.data[0]);
+    });
+  }, []);
+
   return (
     <Flex direction="column" color="purple.average" gap="30px">
       <Flex
@@ -55,8 +64,20 @@ export default function ProfileCard({ freelancer }) {
             <Flex gap="60px" width="fit-content" alignItems="center">
               <Flex gap="5px" alignItems="center">
                 <BsGeoAltFill />
-                <Text>{freelancer.zipCode}</Text>
+                <Text>{`${city?.ville_nom}`}</Text>
+                {freelancer.distanceInMeters && (
+                  <Tag
+                    variant="outline"
+                    color="pink.light"
+                    boxShadow="inset 0 0 0px 1px #A7197F"
+                  >
+                    {`${parseFloat(
+                      (freelancer.distanceInMeters / 1000).toFixed(1)
+                    )} km`}
+                  </Tag>
+                )}
               </Flex>
+
               <Flex>
                 <Text fontWeight="700">
                   {freelancer.price}€ /h * (indicatif)
