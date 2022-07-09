@@ -18,12 +18,28 @@ exports.updateOne = async (req, res) => {
   }
 
   try {
-    const pictureFreelancerModify =
-      await PictureFreelancerModel.updateOnePictureFreelancer({
-        freelancerId,
-        picture: req.file.filename,
-      });
-    return res.status(200).json(pictureFreelancerModify);
+    if (myfreelancer.picture === "") {
+      const pictureFreelancerModify =
+        await PictureFreelancerModel.updateOnePictureFreelancer({
+          freelancerId,
+          picture: req.file.filename,
+        });
+      return res.status(200).json(pictureFreelancerModify);
+    }
+    if (myfreelancer.picture !== req.file.filename) {
+      await fs.promises.unlink(
+        path.join(__dirname, `../../public/uploads/${myfreelancer.picture}`)
+      );
+      const pictureFreelancerModify =
+        await PictureFreelancerModel.updateOnePictureFreelancer({
+          freelancerId,
+          picture: req.file.filename,
+        });
+      return res.status(200).json(pictureFreelancerModify);
+    }
+    return res
+      .status(500)
+      .json({ error: "Problème de mise à jour de la photo" });
   } catch (e) {
     return res
       .status(500)

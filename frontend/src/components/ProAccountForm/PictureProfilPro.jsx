@@ -115,7 +115,16 @@ export default function PictureProfilePro({ freelancerPicture }) {
                   mx="40%"
                 />
                 <Box h="150px" w="150px" mx="40%">
-                  <Image src={picturePro} m="auto" h="150px" />
+                  <Image
+                    id="frame"
+                    src={
+                      freelancerPicture
+                        ? `http://localhost:5001/uploads/${freelancerPicture}`
+                        : "https://secure.gravatar.com/avatar/c308ee24184a32cdf10650eb7e311157?s=125&d=mm&r=G"
+                    }
+                    m="auto"
+                    h="150px"
+                  />
                 </Box>
               </Box>
               <Flex direction="column" alignItems="center" mt="3rem" gap="5">
@@ -136,7 +145,11 @@ export default function PictureProfilePro({ freelancerPicture }) {
                     id="inputHandler"
                     name="picturePro"
                     display="none"
-                    onChange={(e) => setPicturePro(e.target.files)}
+                    onChange={(e) => {
+                      // eslint-disable-next-line no-undef
+                      frame.src = URL.createObjectURL(e.target.files[0]);
+                      setPicturePro(e.target.files);
+                    }}
                   />{" "}
                   Télécharger votre nouvelle photo
                 </Button>

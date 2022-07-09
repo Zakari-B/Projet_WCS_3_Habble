@@ -74,7 +74,7 @@ router.get(
 );
 // route delete a valider (si besoin)
 
-// Routes for upload picture of one freelancer
+// Routes for freelancer's picture
 router.put(
   "/freelancers/:freelancerid/picture",
   authorization,
