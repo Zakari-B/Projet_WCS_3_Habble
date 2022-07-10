@@ -6,21 +6,10 @@ const {
   updateOneLocation,
   deleteOneLocation,
 } = require("../models/lieu");
-const { validateLocation } = require("../utils/validate");
-// const { verifyAccessToken } = require("../helpers/jwtHelper");
 
 const createOne = async (req, res) => {
-  // on check si les champs du lieu sont bons
-  const error = validateLocation(req.body, true);
-  if (error) {
-    console.error(error);
-    return res.status(422).json(error.details);
-  }
-
   try {
-    const locationcreated = await createOneLocation({
-      ...req.body,
-    });
+    const locationcreated = await createOneLocation(req.body);
     return res.status(201).send(locationcreated);
   } catch (e) {
     console.error(e);
@@ -67,15 +56,8 @@ const updateOne = async (req, res) => {
     res.status(404).send("Aucun lieu correspondant avec cet ID");
   }
 
-  // on check les erreurs de formulaire
-  const error = validateLocation(req.body, false);
-  if (error) {
-    console.error(error);
-    return res.status(422).json(error.details);
-  }
-
   try {
-    const locationupdated = await updateOneLocation(location.id, req.body);
+    const locationupdated = await updateOneLocation(locationId, req.body);
     return res.status(201).send(locationupdated);
   } catch (e) {
     console.error(e);
@@ -95,7 +77,7 @@ const deleteOne = async (req, res) => {
   }
 
   try {
-    await deleteOneLocation(location.id);
+    await deleteOneLocation(locationId);
     return res.status(200).send("Le lieu a été supprimé avec succès");
   } catch (e) {
     console.error(e);

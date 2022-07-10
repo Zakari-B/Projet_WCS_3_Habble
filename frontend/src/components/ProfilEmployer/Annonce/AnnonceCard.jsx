@@ -7,17 +7,21 @@ import {
   useDisclosure,
   Tag,
 } from "@chakra-ui/react";
-import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
-import { Link, useParams } from "react-router-dom";
+import { DeleteIcon } from "@chakra-ui/icons";
 
 import PropTypes from "prop-types";
 
-import DeleteConfirmModal from "../../DeleteConfirmModal";
+import DeleteConfirmModal from "./DeleteConfirmModal";
+import EditAnnonceModal from "./EditAnnonceModal";
 
 export default function AnnonceCard({ annonce }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { employerId } = useParams();
-  // const annonceid = annonce.id;
+
+  const {
+    isOpen: isEditOpen,
+    onOpen: onEditOpen,
+    onClose: onEditClose,
+  } = useDisclosure();
 
   return (
     <Flex direction="column" gap="10px" paddingY="10px">
@@ -45,16 +49,14 @@ export default function AnnonceCard({ annonce }) {
       </Text>
 
       <Flex gap="20px">
-        <Link to={`/deposer-une-annonce/${employerId}/annonce/${annonce.id}`}>
-          <Button
-            leftIcon={<EditIcon />}
-            variant="text"
-            color="pink.light"
-            padding="0px"
-          >
-            Modifier
-          </Button>
-        </Link>
+        <Button
+          variant="text"
+          color="pink.light"
+          padding="0px"
+          onClick={onEditOpen}
+        >
+          Modifier
+        </Button>
         <Button
           rightIcon={<DeleteIcon />}
           variant="text"
@@ -65,9 +67,21 @@ export default function AnnonceCard({ annonce }) {
           Supprimer
         </Button>
 
-        <DeleteConfirmModal onOpen={onOpen} isOpen={isOpen} onClose={onClose} />
+        <DeleteConfirmModal
+          onOpen={onOpen}
+          isOpen={isOpen}
+          onClose={onClose}
+          annonce={annonce}
+        />
       </Flex>
       <Divider paddingTop="10px" colorScheme="gray" />
+
+      <EditAnnonceModal
+        isOpen={isEditOpen}
+        onOpen={onEditOpen}
+        onClose={onEditClose}
+        annonce={annonce}
+      />
     </Flex>
   );
 }

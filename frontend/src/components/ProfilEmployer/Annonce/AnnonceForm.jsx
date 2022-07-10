@@ -18,17 +18,17 @@ import {
   Textarea,
   Checkbox,
   CheckboxGroup,
-  Select,
   Box,
-  List,
+  useToast,
+  Select,
   ListItem,
   IconButton,
-  useToast,
   InputGroup,
   InputLeftElement,
   Tag,
   TagLeftIcon,
   TagCloseButton,
+  List,
 } from "@chakra-ui/react";
 import { CloseIcon, Search2Icon } from "@chakra-ui/icons";
 import { MdRoom } from "react-icons/md";
@@ -45,10 +45,13 @@ export default function AnnonceForm() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState();
-  const [tags, setTags] = useState([]);
-  const [location, setLocation] = useState([]);
+  const [locations, setLocations] = useState([]);
+  const [locationList, setLocationList] = useState([]);
   const [emergency, setEmergency] = useState(false);
-  const [services, setServices] = useState([]);
+  const [servicesList, setServicesList] = useState([]);
+  const [serviceName, setServiceName] = useState([]);
+  const [serviceNumber, setServiceNumber] = useState([]);
+
   const [status] = useState("En cours");
 
   const { employerId, annonceId } = useParams();
@@ -85,27 +88,27 @@ export default function AnnonceForm() {
   };
 
   // fonction retrait d'un item //
-  const removeItem = (indexToRemove) => {
-    setTags([...tags.filter((_, index) => index !== indexToRemove)]);
-  };
+  // const removeItem = (indexToRemove) => {
+  //   setTags([...tags.filter((_, index) => index !== indexToRemove)]);
+  // };
 
   // fonction retrait d'ajout d'un item //
-  const service = (e) => {
-    if (e.target.value !== "" && !tags.includes(e.target.value)) {
-      setTags([...tags, e.target.value]);
-      e.target.value = "";
-    }
-  };
+  // const service = (e) => {
+  //   if (e.target.value !== "" && !tags.includes(e.target.value)) {
+  //     setTags([...tags, e.target.value]);
+  //     e.target.value = "";
+  //   }
+  // };
 
   // fonction retrait et d'ajout d'une expertise //
-  const updateLocation = (e) => {
-    if (e.target.checked && !location.includes(e.target.value)) {
-      setLocation([...location, e.target.value]);
-    } else if (!e.target.checked) {
-      location.splice(location.indexOf(e.target.value), 1);
-      setLocation(location);
-    }
-  };
+  // const updateLocation = (e) => {
+  //   if (e.target.checked && !location.includes(e.target.value)) {
+  //     setLocation([...location, e.target.value]);
+  //   } else if (!e.target.checked) {
+  //     location.splice(location.indexOf(e.target.value), 1);
+  //     setLocation(location);
+  //   }
+  // };
 
   const updateEmergency = (e) => {
     if (e.target.checked) {
@@ -121,7 +124,6 @@ export default function AnnonceForm() {
         description,
         emergency,
         price,
-        service,
         status,
       })
       .then(() => {
@@ -148,11 +150,25 @@ export default function AnnonceForm() {
       });
   };
 
+  // axios qui va chercher la liste des services
   const getAllServices = () => {
     backendAPI
       .get("/api/services")
       .then((response) => {
-        setServices(response.data);
+        setServicesList(response.data);
+      })
+      .catch((error) => {
+        console.warn(error);
+      });
+  };
+
+  // axios qui va chercher les services d'un freelancer
+  const getAllServicesByAnnonce = () => {
+    backendAPI
+      .get(`/api/employer/${employerId}/annonce/${annonceId}/services`)
+      .then((response) => {
+        setServiceName(response.data.map((e) => e.fk_services_id.name));
+        setServiceNumber(response.data.map((e) => e.fk_services_id.id));
       })
       .catch((error) => {
         console.warn(error);
@@ -161,18 +177,85 @@ export default function AnnonceForm() {
 
   useEffect(() => {
     getAllServices();
-    // getAllServicesByFreelancer();
+    getAllServicesByAnnonce();
   }, []);
 
+  // fonction retrait d'ajout d'un item //
   const addItem = (e) => {
     const nameService = e.target.options[e.target.selectedIndex].text;
-    if (nameService !== "" && !tags.includes(nameService)) {
-      setTags([...tags, nameService]);
+    if (nameService !== "" && !serviceName.includes(nameService)) {
+      setServiceName([...serviceName, nameService]);
+      setServiceNumber([...serviceNumber, e.target.value]);
       backendAPI.post(
         `/api/employer/${employerId}/annonce/${annonceId}/services/${e.target.value}`
       );
     }
   };
+
+  // fonction retrait d'un item //
+  const removeItem = (indexToRemove) => {
+    const serviceId = serviceNumber.filter(
+      (_, index) => index === indexToRemove
+    );
+    setServiceName([
+      ...serviceName.filter((_, index) => index !== indexToRemove),
+    ]);
+    setServiceNumber([
+      ...serviceNumber.filter((_, index) => index !== indexToRemove),
+    ]);
+    backendAPI.delete(`/api/annonce/${annonceId}/services/${serviceId}`);
+  };
+
+  // useState pour chaque input //
+  // Constante valeur par défaut //
+
+  // fonction retrait et d'ajout d'une expertise //
+  const updateLocation = (e) => {
+    if (e.target.checked && !locationList.includes(e.target.value)) {
+      setLocationList([...locationList, e.target.value]);
+      backendAPI.post(
+        `/api/employer/${employerId}/annonce/${annonceId}/locations/${e.target.value}`
+      );
+    } else if (!e.target.checked) {
+      locationList.splice(locationList.indexOf(e.target.value), 1);
+
+      backendAPI.delete(
+        `/api/employer/${employerId}/annonce/${annonceId}/locations/${e.target.value}`
+      );
+    }
+  };
+
+  // axios qui va chercher tous les lieux possibles
+  const getAllLocations = () => {
+    backendAPI
+      .get("/api/locations")
+      .then((response) => {
+        setLocations(response.data);
+      })
+      .catch((error) => {
+        console.warn(error);
+      });
+  };
+
+  // axios qui va chercher les services d'un freelancer
+  // const getAllLocationsByAnnonce = () => {
+  //   backendAPI
+  //     .get(`/api/employer/${employerId}/annonce/${annonceId}/locations`)
+  //     .then((response) => {
+  //       setLocationList(
+  //         response.data.map((e) => e.fk_expertise_id.id.toString())
+  //       );
+  //     })
+  //     .catch((error) => {
+  //       console.warn(error);
+  //     });
+  // };
+
+  useEffect(() => {
+    getAllLocations();
+    // getAllLocationsByAnnonce();
+  }, []);
+
   return (
     <Box h="100vh">
       <Header onDark={false} isSticky={false} isStickyWhite={false} isSignUp />
@@ -404,7 +487,7 @@ export default function AnnonceForm() {
                   h="fit-content"
                   w="fit-content"
                 >
-                  {tags.map((element, index) => (
+                  {serviceName.map((element, index) => (
                     <ListItem
                       m="0.2rem"
                       p="0.2rem"
@@ -438,7 +521,7 @@ export default function AnnonceForm() {
                     event.key === "Enter" ? addItem(event) : null
                   }
                 >
-                  {services.map((element) => (
+                  {servicesList.map((element) => (
                     <option value={element.id}>{element.name}</option>
                   ))}
                 </Select>
@@ -490,15 +573,15 @@ export default function AnnonceForm() {
               </Flex>
             </Flex>
 
-            <FormLabel
-              htmlFor="care"
-              fontSize="sm"
-              fontWeight="800"
-              color="purple.average"
-            >
-              Lieu
-            </FormLabel>
-            <CheckboxGroup>
+            <Flex flexDirection="column" gap="5">
+              <FormLabel
+                htmlFor="expertise"
+                fontSize="md"
+                fontWeight="800"
+                color="purple.average"
+              >
+                Lieu
+              </FormLabel>
               <Flex
                 justifyContent="left"
                 columnGap="3"
@@ -507,68 +590,23 @@ export default function AnnonceForm() {
                 h="fit-content"
                 w="fit-content%"
               >
-                <Checkbox
-                  iconColor="pink.light"
-                  colorScheme="white"
-                  borderColor="gray"
-                  _checked={{ borderColor: "pink.light" }}
-                  value="domicile"
-                  onChange={updateLocation}
-                >
-                  <Text fontSize="sm">Domicile</Text>
-                </Checkbox>
-                <Checkbox
-                  iconColor="pink.light"
-                  colorScheme="white"
-                  borderColor="gray"
-                  _checked={{ borderColor: "pink.light" }}
-                  value="École"
-                  onChange={updateLocation}
-                >
-                  <Text fontSize="sm">École</Text>
-                </Checkbox>
-                <Checkbox
-                  iconColor="pink.light"
-                  colorScheme="white"
-                  borderColor="gray"
-                  _checked={{ borderColor: "pink.light" }}
-                  value="Travail"
-                  onChange={updateLocation}
-                >
-                  <Text fontSize="sm">Travail</Text>
-                </Checkbox>
-                <Checkbox
-                  iconColor="pink.light"
-                  colorScheme="white"
-                  borderColor="gray"
-                  _checked={{ borderColor: "pink.light" }}
-                  value="Hopital"
-                  onChange={updateLocation}
-                >
-                  <Text fontSize="sm">Hopital</Text>
-                </Checkbox>
-                <Checkbox
-                  iconColor="pink.light"
-                  colorScheme="white"
-                  borderColor="gray"
-                  _checked={{ borderColor: "pink.light" }}
-                  value="Activités et loisirs"
-                  onChange={updateLocation}
-                >
-                  <Text fontSize="sm">Activités et loisirs</Text>
-                </Checkbox>
-                <Checkbox
-                  iconColor="pink.light"
-                  colorScheme="white"
-                  borderColor="gray"
-                  _checked={{ borderColor: "pink.light" }}
-                  value="Autre"
-                  onChange={updateLocation}
-                >
-                  <Text fontSize="sm">Autre</Text>
-                </Checkbox>
+                {locations.map((element) => (
+                  <CheckboxGroup>
+                    <Checkbox
+                      defaultChecked
+                      iconColor="pink.light"
+                      colorScheme="white"
+                      borderColor="gray"
+                      _checked={{ borderColor: "pink.light" }}
+                      value={element.id.toString()}
+                      onChange={updateLocation}
+                    >
+                      <Text fontSize="sm">{element.name}</Text>
+                    </Checkbox>
+                  </CheckboxGroup>
+                ))}
               </Flex>
-            </CheckboxGroup>
+            </Flex>
             <FormLabel
               htmlFor="chronicDiseases"
               fontSize="sm"

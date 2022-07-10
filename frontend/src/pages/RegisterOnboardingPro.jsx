@@ -15,7 +15,7 @@ export default function RegisterOnboardingPro() {
         justify="flex-start"
         paddingTop="100px"
       >
-        <ProAccountForm freelancerId={freelancerId} />
+        <ProAccountForm freelancerId={freelancerId} onModal={false} />
       </Flex>
       <Footer />
     </Box>
