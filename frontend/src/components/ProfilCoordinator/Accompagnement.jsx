@@ -1,19 +1,11 @@
 import { useState, useEffect } from "react";
-import {
-  Flex,
-  Heading,
-  Text,
-  VStack,
-  Button,
-  useDisclosure,
-} from "@chakra-ui/react";
+import { Flex, Heading, Text, VStack, Button } from "@chakra-ui/react";
 import { useNavigate, useParams } from "react-router-dom";
 import backendAPI from "../../services/backendAPI";
 import ModalAddFamily from "./ModalAddFamily";
 
 export default function Accompagnement() {
   const navigate = useNavigate();
-  const { isOpen, onClose } = useDisclosure();
   const [family, setFamily] = useState([]);
   const { freelancerId } = useParams();
 
@@ -72,7 +64,7 @@ export default function Accompagnement() {
             })
           )}
         </VStack>
-        <ModalAddFamily isOpen={isOpen} onClose={onClose} />
+        <ModalAddFamily />
       </Flex>
     </Flex>
   );
