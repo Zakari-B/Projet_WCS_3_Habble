@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Box, Flex, Heading, Text, Button } from "@chakra-ui/react";
+import { Box, Flex, Heading, Text } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer";
 import { getOneItemOfList } from "../services/ProfileProUtils";
 import DocumentCarousel from "../components/ProfileFreelancer/DocumentUpload/DocumentCarousel";
 import ModalDeletionFamily from "../components/ProfilCoordinator/ModalDeletionFamily";
+import ModalUpdateFamily from "../components/ProfilCoordinator/ModalUpdateFamily";
 
 function FamilyOverview() {
   const { freelancerId, familyId } = useParams();
@@ -97,14 +98,7 @@ function FamilyOverview() {
             flexDir={{ base: "column", lg: "row" }}
             alignItems="center"
           >
-            <Button
-              variant="solid_PrimaryColor"
-              mt="1rem"
-              mr={{ base: "0", lg: "1rem" }}
-              w={{ base: "50%", lg: "20%" }}
-            >
-              Modifier
-            </Button>
+            <ModalUpdateFamily oneFamily={oneFamily} />
             <ModalDeletionFamily />
           </Flex>
         </Box>

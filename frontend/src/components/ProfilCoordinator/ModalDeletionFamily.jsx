@@ -59,7 +59,7 @@ function ModalDeletionFamily() {
           <ModalCloseButton />
           <ModalBody p="1rem">
             <Flex flexDir="column">
-              Êtes-vous sûr de vouloir supprimer cette famille?
+              Êtes-vous sûr de vouloir supprimer cette famille ?
               <Flex
                 justifyContent="center"
                 flexDir={{ base: "column", lg: "row" }}

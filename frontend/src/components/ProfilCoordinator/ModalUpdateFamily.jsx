@@ -22,12 +22,12 @@ import {
 } from "@chakra-ui/react";
 import { addToList } from "../../services/ProfileProUtils";
 
-function ModalAddFamily() {
+function ModalUpdateFamily({ oneFamily }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { freelancerId } = useParams();
   const toast = useToast();
 
-  const [lastname, setLastname] = useState("");
+  const [lastname, setLastname] = useState(oneFamily.lastname);
   const [firstname, setFirstname] = useState("");
   const [guardian, setGuardian] = useState("");
   const [address, setAddress] = useState("");
@@ -96,8 +96,14 @@ function ModalAddFamily() {
 
   return (
     <>
-      <Button variant="solid_PrimaryColor" onClick={onOpen} mt="1rem">
-        Ajouter un accompagnement
+      <Button
+        variant="solid_PrimaryColor"
+        mt="1rem"
+        mr={{ base: "0", lg: "1rem" }}
+        w={{ base: "50%", lg: "20%" }}
+        onClick={onOpen}
+      >
+        Modifier
       </Button>
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
@@ -108,7 +114,7 @@ function ModalAddFamily() {
             pb="40px"
             paddingX="50px"
           >
-            Ajout d'un nouvel accompagnement
+            Modifier les informations de l'accompagnement
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody p="1rem">
@@ -124,8 +130,8 @@ function ModalAddFamily() {
               <Input
                 w={{ base: "95%", lg: "65%" }}
                 type="text"
-                lastname={lastname}
-                placeholder="Nom de famille"
+                value={lastname}
+                // placeholder="oneFamily.lastname"
                 _placeholder={{
                   fontSize: "0.8rem",
                   fontWeight: "500",
@@ -306,4 +312,4 @@ function ModalAddFamily() {
   );
 }
 
-export default ModalAddFamily;
+export default ModalUpdateFamily;
