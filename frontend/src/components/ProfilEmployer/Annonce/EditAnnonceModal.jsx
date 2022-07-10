@@ -237,7 +237,7 @@ export default function EditAnnonceModal({ isOpen, onClose, annonce }) {
                     </Text>
                   </Flex>
                 </Flex>
-                <Lieux />
+                <Lieux annonce={annonce} />
                 <FormLabel
                   htmlFor="chronicDiseases"
                   fontSize="sm"
