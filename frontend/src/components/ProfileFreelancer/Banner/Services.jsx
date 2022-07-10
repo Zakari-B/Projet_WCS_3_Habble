@@ -40,6 +40,7 @@ export default function Services() {
           bgColor="#f2f5f7"
           fontSize="sm"
           w="fit-content"
+          key={element}
         >
           {element}
         </Text>
