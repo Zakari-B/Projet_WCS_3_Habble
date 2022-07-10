@@ -7,12 +7,45 @@ import {
   FormLabel,
   Avatar,
   Image,
+  useToast,
 } from "@chakra-ui/react";
-import { useState } from "react";
 import dateFormat from "dateformat";
+import { updateItem } from "../../services/ProfileProUtils";
 
-export default function BannerProfile({ freelancer, city }) {
-  const [available, setAvailable] = useState(freelancer.available);
+export default function BannerProfile({
+  freelancer,
+  city,
+  updated,
+  setUpdated,
+}) {
+  const toast = useToast();
+
+  const updateFreelancer = (data) => {
+    updateItem("freelancers", freelancer.id, data)
+      .then(() =>
+        toast({
+          title: "Votre statut a bien été modifié",
+          status: "success",
+          position: "bottom-right",
+          duration: 7000,
+          isClosable: true,
+        })
+      )
+      .catch(() =>
+        toast({
+          title: "Votre statut n'a pas pu être modifié",
+          status: "error",
+          position: "bottom-right",
+          duration: 7000,
+          isClosable: true,
+        })
+      );
+    setUpdated(!updated);
+  };
+
+  const handleSubmit = () => {
+    updateFreelancer({ available: !freelancer.available });
+  };
 
   return (
     <Flex
@@ -25,13 +58,22 @@ export default function BannerProfile({ freelancer, city }) {
     >
       <Flex bgColor="white" p="1.5rem" borderRadius="25px 25px 0 0">
         <FormControl display="flex" alignItems="center">
-          <Switch
-            colorScheme="pink"
-            id="availabilityToggle"
-            onChange={() => setAvailable(!available)}
-          />
+          {freelancer.available ? (
+            <Switch
+              colorScheme="pink"
+              id="availabilityToggle"
+              onChange={handleSubmit}
+              isChecked
+            />
+          ) : (
+            <Switch
+              colorScheme="pink"
+              id="availabilityToggle"
+              onChange={handleSubmit}
+            />
+          )}
           <FormLabel htmlFor="availabilityToggle" mb="-1px">
-            {available ? (
+            {freelancer.available ? (
               <Flex alignItems="center" wrap="wrap" justifyContent="center">
                 <Text fontSize="1.2rem" fontWeight="700">
                   &nbsp; Disponible{" "}

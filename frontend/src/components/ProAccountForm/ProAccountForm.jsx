@@ -45,9 +45,6 @@ export default function ProAccountForm() {
   const [user, setUser] = useState("");
   const [displayName, setDisplayName] = useState("");
   const [activityPro, setActivityPro] = useState("");
-  const [cityPro, setCityPro] = useState("");
-  const [cityProName, setCityProName] = useState("");
-
   const [phonePro, setPhonePro] = useState("");
   const [experienceYearPro, setExperienceYearPro] = useState();
   const [pricePro, setPricePro] = useState();
@@ -55,6 +52,8 @@ export default function ProAccountForm() {
   const [acceptEmailPro, setAcceptEmailPro] = useState(false);
   const [siretPro, setSiretPro] = useState();
 
+  const [cityPro, setCityPro] = useState("");
+  const [cityProName, setCityProName] = useState("");
   const [search, setSearch] = useState("");
   const [addressList, setAddressList] = useState([]);
   const getAddressList = (signal) => {

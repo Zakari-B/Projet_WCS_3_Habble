@@ -65,7 +65,7 @@ export default function ProfileCard({ freelancer }) {
               <Flex gap="5px" alignItems="center">
                 <BsGeoAltFill />
                 <Text>{`${city?.ville_nom}`}</Text>
-                {freelancer.distanceInMeters && (
+                {freelancer.distanceInMeters !== undefined && (
                   <Tag
                     variant="outline"
                     color="pink.light"

@@ -238,7 +238,7 @@ export default function SearchResultCarousel() {
                 setDist(parseInt(parse(valueString), 10));
               }}
               value={format(dist)}
-              max={700}
+              max={1500}
               min={10}
             >
               <NumberInputField h="50px" />
