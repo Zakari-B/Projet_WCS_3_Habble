@@ -6,8 +6,9 @@ import ModalAddFamily from "./ModalAddFamily";
 
 export default function Accompagnement() {
   const navigate = useNavigate();
-  const [family, setFamily] = useState([]);
   const { freelancerId } = useParams();
+
+  const [family, setFamily] = useState([]);
 
   useEffect(() => {
     backendAPI
