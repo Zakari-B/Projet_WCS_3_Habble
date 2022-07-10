@@ -97,11 +97,6 @@ export default function ProAccountForm({ onModal = false, onClose }) {
           ? ""
           : response.data.freelancer[0].activityDescription
       );
-      setCityPro(
-        response.data.freelancer[0].zipCode === "undefined"
-          ? ""
-          : response.data.freelancer[0].zipCode
-      );
       setPhonePro(response.data.freelancer[0].phone);
       setExperienceYearPro(
         response.data.freelancer[0].experienceYear === 0
@@ -120,6 +115,10 @@ export default function ProAccountForm({ onModal = false, onClose }) {
       );
       setAcceptEmailPro(response.data.freelancer[0].acceptEmail);
       setSiretPro(response.data.freelancer[0].siret);
+    });
+    backendAPI.get(`/api/freelancers/${freelancerId}/city`).then((response) => {
+      setCityPro(response.data[0].zipCode);
+      setCityProName(response.data[0].ville_nom);
     });
   };
 
@@ -143,7 +142,6 @@ export default function ProAccountForm({ onModal = false, onClose }) {
         description: descriptionPro,
         acceptEmails: acceptEmailPro,
         siret: siretPro,
-        available: false,
         // picture: picturePro,
       })
       .then((response) => {
@@ -153,7 +151,6 @@ export default function ProAccountForm({ onModal = false, onClose }) {
         if (response) {
           toast({
             title: "Vos données ont bien été enregistrées.",
-            description: "Bienvenue sur votre profil !",
             status: "success",
             duration: 7000,
             position: "bottom-right",
@@ -194,7 +191,6 @@ export default function ProAccountForm({ onModal = false, onClose }) {
         description: descriptionPro === "" ? "undefined" : descriptionPro,
         acceptEmails: acceptEmailPro,
         siret: siretPro,
-        available: false,
         // picture: picturePro,
       })
       .then((response) => {
