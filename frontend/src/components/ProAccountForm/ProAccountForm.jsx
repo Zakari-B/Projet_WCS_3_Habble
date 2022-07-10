@@ -88,33 +88,33 @@ export default function ProAccountForm({ onModal = false, onClose }) {
     backendAPI.get(`/api/freelancers/${freelancerId}/user`).then((response) => {
       setUser(response.data);
       setDisplayName(
-        response.data.freelancer[0].displayName === "undefined"
+        response.data.freelancer.displayName === "undefined"
           ? ""
-          : response.data.freelancer[0].displayName
+          : response.data.freelancer.displayName
       );
       setActivityPro(
-        response.data.freelancer[0].activityDescription === "undefined"
+        response.data.freelancer.activityDescription === "undefined"
           ? ""
-          : response.data.freelancer[0].activityDescription
+          : response.data.freelancer.activityDescription
       );
-      setPhonePro(response.data.freelancer[0].phone);
+      setPhonePro(response.data.freelancer.phone);
       setExperienceYearPro(
-        response.data.freelancer[0].experienceYear === 0
+        response.data.freelancer.experienceYear === 0
           ? ""
-          : response.data.freelancer[0].experienceYear
+          : response.data.freelancer.experienceYear
       );
       setPricePro(
-        response.data.freelancer[0].price === 0
+        response.data.freelancer.price === 0
           ? ""
-          : response.data.freelancer[0].price
+          : response.data.freelancer.price
       );
       setDescriptionPro(
-        response.data.freelancer[0].description === "undefined"
+        response.data.freelancer.description === "undefined"
           ? ""
-          : response.data.freelancer[0].description
+          : response.data.freelancer.description
       );
-      setAcceptEmailPro(response.data.freelancer[0].acceptEmail);
-      setSiretPro(response.data.freelancer[0].siret);
+      setAcceptEmailPro(response.data.freelancer.acceptEmail);
+      setSiretPro(response.data.freelancer.siret);
     });
     backendAPI.get(`/api/freelancers/${freelancerId}/city`).then((response) => {
       setCityPro(response.data[0].zipCode);

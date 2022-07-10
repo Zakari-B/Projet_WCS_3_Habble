@@ -2,10 +2,9 @@ const { PrismaClient } = require("@prisma/client");
 
 const prisma = new PrismaClient();
 
-const createOneAnnouncement = async (announcement, employerId) => {
+const createOneAnnouncement = async (announcement) => {
   try {
     return await prisma.annonce.create({
-      where: employerId,
       data: { ...announcement },
     });
   } finally {
