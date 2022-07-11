@@ -47,7 +47,7 @@ export default function PictureProfilePro({ freelancerPicture }) {
       <Image
         src={
           freelancerPicture
-            ? `http://localhost:5001/uploads/${freelancerPicture}`
+            ? `${import.meta.env.VITE_BACKEND_URL}/uploads/${freelancerPicture}`
             : "https://secure.gravatar.com/avatar/c308ee24184a32cdf10650eb7e311157?s=125&d=mm&r=G"
         }
         height="150px"
@@ -123,7 +123,9 @@ export default function PictureProfilePro({ freelancerPicture }) {
                     id="frame"
                     src={
                       freelancerPicture
-                        ? `http://localhost:5001/uploads/${freelancerPicture}`
+                        ? `${
+                            import.meta.env.VITE_BACKEND_URL
+                          }/uploads/${freelancerPicture}`
                         : "https://secure.gravatar.com/avatar/c308ee24184a32cdf10650eb7e311157?s=125&d=mm&r=G"
                     }
                     m="auto"

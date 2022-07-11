@@ -102,7 +102,9 @@ export default function BannerProfile({
             <Image
               src={
                 freelancer.picture
-                  ? `http://localhost:5001/uploads/${freelancer.picture}`
+                  ? `${import.meta.env.VITE_BACKEND_URL}/uploads/${
+                      freelancer.picture
+                    }`
                   : "https://secure.gravatar.com/avatar/c308ee24184a32cdf10650eb7e311157?s=125&d=mm&r=G"
               }
               height="200px"

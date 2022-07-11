@@ -88,7 +88,7 @@ export default function ProAccountForm({ onModal = false, onClose }) {
   const getOneUser = () => {
     backendAPI.get(`/api/freelancers/${freelancerId}/user`).then((response) => {
       setUser(response.data);
-      setFreelancerPicture(response.data.freelancer[0].picture);
+      setFreelancerPicture(response.data.freelancer.picture);
       setDisplayName(
         response.data.freelancer.displayName === "undefined"
           ? ""
