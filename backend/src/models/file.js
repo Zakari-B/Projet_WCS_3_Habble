@@ -10,6 +10,14 @@ exports.getAll = async () => {
   }
 };
 
+// exports.getAllByFamilyid = async (familyId) => {
+//   try {
+//     return await prisma.documents.findMany({ where: familyId });
+//   } finally {
+//     await prisma.$disconnect();
+//   }
+// };
+
 exports.createOne = async (img) => {
   try {
     return await prisma.documents.create({

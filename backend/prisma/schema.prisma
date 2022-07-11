@@ -85,10 +85,12 @@ model documents {
   name              String       @db.VarChar(255)
   freelancerId      Int?
   coordinatorId     Int?
+  familyId          Int?
   documentLink      String       @db.VarChar(300)
   verified          Boolean      @default(false)
   fk_freelancer_id  freelancer?  @relation(fields: [freelancerId], references: [id], onDelete: Cascade)
   fk_coordinator_id coordinator? @relation(fields: [coordinatorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  fk_family_id      family?      @relation(fields: [familyId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@index([freelancerId], map: "documents_freelancerId_fkey")
 }
@@ -278,4 +280,5 @@ model family {
   coordinatorId      Int
   coordinator        coordinator @relation(fields: [coordinatorId], references: [id])
   annonce            annonce[]
+  documents          documents[]
 }

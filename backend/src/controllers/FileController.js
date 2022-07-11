@@ -20,6 +20,7 @@ exports.addOne = async (req, res) => {
       name: req.body.name,
       documentLink: req.file.filename,
       coordinatorId: req.roleId,
+      familyId: req.params.familyId,
       verified: false,
     });
     console.warn(data);

@@ -72,7 +72,7 @@ function App() {
         />
         <Route path="/logout" element={<Logout />} />
         <Route
-          path="/profil/:freelanderId/mes-annonces"
+          path="/profil/:freelancerId/mes-annonces"
           element={<ProAnnonces />}
         />
         <Route
