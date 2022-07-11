@@ -5,6 +5,7 @@ import {
   Button,
   Tag,
   Divider,
+  Link,
   useDisclosure,
 } from "@chakra-ui/react";
 import { useParams } from "react-router-dom";
@@ -57,15 +58,17 @@ export default function AnnonceRecap({ annonce, offers }) {
         <Flex direction="column" gap="30px" alignItems="flex-start" w="90%">
           <Flex direction="column" gap="30px">
             <Flex gap="10px">
-              <Heading
-                as="h1"
-                color="#415161"
-                lineHeight="1.5em"
-                fontWeight="700"
-                fontSize="20px"
-              >
-                {annonce.title}
-              </Heading>
+              <Link href="/profil-employer/1/mes-annonces/4">
+                <Heading
+                  as="h1"
+                  color="#415161"
+                  lineHeight="1.5em"
+                  fontWeight="700"
+                  fontSize="20px"
+                >
+                  {annonce.title}
+                </Heading>
+              </Link>
               <Tag colorScheme={tagColor}> {annonce.status}</Tag>
             </Flex>
 
