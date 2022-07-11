@@ -15,7 +15,7 @@ import PropTypes from "prop-types";
 import { useParams } from "react-router-dom";
 import backendAPI from "../../../services/backendAPI";
 
-export default function DeleteConfirmModal({
+export default function DeleteConfirmModalAnnoncement({
   isOpen,
   onClose,
   annonce,
@@ -100,7 +100,7 @@ export default function DeleteConfirmModal({
   );
 }
 
-DeleteConfirmModal.propTypes = {
+DeleteConfirmModalAnnoncement.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
 };

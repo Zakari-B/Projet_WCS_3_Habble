@@ -38,7 +38,7 @@ import Header from "../../Header/Header";
 import Footer from "../../Footer";
 import backendAPI from "../../../services/backendAPI";
 
-export default function AnnonceForm() {
+export default function AnnonceForm({ updated, setUpdated }) {
   const toast = useToast();
   const navigate = useNavigate();
   const [title, setTitle] = useState("");
@@ -157,6 +157,7 @@ export default function AnnonceForm() {
           isClosable: true,
         });
       });
+    setUpdated(!updated);
   };
 
   // axios qui va chercher la liste des services
