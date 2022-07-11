@@ -7,7 +7,6 @@ const {
   deleteOneFormation,
 } = require("../models/formation");
 const { validateFormation } = require("../utils/validate");
-// const { verifyAccessToken } = require("../helpers/jwtHelper");
 
 const createOne = async (req, res) => {
   // on récupère l'id du freelancer dans la requête
@@ -121,16 +120,6 @@ const updateOne = async (req, res) => {
 const deleteOne = async (req, res) => {
   const freelancerId = parseInt(req.params.freelancerid, 10);
   const formationID = parseInt(req.params.id, 10);
-
-  // on check les droits de mofification de formulaire
-  // const freeId = await verifyAccessToken(req.cookies.userToken);
-  // if (freeId.payload.fkId !== freelancerId) {
-  //   return res
-  //     .status(401)
-  //     .send(
-  //       "Vous n'avez pas les droits pour supprimer une formation sur ce profil"
-  //     );
-  // }
 
   // on check qu'un displome existe pour le couple freelancer/formation
   const formation = await getOneFormationbyFreelancerId(

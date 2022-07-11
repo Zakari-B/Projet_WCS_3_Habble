@@ -20,10 +20,10 @@ const getAllLocations = async () => {
   }
 };
 
-const getOneLocation = async (lieuId) => {
+const getOneLocation = async (locationId) => {
   try {
     return await prisma.lieu.findUnique({
-      where: { id: lieuId },
+      where: { id: locationId },
     });
   } finally {
     await prisma.$disconnect();

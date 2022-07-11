@@ -1,3 +1,4 @@
+import axios from "axios";
 import {
   Flex,
   Heading,
@@ -14,21 +15,29 @@ import {
   NumberInputStepper,
   NumberIncrementStepper,
   NumberDecrementStepper,
+  TagCloseButton,
   Textarea,
   Checkbox,
+  Tag,
+  TagLeftIcon,
   Link,
   useToast,
+  InputGroup,
+  IconButton,
+  InputLeftElement,
+  List,
+  ListItem,
 } from "@chakra-ui/react";
-
+import { Search2Icon } from "@chakra-ui/icons";
+import { MdRoom } from "react-icons/md";
 import { useParams, useNavigate } from "react-router-dom";
-// import { CloseIcon } from "@chakra-ui/icons";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Services from "./Services";
 import Epertises from "./Expertises";
 import PictureProfilePro from "./PictureProfilPro";
 import backendAPI from "../../services/backendAPI";
 
-export default function ProAccountForm() {
+export default function ProAccountForm({ onModal = false, onClose }) {
   const navigate = useNavigate();
   const toast = useToast();
   const { freelancerId } = useParams();
@@ -36,7 +45,6 @@ export default function ProAccountForm() {
   const [user, setUser] = useState("");
   const [displayName, setDisplayName] = useState("");
   const [activityPro, setActivityPro] = useState("");
-  const [cityPro, setCityPro] = useState("");
   const [phonePro, setPhonePro] = useState("");
   const [experienceYearPro, setExperienceYearPro] = useState();
   const [pricePro, setPricePro] = useState();
@@ -44,44 +52,73 @@ export default function ProAccountForm() {
   const [acceptEmailPro, setAcceptEmailPro] = useState(false);
   const [siretPro, setSiretPro] = useState();
 
+  const [cityPro, setCityPro] = useState("");
+  const [cityProName, setCityProName] = useState("");
+  const [search, setSearch] = useState("");
+  const [addressList, setAddressList] = useState([]);
+  const getAddressList = (signal) => {
+    axios
+      .get(
+        `https://api-adresse.data.gouv.fr/search/?q=${search}&type=municipality&autocomplete=1&limit=3`,
+        { signal }
+      )
+      .then((response) => {
+        setAddressList(response.data.features);
+      });
+  };
+  const previousController = useRef();
+
+  useEffect(() => {
+    if (search.length >= 1) {
+      if (previousController.current) {
+        previousController.current.abort();
+      }
+      const controller = new AbortController();
+      const { signal } = controller;
+      previousController.current = controller;
+      getAddressList(signal);
+    }
+  }, [search]);
+  const handleSearch = (event) => {
+    setSearch(event.target.value);
+  };
   // Appel axios pour récuperer un user
 
   const getOneUser = () => {
     backendAPI.get(`/api/freelancers/${freelancerId}/user`).then((response) => {
       setUser(response.data);
       setDisplayName(
-        response.data.freelancer[0].displayName === "undefined"
+        response.data.freelancer.displayName === "undefined"
           ? ""
-          : response.data.freelancer[0].displayName
+          : response.data.freelancer.displayName
       );
       setActivityPro(
-        response.data.freelancer[0].activityDescription === "undefined"
+        response.data.freelancer.activityDescription === "undefined"
           ? ""
-          : response.data.freelancer[0].activityDescription
+          : response.data.freelancer.activityDescription
       );
-      setCityPro(
-        response.data.freelancer[0].zipCode === "undefined"
-          ? ""
-          : response.data.freelancer[0].zipCode
-      );
-      setPhonePro(response.data.freelancer[0].phone);
+      setPhonePro(response.data.freelancer.phone);
       setExperienceYearPro(
-        response.data.freelancer[0].experienceYear === 0
+        response.data.freelancer.experienceYear === 0
           ? ""
-          : response.data.freelancer[0].experienceYear
+          : response.data.freelancer.experienceYear
       );
       setPricePro(
-        response.data.freelancer[0].price === 0
+        response.data.freelancer.price === 0
           ? ""
-          : response.data.freelancer[0].price
+          : response.data.freelancer.price
       );
       setDescriptionPro(
-        response.data.freelancer[0].description === "undefined"
+        response.data.freelancer.description === "undefined"
           ? ""
-          : response.data.freelancer[0].description
+          : response.data.freelancer.description
       );
-      setAcceptEmailPro(response.data.freelancer[0].acceptEmail);
-      setSiretPro(response.data.freelancer[0].siret);
+      setAcceptEmailPro(response.data.freelancer.acceptEmail);
+      setSiretPro(response.data.freelancer.siret);
+    });
+    backendAPI.get(`/api/freelancers/${freelancerId}/city`).then((response) => {
+      setCityPro(response.data[0].zipCode);
+      setCityProName(response.data[0].ville_nom);
     });
   };
 
@@ -105,7 +142,6 @@ export default function ProAccountForm() {
         description: descriptionPro,
         acceptEmails: acceptEmailPro,
         siret: siretPro,
-        available: false,
         // picture: picturePro,
       })
       .then((response) => {
@@ -115,13 +151,15 @@ export default function ProAccountForm() {
         if (response) {
           toast({
             title: "Vos données ont bien été enregistrées.",
-            description: "Bienvenue sur votre profil !",
             status: "success",
             duration: 7000,
             position: "bottom-right",
             isClosable: true,
           });
-          navigate(`/profil/${freelancerId}`);
+          if (onModal === false) {
+            navigate(`/profil/${freelancerId}`);
+          }
+          onClose();
         }
       })
       .catch((error) => {
@@ -153,7 +191,6 @@ export default function ProAccountForm() {
         description: descriptionPro === "" ? "undefined" : descriptionPro,
         acceptEmails: acceptEmailPro,
         siret: siretPro,
-        available: false,
         // picture: picturePro,
       })
       .then((response) => {
@@ -256,7 +293,7 @@ export default function ProAccountForm() {
                 >
                   Code postal de votre lieu d'intervention *
                 </FormLabel>
-                <Input
+                {/* <Input
                   type="text"
                   id="proFormCity"
                   name="city"
@@ -268,7 +305,124 @@ export default function ProAccountForm() {
                   }}
                   value={cityPro}
                   onChange={(e) => setCityPro(e.target.value)}
-                />
+                /> */}
+                {!cityProName ? (
+                  <Flex direction="column" w="100%">
+                    <InputGroup
+                      display="flex"
+                      alignItems="center"
+                      marginBottom="5px"
+                    >
+                      <InputLeftElement
+                        pointerEvents="none"
+                        display="flex"
+                        alignItems="center"
+                        h="100%"
+                      >
+                        <IconButton
+                          variant="unstyled"
+                          color="gray.500"
+                          aria-label="Search database"
+                          icon={<Search2Icon />}
+                        />
+                      </InputLeftElement>
+                      <Input
+                        type="search"
+                        id="proFormCity"
+                        name="city"
+                        variant="outline"
+                        autocomplete="off"
+                        bgColor="white"
+                        h="50px"
+                        placeholder="Veuillez saisir un code postal et selectionnez une ville dans la liste"
+                        value={search}
+                        onChange={handleSearch}
+                      />
+                    </InputGroup>
+
+                    {addressList.length !== 0 && search !== "" && (
+                      <List
+                        bg="white"
+                        width="100%"
+                        borderRadius="4px"
+                        overflow="hidden"
+                        zIndex="997"
+                        boxShadow="rgb(0 0 0 / 4%) 0px 2px 6px"
+                        border="1px solid #ededed"
+                      >
+                        <Flex direction="column" w="-webkit-fill-available">
+                          {addressList.map((city) => (
+                            <ListItem
+                              onClick={() => {
+                                if (city.properties.citycode) {
+                                  setCityPro(city.properties.citycode);
+                                  setCityProName(city.properties.name);
+                                  setSearch("");
+                                }
+                              }}
+                            >
+                              <Flex
+                                direction="row"
+                                p={5}
+                                w="100%"
+                                align="center"
+                              >
+                                <Flex
+                                  pl="20px"
+                                  justifyContent="space-between"
+                                  width="100%"
+                                  alignItems="center"
+                                >
+                                  <Flex
+                                    direction="column"
+                                    alignItems="flex-start"
+                                  >
+                                    <Text
+                                      fontSize="lg"
+                                      align="left"
+                                      color="purple.dark"
+                                      _groupHover={{
+                                        color: "pink.light",
+                                        fontWeight: "700",
+                                      }}
+                                    >
+                                      {city.properties.name} (
+                                      {city.properties.postcode})
+                                    </Text>
+                                    <Text
+                                      fontSize="md"
+                                      align="left"
+                                      color="purple.dark"
+                                    >
+                                      {city.properties.context}
+                                    </Text>
+                                  </Flex>
+                                </Flex>
+                              </Flex>
+                            </ListItem>
+                          ))}
+                        </Flex>
+                      </List>
+                    )}
+                  </Flex>
+                ) : (
+                  <Tag
+                    variant="solid"
+                    bgColor="pink.light"
+                    size="lg"
+                    w="fit-content"
+                  >
+                    <TagLeftIcon as={MdRoom} />
+                    {cityProName}
+                    <TagCloseButton
+                      onClick={() => {
+                        setCityPro("");
+                        setCityProName("");
+                        setSearch("");
+                      }}
+                    />
+                  </Tag>
+                )}
                 <FormLabel
                   htmlFor="phone"
                   fontSize="md"
@@ -292,7 +446,7 @@ export default function ProAccountForm() {
                 />
               </VStack>
             </FormControl>
-            <PictureProfilePro user={user} />
+            <PictureProfilePro />
           </Flex>
           <FormControl>
             <Flex direction="column" rowGap="5" mt="1rem">
@@ -465,34 +619,59 @@ export default function ProAccountForm() {
             Le numéro de Siret est un identifiant de 14 chiffres (exemple :
             12002701600357)
           </Text>
-          <Button
-            variant="solid_PrimaryColor"
-            type="submit"
-            onClick={updateFreelancerCompletedProfile}
-          >
-            Enregistrer
-          </Button>
-          <Button
-            bg="transparent"
-            border="2px solid"
-            fontWeight="500"
-            borderColor="pink.light"
-            color="pink.light"
-            _hover={{ bgcolor: "white" }}
-            type="submit"
-            onClick={updateFreelancerUncompletedProfile}
-          >
-            Sauvegarder les informations
-          </Button>
-          <Link
-            href="/"
-            textAlign="left"
-            fontSize="xs"
-            fontWeight="600"
-            w="100px"
-          >
-            Annulez
-          </Link>
+          {onModal === false ? (
+            <>
+              <Button
+                variant="solid_PrimaryColor"
+                type="submit"
+                onClick={updateFreelancerCompletedProfile}
+              >
+                Enregistrer
+              </Button>
+              <Button
+                bg="transparent"
+                border="2px solid"
+                fontWeight="500"
+                borderColor="pink.light"
+                color="pink.light"
+                _hover={{ bgcolor: "white" }}
+                type="submit"
+                onClick={updateFreelancerUncompletedProfile}
+              >
+                Sauvegarder les informations
+              </Button>
+              <Link
+                href="/"
+                textAlign="left"
+                fontSize="xs"
+                fontWeight="600"
+                w="100px"
+              >
+                Annulez
+              </Link>
+            </>
+          ) : (
+            <>
+              <Button
+                variant="solid_PrimaryColor"
+                type="submit"
+                onClick={updateFreelancerCompletedProfile}
+              >
+                Enregistrer
+              </Button>
+              <Button
+                bgColor="white"
+                _hover={{ bgColor: "white" }}
+                onClick={onClose}
+                textAlign="left"
+                fontSize="xs"
+                fontWeight="600"
+                w="100px"
+              >
+                Annulez
+              </Button>
+            </>
+          )}
           <Divider />
           <Text
             fontSize="xs"

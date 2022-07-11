@@ -56,11 +56,13 @@ const loginForm = () => {
             navigate("/");
           }
           if (response.data.type === "freelancer") {
-            return response.data.profileIsComplete
+            window.localStorage.setItem("role", "freelancer");
+            return response.data.profil
               ? navigate(`/profil/${response.data.fkId}`)
               : navigate(`/register-onboarding-pro/${response.data.fkId}`);
           }
           if (response.data.type === "employer") {
+            window.localStorage.setItem("role", "employer");
             navigate(`/profil-employer/${response.data.fkId}`);
           }
           return null;

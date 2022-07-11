@@ -57,6 +57,7 @@ export default function Verifications() {
             <ListItem
               color={item.isVerified ? "purple.average" : "gray.500"}
               fontSize="14px"
+              key={item.id}
             >
               {item.isVerified ? (
                 <CheckIcon color="green.500" marginRight="1rem" />

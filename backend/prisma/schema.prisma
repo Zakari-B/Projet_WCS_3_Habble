@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -11,16 +8,16 @@ datasource db {
 }
 
 model user {
-  id                Int          @id @default(autoincrement())
-  firstname         String       @db.VarChar(100)
-  lastname          String       @db.VarChar(100)
-  email             String       @unique @db.VarChar(100)
-  hashedPassword    String       @db.VarChar(255)
-  role              String       @db.VarChar(100)
-  profileIsComplete Boolean      @default(false)
-  dateCreated       DateTime     @default(now()) @db.Timestamp(0)
-  freelancer        freelancer[]
-  employer          employer[]
+  id                Int         @id @default(autoincrement())
+  firstname         String      @db.VarChar(100)
+  lastname          String      @db.VarChar(100)
+  email             String      @unique @db.VarChar(100)
+  hashedPassword    String      @db.VarChar(255)
+  role              String      @db.VarChar(100)
+  profileIsComplete Boolean     @default(false)
+  dateCreated       DateTime    @default(now()) @db.Timestamp(0)
+  freelancer        freelancer?
+  employer          employer?
   token             token[]
 }
 
@@ -37,27 +34,28 @@ model freelancer {
   acceptEmails          Boolean                 @default(false)
   siret                 Int?
   available             Boolean                 @default(false)
-  dateCreated           DateTime                @default(now()) @db.Timestamp(0)
   picture               String?                 @db.VarChar(1000)
-  fk_user_id            user                    @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  dateCreated           DateTime                @default(now()) @db.Timestamp(0)
+  fk_user_id            user                    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  annonce_offers        annonce_offers[]
+  diplomes              diplomes[]
   documents             documents[]
-  freelancer_services   freelancer_services[]
+  experience_pro        experience_pro[]
   formations            formations[]
   freelancer_expertises freelancer_expertises[]
-  experience_pro        experience_pro[]
-  diplomes              diplomes[]
+  freelancer_services   freelancer_services[]
 }
 
 model employer {
   id          Int       @id @default(autoincrement())
   displayName String    @db.VarChar(100)
-  phone       String?   @db.VarChar(30)
   userId      Int       @unique
-  description String    @db.VarChar(1000)
-  available   Boolean   @default(false)
-  dateCreated DateTime  @default(now()) @db.Timestamp(0)
   picture     String    @db.VarChar(1000)
-  fk_user_id  user      @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  dateCreated DateTime  @default(now()) @db.Timestamp(0)
+  available   Boolean   @default(false)
+  description String    @db.VarChar(1000)
+  phone       String?   @db.VarChar(30)
+  fk_user_id  user      @relation(fields: [userId], references: [id], onDelete: Cascade)
   annonce     annonce[]
 }
 
@@ -67,30 +65,38 @@ model documents {
   freelancerId     Int
   documentLink     String     @db.VarChar(300)
   verified         Boolean    @default(false)
-  fk_freelancer_id freelancer @relation(fields: [freelancerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  fk_freelancer_id freelancer @relation(fields: [freelancerId], references: [id], onDelete: Cascade)
+
+  @@index([freelancerId], map: "documents_freelancerId_fkey")
 }
 
 model freelancer_services {
   id               Int        @id @default(autoincrement())
   freelancerId     Int
   serviceId        Int
-  fk_freelancer_id freelancer @relation(fields: [freelancerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  fk_services_id   services   @relation(fields: [serviceId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  fk_freelancer_id freelancer @relation(fields: [freelancerId], references: [id], onDelete: Cascade)
+  fk_services_id   services   @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+
+  @@index([freelancerId], map: "freelancer_services_freelancerId_fkey")
+  @@index([serviceId], map: "freelancer_services_serviceId_fkey")
 }
 
 model services {
   id                  Int                   @id @default(autoincrement())
   name                String                @unique @db.VarChar(255)
-  freelancer_services freelancer_services[]
   annonce_services    annonce_services[]
+  freelancer_services freelancer_services[]
 }
 
 model freelancer_expertises {
   id               Int        @id @default(autoincrement())
   freelancerId     Int
   expertiseId      Int
-  fk_freelancer_id freelancer @relation(fields: [freelancerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  fk_expertise_id  expertises @relation(fields: [expertiseId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  fk_expertise_id  expertises @relation(fields: [expertiseId], references: [id], onDelete: Cascade)
+  fk_freelancer_id freelancer @relation(fields: [freelancerId], references: [id], onDelete: Cascade)
+
+  @@index([expertiseId], map: "freelancer_expertises_expertiseId_fkey")
+  @@index([freelancerId], map: "freelancer_expertises_freelancerId_fkey")
 }
 
 model expertises {
@@ -109,9 +115,11 @@ model formations {
   endMonth     String     @db.VarChar(255)
   endYear      Int
   description  String?    @db.VarChar(500)
-  dateCreated  DateTime   @default(now()) @db.Timestamp(0)
   freelancerId Int
-  fk_id        freelancer @relation(fields: [freelancerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  dateCreated  DateTime   @default(now()) @db.Timestamp(0)
+  fk_id        freelancer @relation(fields: [freelancerId], references: [id], onDelete: Cascade)
+
+  @@index([freelancerId], map: "formations_freelancerId_fkey")
 }
 
 model experience_pro {
@@ -124,9 +132,11 @@ model experience_pro {
   endYear      Int
   currentJob   Boolean    @default(false)
   description  String?    @db.VarChar(500)
-  dateCreated  DateTime   @default(now()) @db.Timestamp(0)
   freelancerId Int
-  fk_id        freelancer @relation(fields: [freelancerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  dateCreated  DateTime   @default(now()) @db.Timestamp(0)
+  fk_id        freelancer @relation(fields: [freelancerId], references: [id], onDelete: Cascade)
+
+  @@index([freelancerId], map: "experience_pro_freelancerId_fkey")
 }
 
 model diplomes {
@@ -136,9 +146,11 @@ model diplomes {
   monthDelivered String     @db.VarChar(100)
   yearDelivered  Int
   description    String?    @db.VarChar(500)
-  dateCreated    DateTime   @default(now()) @db.Timestamp(0)
   freelancerId   Int
-  fk_id          freelancer @relation(fields: [freelancerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  dateCreated    DateTime   @default(now()) @db.Timestamp(0)
+  fk_id          freelancer @relation(fields: [freelancerId], references: [id], onDelete: Cascade)
+
+  @@index([freelancerId], map: "diplomes_freelancerId_fkey")
 }
 
 model annonce {
@@ -146,19 +158,44 @@ model annonce {
   employerId      Int
   title           String             @db.VarChar(100)
   description     String             @db.VarChar(500)
+  zipCode         String             @db.VarChar(10)
   price           Int
   emergency       Boolean            @default(false)
-  annonce_service annonce_services[]
-  fk_employer_id  employer           @relation(fields: [employerId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  status          String             @default("En cours") @db.VarChar(100)
+  dateCreated     DateTime           @default(now()) @db.Timestamp(0)
+  fk_employer_id  employer           @relation(fields: [employerId], references: [id], onDelete: Cascade)
   annonce_lieu    annonce_lieu[]
+  annonce_offers  annonce_offers[]
+  annonce_service annonce_services[]
+
+  @@index([employerId], map: "annonce_employerId_fkey")
+}
+
+model annonce_offers {
+  id           Int        @id @default(autoincrement())
+  annonceId    Int
+  freelancerId Int
+  price        Float
+  description  String     @db.VarChar(500)
+  availableIn  String     @db.VarChar(500)
+  status       String     @default("En attente") @db.VarChar(500)
+  dateCreated  DateTime   @default(now()) @db.Timestamp(0)
+  annonce      annonce    @relation(fields: [annonceId], references: [id], onDelete: Cascade)
+  freelancer   freelancer @relation(fields: [freelancerId], references: [id], onDelete: Cascade)
+
+  @@index([annonceId], map: "annonce_offers_annonceId_fkey")
+  @@index([freelancerId], map: "annonce_offers_freelancerId_fkey")
 }
 
 model annonce_services {
   id            Int      @id @default(autoincrement())
   annonceId     Int
   serviceId     Int
-  fk_annonce_id annonce  @relation(fields: [annonceId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  fk_service_id services @relation(fields: [serviceId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  fk_annonce_id annonce  @relation(fields: [annonceId], references: [id], onDelete: Cascade)
+  fk_service_id services @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+
+  @@index([annonceId], map: "annonce_services_annonceId_fkey")
+  @@index([serviceId], map: "annonce_services_serviceId_fkey")
 }
 
 model lieu {
@@ -170,9 +207,34 @@ model lieu {
 model annonce_lieu {
   id            Int     @id @default(autoincrement())
   annonceId     Int
-  lieuId        Int
-  fk_annonce_id annonce @relation(fields: [annonceId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  fk_lieu_id    lieu    @relation(fields: [lieuId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  locationId    Int
+  fk_annonce_id annonce @relation(fields: [annonceId], references: [id], onDelete: Cascade)
+  fk_lieu_id    lieu    @relation(fields: [locationId], references: [id], onDelete: Cascade)
+
+  @@index([annonceId], map: "annonce_lieu_annonceId_fkey")
+  @@index([locationId], map: "annonce_lieu_locationId_fkey")
+}
+
+model city {
+  ville_id            Int                   @id @default(autoincrement()) @db.UnsignedMediumInt
+  ville_departement   String?               @db.VarChar(3)
+  ville_slug          String?               @unique(map: "ville_slug") @db.VarChar(255)
+  ville_nom           String?               @db.VarChar(45)
+  ville_nom_simple    String?               @db.VarChar(45)
+  ville_nom_reel      String?               @db.VarChar(45)
+  ville_code_postal   String?               @db.VarChar(255)
+  ville_code_commune  String                @unique(map: "ville_code_commune_2") @db.VarChar(10)
+  ville_longitude_deg Float?                @db.Float
+  ville_latitude_deg  Float?                @db.Float
+  city_geo_point      Unsupported("point")?
+
+  @@index([ville_code_commune], map: "ville_code_commune")
+  @@index([ville_code_postal], map: "ville_code_postal")
+  @@index([ville_departement], map: "ville_departement")
+  @@index([ville_longitude_deg, ville_latitude_deg], map: "ville_longitude_latitude_deg")
+  @@index([ville_nom], map: "ville_nom")
+  @@index([ville_nom_reel], map: "ville_nom_reel")
+  @@index([ville_nom_simple], map: "ville_nom_simple")
 }
 
 model token {

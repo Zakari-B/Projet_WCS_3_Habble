@@ -7,7 +7,6 @@ const {
   deleteOneExperience,
 } = require("../models/experiencePro");
 const { validateExperiencePro } = require("../utils/validate");
-// const { verifyAccessToken } = require("../helpers/jwtHelper");
 
 const createOne = async (req, res) => {
   // on récupère l'id du freelancer dans la requête
@@ -24,15 +23,6 @@ const createOne = async (req, res) => {
     console.error(error);
     return res.status(422).json(error.details);
   }
-
-  // const freeId = await verifyAccessToken(req.cookies.userToken);
-
-  // // si tout est ok on va créer le diplome
-  // if (freeId.payload.fkId !== freelancerId) {
-  //   return res
-  //     .status(401)
-  //     .send("Vous n'avez pas les droits pour créer une expérience professionnelle sur ce profil");
-  // }
 
   try {
     const experienceCreated = await createOneExperience({
@@ -92,16 +82,6 @@ const updateOne = async (req, res) => {
   const freelancerId = parseInt(req.params.freelancerid, 10);
   const experienceID = parseInt(req.params.id, 10);
 
-  // // on check les droits de mofification de formulaire
-  // const freeId = await verifyAccessToken(req.cookies.userToken);
-  // if (freeId.payload.fkId !== freelancerId) {
-  //   return res
-  //     .status(401)
-  //     .send(
-  //       "Vous n'avez pas les droits pour modifier une expérience professionnelle sur ce profil"
-  //     );
-  // }
-
   // on check qu'un displome existe pour le couple freelancer/diplome
   const experience = await getOneExperiencebyFreelancerId(
     freelancerId,
@@ -140,16 +120,6 @@ const updateOne = async (req, res) => {
 const deleteOne = async (req, res) => {
   const freelancerId = parseInt(req.params.freelancerid, 10);
   const experienceID = parseInt(req.params.id, 10);
-
-  // on check les droits de mofification de formulaire
-  // const freeId = await verifyAccessToken(req.cookies.userToken);
-  // if (freeId.payload.fkId !== freelancerId) {
-  //   return res
-  //     .status(401)
-  //     .send(
-  //       "Vous n'avez pas les droits pour supprimer une expérience professionnelle sur ce profil"
-  //     );
-  // }
 
   // on check qu'un displome existe pour le couple freelancer/expérience professionnelle
   const experience = await getOneExperiencebyFreelancerId(

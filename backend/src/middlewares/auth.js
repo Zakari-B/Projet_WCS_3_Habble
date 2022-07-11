@@ -8,6 +8,7 @@ const token = require("../models/token");
 const { resetHash } = require("../helpers/argonHelper");
 const { sendMail } = require("../utils/mailer");
 const resetTemplate = require("../templates/resetTemplate");
+const employer = require("../models/employer");
 
 const authorization = async (req, res, next) => {
   const authToken = req.cookies.userToken;
@@ -26,6 +27,13 @@ const authorization = async (req, res, next) => {
         req.roleId = freelancerEntry.id;
       }
     }
+    if (req.userRole === "employer") {
+      const employerEntry = await employer.findOneEmployerByUserId(req.userId);
+      if (employerEntry) {
+        req.roleId = employerEntry.id;
+      }
+    }
+
     return next();
   } catch (e) {
     console.error(e);
@@ -44,6 +52,7 @@ const authSelfRole = async (req, res, next) => {
   if (req.roleId === parseInt(req.params.freelancerid, 10)) {
     return next();
   }
+
   return res.sendStatus(401);
 };
 

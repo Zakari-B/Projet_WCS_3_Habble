@@ -9,12 +9,16 @@ const ExperienceProController = require("./controllers/ExperienceProController")
 const LieuController = require("./controllers/LieuController");
 const ServiceController = require("./controllers/ServiceControllers");
 const ExpertiseController = require("./controllers/ExpertiseControllers");
+const OfferController = require("./controllers/OfferController");
 const mailController = require("./controllers/mailController");
-const FreelancerServicesController = require("./controllers/FreelancerServicesControllers");
-const FreelancerExpertisesController = require("./controllers/FreelancerExpertisesControllers");
+const AnnonceController = require("./controllers/AnnonceController");
 const fileController = require("./controllers/FileController");
 const DocumentsController = require("./controllers/DocumentsController");
 const multer = require("./middlewares/multer");
+const FreelancerServicesController = require("./controllers/FreelancerServicesControllers");
+const AnnonceServicesController = require("./controllers/AnnonceServicesController");
+const FreelancerExpertisesController = require("./controllers/FreelancerExpertisesControllers");
+const AnnonceLieuController = require("./controllers/AnnonceLieuController");
 
 const {
   authorization,
@@ -52,18 +56,24 @@ router.put("/users/:id", authorization, authSelf, UserController.updateOne);
 router.delete("/users/:id", UserController.deleteOne);
 
 router.get("/freelancers/:id/user", FreelancerController.getUser);
-// Routes for Freelancers
 
+// Routes for Freelancers
 router.get("/freelancers/", FreelancerController.getAll);
+router.get("/freelancers/search", FreelancerController.getAllWithinDistance);
+router.get(
+  "/freelancers/:freelancerid/city",
+  authorization,
+  FreelancerController.getOneFreelancerWithCityInfo
+);
 router.get(
   "/freelancers/:freelancerid",
   authorization,
   FreelancerController.getOne
 );
+
 router.put(
   "/freelancers/:freelancerid",
-  authorization,
-  authSelfRole,
+
   FreelancerController.updateOne
 );
 
@@ -137,6 +147,7 @@ router.get(
   authorization,
   FormationController.getAll
 );
+
 router.get(
   "/freelancers/:freelancerid/formations/:id",
   authorization,
@@ -225,6 +236,83 @@ router.get("/expertises/:id", ExpertiseController.getOne);
 router.put("/expertises/:id", ExpertiseController.updateOne);
 router.delete("/expertises/:id", ExpertiseController.deleteOne);
 
+// Routes for announcements
+router.post(
+  "/employers/:employerid/annonce",
+  authorization,
+  AnnonceController.createOne
+);
+router.get(
+  "/employers/:employerid/annonces",
+  AnnonceController.getAllByEmployerId
+);
+router.get("/annonces", AnnonceController.getAll);
+router.get("/annonces/:id", AnnonceController.getOne);
+router.get(
+  "/employers/:employerid/annonce/:id",
+  AnnonceController.getOneByEmployerId
+);
+router.put("/employers/:employerid/annonce/:id", AnnonceController.updateOne);
+router.delete(
+  "/employers/:employerid/annonce/:id",
+  AnnonceController.deleteOne
+);
+
+// Routes for offers
+router.post(
+  "/freelancers/:freelancerid/annonces/:annonceid/offers",
+
+  OfferController.createOne
+);
+router.get("/offers", authorization, OfferController.getAll);
+router.get("/offers/:id", authorization, OfferController.getOne);
+
+router.get(
+  "/annonces/:annonceid/offers",
+  authorization,
+  OfferController.getAllForAnAnnonce
+);
+router.get(
+  "/freelancers/:freelancerid/annonces/:annonceid/offers",
+  OfferController.getOneOfferForOneAnnonceAndOneFreelancer
+);
+
+router.put(
+  "/freelancers/:freelancerid/offers/:id",
+  authorization,
+  authSelfRole,
+  OfferController.updateOne
+);
+
+router.delete(
+  "/freelancers/:freelancerid/offers/:id",
+  authorization,
+  authSelfRole,
+  OfferController.deleteOne
+);
+
+// Routes for expertises
+router.get("/expertises/:id", ExpertiseController.getOne);
+// router.put("/expertises/:id", ExpertiseController.updateOne);
+// router.delete("/expertises/:id", ExpertiseController.deleteOne);
+
+// Routes for services of one annonce
+router.get(
+  "/employer/:employerId/annonce/:annonceId/services",
+  AnnonceServicesController.getAll
+);
+router.get(
+  "/annonce/:annonceId/services/:serviceId",
+  AnnonceServicesController.getOneByAnnonceId
+);
+router.post(
+  "/employer/:employerId/annonce/:annonceId/services/:serviceId",
+  AnnonceServicesController.createOne
+);
+router.delete(
+  "/annonce/:annonceId/services/:serviceId",
+  AnnonceServicesController.deleteOne
+);
 // Routes for services of one freelancer
 
 router.get(
@@ -248,5 +336,27 @@ router.delete(
 
 router.get("/users/adminGetOne/:id", UserController.getUserWithRole);
 router.post("/users/:freelancerId/verify/:docId", DocumentsController.verify);
+// routes for locations
+router.get("/locations", LieuController.getAll);
+router.get("/locations/:locationId", LieuController.getOne);
+router.post("/locations/:locationId", LieuController.createOne);
+router.delete("/locations/:locationId", LieuController.deleteOne);
+
+// routes for lieux annoncesx
+
+router.get(
+  "/employer/:employerId/annonce/:annonceId/locations",
+  AnnonceLieuController.getAllByAnnonceId
+);
+
+router.post(
+  "/employer/:employerId/annonce/:annonceId/locations/:locationId",
+  AnnonceLieuController.createOne
+);
+
+router.delete(
+  "/employer/:employerId/annonce/:annonceId/locations/locationId",
+  AnnonceLieuController.deleteOne
+);
 
 module.exports = router;
