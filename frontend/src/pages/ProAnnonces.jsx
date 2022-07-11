@@ -26,11 +26,11 @@ function ProAnnonces() {
     });
   }, []);
   const currentAnnonces = annonces.filter(
-    (annonce) => annonce.status !== "Terminé"
+    (annonce) => annonce.status !== "Terminée"
   );
 
   const oldAnnonces = annonces.filter(
-    (annonce) => annonce.status === "Terminé"
+    (annonce) => annonce.status === "Terminée"
   );
   return (
     <Box h="100vh">

@@ -168,6 +168,7 @@ exports.validateAnnouncement = (data, forCreation = true) => {
   const validationErrors = Joi.object({
     title: Joi.string().max(100).presence(presence),
     description: Joi.string().max(500).presence(presence),
+    zipCode: Joi.string().max(10).presence(presence),
     price: Joi.number().presence(presence).options({ convert: false }),
     emergency: Joi.boolean(),
     expertise: Joi.string().max(500),

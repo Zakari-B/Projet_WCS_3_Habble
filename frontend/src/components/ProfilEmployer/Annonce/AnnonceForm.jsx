@@ -87,33 +87,8 @@ export default function AnnonceForm() {
     setSearch(event.target.value);
   };
 
-  // fonction retrait d'un item //
-  // const removeItem = (indexToRemove) => {
-  //   setTags([...tags.filter((_, index) => index !== indexToRemove)]);
-  // };
-
-  // fonction retrait d'ajout d'un item //
-  // const service = (e) => {
-  //   if (e.target.value !== "" && !tags.includes(e.target.value)) {
-  //     setTags([...tags, e.target.value]);
-  //     e.target.value = "";
-  //   }
-  // };
-
-  // fonction retrait et d'ajout d'une expertise //
-  // const updateLocation = (e) => {
-  //   if (e.target.checked && !location.includes(e.target.value)) {
-  //     setLocation([...location, e.target.value]);
-  //   } else if (!e.target.checked) {
-  //     location.splice(location.indexOf(e.target.value), 1);
-  //     setLocation(location);
-  //   }
-  // };
-
   const updateEmergency = (e) => {
-    if (e.target.checked) {
-      setEmergency(true);
-    }
+    setEmergency(e.target.checked);
   };
 
   const handleSubmit = (event) => {
@@ -237,23 +212,8 @@ export default function AnnonceForm() {
       });
   };
 
-  // axios qui va chercher les services d'un freelancer
-  // const getAllLocationsByAnnonce = () => {
-  //   backendAPI
-  //     .get(`/api/employer/${employerId}/annonce/${annonceId}/locations`)
-  //     .then((response) => {
-  //       setLocationList(
-  //         response.data.map((e) => e.fk_expertise_id.id.toString())
-  //       );
-  //     })
-  //     .catch((error) => {
-  //       console.warn(error);
-  //     });
-  // };
-
   useEffect(() => {
     getAllLocations();
-    // getAllLocationsByAnnonce();
   }, []);
 
   return (
@@ -630,8 +590,8 @@ export default function AnnonceForm() {
                   colorScheme="white"
                   borderColor="gray"
                   _checked={{ borderColor: "pink.light" }}
-                  value="Urgence"
                   onChange={updateEmergency}
+                  isChecked={!!emergency}
                 >
                   <Text fontSize="sm">Oui</Text>
                 </Checkbox>
