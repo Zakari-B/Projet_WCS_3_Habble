@@ -56,7 +56,7 @@ export default function AnnonceForm() {
 
   const { employerId, annonceId } = useParams();
 
-  const [setCityPro] = useState("");
+  const [cityPro, setCityPro] = useState("");
   const [cityProName, setCityProName] = useState("");
   const [search, setSearch] = useState("");
   const [addressList, setAddressList] = useState([]);
@@ -100,6 +100,7 @@ export default function AnnonceForm() {
         emergency,
         price,
         status,
+        zipCode: cityPro,
       })
       .then(() => {
         navigate(`/profil-employer/${employerId}`);
@@ -360,8 +361,8 @@ export default function AnnonceForm() {
                           <ListItem
                             onClick={() => {
                               if (city.properties.citycode) {
-                                setCityPro(city.properties.citycode);
                                 setCityProName(city.properties.name);
+                                setCityPro(city.properties.citycode);
                                 setSearch("");
                               }
                             }}
