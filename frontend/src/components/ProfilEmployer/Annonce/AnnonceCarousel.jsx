@@ -22,6 +22,7 @@ export default function AnnonceCarousel() {
       .post(`api/employers/${employerId}/annonce`, {
         title: " ",
         description: " ",
+        zipCode: "83061",
         emergency: false,
         price: 0,
         status: "En cours",

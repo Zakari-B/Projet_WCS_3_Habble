@@ -243,7 +243,13 @@ router.get(
   "/employers/:employerid/annonces",
   AnnonceController.getAllByEmployerId
 );
+
 router.get("/annonces", AnnonceController.getAll);
+router.get(
+  "/annonces/:annonceId/city",
+  authorization,
+  AnnonceController.getOneAnnonceWithCityInfo
+);
 router.get("/annonces/:id", AnnonceController.getOne);
 router.get(
   "/employers/:employerid/annonce/:id",
