@@ -71,14 +71,3 @@ exports.removeOne = async (req, res) => {
       .json({ error: "Problème de mise à jour du freelancer" });
   }
 };
-
-// exports.deleteOne = async (req, res) => {
-//   const id = parseInt(req.query.id, 10);
-//   const removed = await PictureFreelancerModel.deleteOne(id);
-
-//   await fs.promises.unlink(
-//     path.join(__dirname, `../../public/uploads/${removed.documentLink}`)
-//   );
-
-//   res.sendStatus(204);
-// };
