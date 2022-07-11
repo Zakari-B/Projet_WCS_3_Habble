@@ -111,9 +111,7 @@ export default function AnnonceForm() {
   // };
 
   const updateEmergency = (e) => {
-    if (e.target.checked) {
-      setEmergency(true);
-    }
+    setEmergency(e.target.checked);
   };
 
   const handleSubmit = (event) => {
@@ -630,8 +628,8 @@ export default function AnnonceForm() {
                   colorScheme="white"
                   borderColor="gray"
                   _checked={{ borderColor: "pink.light" }}
-                  value="Urgence"
                   onChange={updateEmergency}
+                  isChecked={!!emergency}
                 >
                   <Text fontSize="sm">Oui</Text>
                 </Checkbox>
