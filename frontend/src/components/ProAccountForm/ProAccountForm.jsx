@@ -43,6 +43,7 @@ export default function ProAccountForm({ onModal = false, onClose }) {
   const { freelancerId } = useParams();
   // useState pour chaque input //
   const [user, setUser] = useState("");
+  const [freelancerPicture, setFreelancerPicture] = useState("");
   const [displayName, setDisplayName] = useState("");
   const [activityPro, setActivityPro] = useState("");
   const [phonePro, setPhonePro] = useState("");
@@ -87,6 +88,7 @@ export default function ProAccountForm({ onModal = false, onClose }) {
   const getOneUser = () => {
     backendAPI.get(`/api/freelancers/${freelancerId}/user`).then((response) => {
       setUser(response.data);
+      setFreelancerPicture(response.data.freelancer.picture);
       setDisplayName(
         response.data.freelancer.displayName === "undefined"
           ? ""
@@ -142,7 +144,7 @@ export default function ProAccountForm({ onModal = false, onClose }) {
         description: descriptionPro,
         acceptEmails: acceptEmailPro,
         siret: siretPro,
-        // picture: picturePro,
+        available: false,
       })
       .then((response) => {
         backendAPI.put(`/api/users/${userId}`, {
@@ -158,8 +160,9 @@ export default function ProAccountForm({ onModal = false, onClose }) {
           });
           if (onModal === false) {
             navigate(`/profil/${freelancerId}`);
+          } else {
+            onClose();
           }
-          onClose();
         }
       })
       .catch((error) => {
@@ -191,7 +194,7 @@ export default function ProAccountForm({ onModal = false, onClose }) {
         description: descriptionPro === "" ? "undefined" : descriptionPro,
         acceptEmails: acceptEmailPro,
         siret: siretPro,
-        // picture: picturePro,
+        available: false,
       })
       .then((response) => {
         if (response) {
@@ -446,7 +449,7 @@ export default function ProAccountForm({ onModal = false, onClose }) {
                 />
               </VStack>
             </FormControl>
-            <PictureProfilePro />
+            <PictureProfilePro freelancerPicture={freelancerPicture} />
           </Flex>
           <FormControl>
             <Flex direction="column" rowGap="5" mt="1rem">
