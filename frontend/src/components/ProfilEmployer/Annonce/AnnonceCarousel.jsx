@@ -71,9 +71,11 @@ export default function AnnonceCarousel() {
             Il n'y a pas encore d'activité.
           </Text>
         ) : (
-          announcements.map((annonce) => (
-            <AnnonceCard annonce={annonce} key={annonce.id} />
-          ))
+          announcements
+            .filter((ann) => ann.status !== "uncompleted")
+            .map((annonce) => (
+              <AnnonceCard annonce={annonce} key={annonce.id} />
+            ))
         )}
       </Flex>
     </Flex>
