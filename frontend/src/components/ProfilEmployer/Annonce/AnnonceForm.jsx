@@ -87,29 +87,6 @@ export default function AnnonceForm() {
     setSearch(event.target.value);
   };
 
-  // fonction retrait d'un item //
-  // const removeItem = (indexToRemove) => {
-  //   setTags([...tags.filter((_, index) => index !== indexToRemove)]);
-  // };
-
-  // fonction retrait d'ajout d'un item //
-  // const service = (e) => {
-  //   if (e.target.value !== "" && !tags.includes(e.target.value)) {
-  //     setTags([...tags, e.target.value]);
-  //     e.target.value = "";
-  //   }
-  // };
-
-  // fonction retrait et d'ajout d'une expertise //
-  // const updateLocation = (e) => {
-  //   if (e.target.checked && !location.includes(e.target.value)) {
-  //     setLocation([...location, e.target.value]);
-  //   } else if (!e.target.checked) {
-  //     location.splice(location.indexOf(e.target.value), 1);
-  //     setLocation(location);
-  //   }
-  // };
-
   const updateEmergency = (e) => {
     setEmergency(e.target.checked);
   };
