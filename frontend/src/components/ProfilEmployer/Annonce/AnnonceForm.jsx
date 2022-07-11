@@ -212,23 +212,8 @@ export default function AnnonceForm() {
       });
   };
 
-  // axios qui va chercher les services d'un freelancer
-  // const getAllLocationsByAnnonce = () => {
-  //   backendAPI
-  //     .get(`/api/employer/${employerId}/annonce/${annonceId}/locations`)
-  //     .then((response) => {
-  //       setLocationList(
-  //         response.data.map((e) => e.fk_expertise_id.id.toString())
-  //       );
-  //     })
-  //     .catch((error) => {
-  //       console.warn(error);
-  //     });
-  // };
-
   useEffect(() => {
     getAllLocations();
-    // getAllLocationsByAnnonce();
   }, []);
 
   return (
