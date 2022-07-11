@@ -50,7 +50,7 @@ export default function AnnonceForm() {
   const [servicesList, setServicesList] = useState([]);
   const [serviceName, setServiceName] = useState([]);
   const [serviceNumber, setServiceNumber] = useState([]);
-
+  const [placeholder, setPlaceholder] = useState("");
   const [status] = useState("En cours");
 
   const { employerId, annonceId } = useParams();
@@ -90,7 +90,7 @@ export default function AnnonceForm() {
   useEffect(() => {
     backendAPI
       .get(`api/annonces/${parseInt(annonceId, 10)}`)
-      .then((result) => setTitle(result.data.title));
+      .then((result) => setPlaceholder(result.data.title));
   });
 
   const updateEmergency = (e) => {
@@ -147,7 +147,7 @@ export default function AnnonceForm() {
   // axios qui va chercher les services d'un freelancer
   const getAllServicesByAnnonce = () => {
     backendAPI
-      .get(`/api/employer/${employerId}/annonce/${annonceId}/services`)
+      .get(`/api/annonce/${annonceId}/services`)
       .then((response) => {
         setServiceName(response.data.map((e) => e.fk_services_id.name));
         setServiceNumber(response.data.map((e) => e.fk_services_id.id));
@@ -275,7 +275,7 @@ export default function AnnonceForm() {
                 type="text"
                 id="title"
                 name="title"
-                placeholder="Résumez votre besoin ici"
+                placeholder={placeholder}
                 _placeholder={{
                   fontSize: "0.8rem",
                   fontWeight: "500",

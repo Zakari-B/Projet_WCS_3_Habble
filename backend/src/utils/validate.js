@@ -155,7 +155,7 @@ exports.validateAnnouncement = (data, forCreation = true) => {
     emergency: Joi.boolean(),
     expertise: Joi.string().max(500),
     location: Joi.string().max(100),
-    status: Joi.string().max(100),
+    status: Joi.string().max(100).allow(null, ""),
   }).validate(data, { abortEarly: false }).error;
   if (validationErrors) {
     return validationErrors;
