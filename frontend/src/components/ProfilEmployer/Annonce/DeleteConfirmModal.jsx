@@ -65,6 +65,7 @@ export default function DeleteConfirmModal({
           <Button
             variant="solid_PrimaryColor"
             onClick={() => {
+              onClose();
               backendAPI
                 .delete(`/api/employers/${employerId}/annonce/${annonce.id}`)
                 .then(() =>
@@ -85,7 +86,6 @@ export default function DeleteConfirmModal({
                     isClosable: true,
                   })
                 );
-              onClose();
               setUpdated(!updated);
             }}
           >

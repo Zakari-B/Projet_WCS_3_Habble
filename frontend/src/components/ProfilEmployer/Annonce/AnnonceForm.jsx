@@ -42,6 +42,8 @@ export default function AnnonceForm() {
   const toast = useToast();
   const navigate = useNavigate();
   const [title, setTitle] = useState("");
+  const [titlePlaceHolder, setTitlePlaceHolder] = useState("");
+
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState();
   const [locations, setLocations] = useState([]);
@@ -90,7 +92,7 @@ export default function AnnonceForm() {
   useEffect(() => {
     backendAPI
       .get(`api/annonces/${parseInt(annonceId, 10)}`)
-      .then((result) => setTitle(result.data.title));
+      .then((result) => setTitlePlaceHolder(result.data.title));
   });
 
   // fonction retrait d'un item //
@@ -315,7 +317,7 @@ export default function AnnonceForm() {
                 type="text"
                 id="title"
                 name="title"
-                placeholder="Résumez votre besoin ici"
+                placeholder={titlePlaceHolder || "Résumez votre besoin ici"}
                 _placeholder={{
                   fontSize: "0.8rem",
                   fontWeight: "500",

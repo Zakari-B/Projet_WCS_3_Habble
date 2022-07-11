@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import AnnonceCard from "./AnnonceCard";
 import backendAPI from "../../../services/backendAPI";
 
-export default function AnnonceCarousel() {
+export default function AnnonceCarousel(updated, setUpdated) {
   const { employerId } = useParams();
   const navigate = useNavigate();
   const [announcements, setAnnouncements] = useState([]);
@@ -72,7 +72,12 @@ export default function AnnonceCarousel() {
           </Text>
         ) : (
           announcements.map((annonce) => (
-            <AnnonceCard annonce={annonce} key={annonce.id} />
+            <AnnonceCard
+              annonce={annonce}
+              key={annonce.id}
+              updated={updated}
+              setUpdated={setUpdated}
+            />
           ))
         )}
       </Flex>
