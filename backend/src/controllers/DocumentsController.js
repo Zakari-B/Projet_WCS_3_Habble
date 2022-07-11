@@ -4,7 +4,7 @@ const {
   getAllDocumentsByFreelancerId,
   getAllDocumentsByFreelancerIdAndFamilyId,
   getOneDocumentByFreelancerId,
-  getOneDocumentByFreelancerIdAndFamilyId,
+  getOneDocumentByCoordinatorIdAndFamilyId,
   deleteOneDocument,
 } = require("../models/documents");
 
@@ -66,13 +66,16 @@ const deleteOne = async (req, res) => {
 };
 
 const deleteOneByFamily = async (req, res) => {
-  const freelancerId = parseInt(req.params.coordinatorId, 10);
+  const freelancerId = parseInt(req.roleId, 10);
   const documentID = parseInt(req.params.id, 10);
+  const familyId = parseInt(req.params.familyId, 10);
   // console.log(`coordinator: ${freelancerId}`);
   // console.log(`document: ${documentID}`);
+  // console.log(`family: ${familyId}`);
 
-  const document = await getOneDocumentByFreelancerIdAndFamilyId(
+  const document = await getOneDocumentByCoordinatorIdAndFamilyId(
     freelancerId,
+    familyId,
     documentID
   );
 

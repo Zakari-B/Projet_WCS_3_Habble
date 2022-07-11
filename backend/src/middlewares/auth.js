@@ -6,7 +6,6 @@ const coordinator = require("../models/coordinator");
 const authorization = async (req, res, next) => {
   const token = req.cookies.userToken;
   if (!token) {
-    // console.log("no token");
     return res.sendStatus(401);
   }
   try {

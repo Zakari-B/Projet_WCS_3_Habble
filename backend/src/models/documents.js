@@ -35,7 +35,7 @@ const getOneDocumentByFreelancerId = async (freelancerId, id) => {
   }
 };
 
-const getOneDocumentByFreelancerIdAndFamilyId = async (
+const getOneDocumentByCoordinatorIdAndFamilyId = async (
   coordinatorId,
   familyId,
   id
@@ -61,6 +61,6 @@ module.exports = {
   getAllDocumentsByFreelancerId,
   getAllDocumentsByFreelancerIdAndFamilyId,
   getOneDocumentByFreelancerId,
-  getOneDocumentByFreelancerIdAndFamilyId,
+  getOneDocumentByCoordinatorIdAndFamilyId,
   deleteOneDocument,
 };

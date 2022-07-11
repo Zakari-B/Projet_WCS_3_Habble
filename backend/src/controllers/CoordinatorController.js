@@ -43,6 +43,5 @@ exports.getOne = async (req, res) => {
     return res.status(200).json(coordinator);
   } catch (e) {
     return res.status(500).send(e);
-    //   .json({ error: "Problème de lecture du coordinateurs" });
   }
 };
