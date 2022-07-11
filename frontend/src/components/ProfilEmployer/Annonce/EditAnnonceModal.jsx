@@ -35,6 +35,7 @@ import {
   List,
   IconButton,
   ListItem,
+  Select,
 } from "@chakra-ui/react";
 import PropTypes from "prop-types";
 import { Search2Icon } from "@chakra-ui/icons";
@@ -51,7 +52,7 @@ export default function EditAnnonceModal({ isOpen, onClose, annonce }) {
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState();
   const [emergency, setEmergency] = useState(false);
-  const [status] = useState("En cours");
+  const [status, setStatus] = useState("");
 
   const [search, setSearch] = useState("");
   const [cityPro, setCityPro] = useState("");
@@ -150,6 +151,10 @@ export default function EditAnnonceModal({ isOpen, onClose, annonce }) {
     setEmergency(e.target.checked);
   };
 
+  const handleStatus = (e) => {
+    setStatus(e.target.value);
+  };
+
   return (
     <Modal size="4xl" isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
@@ -165,7 +170,7 @@ export default function EditAnnonceModal({ isOpen, onClose, annonce }) {
         </ModalHeader>
         <ModalCloseButton />
         <ModalBody paddingY="30px">
-          <Box h="100vh">
+          <Box h="auto">
             <Flex direction="column" justify="flex-start">
               <Stack
                 className="noAccount"
@@ -409,38 +414,64 @@ export default function EditAnnonceModal({ isOpen, onClose, annonce }) {
                       €/h (indicatif)
                     </Text>
                   </Flex>
-                </Flex>
-                <Lieux annonce={annonce} />
-                <FormLabel
-                  htmlFor="chronicDiseases"
-                  fontSize="sm"
-                  fontWeight="800"
-                  color="purple.average"
-                >
-                  Demande urgente
-                </FormLabel>
-                <CheckboxGroup>
-                  <Flex
-                    justifyContent="left"
-                    columnGap="3"
-                    rowGap="2"
-                    flexWrap="wrap"
-                    h="fit-content"
-                    w="fit-content%"
-                    flexDirection="column"
-                  >
-                    <Checkbox
-                      iconColor="pink.light"
-                      colorScheme="white"
-                      borderColor="gray"
-                      _checked={{ borderColor: "pink.light" }}
-                      onChange={updateEmergency}
-                      isChecked={!!emergency}
+                  <Flex direction="column" w="100%">
+                    <Lieux annonce={annonce} />
+                    <FormLabel
+                      paddingTop="5%"
+                      htmlFor="chronicDiseases"
+                      fontSize="sm"
+                      fontWeight="800"
+                      color="purple.average"
                     >
-                      <Text fontSize="sm">Oui</Text>
-                    </Checkbox>
+                      Demande urgente
+                    </FormLabel>
+                    <CheckboxGroup>
+                      <Flex
+                        justifyContent="left"
+                        columnGap="3"
+                        rowGap="2"
+                        flexWrap="wrap"
+                        h="fit-content"
+                        w="fit-content%"
+                        flexDirection="column"
+                      >
+                        <Checkbox
+                          iconColor="pink.light"
+                          colorScheme="white"
+                          borderColor="gray"
+                          _checked={{ borderColor: "pink.light" }}
+                          onChange={updateEmergency}
+                          isChecked={!!emergency}
+                        >
+                          <Text fontSize="sm">Oui</Text>
+                        </Checkbox>
+                        <FormLabel
+                          paddingTop="5%"
+                          fontSize="sm"
+                          fontWeight="800"
+                          color="purple.average"
+                        >
+                          Changer le statut
+                        </FormLabel>
+                        <Select
+                          border="none"
+                          type="text"
+                          id="status"
+                          name="status"
+                          fontSize="0.8rem"
+                          fontWeight="500"
+                          color="gray"
+                          placeholder="Modifier le statut de l'annonce"
+                          onChange={handleStatus}
+                        >
+                          <option value="En cours">En cours</option>
+                          <option value="En suspens">En suspens</option>
+                          <option value="Terminée">Terminée</option>
+                        </Select>
+                      </Flex>
+                    </CheckboxGroup>
                   </Flex>
-                </CheckboxGroup>
+                </Flex>
               </Stack>
             </Flex>
           </Box>
