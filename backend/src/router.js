@@ -46,6 +46,12 @@ router.get("/auth/logout", authorization, UserController.logout);
 router.get("/auth/sessionControl", authorization, sessionControl);
 
 router.post("/file", authorization, multer, fileController.addOne);
+router.post(
+  "/:familyId/file",
+  authorization,
+  multer,
+  fileController.addOneByFamily
+);
 
 router.post("/maiyl/forgotten", mailController.forgotten);
 router.post("/mail/contact", mailController.contact);
@@ -131,11 +137,22 @@ router.get(
   // authorization,
   DocumentsController.getAll
 );
+router.get(
+  "/coordinators/:coordinatorId/:familyId/documents",
+  // authorization,
+  DocumentsController.getAllByFamilyId
+);
 router.delete(
   "/freelancers/:freelancerid/documents/:id",
   authorization,
   authSelfRole,
   DocumentsController.deleteOne
+);
+router.delete(
+  "/coordinators/:coordinatorId/documents/:id",
+  authorization,
+  // authSelfRole,
+  DocumentsController.deleteOneByFamily
 );
 
 // Routes for Diplomes

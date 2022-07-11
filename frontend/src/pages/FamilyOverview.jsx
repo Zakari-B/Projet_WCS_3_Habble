@@ -4,7 +4,7 @@ import { useParams } from "react-router-dom";
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer";
 import { getOneItemOfList } from "../services/ProfileProUtils";
-import DocumentCarousel from "../components/ProfileFreelancer/DocumentUpload/DocumentCarousel";
+import DocumentCarouselFamily from "../components/ProfilCoordinator/DocumentCarouselFamily";
 import ModalDeletionFamily from "../components/ProfilCoordinator/ModalDeletionFamily";
 import ModalUpdateFamily from "../components/ProfilCoordinator/ModalUpdateFamily";
 
@@ -107,7 +107,7 @@ function FamilyOverview() {
           </Flex>
         </Box>
         <Box w={{ base: "95%", lg: "49%" }} borderRadius="21px">
-          <DocumentCarousel setUpdated={setUpdated} />
+          <DocumentCarouselFamily setUpdated={setUpdated} />
         </Box>
       </Flex>
       <Footer />

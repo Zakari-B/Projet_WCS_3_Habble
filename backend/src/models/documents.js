@@ -12,10 +12,37 @@ const getAllDocumentsByFreelancerId = async (freelancerId) => {
   }
 };
 
+const getAllDocumentsByFreelancerIdAndFamilyId = async (
+  coordinatorId,
+  familyId
+) => {
+  try {
+    return await prisma.documents.findMany({
+      where: { coordinatorId, familyId },
+    });
+  } finally {
+    await prisma.$disconnect();
+  }
+};
+
 const getOneDocumentByFreelancerId = async (freelancerId, id) => {
   try {
     return await prisma.documents.findFirst({
       where: { freelancerId, id },
+    });
+  } finally {
+    await prisma.$disconnect();
+  }
+};
+
+const getOneDocumentByFreelancerIdAndFamilyId = async (
+  coordinatorId,
+  familyId,
+  id
+) => {
+  try {
+    return await prisma.documents.findFirst({
+      where: { coordinatorId, familyId, id },
     });
   } finally {
     await prisma.$disconnect();
@@ -32,6 +59,8 @@ const deleteOneDocument = async (id) => {
 
 module.exports = {
   getAllDocumentsByFreelancerId,
+  getAllDocumentsByFreelancerIdAndFamilyId,
   getOneDocumentByFreelancerId,
+  getOneDocumentByFreelancerIdAndFamilyId,
   deleteOneDocument,
 };

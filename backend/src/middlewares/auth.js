@@ -6,6 +6,7 @@ const coordinator = require("../models/coordinator");
 const authorization = async (req, res, next) => {
   const token = req.cookies.userToken;
   if (!token) {
+    // console.log("no token");
     return res.sendStatus(401);
   }
   try {
@@ -54,7 +55,11 @@ const authSelfRole = async (req, res, next) => {
   if (req.roleId === parseInt(req.params.freelancerid, 10)) {
     return next();
   }
+  if (req.roleId === parseInt(req.params.coordinatorId, 10)) {
+    return next();
+  }
 
+  // console.log("no role");
   return res.sendStatus(401);
 };
 
