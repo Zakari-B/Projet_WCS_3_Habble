@@ -14,12 +14,16 @@ function FamilyOverview() {
   const [oneFamily, setOneFamily] = useState([]);
   const [updated, setUpdated] = useState(false);
 
-  useEffect(() => {
+  const GetAFamily = () => {
     getOneItemOfList("coordinators", "famille", freelancerId, familyId).then(
       (res) => {
         setOneFamily(res.data);
       }
     );
+  };
+
+  useEffect(() => {
+    GetAFamily();
   }, [updated]);
 
   return (

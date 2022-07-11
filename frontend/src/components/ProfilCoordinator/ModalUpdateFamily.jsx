@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import {
   Modal,
@@ -20,7 +20,7 @@ import {
   useToast,
   useDisclosure,
 } from "@chakra-ui/react";
-import { addToList } from "../../services/ProfileProUtils";
+import { updateItemList } from "../../services/ProfileProUtils";
 
 function ModalUpdateFamily({ oneFamily }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -67,7 +67,7 @@ function ModalUpdateFamily({ oneFamily }) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    addToList("coordinators", "famille", freelancerId, {
+    updateItemList("coordinators", "famille", freelancerId, oneFamily.id, {
       firstname,
       lastname,
       legalGuardian: guardian,
@@ -97,6 +97,10 @@ function ModalUpdateFamily({ oneFamily }) {
       });
     onClose();
   };
+
+  useEffect(() => {
+    setLastname(oneFamily.lastname);
+  }, []);
 
   return (
     <>
@@ -135,7 +139,7 @@ function ModalUpdateFamily({ oneFamily }) {
                 w={{ base: "95%", lg: "65%" }}
                 type="text"
                 value={lastname}
-                // placeholder="oneFamily.lastname"
+                placeholder="Nom de la personne"
                 _placeholder={{
                   fontSize: "0.8rem",
                   fontWeight: "500",
