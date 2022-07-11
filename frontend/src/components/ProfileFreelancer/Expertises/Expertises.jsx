@@ -76,6 +76,7 @@ export default function Expertises() {
                         bgColor="#f2f5f7"
                         fontSize="sm"
                         w="fit-content"
+                        key={element.id}
                       >
                         {element.name}
                       </Text>
@@ -111,6 +112,7 @@ export default function Expertises() {
                         bgColor="#f2f5f7"
                         fontSize="sm"
                         w="fit-content"
+                        key={element.id}
                       >
                         {element.name}
                       </Text>
@@ -146,6 +148,7 @@ export default function Expertises() {
                         bgColor="#f2f5f7"
                         fontSize="sm"
                         w="fit-content"
+                        key={element.id}
                       >
                         {element.name}
                       </Text>
@@ -181,6 +184,7 @@ export default function Expertises() {
                         bgColor="#f2f5f7"
                         fontSize="sm"
                         w="fit-content"
+                        key={element.id}
                       >
                         {element.name}
                       </Text>

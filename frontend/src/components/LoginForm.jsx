@@ -57,7 +57,7 @@ const loginForm = () => {
           }
           if (response.data.type === "freelancer") {
             window.localStorage.setItem("role", "freelancer");
-            return response.data.profileIsComplete
+            return response.data.profil
               ? navigate(`/profil/${response.data.fkId}`)
               : navigate(`/register-onboarding-pro/${response.data.fkId}`);
           }

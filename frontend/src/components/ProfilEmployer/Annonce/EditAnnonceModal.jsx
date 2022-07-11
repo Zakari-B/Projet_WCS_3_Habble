@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import axios from "axios";
+import { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
 
 import {
@@ -26,8 +27,18 @@ import {
   Checkbox,
   CheckboxGroup,
   Text,
+  Tag,
+  TagLeftIcon,
+  TagCloseButton,
+  InputGroup,
+  InputLeftElement,
+  List,
+  IconButton,
+  ListItem,
 } from "@chakra-ui/react";
 import PropTypes from "prop-types";
+import { Search2Icon } from "@chakra-ui/icons";
+import { MdRoom } from "react-icons/md";
 import backendAPI from "../../../services/backendAPI";
 import Services from "./Services";
 import Lieux from "./Lieux";
@@ -40,8 +51,12 @@ export default function EditAnnonceModal({ isOpen, onClose, annonce }) {
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState();
   const [emergency, setEmergency] = useState(false);
-
   const [status] = useState("En cours");
+
+  const [search, setSearch] = useState("");
+  const [setCityPro] = useState("");
+  const [cityProName, setCityProName] = useState("");
+  const [addressList, setAddressList] = useState([]);
 
   useEffect(() => {
     backendAPI.get(`/api/annonces/${annonce.id}`).then((res) => {
@@ -50,7 +65,39 @@ export default function EditAnnonceModal({ isOpen, onClose, annonce }) {
       setPrice(res.data.price);
       setEmergency(res.data.emergency);
     });
+
+    // backendAPI.get(`/api/freelancers/${freelancerId}/city`).then((response) => {
+    //   setCityPro(response.data[0].zipCode);
+    //   setCityProName(response.data[0].ville_nom);
+    // });
   }, []);
+
+  const getAddressList = (signal) => {
+    axios
+      .get(
+        `https://api-adresse.data.gouv.fr/search/?q=${search}&type=municipality&autocomplete=1&limit=3`,
+        { signal }
+      )
+      .then((response) => {
+        setAddressList(response.data.features);
+      });
+  };
+  const previousController = useRef();
+
+  useEffect(() => {
+    if (search.length >= 1) {
+      if (previousController.current) {
+        previousController.current.abort();
+      }
+      const controller = new AbortController();
+      const { signal } = controller;
+      previousController.current = controller;
+      getAddressList(signal);
+    }
+  }, [search]);
+  const handleSearch = (event) => {
+    setSearch(event.target.value);
+  };
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -177,7 +224,134 @@ export default function EditAnnonceModal({ isOpen, onClose, annonce }) {
                     prestations de soins réalisés, résultats d’examens,
                     traitements, handicap, etc.
                   </Text>
+                  <FormLabel
+                    htmlFor="city"
+                    fontSize="md"
+                    fontWeight="800"
+                    color="purple.average"
+                  >
+                    Où avez-vous besoin de soutien ? *{" "}
+                  </FormLabel>
 
+                  {!cityProName ? (
+                    <Flex direction="column" w="100%">
+                      <InputGroup
+                        display="flex"
+                        alignItems="center"
+                        marginBottom="5px"
+                      >
+                        <InputLeftElement
+                          pointerEvents="none"
+                          display="flex"
+                          alignItems="center"
+                          h="100%"
+                        >
+                          <IconButton
+                            variant="unstyled"
+                            color="gray.500"
+                            aria-label="Search database"
+                            icon={<Search2Icon />}
+                          />
+                        </InputLeftElement>
+                        <Input
+                          type="search"
+                          id="proFormCity"
+                          name="city"
+                          variant="outline"
+                          autocomplete="off"
+                          bgColor="white"
+                          h="50px"
+                          fontSize="0.9rem"
+                          fontWeight="400"
+                          placeholder="Veuillez saisir un code postal et selectionnez une ville dans la liste"
+                          value={search}
+                          onChange={handleSearch}
+                        />
+                      </InputGroup>
+
+                      {addressList.length !== 0 && search !== "" && (
+                        <List
+                          bg="white"
+                          width="100%"
+                          borderRadius="4px"
+                          overflow="hidden"
+                          zIndex="997"
+                          boxShadow="rgb(0 0 0 / 4%) 0px 2px 6px"
+                          border="1px solid #ededed"
+                        >
+                          <Flex direction="column" w="-webkit-fill-available">
+                            {addressList.map((city) => (
+                              <ListItem
+                                onClick={() => {
+                                  if (city.properties.citycode) {
+                                    setCityPro(city.properties.citycode);
+                                    setCityProName(city.properties.name);
+                                    setSearch("");
+                                  }
+                                }}
+                              >
+                                <Flex
+                                  direction="row"
+                                  p={5}
+                                  w="100%"
+                                  align="center"
+                                >
+                                  <Flex
+                                    pl="20px"
+                                    justifyContent="space-between"
+                                    width="100%"
+                                    alignItems="center"
+                                  >
+                                    <Flex
+                                      direction="column"
+                                      alignItems="flex-start"
+                                    >
+                                      <Text
+                                        fontSize="lg"
+                                        align="left"
+                                        color="purple.dark"
+                                        _groupHover={{
+                                          color: "pink.light",
+                                          fontWeight: "700",
+                                        }}
+                                      >
+                                        {city.properties.name} (
+                                        {city.properties.postcode})
+                                      </Text>
+                                      <Text
+                                        fontSize="md"
+                                        align="left"
+                                        color="purple.dark"
+                                      >
+                                        {city.properties.context}
+                                      </Text>
+                                    </Flex>
+                                  </Flex>
+                                </Flex>
+                              </ListItem>
+                            ))}
+                          </Flex>
+                        </List>
+                      )}
+                    </Flex>
+                  ) : (
+                    <Tag
+                      variant="solid"
+                      bgColor="pink.light"
+                      size="lg"
+                      w="fit-content"
+                    >
+                      <TagLeftIcon as={MdRoom} />
+                      {cityProName}
+                      <TagCloseButton
+                        onClick={() => {
+                          setCityPro("");
+                          setCityProName("");
+                          setSearch("");
+                        }}
+                      />
+                    </Tag>
+                  )}
                   <FormLabel
                     htmlFor="skills"
                     fontSize="md"
