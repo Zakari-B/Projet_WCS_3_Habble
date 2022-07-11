@@ -10,15 +10,11 @@ export default function AnnonceCarousel() {
   const [announcements, setAnnouncements] = useState([]);
 
   const getannouncements = () => {
-    backendAPI
-      .get(`api/employers/${employerId}/annonces`)
-      .then((response) => {
+    backendAPI.get(`api/employers/${employerId}/annonces`).then((response) => {
+      if (response.data !== "Il n'y a pas encore d'activité") {
         setAnnouncements(response.data);
-      })
-      .catch((error) => {
-        console.warn(error);
-        navigate("/error");
-      });
+      }
+    });
   };
 
   const postAnnonce = () => {

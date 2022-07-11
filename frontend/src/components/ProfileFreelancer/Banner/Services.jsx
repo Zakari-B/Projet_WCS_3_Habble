@@ -1,4 +1,4 @@
-import { Flex, Text } from "@chakra-ui/react";
+import { Flex, Tag } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
@@ -25,8 +25,7 @@ export default function Services() {
 
   return (
     <Flex
-      justifyContent="center"
-      alignSelf="center"
+      justifyContent="flex-start"
       columnGap="3"
       rowGap="2"
       flexWrap="wrap"
@@ -34,15 +33,9 @@ export default function Services() {
       w="fit-content"
     >
       {serviceList.map((element) => (
-        <Text
-          m="0.2rem"
-          p="0.2rem"
-          bgColor="#f2f5f7"
-          fontSize="sm"
-          w="fit-content"
-        >
+        <Tag fontSize="sm" w="fit-content" key={element}>
           {element}
-        </Text>
+        </Tag>
       ))}
     </Flex>
   );
