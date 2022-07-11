@@ -42,6 +42,8 @@ export default function AnnonceForm() {
   const toast = useToast();
   const navigate = useNavigate();
   const [title, setTitle] = useState("");
+  const [titlePlaceHolder, setTitlePlaceHolder] = useState("");
+
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState();
   const [locations, setLocations] = useState([]);
@@ -50,7 +52,6 @@ export default function AnnonceForm() {
   const [servicesList, setServicesList] = useState([]);
   const [serviceName, setServiceName] = useState([]);
   const [serviceNumber, setServiceNumber] = useState([]);
-  const [placeholder, setPlaceholder] = useState("");
   const [status] = useState("En cours");
 
   const { employerId, annonceId } = useParams();
@@ -90,7 +91,7 @@ export default function AnnonceForm() {
   useEffect(() => {
     backendAPI
       .get(`api/annonces/${parseInt(annonceId, 10)}`)
-      .then((result) => setPlaceholder(result.data.title));
+      .then((result) => setTitlePlaceHolder(result.data.title));
   });
 
   const updateEmergency = (e) => {
@@ -275,7 +276,7 @@ export default function AnnonceForm() {
                 type="text"
                 id="title"
                 name="title"
-                placeholder={placeholder}
+                placeholder={titlePlaceHolder || "Résumez votre besoin ici"}
                 _placeholder={{
                   fontSize: "0.8rem",
                   fontWeight: "500",
