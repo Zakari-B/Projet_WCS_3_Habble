@@ -20,14 +20,18 @@ export default function AnnonceCarousel() {
   const postAnnonce = () => {
     backendAPI
       .post(`api/employers/${employerId}/annonce`, {
-        title: " ",
-        description: " ",
-        zipCode: "83061",
+        title: "Nouvelle Annonce ",
+        description: "Exemple description",
+        zipCode: "00000",
         emergency: false,
         price: 0,
-        status: "En cours",
+        status: "uncompleted",
       })
       .then((response) => {
+        backendAPI.put(
+          `api/employers/${employerId}/annonce/${response.data.id}`,
+          { title: `Nouvelle Annonce #${response.data.id}` }
+        );
         navigate(
           `/deposer-une-annonce/${employerId}/annonce/${response.data.id}`
         );
