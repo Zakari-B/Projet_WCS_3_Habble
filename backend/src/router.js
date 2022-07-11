@@ -20,6 +20,7 @@ const multer = require("./middlewares/multer");
 const FreelancerServicesController = require("./controllers/FreelancerServicesControllers");
 const AnnonceServicesController = require("./controllers/AnnonceServicesController");
 const FreelancerExpertisesController = require("./controllers/FreelancerExpertisesControllers");
+const PictureFreelancerController = require("./controllers/PictureFreelancerController");
 const AnnonceLieuController = require("./controllers/AnnonceLieuController");
 
 const {
@@ -54,6 +55,8 @@ router.get("/users/:id", authorization, UserController.getOne);
 router.put("/users/", authorization, UserController.updateOne);
 router.put("/users/:id", authorization, authSelf, UserController.updateOne);
 router.delete("/users/:id", UserController.deleteOne);
+
+// Routes for Freelancers
 
 router.get("/freelancers/:id/user", FreelancerController.getUser);
 
@@ -99,6 +102,20 @@ router.get("/coordinators/:id", authorization, CoordinatorController.getOne);
 //   authorization,
 //   CoordinatorController.getUser
 // );
+// Routes for freelancer's picture
+router.put(
+  "/freelancers/:freelancerid/picture",
+  authorization,
+  multer,
+  PictureFreelancerController.updateOne
+);
+
+router.put(
+  "/freelancers/:freelancerid/removedPicture",
+  authorization,
+  multer,
+  PictureFreelancerController.removeOne
+);
 
 // Routes for Employers
 
@@ -111,7 +128,7 @@ router.get("/employers/:id/user", EmployerController.getUserFromEmployer);
 
 router.get(
   "/freelancers/:freelancerid/documents",
-  authorization,
+  // authorization,
   DocumentsController.getAll
 );
 router.delete(
@@ -279,6 +296,24 @@ router.delete(
   FamilyController.deleteOne
 );
 
+// Routes for expertises of one freelancer
+router.get(
+  "/freelancers/:freelancerId/expertises",
+  FreelancerExpertisesController.getAll
+);
+router.get(
+  "/freelancers/:freelancerId/expertises/:expertiseId",
+  FreelancerExpertisesController.getOneByFreelancerId
+);
+router.post(
+  "/freelancers/:freelancerId/expertises/:expertiseId",
+  FreelancerExpertisesController.createOne
+);
+router.delete(
+  "/freelancers/:freelancerId/expertises/:expertiseId",
+  FreelancerExpertisesController.deleteOne
+);
+
 // Routes for announcements
 router.post(
   "/employers/:employerid/annonce",
@@ -355,24 +390,6 @@ router.post(
 router.delete(
   "/annonce/:annonceId/services/:serviceId",
   AnnonceServicesController.deleteOne
-);
-// Routes for services of one freelancer
-
-router.get(
-  "/freelancers/:freelancerId/expertises",
-  FreelancerExpertisesController.getAll
-);
-router.get(
-  "/freelancers/:freelancerId/expertises/:expertiseId",
-  FreelancerExpertisesController.getOneByFreelancerId
-);
-router.post(
-  "/freelancers/:freelancerId/expertises/:expertiseId",
-  FreelancerExpertisesController.createOne
-);
-router.delete(
-  "/freelancers/:freelancerId/expertises/:expertiseId",
-  FreelancerExpertisesController.deleteOne
 );
 
 // routes for locations
