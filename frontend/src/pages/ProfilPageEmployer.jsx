@@ -8,18 +8,18 @@ import AnnonceCarousel from "../components/ProfilEmployer/Annonce/AnnonceCarouse
 import AccountCard from "../components/ProfileFreelancer/Account/AccountCard";
 import backendAPI from "../services/backendAPI";
 
-export default function ProfilPageEmployer({ annonce }) {
+export default function ProfilPageEmployer() {
   const navigate = useNavigate();
-
   const { employerId } = useParams();
   const [user, setUser] = useState({});
   const [employer, setEmployer] = useState({});
+
   const getuser = () => {
     backendAPI
       .get(`/api/employers/${employerId}/user`)
       .then((response) => {
         setUser(response.data);
-        setEmployer(response.data.employer[0]);
+        setEmployer(response.data.employer);
       })
       .catch((error) => {
         console.warn(error);
@@ -74,7 +74,7 @@ export default function ProfilPageEmployer({ annonce }) {
             direction="column"
             gap="20px"
           >
-            <AnnonceCarousel annonce={annonce} />
+            <AnnonceCarousel />
           </Flex>
         </Flex>
       </Flex>

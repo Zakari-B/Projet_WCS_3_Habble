@@ -43,15 +43,13 @@ const getAllByEmployerId = async (req, res) => {
   try {
     const announcementslist = await getAllAnnouncementsbyEmployerId(employerId);
     if (announcementslist.length === 0) {
-      res.status(404).send("Il n'y a pas encore d'activité");
-    } else {
-      return res.status(201).send(announcementslist);
+      return res.status(404).send("Il n'y a pas encore d'activité");
     }
+    return res.status(201).send(announcementslist);
   } catch (e) {
     console.error(e);
     return res.status(500).json({ error: "Problème de lecture des annonces" });
   }
-  return null;
 };
 
 const getAll = async (req, res) => {
@@ -77,15 +75,13 @@ const getOneByEmployerId = async (req, res) => {
       annonceId
     );
     if (announcement.length === 0) {
-      res.status(404).send("Il n'y a pas encore d'activité");
-    } else {
-      return res.status(201).send(announcement);
+      return res.status(404).send("Il n'y a pas encore d'activité");
     }
+    return res.status(201).send(announcement);
   } catch (e) {
     console.error(e);
     return res.status(500).json({ error: "Problème de lecture de l'annonce" });
   }
-  return null;
 };
 
 const getOne = async (req, res) => {
@@ -93,15 +89,13 @@ const getOne = async (req, res) => {
   try {
     const announcement = await getOneAnnouncement(annonceId);
     if (announcement.length === 0) {
-      res.status(404).send("Cette annonce n'existe pas");
-    } else {
-      return res.status(201).send(announcement);
+      return res.status(404).send("Cette annonce n'existe pas");
     }
+    return res.status(201).send(announcement);
   } catch (e) {
     console.error(e);
     return res.status(500).json({ error: "Problème de lecture de l'annonce" });
   }
-  return null;
 };
 
 const updateOne = async (req, res) => {
@@ -111,7 +105,7 @@ const updateOne = async (req, res) => {
   const annonce = await getOneAnnouncementByEmployerId(employerId, annonceId);
 
   if (annonce.length === 0) {
-    res.status(404).send("Il n'y a pas d'activité correspondante");
+    return res.status(404).send("Il n'y a pas d'activité correspondante");
   }
 
   // on check les erreurs de formulaire
@@ -143,7 +137,7 @@ const deleteOne = async (req, res) => {
   const annonce = await getOneAnnouncementByEmployerId(employerId, annonceId);
 
   if (annonce.length === 0) {
-    res.status(404).send("Il n'y a pas d'activité correspondante");
+    return res.status(404).send("Il n'y a pas d'activité correspondante");
   }
 
   try {

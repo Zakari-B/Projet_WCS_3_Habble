@@ -13,7 +13,7 @@ import Expertises from "../components/ProfileFreelancer/Expertises/Expertises";
 import Verifications from "../components/ProfileFreelancer/Verifications";
 import Tarif from "../components/ProfileFreelancer/Tarif";
 import MissionCarousel from "../components/ProfileFreelancer/Mission/MissionCarousel";
-import { getListforAnId } from "../services/ProfileProUtils";
+import { getListforAnId, getSubListforAnId } from "../services/ProfileProUtils";
 import backendAPI from "../services/backendAPI";
 
 export default function ProfilPageProfessional() {
@@ -21,10 +21,13 @@ export default function ProfilPageProfessional() {
 
   const { freelancerId } = useParams();
   const [freelancer, setFreelancer] = useState({});
+  const [user, setUSer] = useState({});
+
   const [updated, setUpdated] = useState(false);
   const [diplomes, setDiplomes] = useState([]);
   const [formations, setFormations] = useState([]);
   const [experiences, setExperiences] = useState([]);
+  const [cityInfo, setCityInfo] = useState([]);
 
   const getfreelancer = () => {
     getListforAnId("freelancers", freelancerId)
@@ -38,6 +41,14 @@ export default function ProfilPageProfessional() {
         console.warn(error);
         navigate("/error");
       });
+
+    getSubListforAnId("freelancers", freelancerId, "city").then((response) => {
+      setCityInfo(response.data[0]);
+    });
+
+    getSubListforAnId("freelancers", freelancerId, "user").then((response) => {
+      setUSer(response.data);
+    });
   };
   useEffect(() => {
     if (JSON.parse(localStorage.getItem("isUserLoggedIn"))) {
@@ -55,17 +66,6 @@ export default function ProfilPageProfessional() {
     getfreelancer();
   }, [updated]);
 
-  const fakeUser = {
-    id: 1,
-    firstname: "Lora",
-    lastname: "Perrichon",
-    email: "lora@gmail.com",
-    password: "jhnlzejbfalzebf",
-    pseudo: "LoraLala",
-    role: "freelancer",
-    profileIsComplete: true,
-  };
-
   return (
     <Box h="100vh">
       <Header onDark={false} isSticky={false} isStickyWhite />
@@ -76,7 +76,12 @@ export default function ProfilPageProfessional() {
         paddingY="30px"
         paddingTop="150px"
       >
-        <BannerProfile freelancer={freelancer} />
+        <BannerProfile
+          freelancer={freelancer}
+          city={cityInfo}
+          updated={updated}
+          setUpdated={setUpdated}
+        />
         <Flex
           w={{ base: "95%", lg: "80%" }}
           gap="20px"
@@ -91,7 +96,7 @@ export default function ProfilPageProfessional() {
             gap="20px"
             flexDir="column"
           >
-            <AccountCard user={fakeUser} />
+            <AccountCard user={user} />
             <Verifications />
             <Expertises freelancer={freelancer} />
             <Tarif freelancer={freelancer} />
