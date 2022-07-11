@@ -24,8 +24,8 @@ export default function AnnonceCarousel() {
   const postAnnonce = () => {
     backendAPI
       .post(`api/employers/${employerId}/annonce`, {
-        title: "coucou",
-        description: "coucou",
+        title: " ",
+        description: " ",
         emergency: false,
         price: 0,
         status: "En cours",
