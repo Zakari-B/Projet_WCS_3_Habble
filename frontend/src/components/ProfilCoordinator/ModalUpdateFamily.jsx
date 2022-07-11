@@ -27,14 +27,14 @@ function ModalUpdateFamily({ oneFamily }) {
   const { freelancerId } = useParams();
   const toast = useToast();
 
-  const [lastname, setLastname] = useState(oneFamily.lastname);
-  const [firstname, setFirstname] = useState(oneFamily.firstname);
-  const [guardian, setGuardian] = useState(oneFamily.legalGuardian);
-  const [address, setAddress] = useState(oneFamily.address);
-  const [phoneNumber, setPhoneNumber] = useState(oneFamily.phoneNumber);
-  const [email, setEmail] = useState(oneFamily.email);
-  const [disability, setDisability] = useState(oneFamily.disabilityType);
-  const [information, setInformation] = useState(oneFamily.complementary_info);
+  const [lastname, setLastname] = useState("");
+  const [firstname, setFirstname] = useState("");
+  const [guardian, setGuardian] = useState("");
+  const [address, setAddress] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [email, setEmail] = useState("");
+  const [disability, setDisability] = useState("");
+  const [information, setInformation] = useState("");
 
   const handleLastname = (e) => {
     setLastname(e.target.value);
@@ -100,7 +100,14 @@ function ModalUpdateFamily({ oneFamily }) {
 
   useEffect(() => {
     setLastname(oneFamily.lastname);
-  }, []);
+    setFirstname(oneFamily.firstname);
+    setGuardian(oneFamily.legalGuardian);
+    setPhoneNumber(oneFamily.phoneNumber);
+    setEmail(oneFamily.email);
+    setDisability(oneFamily.disabilityType);
+    setInformation(oneFamily.complementary_info);
+    setAddress(oneFamily.address);
+  }, [oneFamily]);
 
   return (
     <>
