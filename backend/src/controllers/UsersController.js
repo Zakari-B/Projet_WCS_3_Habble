@@ -6,6 +6,7 @@ const {
 } = require("../helpers/argonHelper");
 const { verifyAccessToken } = require("../helpers/jwtHelper");
 const user = require("../models/user");
+const employer = require("../models/employer");
 const freelancer = require("../models/freelancer");
 const token = require("../models/token");
 const { validateUser } = require("../utils/validate");
@@ -207,11 +208,14 @@ const getUserWithRole = async (req, res) => {
   try {
     const userResult = await user.findOne(userId);
     delete userResult.hashedPassword;
+    if (userResult.role === "employer") {
+      roleResult = await employer.findOneEmployerByUserId(userId);
+    }
     if (userResult.role === "freelancer") {
       roleResult = await freelancer.findOneFreelancerByUserId(userId);
     }
     // if (userResult.role === "coordinator") {
-    //   const roleResult = await freelancer.findOneCoordinatorByUserId(userId);
+    //   roleResult = await freelancer.findOneCoordinatorByUserId(userId);
     //   console.log(roleResult);
     // }
     return res.status(200).json({ userResult, roleResult });

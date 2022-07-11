@@ -33,7 +33,9 @@ const authorization = async (req, res, next) => {
         req.roleId = employerEntry.id;
       }
     }
-
+    if (data.payload.user.isAdmin === true) {
+      req.isAdmin = true;
+    }
     return next();
   } catch (e) {
     console.error(e);
@@ -42,17 +44,27 @@ const authorization = async (req, res, next) => {
 };
 
 const authSelf = async (req, res, next) => {
-  if (req.userId === parseInt(req.params.id, 10)) {
+  if (req.userId === parseInt(req.params.id, 10) || req.isAdmin === true) {
     return next();
   }
   return res.sendStatus(401);
 };
 
 const authSelfRole = async (req, res, next) => {
-  if (req.roleId === parseInt(req.params.freelancerid, 10)) {
+  if (
+    req.roleId === parseInt(req.params.freelancerid, 10) ||
+    req.isAdmin === true
+  ) {
     return next();
   }
 
+  return res.sendStatus(401);
+};
+
+const adminAuth = async (req, res, next) => {
+  if (req.isAdmin === true) {
+    return next();
+  }
   return res.sendStatus(401);
 };
 
@@ -77,6 +89,7 @@ const sessionControl = async (req, res) => {
       roleId: data.payload.fkId,
       firstname: data.payload.user.firstname,
       lastname: data.payload.user.lastname,
+      isAdmin: data.payload.user.isAdmin,
     });
   } catch (e) {
     console.warn(e);
@@ -124,4 +137,5 @@ module.exports = {
   authSelfRole,
   sessionControl,
   forgotPassword,
+  adminAuth,
 };

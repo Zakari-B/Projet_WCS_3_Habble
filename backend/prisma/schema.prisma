@@ -16,6 +16,7 @@ model user {
   role              String      @db.VarChar(100)
   profileIsComplete Boolean     @default(false)
   dateCreated       DateTime    @default(now()) @db.Timestamp(0)
+  isAdmin           Boolean     @default(false)
   freelancer        freelancer?
   employer          employer?
   token             token[]

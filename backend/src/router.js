@@ -27,6 +27,7 @@ const {
   authSelfRole,
   sessionControl,
   forgotPassword,
+  adminAuth,
 } = require("./middlewares/auth");
 
 const router = express.Router();
@@ -352,9 +353,19 @@ router.delete(
 );
 
 // Admin routes
+router.get(
+  "/users/adminGetOne/:id",
+  authorization,
+  adminAuth,
+  UserController.getUserWithRole
+);
+router.post(
+  "/users/:freelancerId/verify/:docId",
+  authorization,
+  adminAuth,
+  DocumentsController.verify
+);
 
-router.get("/users/adminGetOne/:id", UserController.getUserWithRole);
-router.post("/users/:freelancerId/verify/:docId", DocumentsController.verify);
 // routes for locations
 router.get("/locations", LieuController.getAll);
 router.get("/locations/:locationId", LieuController.getOne);

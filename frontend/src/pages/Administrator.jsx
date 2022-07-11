@@ -35,13 +35,14 @@ export default function Administrator() {
   useEffect(() => {
     if (JSON.parse(localStorage.getItem("isUserLoggedIn"))) {
       backendAPI.get("/api/auth/sessionControl").then((res) => {
-        if (res.code === "401") {
+        if (res.code === "401" || res.data.isAdmin === false) {
           navigate("/error");
         }
       });
     } else {
       navigate("/error");
     }
+
     backendAPI.get("/api/users").then((res) => setUserList(res.data));
   }, []);
 
@@ -78,6 +79,7 @@ export default function Administrator() {
               .catch((error) => {
                 console.warn(error);
               });
+            setServiceList([]);
             backendAPI
               .get(
                 `/api/freelancers/${userToAdministrate.roleResult.id}/services`
@@ -89,6 +91,8 @@ export default function Administrator() {
                 console.warn(error);
               });
           });
+      } else {
+        setServiceList([]);
       }
     }
   }, [userToAdministrate]);
@@ -104,6 +108,8 @@ export default function Administrator() {
   return (
     <Box h="100vh">
       <Header onDark={false} isSticky={false} isStickyWhite isSignUp />
+
+      {/* Selection utilisateur à administrer */}
       <Flex
         bgColor="background.gray"
         minHeight="100px"
@@ -188,6 +194,8 @@ export default function Administrator() {
           </Flex>
         </Flex>
       </Flex>
+
+      {/* Tableau de bord utilisateur version admin */}
       <Flex bgColor="background.gray">
         {userToAdministrate && (
           <Flex
@@ -215,9 +223,9 @@ export default function Administrator() {
                 alignItems="center"
                 justifyContent="center"
               >
-                {userToAdministrate.roleResult.picture ? (
+                {userToAdministrate.roleResult?.picture ? (
                   <Image
-                    src={userToAdministrate.roleResult.picture}
+                    src={userToAdministrate.roleResult?.picture}
                     height="200px"
                     width="200px"
                     borderRadius="100%"
@@ -244,7 +252,7 @@ export default function Administrator() {
                   color="white"
                   textAlign={{ base: "center", md: "left" }}
                 >
-                  {userToAdministrate.roleResult.displayName}
+                  {userToAdministrate.roleResult?.displayName}
                 </Text>
                 <Text
                   fontSize="1.5rem"
@@ -253,17 +261,24 @@ export default function Administrator() {
                   marginBottom="1.2rem"
                   textAlign={{ base: "center", md: "left" }}
                 >
-                  {userToAdministrate.roleResult.activityDescription} à{" "}
-                  {userToAdministrate.roleResult.zipCode} {cityInfo?.ville_nom}
+                  {userToAdministrate.roleResult.activityDescription &&
+                  userToAdministrate.roleResult.zipCode
+                    ? `${userToAdministrate.roleResult.activityDescription} à
+                  ${userToAdministrate.roleResult.zipCode} ${cityInfo?.ville_nom}`
+                    : null}
                 </Text>
-                <Text
-                  color="white"
-                  marginBottom="1.2rem"
-                  textAlign={{ base: "center", md: "left" }}
-                >
-                  {userToAdministrate.roleResult.experienceYear} années
-                  d'expérience
-                </Text>
+
+                {userToAdministrate.roleResult.experienceYear ? (
+                  <Text
+                    color="white"
+                    marginBottom="1.2rem"
+                    textAlign={{ base: "center", md: "left" }}
+                  >
+                    {userToAdministrate.roleResult?.experienceYear} années
+                    d'expérience
+                  </Text>
+                ) : null}
+
                 <Text
                   color="white"
                   marginBottom="1.2rem"
@@ -271,7 +286,7 @@ export default function Administrator() {
                 >
                   Membre depuis le{" "}
                   {dateFormat(
-                    userToAdministrate.roleResult.dateCreated,
+                    userToAdministrate.roleResult?.dateCreated,
                     "dd/mm/yyyy"
                   )}
                 </Text>
@@ -324,9 +339,16 @@ export default function Administrator() {
                 >
                   Supprimer utilisateur
                 </Button>
-                <Button variant="outlineWhite" onClick={handleUserAvailability}>
-                  Rendre indisponible
-                </Button>
+                {userToAdministrate.userResult.role === "freelancer" &&
+                userToAdministrate.roleResult?.available === true ? (
+                  <Button
+                    variant="outlineWhite"
+                    onClick={handleUserAvailability}
+                  >
+                    Rendre indisponible
+                  </Button>
+                ) : null}
+
                 {userToAdministrate.userResult.role === "freelancer" &&
                 userToAdministrate.roleResult.available === true ? (
                   <Text fontSize="1.3rem" fontWeight="700" color="#B7EE92">
@@ -350,45 +372,52 @@ export default function Administrator() {
               borderRadius="0 0 25px 25px"
             >
               <Text fontWeight="700" fontSize="1.2rem" p="5px">
-                À propos de {userToAdministrate.roleResult.displayName}
+                À propos de {userToAdministrate.roleResult?.displayName}
               </Text>
-              <Text p="5px">{userToAdministrate.roleResult.description}</Text>
+              <Text p="5px">{userToAdministrate.roleResult?.description}</Text>
             </Flex>
-            <Flex
-              bgColor="white"
-              minH="60%"
-              p="10px"
-              mt="10px"
-              flexDir="column"
-            >
-              <Heading
-                as="h2"
-                textAlign="left"
-                fontSize="1.4rem"
-                fontWeight="600"
-                color="purple.average"
-              >
-                Validations
-              </Heading>
-
+            {userDocuments.length > 0 ? (
               <Flex
                 bgColor="white"
                 minH="60%"
                 p="10px"
-                flexDir={{ base: "column", md: "row" }}
-                flexWrap="wrap"
-                borderRadius="25px 25px 0 0"
                 mt="10px"
-                gap="10px"
-                justifyContent="center"
+                flexDir="column"
               >
-                {userDocuments &&
-                  userDocuments.map((elem) => <AdminDoc data={elem} />)}
+                <>
+                  <Heading
+                    as="h2"
+                    textAlign="left"
+                    fontSize="1.4rem"
+                    fontWeight="600"
+                    color="purple.average"
+                  >
+                    Validations
+                  </Heading>
+
+                  <Flex
+                    bgColor="white"
+                    minH="60%"
+                    p="10px"
+                    flexDir={{ base: "column", md: "row" }}
+                    flexWrap="wrap"
+                    borderRadius="25px 25px 0 0"
+                    mt="10px"
+                    gap="10px"
+                    justifyContent="center"
+                  >
+                    {userDocuments.map((elem) => (
+                      <AdminDoc data={elem} />
+                    ))}
+                  </Flex>
+                </>
               </Flex>
-            </Flex>
+            ) : null}
           </Flex>
         )}
       </Flex>
+
+      {/* Modale de suppression d'utilisateur */}
       <UserDeleteModal
         isOpen={isOpen}
         onClose={onClose}
