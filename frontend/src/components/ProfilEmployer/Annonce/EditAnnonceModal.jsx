@@ -54,7 +54,7 @@ export default function EditAnnonceModal({ isOpen, onClose, annonce }) {
   const [status] = useState("En cours");
 
   const [search, setSearch] = useState("");
-  const [setCityPro] = useState("");
+  const [cityPro, setCityPro] = useState("");
   const [cityProName, setCityProName] = useState("");
   const [addressList, setAddressList] = useState([]);
 
@@ -66,10 +66,10 @@ export default function EditAnnonceModal({ isOpen, onClose, annonce }) {
       setEmergency(res.data.emergency);
     });
 
-    // backendAPI.get(`/api/freelancers/${freelancerId}/city`).then((response) => {
-    //   setCityPro(response.data[0].zipCode);
-    //   setCityProName(response.data[0].ville_nom);
-    // });
+    backendAPI.get(`/api/annonces/${annonce.id}/city`).then((response) => {
+      setCityPro(response.data[0].zipCode);
+      setCityProName(response.data[0].ville_nom);
+    });
   }, []);
 
   const getAddressList = (signal) => {
@@ -105,6 +105,7 @@ export default function EditAnnonceModal({ isOpen, onClose, annonce }) {
       .put(`/api/employers/${employerId}/annonce/${annonce.id}`, {
         title,
         description,
+        zipCode: cityPro,
         emergency,
         price,
         status,

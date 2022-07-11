@@ -5,6 +5,7 @@ const {
   getAllAnnouncements,
   getOneAnnouncementByEmployerId,
   getOneAnnouncement,
+  getOneAnnonceWithCity,
   updateOneAnnouncement,
   deleteOneAnnouncement,
 } = require("../models/annonce");
@@ -12,7 +13,6 @@ const { validateAnnouncement } = require("../utils/validate");
 
 const createOne = async (req, res) => {
   const employerId = parseInt(req.params.employerid, 10);
-
   const employer = await findOneEmployer(employerId);
   if (!employer) {
     return res.status(404).send(`Employer #${employerId} not found.`);
@@ -98,6 +98,20 @@ const getOne = async (req, res) => {
   }
 };
 
+const getOneAnnonceWithCityInfo = async (req, res) => {
+  const annonceId = parseInt(req.params.annonceId, 10);
+  try {
+    const annonce = await getOneAnnonceWithCity(annonceId);
+    if (!annonce) {
+      return res.status(404).send(`Annonce #${annonceId} not found.`);
+    }
+    return res.status(200).json(annonce);
+  } catch (e) {
+    console.warn(e);
+    return res.status(500).json({ error: "Problème de lecture des annonces" });
+  }
+};
+
 const updateOne = async (req, res) => {
   const employerId = parseInt(req.params.employerid, 10);
   const annonceId = parseInt(req.params.id, 10);
@@ -156,6 +170,7 @@ module.exports = {
   getAllByEmployerId,
   getAll,
   getOneByEmployerId,
+  getOneAnnonceWithCityInfo,
   getOne,
   updateOne,
   deleteOne,

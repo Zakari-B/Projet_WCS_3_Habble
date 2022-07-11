@@ -138,7 +138,7 @@ export default function BannerProfile({
               marginBottom="1rem"
               textAlign={{ base: "center", md: "left" }}
             >
-              {`${freelancer.activityDescription} à ${city.ville_nom} (${city.ville_departement})`}
+              {`${freelancer.activityDescription} à ${city?.ville_nom} (${city?.ville_departement})`}
             </Text>
             <Text
               color="white"
