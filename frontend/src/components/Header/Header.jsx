@@ -28,8 +28,8 @@ export default function Header({
   onDark = false,
   isSticky = false,
   isStickyWhite = false,
-  employer,
-  freelancer,
+  // employer,
+  // freelancer,
 }) {
   const [scrollPosition, setScrollPosition] = useState(0);
   const [isSignUp, setIsSignUp] = useState(
@@ -122,7 +122,14 @@ export default function Header({
                 _hover={{ color: "pink.light" }}
               >
                 <Flex alignItems="center" gap="10px" fontWeight="500">
-                  {data && data.data.userRole === "freelancer" && (
+                  <Image
+                    src="https://secure.gravatar.com/avatar/c308ee24184a32cdf10650eb7e311157?s=125&d=mm&r=G"
+                    height="40px"
+                    width="40px"
+                    borderRadius="100%"
+                    border="1px solid gray.200"
+                  />
+                  {/* {data && data.data.userRole === "freelancer" && (
                     <Image
                       src={
                         freelancer.picture
@@ -151,7 +158,7 @@ export default function Header({
                       borderRadius="100%"
                       border="1px solid gray.200"
                     />
-                  )}
+                  )} */}
                   {data && `${data.data.firstname} ${data.data.lastname}`}
                   <ChevronDownIcon />
                 </Flex>

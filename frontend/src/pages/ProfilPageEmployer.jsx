@@ -43,12 +43,7 @@ export default function ProfilPageEmployer() {
 
   return (
     <Box h="100vh">
-      <Header
-        onDark={false}
-        isSticky={false}
-        isStickyWhite
-        employer={employer}
-      />
+      <Header onDark={false} isSticky={false} isStickyWhite />
       <Flex
         bgColor="background.gray"
         direction="column"

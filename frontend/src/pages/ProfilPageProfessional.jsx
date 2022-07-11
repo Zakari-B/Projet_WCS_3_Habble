@@ -68,13 +68,7 @@ export default function ProfilPageProfessional() {
 
   return (
     <Box h="100vh">
-      <Header
-        onDark={false}
-        isSticky={false}
-        isStickyWhite
-        isSignUp
-        freelancer={freelancer}
-      />
+      <Header onDark={false} isSticky={false} isStickyWhite isSignUp />
       <Flex
         bgColor="background.gray"
         direction="column"
