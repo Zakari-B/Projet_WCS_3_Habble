@@ -7,15 +7,47 @@ import {
   FormLabel,
   Image,
   useDisclosure,
+  useToast,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import dateFormat from "dateformat";
 import ModalAccountForm from "./ModalAccountForm";
 import Services from "./Services";
+import { updateItem } from "../../../services/ProfileProUtils";
 
-export default function BannerProfile({ freelancer }) {
-  const [available, setAvailable] = useState(freelancer.available);
+export default function BannerProfile({
+  freelancer,
+  city,
+  updated,
+  setUpdated,
+}) {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const toast = useToast();
 
+  const updateFreelancer = (data) => {
+    updateItem("freelancers", freelancer.id, data)
+      .then(() =>
+        toast({
+          title: "Votre statut a bien été modifié",
+          status: "success",
+          position: "bottom-right",
+          duration: 7000,
+          isClosable: true,
+        })
+      )
+      .catch(() =>
+        toast({
+          title: "Votre statut n'a pas pu être modifié",
+          status: "error",
+          position: "bottom-right",
+          duration: 7000,
+          isClosable: true,
+        })
+      );
+  };
+  const handleSubmit = () => {
+    updateFreelancer({ available: !freelancer.available });
+    setUpdated(!updated);
+  };
   return (
     <Flex
       w={{ base: "95%", lg: "80%" }}
@@ -30,10 +62,12 @@ export default function BannerProfile({ freelancer }) {
           <Switch
             colorScheme="pink"
             id="availabilityToggle"
-            onChange={() => setAvailable(!available)}
+            onChange={handleSubmit}
+            isChecked={!!freelancer.available}
           />
+
           <FormLabel htmlFor="availabilityToggle" mb="-1px">
-            {available ? (
+            {freelancer.available ? (
               <Flex alignItems="center" wrap="wrap" justifyContent="center">
                 <Text fontSize="1.2rem" fontWeight="700">
                   &nbsp; Disponible{" "}
@@ -91,13 +125,13 @@ export default function BannerProfile({ freelancer }) {
               {freelancer.displayName}
             </Text>
             <Text
-              fontSize="1.5rem"
+              fontSize="1.2rem"
               fontWeight="700"
               color="white"
-              marginBottom="1.2rem"
+              marginBottom="1rem"
               textAlign={{ base: "center", md: "left" }}
             >
-              {freelancer.activityDescription} à {freelancer.zipCode} [[VILLE]]
+              {`${freelancer.activityDescription} à ${city?.ville_nom} (${city?.ville_departement})`}
             </Text>
             <Text
               color="white"
@@ -111,8 +145,10 @@ export default function BannerProfile({ freelancer }) {
               marginBottom="1.2rem"
               textAlign={{ base: "center", md: "left" }}
             >
-              Membre depuis le {freelancer.dateCreated}
+              Membre depuis le{" "}
+              {dateFormat(freelancer.dateCreated, "dd/mm/yyyy")}
             </Text>
+            <Services />
 
             <Flex
               direction={{ base: "column", sm: "row" }}
@@ -157,7 +193,6 @@ export default function BannerProfile({ freelancer }) {
             <Button variant="outlineWhite">Voir mon profil en ligne</Button>
           </Flex>
         </Flex>
-        <Services />
       </Flex>
 
       <Flex

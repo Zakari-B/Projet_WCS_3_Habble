@@ -90,5 +90,24 @@ const createManyExpertises = async () => {
   }
 };
 
+const createManyLieux = async () => {
+  try {
+    return await prisma.lieu.createMany({
+      data: [
+        { name: "Domicile" },
+        { name: "École" },
+        { name: "Travail" },
+        { name: "Hôpital" },
+        { name: "Activités et loisirs" },
+        { name: "Autre" },
+      ],
+      skipDuplicates: true,
+    });
+  } finally {
+    await prisma.$disconnect();
+  }
+};
+
 createManyServices();
 createManyExpertises();
+createManyLieux();

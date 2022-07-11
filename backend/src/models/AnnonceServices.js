@@ -6,6 +6,10 @@ const getAllByAnnonce = async (annonceId) => {
   try {
     return await prisma.annonce_services.findMany({
       where: { annonceId },
+      include: {
+        fk_annonce_id: true,
+        fk_service_id: true,
+      },
     });
   } finally {
     await prisma.$disconnect();
@@ -24,7 +28,7 @@ const getOneServiceByAnnonceId = async (annonceId, serviceId) => {
 
 const createOneByAnnonce = async (data) => {
   try {
-    return await prisma.annonce_services.create({
+    return await prisma.annonce_services.createMany({
       data,
     });
   } finally {

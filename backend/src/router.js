@@ -19,6 +19,8 @@ const FreelancerServicesController = require("./controllers/FreelancerServicesCo
 const AnnonceServicesController = require("./controllers/AnnonceServicesController");
 const FreelancerExpertisesController = require("./controllers/FreelancerExpertisesControllers");
 const PictureFreelancerController = require("./controllers/PictureFreelancerController");
+const AnnonceLieuController = require("./controllers/AnnonceLieuController");
+
 const {
   authorization,
   authSelf,
@@ -54,16 +56,24 @@ router.delete("/users/:id", UserController.deleteOne);
 // Routes for Freelancers
 
 router.get("/freelancers/:id/user", FreelancerController.getUser);
+
+// Routes for Freelancers
 router.get("/freelancers/", FreelancerController.getAll);
+router.get("/freelancers/search", FreelancerController.getAllWithinDistance);
+router.get(
+  "/freelancers/:freelancerid/city",
+  authorization,
+  FreelancerController.getOneFreelancerWithCityInfo
+);
 router.get(
   "/freelancers/:freelancerid",
   authorization,
   FreelancerController.getOne
 );
+
 router.put(
   "/freelancers/:freelancerid",
-  authorization,
-  authSelfRole,
+
   FreelancerController.updateOne
 );
 
@@ -152,6 +162,7 @@ router.get(
   authorization,
   FormationController.getAll
 );
+
 router.get(
   "/freelancers/:freelancerid/formations/:id",
   authorization,
@@ -335,6 +346,29 @@ router.post(
 router.delete(
   "/annonce/:annonceId/services/:serviceId",
   AnnonceServicesController.deleteOne
+);
+
+// routes for locations
+router.get("/locations", LieuController.getAll);
+router.get("/locations/:locationId", LieuController.getOne);
+router.post("/locations/:locationId", LieuController.createOne);
+router.delete("/locations/:locationId", LieuController.deleteOne);
+
+// routes for lieux annoncesx
+
+router.get(
+  "/employer/:employerId/annonce/:annonceId/locations",
+  AnnonceLieuController.getAllByAnnonceId
+);
+
+router.post(
+  "/employer/:employerId/annonce/:annonceId/locations/:locationId",
+  AnnonceLieuController.createOne
+);
+
+router.delete(
+  "/employer/:employerId/annonce/:annonceId/locations/locationId",
+  AnnonceLieuController.deleteOne
 );
 
 module.exports = router;
