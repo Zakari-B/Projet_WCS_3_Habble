@@ -98,10 +98,8 @@ export default function EditAnnonceModal({ isOpen, onClose, annonce }) {
     setPrice(parseInt(value, 10));
   };
 
-  const updateEmergency = (e) => {
-    if (e.target.checked) {
-      setEmergency(true);
-    }
+  const updateEmergency = () => {
+    setEmergency(!emergency);
   };
 
   return (
@@ -263,6 +261,7 @@ export default function EditAnnonceModal({ isOpen, onClose, annonce }) {
                       _checked={{ borderColor: "pink.light" }}
                       value="Urgence"
                       onChange={updateEmergency}
+                      isChecked={emergency}
                     >
                       <Text fontSize="sm">Oui</Text>
                     </Checkbox>
