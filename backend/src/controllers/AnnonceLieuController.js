@@ -39,7 +39,7 @@ const getOneByAnnonceId = async (req, res) => {
 
 const createOne = async (req, res) => {
   const annonceId = parseInt(req.params.annonceId, 10);
-  const locationId = parseInt(req.params.serviceId, 10);
+  const locationId = parseInt(req.params.locationId, 10);
 
   try {
     const locationCreated = await createOneByAnnonce({
@@ -55,7 +55,7 @@ const createOne = async (req, res) => {
 
 const deleteOne = async (req, res) => {
   const annonceId = parseInt(req.params.annonceId, 10);
-  const locationId = parseInt(req.params.serviceId, 10);
+  const locationId = parseInt(req.params.locationId, 10);
   const locationCheck = await getOneLocationByAnnonceId(annonceId, locationId);
   if (!locationCheck) {
     return res.status(404).json({ Erreur: "Aucune réponse trouvée" });

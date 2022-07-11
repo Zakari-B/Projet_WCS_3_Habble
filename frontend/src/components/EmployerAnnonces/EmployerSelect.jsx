@@ -15,12 +15,19 @@ import {
   Td,
   TableContainer,
   Button,
+  useDisclosure,
 } from "@chakra-ui/react";
 import dateFormat from "dateformat";
+import EditAnnonceModal from "../ProfilEmployer/Annonce/EditAnnonceModal";
 
 function EmployerSelect({ annonces }) {
   const [option, setOption] = useState("");
   const [input, setInput] = useState("");
+  const {
+    isOpen: isEditOpen,
+    onOpen: onEditOpen,
+    onClose: onEditClose,
+  } = useDisclosure();
 
   const handleFilter = (e) => {
     setOption(e.target.value);
@@ -144,7 +151,18 @@ function EmployerSelect({ annonces }) {
                         <Tag>{data.status}</Tag>
                       </Td>
                       <Td>
-                        <Button variant="solid_PrimaryColor">Modifier</Button>
+                        <Button
+                          onClick={onEditOpen}
+                          variant="solid_PrimaryColor"
+                        >
+                          Modifier
+                        </Button>
+                        <EditAnnonceModal
+                          isOpen={isEditOpen}
+                          onOpen={onEditOpen}
+                          onClose={onEditClose}
+                          annonce={data}
+                        />
                       </Td>
                     </Tr>
                   ))}
