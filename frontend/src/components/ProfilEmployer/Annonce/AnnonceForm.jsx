@@ -41,7 +41,6 @@ import backendAPI from "../../../services/backendAPI";
 export default function AnnonceForm() {
   const toast = useToast();
   const navigate = useNavigate();
-
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState();
@@ -56,7 +55,7 @@ export default function AnnonceForm() {
 
   const { employerId, annonceId } = useParams();
 
-  const [setCityPro] = useState("");
+  const [cityPro, setCityPro] = useState("");
   const [cityProName, setCityProName] = useState("");
   const [search, setSearch] = useState("");
   const [addressList, setAddressList] = useState([]);
@@ -83,9 +82,16 @@ export default function AnnonceForm() {
       getAddressList(signal);
     }
   }, [search]);
+
   const handleSearch = (event) => {
     setSearch(event.target.value);
   };
+
+  useEffect(() => {
+    backendAPI
+      .get(`api/annonces/${parseInt(annonceId, 10)}`)
+      .then((result) => setTitle(result.data.title));
+  });
 
   // fonction retrait d'un item //
   // const removeItem = (indexToRemove) => {
@@ -122,6 +128,7 @@ export default function AnnonceForm() {
       .put(`/api/employers/${employerId}/annonce/${annonceId}`, {
         title,
         description,
+        zipCode: cityPro,
         emergency,
         price,
         status,
@@ -258,8 +265,13 @@ export default function AnnonceForm() {
 
   return (
     <Box h="100vh">
-      <Header onDark={false} isSticky={false} isStickyWhite={false} isSignUp />
-      <Flex bgColor="background.gray" direction="column" justify="flex-start">
+      <Header onDark={false} isSticky={false} isStickyWhite />
+      <Flex
+        bgColor="background.gray"
+        direction="column"
+        justify="flex-start"
+        paddingTop="100px"
+      >
         <FormControl
           alignSelf="center"
           dir="column"
@@ -379,6 +391,7 @@ export default function AnnonceForm() {
                       h="50px"
                       fontSize="0.9rem"
                       fontWeight="400"
+                      zIndex={100}
                       placeholder="Veuillez saisir un code postal et selectionnez une ville dans la liste"
                       value={search}
                       onChange={handleSearch}
@@ -391,7 +404,6 @@ export default function AnnonceForm() {
                       width="100%"
                       borderRadius="4px"
                       overflow="hidden"
-                      zIndex="997"
                       boxShadow="rgb(0 0 0 / 4%) 0px 2px 6px"
                       border="1px solid #ededed"
                     >
@@ -400,8 +412,8 @@ export default function AnnonceForm() {
                           <ListItem
                             onClick={() => {
                               if (city.properties.citycode) {
-                                setCityPro(city.properties.citycode);
                                 setCityProName(city.properties.name);
+                                setCityPro(city.properties.citycode);
                                 setSearch("");
                               }
                             }}

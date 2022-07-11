@@ -1,10 +1,12 @@
 import { useState } from "react";
+import { useParams } from "react-router-dom";
 import {
   Flex,
   Text,
   VStack,
   Input,
   Select,
+  Link,
   Heading,
   Table,
   Thead,
@@ -21,6 +23,7 @@ import dateFormat from "dateformat";
 function EmployerSelect({ annonces }) {
   const [option, setOption] = useState("");
   const [input, setInput] = useState("");
+  const { employerId } = useParams();
 
   const handleFilter = (e) => {
     setOption(e.target.value);
@@ -110,7 +113,7 @@ function EmployerSelect({ annonces }) {
             fontWeight="700"
             fontSize="20px"
           >
-            Offres en cours
+            Annonces en cours
           </Heading>
         </Flex>
 
@@ -136,7 +139,15 @@ function EmployerSelect({ annonces }) {
                   )
                   .map((data) => (
                     <Tr key={data.id}>
-                      <Td>{data.title}</Td>
+                      <Td>
+                        <Link
+                          href={`/profil-employer/${employerId}/mes-annonces/${data.id}`}
+                          _hover={{ color: "pink.light", fontWeight: "700" }}
+                        >
+                          {data.title}{" "}
+                        </Link>
+                      </Td>
+
                       <Td isNumeric>{data.annonce_offers?.length}</Td>
                       <Td>{data.price} €</Td>
                       <Td>{dateFormat(data.dateCreated, "dd/mm/yyyy")}</Td>
