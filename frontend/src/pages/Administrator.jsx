@@ -9,19 +9,28 @@ import {
   Button,
   Image,
   Heading,
+  useDisclosure,
+  Tag,
 } from "@chakra-ui/react";
 
+import dateFormat from "dateformat";
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer";
+import UserDeleteModal from "../components/Admin/UserDeleteModal";
 import AdminDoc from "../components/Admin/AdminDoc";
 import backendAPI from "../services/backendAPI";
+import { getSubListforAnId } from "../services/ProfileProUtils";
 
 export default function Administrator() {
   const [userList, setUserList] = useState([]);
   const [selectedUser, setSelectedUser] = useState("");
   const [userToAdministrate, setUserToAdministrate] = useState("");
   const [userDocuments, setUserDocuments] = useState([]);
+  const { isOpen, onOpen, onClose } = useDisclosure();
   const navigate = useNavigate();
+  const [cityInfo, setCityInfo] = useState([]);
+  const [serviceList, setServiceList] = useState([]);
+  const [updated, setUpdated] = useState(false);
 
   useEffect(() => {
     if (JSON.parse(localStorage.getItem("isUserLoggedIn"))) {
@@ -45,24 +54,52 @@ export default function Administrator() {
 
   useEffect(() => {
     if (selectedUser !== "") {
-      backendAPI
-        .get(`/api/users/adminGetOne/${selectedUser}`)
-        .then((res) => setUserToAdministrate(res.data));
+      backendAPI.get(`/api/users/adminGetOne/${selectedUser}`).then((res) => {
+        setUserToAdministrate(res.data);
+      });
     }
-  }, [selectedUser]);
+  }, [selectedUser, updated]);
 
   useEffect(() => {
     if (selectedUser !== "") {
       if (userToAdministrate.userResult.role === "freelancer") {
         backendAPI
           .get(`/api/freelancers/${userToAdministrate.roleResult.id}/documents`)
-          .then((res) => setUserDocuments(res.data));
+          .then((res) => setUserDocuments(res.data))
+          .then(() => {
+            getSubListforAnId(
+              "freelancers",
+              userToAdministrate.roleResult.id,
+              "city"
+            )
+              .then((response) => {
+                setCityInfo(response.data[0]);
+              })
+              .catch((error) => {
+                console.warn(error);
+              });
+            backendAPI
+              .get(
+                `/api/freelancers/${userToAdministrate.roleResult.id}/services`
+              )
+              .then((response) => {
+                setServiceList(response.data.map((e) => e.fk_services_id.name));
+              })
+              .catch((error) => {
+                console.warn(error);
+              });
+          });
       }
     }
   }, [userToAdministrate]);
 
-  // const handleUserDelete = () => {};
-  // const handleUserAvailability = () => {};
+  const handleUserAvailability = () => {
+    console.warn("User availability");
+    backendAPI.put(`api/freelancers/${userToAdministrate.roleResult.id}`, {
+      available: false,
+    });
+    setUpdated(!updated);
+  };
 
   return (
     <Box h="100vh">
@@ -217,7 +254,7 @@ export default function Administrator() {
                   textAlign={{ base: "center", md: "left" }}
                 >
                   {userToAdministrate.roleResult.activityDescription} à{" "}
-                  {userToAdministrate.roleResult.zipCode} [[VILLE]]
+                  {userToAdministrate.roleResult.zipCode} {cityInfo?.ville_nom}
                 </Text>
                 <Text
                   color="white"
@@ -232,10 +269,27 @@ export default function Administrator() {
                   marginBottom="1.2rem"
                   textAlign={{ base: "center", md: "left" }}
                 >
-                  Membre depuis le {userToAdministrate.roleResult.dateCreated}
+                  Membre depuis le{" "}
+                  {dateFormat(
+                    userToAdministrate.roleResult.dateCreated,
+                    "dd/mm/yyyy"
+                  )}
                 </Text>
                 <Text color="white" textAlign={{ base: "center", md: "left" }}>
-                  [[VIGNETTES SERVICES PROPOSES]]
+                  <Flex
+                    justifyContent="flex-start"
+                    columnGap="3"
+                    rowGap="2"
+                    flexWrap="wrap"
+                    h="fit-content"
+                    w="fit-content"
+                  >
+                    {serviceList.map((element) => (
+                      <Tag fontSize="sm" w="fit-content" key={element}>
+                        {element}
+                      </Tag>
+                    ))}
+                  </Flex>
                 </Text>
 
                 <Flex
@@ -263,10 +317,28 @@ export default function Administrator() {
                 w="auto"
                 display={{ base: "none", md: "flex" }}
               >
-                <Button marginTop="0.75rem" variant="solid_PrimaryColor">
+                <Button
+                  marginTop="0.75rem"
+                  variant="solid_PrimaryColor"
+                  onClick={onOpen}
+                >
                   Supprimer utilisateur
                 </Button>
-                <Button variant="outlineWhite">Rendre indisponible</Button>
+                <Button variant="outlineWhite" onClick={handleUserAvailability}>
+                  Rendre indisponible
+                </Button>
+                {userToAdministrate.userResult.role === "freelancer" &&
+                userToAdministrate.roleResult.available === true ? (
+                  <Text fontSize="1.3rem" fontWeight="700" color="#B7EE92">
+                    Disponible
+                  </Text>
+                ) : null}
+                {userToAdministrate.userResult.role === "freelancer" &&
+                userToAdministrate.roleResult.available === false ? (
+                  <Text fontSize="1.3rem" fontWeight="700" color="#EE9C92">
+                    Indisponible
+                  </Text>
+                ) : null}
               </Flex>
             </Flex>
 
@@ -314,18 +386,16 @@ export default function Administrator() {
                   userDocuments.map((elem) => <AdminDoc data={elem} />)}
               </Flex>
             </Flex>
-            <Flex m="0px auto 20px">
-              {/* <Button
-              m="auto"
-              variant="solid_PrimaryColor"
-              onClick={handleSaveUser}
-            >
-              Sauvegarder les modifications
-            </Button> */}
-            </Flex>
           </Flex>
         )}
       </Flex>
+      <UserDeleteModal
+        isOpen={isOpen}
+        onClose={onClose}
+        userId={selectedUser}
+        updated={updated}
+        setUpdated={setUpdated}
+      />
       <Footer />
     </Box>
   );
