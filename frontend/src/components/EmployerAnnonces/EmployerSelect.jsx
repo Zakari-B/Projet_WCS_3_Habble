@@ -86,6 +86,7 @@ function EmployerSelect({ annonces }) {
             >
               <option>En suspens</option>
               <option>En cours</option>
+              <option>En attente de validation</option>
             </Select>
           </VStack>
         </Flex>

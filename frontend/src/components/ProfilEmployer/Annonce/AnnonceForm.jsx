@@ -52,7 +52,6 @@ export default function AnnonceForm() {
   const [servicesList, setServicesList] = useState([]);
   const [serviceName, setServiceName] = useState([]);
   const [serviceNumber, setServiceNumber] = useState([]);
-  const [status] = useState("En cours");
 
   const { employerId, annonceId } = useParams();
 
@@ -107,7 +106,7 @@ export default function AnnonceForm() {
         zipCode: cityPro,
         emergency,
         price,
-        status,
+        status: "En attente de validation",
       })
       .then(() => {
         navigate(`/profil-employer/${employerId}`);
@@ -130,6 +129,27 @@ export default function AnnonceForm() {
           duration: 7000,
           isClosable: true,
         });
+      });
+  };
+
+  const handleCancel = (event) => {
+    event.preventDefault();
+    backendAPI
+      .delete(`/api/employers/${employerId}/annonce/${annonceId}`)
+      .then(() => {
+        navigate(`/profil-employer/${employerId}`);
+      })
+      .then(() =>
+        toast({
+          title: "Votre annonce n'a pas été crée",
+          status: "error",
+          position: "bottom-right",
+          duration: 7000,
+          isClosable: true,
+        })
+      )
+      .catch((e) => {
+        console.error(e);
       });
   };
 
@@ -616,6 +636,14 @@ export default function AnnonceForm() {
                   onClick={handleSubmit}
                 >
                   J'ai terminé, je dépose mon annonce
+                </Button>
+                <Button
+                  variant="outline_Pink"
+                  type="submit"
+                  marginTop="2rem"
+                  onClick={handleCancel}
+                >
+                  Annuler
                 </Button>
                 <Divider />
                 <Text
