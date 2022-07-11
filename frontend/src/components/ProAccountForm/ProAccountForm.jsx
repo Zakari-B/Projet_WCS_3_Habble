@@ -123,8 +123,9 @@ export default function ProAccountForm({ onModal = false, onClose }) {
           });
           if (onModal === false) {
             navigate(`/profil/${freelancerId}`);
+          } else {
+            onClose();
           }
-          onClose();
         }
       })
       .catch((error) => {
