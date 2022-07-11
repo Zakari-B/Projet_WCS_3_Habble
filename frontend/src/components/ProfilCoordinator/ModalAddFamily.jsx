@@ -61,6 +61,10 @@ function ModalAddFamily() {
     setInformation(e.target.value);
   };
 
+  const handleDefault = (e) => {
+    e.preventDefault();
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
     addToList("coordinators", "famille", freelancerId, {
@@ -112,7 +116,7 @@ function ModalAddFamily() {
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody p="1rem">
-            <FormControl>
+            <FormControl onSubmit={handleDefault}>
               <FormLabel
                 htmlFor="lastname"
                 fontSize="md"

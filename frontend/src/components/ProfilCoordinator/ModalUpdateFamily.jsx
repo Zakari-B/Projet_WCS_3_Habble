@@ -28,13 +28,13 @@ function ModalUpdateFamily({ oneFamily }) {
   const toast = useToast();
 
   const [lastname, setLastname] = useState(oneFamily.lastname);
-  const [firstname, setFirstname] = useState("");
-  const [guardian, setGuardian] = useState("");
-  const [address, setAddress] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [email, setEmail] = useState("");
-  const [disability, setDisability] = useState("");
-  const [information, setInformation] = useState("");
+  const [firstname, setFirstname] = useState(oneFamily.firstname);
+  const [guardian, setGuardian] = useState(oneFamily.legalGuardian);
+  const [address, setAddress] = useState(oneFamily.address);
+  const [phoneNumber, setPhoneNumber] = useState(oneFamily.phoneNumber);
+  const [email, setEmail] = useState(oneFamily.email);
+  const [disability, setDisability] = useState(oneFamily.disabilityType);
+  const [information, setInformation] = useState(oneFamily.complementary_info);
 
   const handleLastname = (e) => {
     setLastname(e.target.value);
@@ -61,6 +61,10 @@ function ModalUpdateFamily({ oneFamily }) {
     setInformation(e.target.value);
   };
 
+  const handleDefault = (e) => {
+    e.preventDefault();
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
     addToList("coordinators", "famille", freelancerId, {
@@ -75,7 +79,7 @@ function ModalUpdateFamily({ oneFamily }) {
     })
       .then(() => {
         toast({
-          title: "Votre famille a bien été ajoutée",
+          title: "Votre famille a bien été modifiée",
           status: "success",
           position: "bottom-right",
           duration: 7000,
@@ -84,7 +88,7 @@ function ModalUpdateFamily({ oneFamily }) {
       })
       .catch(() => {
         toast({
-          title: "Votre famille n'a pas pu être ajoutée",
+          title: "Votre famille n'a pas pu être modifiée",
           status: "error",
           position: "bottom-right",
           duration: 7000,
@@ -118,7 +122,7 @@ function ModalUpdateFamily({ oneFamily }) {
           </ModalHeader>
           <ModalCloseButton />
           <ModalBody p="1rem">
-            <FormControl>
+            <FormControl onSubmit={handleDefault}>
               <FormLabel
                 htmlFor="lastname"
                 fontSize="md"
