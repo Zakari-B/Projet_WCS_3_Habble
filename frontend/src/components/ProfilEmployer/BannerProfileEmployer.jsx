@@ -1,12 +1,4 @@
-import {
-  Flex,
-  Button,
-  Text,
-  FormLabel,
-  Image,
-  Tag,
-  Avatar,
-} from "@chakra-ui/react";
+import { Flex, Button, Text, FormLabel, Image, Tag } from "@chakra-ui/react";
 import dateFormat from "dateformat";
 
 export default function BannerProfile({ employer }) {
@@ -32,23 +24,19 @@ export default function BannerProfile({ employer }) {
           alignItems="center"
           justifyContent="center"
         >
-          {employer.picture ? (
-            <Image
-              src={employer.picture}
-              height="200px"
-              width="200px"
-              borderRadius="100%"
-              border="1px solid gray.200"
-            />
-          ) : (
-            <Avatar
-              src="https://bit.ly/broken-link"
-              height="auto"
-              width={{ base: "80%", md: "100%%" }}
-              maxW="200"
-              maxH="200"
-            />
-          )}
+          <Image
+            src={
+              employer.picture
+                ? `${import.meta.env.VITE_BACKEND_URL}/uploads/${
+                    employer.picture
+                  }`
+                : "https://secure.gravatar.com/avatar/c308ee24184a32cdf10650eb7e311157?s=125&d=mm&r=G"
+            }
+            height="200px"
+            width="200px"
+            borderRadius="100%"
+            border="1px solid gray.200"
+          />
         </Flex>
         <Flex direction="column" w={{ base: "95%", md: "40%" }} margin="auto 0">
           <Text
