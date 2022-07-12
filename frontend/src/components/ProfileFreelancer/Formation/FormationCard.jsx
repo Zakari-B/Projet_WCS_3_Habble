@@ -15,7 +15,13 @@ import { getOneItemOfList } from "../../../services/ProfileProUtils";
 
 import DeleteConfirmModal from "../../DeleteConfirmModal";
 
-export default function FormationCard({ formation, updated, setUpdated }) {
+export default function FormationCard({
+  formation,
+  updated,
+  setUpdated,
+  freelancer,
+  loggedUser,
+}) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { isVisible, setIsVisible, setCurrentFormation, currentFormation } =
     useContext(FormationFormContext);
@@ -49,34 +55,38 @@ export default function FormationCard({ formation, updated, setUpdated }) {
         {formation.description}
       </Text>
       <Flex gap="20px">
-        <Button
-          leftIcon={<EditIcon />}
-          variant="text"
-          color="pink.light"
-          padding="0px"
-          onClick={showForm}
-        >
-          Modifier
-        </Button>
-        <Button
-          rightIcon={<DeleteIcon />}
-          variant="text"
-          color="pink.light"
-          padding="0px"
-          onClick={() => {
-            onOpen();
-            getOneItemOfList(
-              "freelancers",
-              "formations",
-              freelancerId,
-              formation.id
-            ).then((res) => {
-              setCurrentFormation(res.data);
-            });
-          }}
-        >
-          Supprimer
-        </Button>
+        {loggedUser.userId === freelancer.userId ? (
+          <>
+            <Button
+              leftIcon={<EditIcon />}
+              variant="text"
+              color="pink.light"
+              padding="0px"
+              onClick={showForm}
+            >
+              Modifier
+            </Button>
+            <Button
+              rightIcon={<DeleteIcon />}
+              variant="text"
+              color="pink.light"
+              padding="0px"
+              onClick={() => {
+                onOpen();
+                getOneItemOfList(
+                  "freelancers",
+                  "formations",
+                  freelancerId,
+                  formation.id
+                ).then((res) => {
+                  setCurrentFormation(res.data);
+                });
+              }}
+            >
+              Supprimer
+            </Button>
+          </>
+        ) : null}
 
         <DeleteConfirmModal
           onOpen={onOpen}
