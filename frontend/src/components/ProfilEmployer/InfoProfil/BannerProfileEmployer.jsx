@@ -1,7 +1,10 @@
-import { Flex, Button, Text, FormLabel, Image, Tag } from "@chakra-ui/react";
+import { Flex, Button, Text, Image, useDisclosure } from "@chakra-ui/react";
 import dateFormat from "dateformat";
 
+import ModalProfilForm from "./ModalProfilForm";
+
 export default function BannerProfile({ employer }) {
+  const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <Flex
       w={{ base: "95%", lg: "80%" }}
@@ -51,19 +54,6 @@ export default function BannerProfile({ employer }) {
           <Text color="white" textAlign={{ base: "center", md: "left" }}>
             Membre depuis le {dateFormat(employer.dateCreated, "dd/mm/yyyy")}
           </Text>
-          <FormLabel
-            htmlFor="availabilityToggle"
-            mt="10px"
-            alignSelf={{ base: "center", md: "flex-start" }}
-          >
-            {employer.picture ? (
-              <Tag variant="solid" colorScheme="green">
-                Profil vérifié
-              </Tag>
-            ) : (
-              <Tag color="red">Profil non vérifié</Tag>
-            )}
-          </FormLabel>
           <Flex
             direction={{ base: "column", sm: "row" }}
             p="0.75rem"
@@ -72,7 +62,11 @@ export default function BannerProfile({ employer }) {
             w="auto"
             display={{ base: "flex", md: "none" }}
           >
-            <Button marginTop="0.75rem" variant="solid_PrimaryColor">
+            <Button
+              marginTop="0.75rem"
+              variant="solid_PrimaryColor"
+              onClick={onOpen}
+            >
               Modifier
             </Button>
             <Button marginTop="0.75rem" variant="outlineWhite">
@@ -89,9 +83,19 @@ export default function BannerProfile({ employer }) {
           w="auto"
           display={{ base: "none", md: "flex" }}
         >
-          <Button marginTop="0.75rem" variant="solid_PrimaryColor">
+          <Button
+            marginTop="0.75rem"
+            variant="solid_PrimaryColor"
+            onClick={onOpen}
+          >
             Modifier
           </Button>
+          <ModalProfilForm
+            onOpen={onOpen}
+            isOpen={isOpen}
+            onClose={onClose}
+            employer={employer}
+          />
           <Button variant="outlineWhite">Voir mon profil en ligne</Button>
         </Flex>
       </Flex>
