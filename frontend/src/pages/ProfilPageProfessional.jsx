@@ -97,7 +97,7 @@ export default function ProfilPageProfessional() {
             flexDir="column"
           >
             <AccountCard user={user} />
-            <Verifications />
+            <Verifications freelancerId={freelancerId} />
             <Expertises freelancer={freelancer} />
             <Tarif freelancer={freelancer} />
           </Flex>
