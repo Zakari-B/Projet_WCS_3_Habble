@@ -100,9 +100,7 @@ const signupForm = () => {
               navigate(`/profil-employer/${newresponse.data.fkId}`);
             }
             if (newresponse.data.type === "coordinator") {
-              return newresponse.data.profil
-                ? navigate(`/profil/${newresponse.data.fkId}`)
-                : navigate(`/welcome-pro/${newresponse.data.fkId}`);
+              navigate(`/profil-coordinator/${newresponse.data.fkId}`);
             }
             return null;
           })

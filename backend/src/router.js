@@ -107,11 +107,11 @@ router.put(
   authSelfRole,
   CoordinatorController.updateOne
 );
-router.get(
-  "/coordinators/:id/user",
-  authorization,
-  CoordinatorController.getUser
-);
+// router.get(
+//   "/coordinator/:coordinatorId/user",
+//   authorization,
+//   CoordinatorController.getUser
+// );
 
 // Routes for freelancer's picture
 router.put(

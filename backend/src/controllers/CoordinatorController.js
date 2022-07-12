@@ -68,7 +68,7 @@ exports.getAll = async (req, res) => {
 };
 
 exports.getUserFromCoordinator = async (req, res) => {
-  const coordinatorId = parseInt(req.params.id, 10);
+  const coordinatorId = parseInt(req.params.coordinatorId, 10);
 
   try {
     const userId = await findOneCoordinator(coordinatorId);
