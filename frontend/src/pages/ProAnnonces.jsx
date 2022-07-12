@@ -26,14 +26,10 @@ function ProAnnonces() {
     });
   }, []);
   const currentAnnonces = annonces.filter(
-    (annonce) =>
-      annonce.status !== "Terminée" && annonce.status !== "uncompleted"
+    (annonce) => annonce.status !== "Finie" && annonce.status !== "Brouillon"
   );
 
-  const oldAnnonces = annonces.filter(
-    (annonce) =>
-      annonce.status === "Terminée" && annonce.status !== "uncompleted"
-  );
+  const oldAnnonces = annonces.filter((annonce) => annonce.status === "Finie");
   return (
     <Box h="100vh">
       <Header onDark={false} isSticky={false} isStickyWhite />

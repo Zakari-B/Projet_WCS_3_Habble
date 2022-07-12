@@ -466,7 +466,7 @@ export default function EditAnnonceModal({ isOpen, onClose, annonce }) {
                         >
                           <option value="En cours">En cours</option>
                           <option value="En suspens">En suspens</option>
-                          <option value="Terminée">Terminée</option>
+                          <option value="Finie">Finie</option>
                         </Select>
                       </Flex>
                     </CheckboxGroup>

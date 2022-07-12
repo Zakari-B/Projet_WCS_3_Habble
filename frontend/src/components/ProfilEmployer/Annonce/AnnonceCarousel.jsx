@@ -25,7 +25,7 @@ export default function AnnonceCarousel(updated, setUpdated) {
         zipCode: "00000",
         emergency: false,
         price: 0,
-        status: "uncompleted",
+        status: "Brouillon",
       })
       .then((response) => {
         backendAPI.put(
@@ -72,7 +72,7 @@ export default function AnnonceCarousel(updated, setUpdated) {
           </Text>
         ) : (
           announcements
-            .filter((ann) => ann.status !== "uncompleted")
+            // .filter((ann) => ann.status !== "uncompleted")
             .map((annonce) => (
               <AnnonceCard
                 annonce={annonce}

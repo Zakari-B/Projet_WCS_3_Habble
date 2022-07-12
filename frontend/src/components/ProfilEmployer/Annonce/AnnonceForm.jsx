@@ -106,7 +106,7 @@ export default function AnnonceForm() {
         zipCode: cityPro,
         emergency,
         price,
-        status: "En attente de validation",
+        status: "En cours",
       })
       .then(() => {
         navigate(`/profil-employer/${employerId}`);
