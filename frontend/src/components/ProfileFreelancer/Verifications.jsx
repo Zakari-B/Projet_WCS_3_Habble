@@ -2,7 +2,7 @@ import { Flex, Heading, ListItem, Text, List, Button } from "@chakra-ui/react";
 
 import { CheckIcon, CloseIcon } from "@chakra-ui/icons";
 
-export default function Verifications() {
+export default function Verifications({ freelancer, loggedUser }) {
   const itemList = [
     {
       id: 1,
@@ -68,9 +68,11 @@ export default function Verifications() {
             </ListItem>
           ))}
         </List>
-        <Button marginTop="2rem" variant="solid_gradient">
-          Demander une vérification
-        </Button>
+        {loggedUser.userId === freelancer.userId ? (
+          <Button marginTop="2rem" variant="solid_gradient">
+            Demander une vérification
+          </Button>
+        ) : null}
       </Flex>
     </Flex>
   );
