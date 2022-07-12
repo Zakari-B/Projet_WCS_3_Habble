@@ -3,7 +3,11 @@ import dateFormat from "dateformat";
 
 import ModalProfilForm from "./ModalProfilForm";
 
-export default function BannerProfile({ employer, updated, setUpdated }) {
+export default function BannerProfileEmployer({
+  employer,
+  updated,
+  setUpdated,
+}) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
