@@ -150,12 +150,12 @@ exports.validateAnnouncement = (data, forCreation = true) => {
   const validationErrors = Joi.object({
     title: Joi.string().max(100).presence(presence),
     description: Joi.string().max(500).presence(presence),
-    zipCode: Joi.string().max(10).presence(presence),
+    zipCode: Joi.string().max(10).presence(presence).allow(null, ""),
     price: Joi.number().presence(presence).options({ convert: false }),
     emergency: Joi.boolean(),
     expertise: Joi.string().max(500),
     location: Joi.string().max(100),
-    status: Joi.string().max(100),
+    status: Joi.string().max(100).allow(null, ""),
   }).validate(data, { abortEarly: false }).error;
   if (validationErrors) {
     return validationErrors;
