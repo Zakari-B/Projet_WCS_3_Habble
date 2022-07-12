@@ -1,9 +1,9 @@
 import React from "react";
 import { Flex, Box, Text, Link, Button, useDisclosure } from "@chakra-ui/react";
 import { DeleteIcon, LinkIcon } from "@chakra-ui/icons";
-import DeleteConfirmModalFamily from "./DeleteConfirmModalFamily";
+import DeleteConfirmModalCoordo from "./DeleteConfirmModalCoordo";
 
-export default function UploadedDocFamily({ data, updated, setUpdated }) {
+export default function UploadedDocCoordo({ data, updated, setUpdated }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
@@ -67,7 +67,7 @@ export default function UploadedDocFamily({ data, updated, setUpdated }) {
             </Button>
           </Flex>
 
-          <DeleteConfirmModalFamily
+          <DeleteConfirmModalCoordo
             onOpen={onOpen}
             isOpen={isOpen}
             onClose={onClose}

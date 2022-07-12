@@ -47,7 +47,7 @@ router.get("/auth/sessionControl", authorization, sessionControl);
 
 router.post("/file", authorization, multer, fileController.addOne);
 router.post(
-  "/:familyId/file",
+  "/family/:familyId/file",
   authorization,
   multer,
   fileController.addOneByFamily
@@ -138,7 +138,12 @@ router.get(
   DocumentsController.getAll
 );
 router.get(
-  "/coordinators/:coordinatorId/:familyId/documents",
+  "/coordinator/:coordinatorId/documents",
+  // authorization,
+  DocumentsController.getAllByCoordinatorId
+);
+router.get(
+  "/coordinators/:coordinatorId/family/:familyId/documents",
   // authorization,
   DocumentsController.getAllByFamilyId
 );
@@ -149,7 +154,13 @@ router.delete(
   DocumentsController.deleteOne
 );
 router.delete(
-  "/coordinators/:coordinatorId/documents/:id",
+  "/coordinator/:coordinatorId/documents/:id",
+  authorization,
+  authSelfRole,
+  DocumentsController.deleteOneByCoordinatorId
+);
+router.delete(
+  "/coordinator/:coordinatorId/family/:familyId/documents/:id",
   authorization,
   // authSelfRole,
   DocumentsController.deleteOneByFamily

@@ -15,21 +15,21 @@ import {
   useDisclosure,
   ModalCloseButton,
 } from "@chakra-ui/react";
-import UploadedDocsFamily from "./UploadedDocsFamily";
+import UploadedDocsCoordo from "./UploadedDocsCoordo";
 import backendAPI from "../../services/backendAPI";
 
-export default function DocumentCarouselFamily({ updated, setUpdated }) {
+export default function DocumentCarouselCoordo({ updated, setUpdated }) {
   const [files, setFiles] = useState([]);
   const [fileType, setFileType] = useState([]);
-  const [profileDocuments, setProfileDocuments] = useState(["test"]);
+  const [profileCoordoDocuments, setProfileCoordoDocuments] = useState([]);
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { freelancerId, familyId } = useParams();
+  const { coordinatorId, familyId } = useParams();
 
   useEffect(() => {
     backendAPI
-      .get(`api/coordinators/${freelancerId}/${familyId}/documents`)
+      .get(`/api/coordinators/${coordinatorId}/family/${familyId}/documents`)
       .then((res) => {
-        setProfileDocuments(res.data);
+        setProfileCoordoDocuments(res.data);
       });
   }, []);
 
@@ -42,7 +42,7 @@ export default function DocumentCarouselFamily({ updated, setUpdated }) {
     formData.append("name", fileType);
 
     backendAPI
-      .post(`/api/family/${familyId}/file`, formData, {
+      .post("/api/file", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -146,9 +146,9 @@ export default function DocumentCarouselFamily({ updated, setUpdated }) {
         w={{ base: "100%", "2xl": "90%" }}
         m="auto"
       >
-        {profileDocuments &&
-          profileDocuments.map((elem) => (
-            <UploadedDocsFamily
+        {profileCoordoDocuments &&
+          profileCoordoDocuments.map((elem) => (
+            <UploadedDocsCoordo
               key={elem.id}
               data={elem}
               updated={updated}

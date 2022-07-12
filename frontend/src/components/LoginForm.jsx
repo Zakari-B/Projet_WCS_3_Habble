@@ -67,7 +67,7 @@ const loginForm = () => {
           }
           if (response.data.type === "coordinator") {
             return response.data.profileIsComplete
-              ? navigate(`/profil/${response.data.fkId}`)
+              ? navigate(`/profil-coordinator/${response.data.fkId}`)
               : navigate(`/register-onboarding-pro/${response.data.fkId}`);
           }
           return null;

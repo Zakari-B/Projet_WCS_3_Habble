@@ -6,13 +6,13 @@ import ModalAddFamily from "./ModalAddFamily";
 
 export default function Accompagnement() {
   const navigate = useNavigate();
-  const { freelancerId } = useParams();
+  const { coordinatorId } = useParams();
 
   const [family, setFamily] = useState([]);
 
   useEffect(() => {
     backendAPI
-      .get(`/api/coordinators/${freelancerId}/familles`)
+      .get(`/api/coordinators/${coordinatorId}/familles`)
       .then((res) => setFamily(res.data))
       .catch((err) => console.warn(err));
   }, []);
@@ -55,7 +55,7 @@ export default function Accompagnement() {
                   mb="0.5rem"
                   onClick={() =>
                     navigate(
-                      `/profil-coordinator/${freelancerId}/famille/${fam.id}`
+                      `/profil-coordinator/${coordinatorId}/famille/${fam.id}`
                     )
                   }
                 >

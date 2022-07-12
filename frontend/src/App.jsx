@@ -41,11 +41,11 @@ function App() {
           element={<ProfilPageProfessional />}
         />
         <Route
-          path="/profil-coordinator/:freelancerId"
+          path="/profil-coordinator/:coordinatorId"
           element={<ProfilPageCoordinator />}
         />
         <Route
-          path="/profil-coordinator/:freelancerId/famille/:familyId"
+          path="/profil-coordinator/:coordinatorId/famille/:familyId"
           element={<FamilyOverview />}
         />
         <Route

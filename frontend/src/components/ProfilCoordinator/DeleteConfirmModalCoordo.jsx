@@ -14,9 +14,9 @@ import {
 import PropTypes from "prop-types";
 import { useParams } from "react-router-dom";
 
-import backendAPI from "../../services/backendAPI";
+import { deleteItemList } from "../../services/ProfileProUtils";
 
-export default function DeleteConfirmModalFamily({
+export default function DeleteConfirmModalCoordo({
   isOpen,
   onClose,
   item,
@@ -24,7 +24,7 @@ export default function DeleteConfirmModalFamily({
   setUpdated,
   type,
 }) {
-  const { coordinatorId, familyId } = useParams();
+  const { coordinatorId } = useParams();
   const toast = useToast();
   return (
     <Modal size="xl" isOpen={isOpen} onClose={onClose}>
@@ -67,10 +67,7 @@ export default function DeleteConfirmModalFamily({
             variant="solid_PrimaryColor"
             onClick={() => {
               onClose();
-              backendAPI
-                .delete(
-                  `/api/coordinator/${coordinatorId}/family/${familyId}/documents/${item.id}`
-                )
+              deleteItemList("coordinator", type, coordinatorId, item.id)
                 .then(() =>
                   toast({
                     title: `${type} supprimés(es).es avec succès`,
@@ -103,7 +100,7 @@ export default function DeleteConfirmModalFamily({
   );
 }
 
-DeleteConfirmModalFamily.propTypes = {
+DeleteConfirmModalCoordo.propTypes = {
   isOpen: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
 };

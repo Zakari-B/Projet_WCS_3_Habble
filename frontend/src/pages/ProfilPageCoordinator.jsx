@@ -3,9 +3,9 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer";
-import DocumentCarousel from "../components/ProfileFreelancer/DocumentUpload/DocumentCarousel";
+import DocumentCarouselCoordo from "../components/ProfilCoordinator/DocumentCarouselCoordo";
 // import AnnonceCarousel from "../components/ProfilEmployer/Annonce/AnnonceCarousel";
-import BannerProfile from "../components/ProfileFreelancer/Banner/BannerProfile";
+// import BannerProfile from "../components/ProfileFreelancer/Banner/BannerProfile";
 import AccountCard from "../components/ProfileFreelancer/Account/AccountCard";
 import Verifications from "../components/ProfileFreelancer/Verifications";
 import Accompagnement from "../components/ProfilCoordinator/Accompagnement";
@@ -16,12 +16,12 @@ import backendAPI from "../services/backendAPI";
 export default function ProfilPageCoordinator() {
   const navigate = useNavigate();
 
-  const { freelancerId } = useParams();
+  const { coordinatorId } = useParams();
   const [coordinator, setCoordinator] = useState({});
   const [updated, setUpdated] = useState(false);
 
   const getCoordinator = () => {
-    getListforAnId("coordinators", freelancerId)
+    getListforAnId("coordinators", coordinatorId)
       .then((response) => {
         setCoordinator(response.data);
       })
@@ -69,7 +69,7 @@ export default function ProfilPageCoordinator() {
         paddingY="30px"
         paddingTop="150px"
       >
-        <BannerProfile freelancer={coordinator} />
+        {/* <BannerProfile freelancer={coordinator} /> */}
         <Flex
           w={{ base: "95%", lg: "80%" }}
           gap="20px"
@@ -94,7 +94,7 @@ export default function ProfilPageCoordinator() {
             direction="column"
             gap="20px"
           >
-            <DocumentCarousel setUpdated={setUpdated} />
+            <DocumentCarouselCoordo setUpdated={setUpdated} />
             <Agrement setUpdated={setUpdated} />
             {/* <AnnonceCarousel annonce={fakeAnnonce} /> */}
           </Flex>

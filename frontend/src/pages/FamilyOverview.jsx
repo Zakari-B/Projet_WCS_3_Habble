@@ -9,13 +9,13 @@ import ModalDeletionFamily from "../components/ProfilCoordinator/ModalDeletionFa
 import ModalUpdateFamily from "../components/ProfilCoordinator/ModalUpdateFamily";
 
 function FamilyOverview() {
-  const { freelancerId, familyId } = useParams();
+  const { coordinatorId, familyId } = useParams();
 
   const [oneFamily, setOneFamily] = useState([]);
   const [updated, setUpdated] = useState(false);
 
   const GetAFamily = () => {
-    getOneItemOfList("coordinators", "famille", freelancerId, familyId).then(
+    getOneItemOfList("coordinators", "famille", coordinatorId, familyId).then(
       (res) => {
         setOneFamily(res.data);
       }

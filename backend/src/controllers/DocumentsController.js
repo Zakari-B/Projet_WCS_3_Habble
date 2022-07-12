@@ -2,8 +2,10 @@ const fs = require("fs");
 const path = require("path");
 const {
   getAllDocumentsByFreelancerId,
-  getAllDocumentsByFreelancerIdAndFamilyId,
+  getAllDocumentsByCoordinatorId,
+  getAllDocumentsByCooordinatorIdAndFamilyId,
   getOneDocumentByFreelancerId,
+  getOneDocumentByCoordinatorId,
   getOneDocumentByCoordinatorIdAndFamilyId,
   deleteOneDocument,
 } = require("../models/documents");
@@ -12,9 +14,6 @@ const getAll = async (req, res) => {
   let freelancerId = 0;
   if (req.params.freelancerid) {
     freelancerId = parseInt(req.params.freelancerid, 10);
-  }
-  if (req.params.coordinatorId) {
-    freelancerId = parseInt(req.params.coordinatorId, 10);
   }
   try {
     const docList = await getAllDocumentsByFreelancerId(freelancerId);
@@ -25,13 +24,24 @@ const getAll = async (req, res) => {
   }
 };
 
+const getAllByCoordinatorId = async (req, res) => {
+  const coordinatorId = parseInt(req.params.coordinatorId, 10);
+  try {
+    const docList = await getAllDocumentsByCoordinatorId(coordinatorId);
+    return res.status(200).send(docList);
+  } catch (e) {
+    console.error(e);
+    return res.status(500).json({ error: "Problème de lecture des documents" });
+  }
+};
+
 const getAllByFamilyId = async (req, res) => {
   const familyId = parseInt(req.params.familyId, 10);
-  const freelancerId = parseInt(req.params.coordinatorId, 10);
+  const coordinatorId = parseInt(req.roleId, 10);
 
   try {
-    const docList = await getAllDocumentsByFreelancerIdAndFamilyId(
-      freelancerId,
+    const docList = await getAllDocumentsByCooordinatorIdAndFamilyId(
+      coordinatorId,
       familyId
     );
     return res.status(200).send(docList);
@@ -65,21 +75,43 @@ const deleteOne = async (req, res) => {
   }
 };
 
+const deleteOneByCoordinatorId = async (req, res) => {
+  const coordinatorId = parseInt(req.roleId, 10);
+  const documentID = parseInt(req.params.id, 10);
+
+  const document = await getOneDocumentByCoordinatorId(
+    coordinatorId,
+    documentID
+  );
+
+  if (!document) {
+    res.status(404).send("Aucun document correspondant pour ce professionnel");
+  }
+
+  try {
+    const removedDoc = await deleteOneDocument(documentID);
+    await fs.promises.unlink(
+      path.join(__dirname, `../../public/uploads/${removedDoc.documentLink}`)
+    );
+    return res.status(200).send("Le document a été supprimé avec succès");
+  } catch (e) {
+    console.error(e);
+    return res
+      .status(500)
+      .json({ error: "Problème de suppression de l'entrée document" });
+  }
+};
+
 const deleteOneByFamily = async (req, res) => {
   const freelancerId = parseInt(req.roleId, 10);
   const documentID = parseInt(req.params.id, 10);
   const familyId = parseInt(req.params.familyId, 10);
-  // console.log(`coordinator: ${freelancerId}`);
-  // console.log(`document: ${documentID}`);
-  // console.log(`family: ${familyId}`);
 
   const document = await getOneDocumentByCoordinatorIdAndFamilyId(
     freelancerId,
     familyId,
     documentID
   );
-
-  // console.log(document);
 
   if (!document) {
     res.status(404).send("Aucun document correspondant pour ce professionnel");
@@ -99,4 +131,11 @@ const deleteOneByFamily = async (req, res) => {
   }
 };
 
-module.exports = { getAll, getAllByFamilyId, deleteOne, deleteOneByFamily };
+module.exports = {
+  getAll,
+  getAllByCoordinatorId,
+  getAllByFamilyId,
+  deleteOne,
+  deleteOneByCoordinatorId,
+  deleteOneByFamily,
+};
