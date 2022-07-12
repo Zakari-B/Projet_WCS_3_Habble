@@ -18,6 +18,7 @@ import ProfilPageEmployer from "./pages/ProfilPageEmployer";
 import AnnoncesPageEmployer from "./pages/AnnoncesPageEmployer";
 import Logout from "./pages/Logout";
 import ProAnnonces from "./pages/ProAnnonces";
+import AnnonceFreelancerSearchForm from "./components/ProfilEmployer/Annonce/AnnonceFreelancerSearch";
 
 import "./App.css";
 
@@ -48,6 +49,11 @@ function App() {
           path="/deposer-une-annonce/:employerId/annonce/:annonceId"
           element={<AnnonceForm />}
         />
+        <Route
+          path="/deposer-une-annonce/:employerId/annonce/:annonceId/choix-professionnels"
+          element={<AnnonceFreelancerSearchForm />}
+        />
+
         <Route
           path="/profil-employer/:employerId"
           element={<ProfilPageEmployer />}

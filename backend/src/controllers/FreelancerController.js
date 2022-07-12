@@ -7,6 +7,7 @@ const {
   getUserfromfreelancer,
   getAllFreelancersWithinDist,
   getOneFreelancerWithCity,
+  getAllFreelancersWithinFixedDistAndServices,
 } = require("../models/freelancer");
 
 const { validateFreelancer } = require("../utils/validate");
@@ -71,7 +72,7 @@ exports.createOne = async (req, res, next) => {
         price: 0.0,
         description: "",
         acceptEmails: false,
-        siret: 0,
+        siret: "",
         available: false,
         picture: "",
       });
@@ -136,6 +137,31 @@ exports.getAllWithinDistance = async (req, res) => {
     const freelancers = await getAllFreelancersWithinDist(dist, cityCode);
     if (!freelancers) {
       return res.status(404).send(`Aucun freelancer dans cette zone`);
+    }
+    return res.status(200).json(freelancers);
+  } catch (e) {
+    console.warn(e);
+    return res
+      .status(500)
+      .json({ error: "Problème de lecture des freelancers" });
+  }
+};
+
+exports.getAllWithinFixedDistanceAndServices = async (req, res) => {
+  const { serviceList, cityCode } = req.query;
+  if (!serviceList || !cityCode) {
+    return res.sendStatus(400);
+  }
+
+  const services = serviceList.split(",");
+
+  try {
+    const freelancers = await getAllFreelancersWithinFixedDistAndServices(
+      cityCode,
+      services
+    );
+    if (!freelancers) {
+      return res.status(404).send(`Aucun freelancer ne correspond`);
     }
     return res.status(200).json(freelancers);
   } catch (e) {

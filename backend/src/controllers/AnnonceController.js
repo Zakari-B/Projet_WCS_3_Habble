@@ -77,7 +77,7 @@ const getOneByEmployerId = async (req, res) => {
     if (announcement.length === 0) {
       return res.status(404).send("Il n'y a pas encore d'activité");
     }
-    return res.status(201).send(announcement);
+    return res.status(200).send(announcement);
   } catch (e) {
     console.error(e);
     return res.status(500).json({ error: "Problème de lecture de l'annonce" });
@@ -91,7 +91,7 @@ const getOne = async (req, res) => {
     if (announcement.length === 0) {
       return res.status(404).send("Cette annonce n'existe pas");
     }
-    return res.status(201).send(announcement);
+    return res.status(200).send(announcement);
   } catch (e) {
     console.error(e);
     return res.status(500).json({ error: "Problème de lecture de l'annonce" });

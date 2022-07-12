@@ -61,6 +61,11 @@ router.get("/freelancers/:id/user", FreelancerController.getUser);
 router.get("/freelancers/", FreelancerController.getAll);
 router.get("/freelancers/search", FreelancerController.getAllWithinDistance);
 router.get(
+  "/freelancers/search/filtered",
+  FreelancerController.getAllWithinFixedDistanceAndServices
+);
+
+router.get(
   "/freelancers/:freelancerid/city",
   authorization,
   FreelancerController.getOneFreelancerWithCityInfo

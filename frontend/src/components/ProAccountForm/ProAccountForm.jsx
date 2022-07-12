@@ -170,6 +170,7 @@ export default function ProAccountForm({ onModal = false, onClose }) {
           toast({
             title: "Veuillez renseigner tous les champs obligatoires",
             status: "error",
+            description: `${error.response.data[0].message}`,
             duration: 7000,
             position: "bottom-right",
             isClosable: true,
@@ -194,7 +195,6 @@ export default function ProAccountForm({ onModal = false, onClose }) {
         description: descriptionPro === "" ? "undefined" : descriptionPro,
         acceptEmails: acceptEmailPro,
         siret: siretPro,
-        available: false,
       })
       .then((response) => {
         if (response) {
@@ -615,8 +615,8 @@ export default function ProAccountForm({ onModal = false, onClose }) {
               fontWeight: "500",
               color: "gray",
             }}
-            value={siretPro === 0 ? "" : siretPro}
-            onChange={(e) => setSiretPro(parseInt(e.target.value, 10))}
+            value={siretPro === "" ? "" : siretPro}
+            onChange={(e) => setSiretPro(e.target.value)}
           />
           <Text fontSize="xs" color="gray.light">
             Le numéro de Siret est un identifiant de 14 chiffres (exemple :

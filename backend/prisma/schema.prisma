@@ -31,7 +31,7 @@ model freelancer {
   price                 Float
   description           String                  @db.VarChar(1000)
   acceptEmails          Boolean                 @default(false)
-  siret                 Int?
+  siret                 String?                 @db.VarChar(14)
   available             Boolean                 @default(false)
   picture               String?                 @db.VarChar(1000)
   dateCreated           DateTime                @default(now()) @db.Timestamp(0)

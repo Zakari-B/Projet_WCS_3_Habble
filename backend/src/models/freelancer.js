@@ -166,3 +166,50 @@ exports.getAllFreelancersWithinDist = (dist, cityCode) => {
       return results;
     });
 };
+
+exports.getAllFreelancersWithinFixedDistAndServices = (
+  cityCode,
+  serviceList
+) => {
+  return db
+    .query(
+      `SELECT 
+      f.id,
+      f.displayName,
+      f.activityDescription,
+      f.phone,
+      f.price,
+      f.description,
+      f.acceptEmails,
+      f.available,
+      f.picture,
+      group_concat(s.name separator ','),
+      fc.distanceInMeters,
+      fc.ville_nom
+            from freelancer f join freelancer_services fs on fs.freelancerId =f.id 
+            join services s on s.id =fs.serviceId 
+      
+            join (
+              SELECT * FROM (
+                SELECT
+                ville_id,
+                ville_nom,
+                ville_code_postal,
+                ville_code_commune,
+                (
+                  ST_distance_sphere(city_geo_point, (select city_geo_point from city where ville_code_commune = ?))
+                ) AS distanceInMeters
+                FROM city
+                ORDER BY distanceInMeters ASC
+              ) as result
+              WHERE result.distanceInMeters < 150000
+            ) as fc on f.zipCode = fc.ville_code_commune where s.name IN (?)
+      
+            group by f.id,f.displayName,f.activityDescription,f.phone,f.price,f.description,f.acceptEmails,f.available,f.picture,fc.distanceInMeters,fc.ville_nom
+            ORDER BY fc.distanceInMeters ASC`,
+      [cityCode, serviceList]
+    )
+    .then(([results]) => {
+      return results;
+    });
+};

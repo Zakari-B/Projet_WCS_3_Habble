@@ -1,7 +1,6 @@
 import axios from "axios";
 import {
   Flex,
-  Heading,
   Stack,
   VStack,
   FormControl,
@@ -136,7 +135,9 @@ export default function AnnonceForm({ updated, setUpdated }) {
         status,
       })
       .then(() => {
-        navigate(`/profil-employer/${employerId}`);
+        navigate(
+          `/deposer-une-annonce/${employerId}/annonce/${annonceId}/choix-professionnels`
+        );
       })
       .then(() =>
         toast({
@@ -273,13 +274,30 @@ export default function AnnonceForm({ updated, setUpdated }) {
         bgColor="background.gray"
         direction="column"
         justify="flex-start"
-        paddingTop="100px"
+        paddingTop="150px"
+        paddingBottom="50px"
+        gap="50px"
       >
+        <Flex direction="column" gap="10px" alignItems="center">
+          <Text
+            as="h2"
+            color="purple.average"
+            w={{ base: "95%", lg: "80%" }}
+            fontSize="1.5em"
+            fontWeight="700"
+            m="auto"
+            align="center"
+          >
+            Étape 1 : Détaillez votre annonce
+          </Text>
+          <Text color="purple.average">
+            Trouvez un professionnel du handicap adapté à vos besoins
+          </Text>
+        </Flex>
         <FormControl
           alignSelf="center"
           dir="column"
           mx="10%"
-          my="5%"
           className="employerForm"
           bgColor="white"
           maxWidth="900px"
@@ -295,16 +313,6 @@ export default function AnnonceForm({ updated, setUpdated }) {
             margin="auto"
             maxW="95%"
           >
-            <Heading
-              as="h2"
-              textAlign="left"
-              fontSize="1.2rem"
-              fontWeight="600"
-              color="purple.average"
-            >
-              Détaillez votre besoin et trouvez un professionnel du handicap
-              adapté
-            </Heading>
             <VStack alignItems="left">
               <FormLabel
                 htmlFor="name"
@@ -389,7 +397,7 @@ export default function AnnonceForm({ updated, setUpdated }) {
                       id="proFormCity"
                       name="city"
                       variant="outline"
-                      autocomplete="off"
+                      autoComplete="off"
                       bgColor="white"
                       h="50px"
                       fontSize="0.9rem"
@@ -413,6 +421,7 @@ export default function AnnonceForm({ updated, setUpdated }) {
                       <Flex direction="column" w="-webkit-fill-available">
                         {addressList.map((city) => (
                           <ListItem
+                            key={city.id}
                             onClick={() => {
                               if (city.properties.citycode) {
                                 setCityProName(city.properties.name);
@@ -537,7 +546,9 @@ export default function AnnonceForm({ updated, setUpdated }) {
                   }
                 >
                   {servicesList.map((element) => (
-                    <option value={element.id}>{element.name}</option>
+                    <option key={element.id} value={element.id}>
+                      {element.name}
+                    </option>
                   ))}
                 </Select>
               </Box>
@@ -606,7 +617,7 @@ export default function AnnonceForm({ updated, setUpdated }) {
                 w="fit-content%"
               >
                 {locations.map((element) => (
-                  <CheckboxGroup>
+                  <CheckboxGroup key={element.id}>
                     <Checkbox
                       defaultChecked
                       iconColor="pink.light"
@@ -657,7 +668,7 @@ export default function AnnonceForm({ updated, setUpdated }) {
                   marginTop="2rem"
                   onClick={handleSubmit}
                 >
-                  J'ai terminé, je dépose mon annonce
+                  Suivant{" "}
                 </Button>
                 <Divider />
                 <Text
