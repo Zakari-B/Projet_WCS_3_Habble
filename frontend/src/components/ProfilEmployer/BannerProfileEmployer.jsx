@@ -9,7 +9,7 @@ import {
 } from "@chakra-ui/react";
 import dateFormat from "dateformat";
 
-export default function BannerProfile({ employer }) {
+export default function BannerProfileEmployer({ employer }) {
   return (
     <Flex
       w={{ base: "95%", lg: "80%" }}
