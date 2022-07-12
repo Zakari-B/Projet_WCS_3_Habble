@@ -24,7 +24,7 @@ export default function SearchProfessionals() {
 
   return (
     <Box h="100vh">
-      <Header onDark={false} isSticky={false} isStickyWhite isSignUp />
+      <Header onDark={false} isSticky={false} isStickyWhite />
       <Flex bgColor="background.gray" paddingTop="100px" paddingBottom="80px">
         <SearchResultCarousel />
       </Flex>

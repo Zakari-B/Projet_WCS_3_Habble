@@ -4,7 +4,7 @@ const {
   updateOneFreelancer,
   findOneFreelancer,
   getAllFreelancersProfileInfo,
-  getUserfromfreelancer,
+  getUserFromFreelancer,
   getAllFreelancersWithinDist,
   getOneFreelancerWithCity,
 } = require("../models/freelancer");
@@ -117,7 +117,7 @@ exports.getUser = async (req, res) => {
 
   try {
     const freelancer = await findOneFreelancer(freelancerId);
-    const user = await getUserfromfreelancer(freelancer.userId);
+    const user = await getUserFromFreelancer(freelancer.userId);
     return res.status(200).json(user);
   } catch (e) {
     console.warn(e);
