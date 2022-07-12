@@ -955,7 +955,7 @@ function Mission() {
           Pour les professionnels, notre site vous aide à développer votre
           visibilité et faciliter la mise en relation.
         </Text>
-        <Link _hover={{ textDecor: "none" }} href="/register">
+        <Link _hover={{ textDecor: "none" }} href="/register/?role=freelancer">
           <Button
             variant="gradient"
             maxW="400px"

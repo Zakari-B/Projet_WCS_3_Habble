@@ -14,7 +14,7 @@ import PropTypes from "prop-types";
 import DeleteConfirmModal from "./DeleteConfirmModal";
 import EditAnnonceModal from "./EditAnnonceModal";
 
-export default function AnnonceCard({ annonce }) {
+export default function AnnonceCard({ annonce, updated, setUpdated }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const {
@@ -72,6 +72,8 @@ export default function AnnonceCard({ annonce }) {
           isOpen={isOpen}
           onClose={onClose}
           annonce={annonce}
+          updated={updated}
+          setUpdated={setUpdated}
         />
       </Flex>
       <Divider paddingTop="10px" colorScheme="gray" />

@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import AnnonceCard from "./AnnonceCard";
 import backendAPI from "../../../services/backendAPI";
 
-export default function AnnonceCarousel() {
+export default function AnnonceCarousel(updated, setUpdated) {
   const { employerId } = useParams();
   const navigate = useNavigate();
   const [announcements, setAnnouncements] = useState([]);
@@ -20,14 +20,18 @@ export default function AnnonceCarousel() {
   const postAnnonce = () => {
     backendAPI
       .post(`api/employers/${employerId}/annonce`, {
-        title: " ",
-        description: " ",
-        zipCode: "83061",
+        title: "Nouvelle Annonce ",
+        description: "Exemple description",
+        zipCode: "00000",
         emergency: false,
         price: 0,
-        status: "En cours",
+        status: "uncompleted",
       })
       .then((response) => {
+        backendAPI.put(
+          `api/employers/${employerId}/annonce/${response.data.id}`,
+          { title: `Nouvelle Annonce #${response.data.id}` }
+        );
         navigate(
           `/deposer-une-annonce/${employerId}/annonce/${response.data.id}`
         );
@@ -67,9 +71,16 @@ export default function AnnonceCarousel() {
             Il n'y a pas encore d'activité.
           </Text>
         ) : (
-          announcements.map((annonce) => (
-            <AnnonceCard annonce={annonce} key={annonce.id} />
-          ))
+          announcements
+            .filter((ann) => ann.status !== "uncompleted")
+            .map((annonce) => (
+              <AnnonceCard
+                annonce={annonce}
+                key={annonce.id}
+                updated={updated}
+                setUpdated={setUpdated}
+              />
+            ))
         )}
       </Flex>
     </Flex>

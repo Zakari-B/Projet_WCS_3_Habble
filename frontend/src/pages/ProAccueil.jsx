@@ -12,6 +12,7 @@ import {
 } from "@chakra-ui/react";
 
 import { VscChevronRight } from "react-icons/vsc";
+import { Link } from "react-router-dom";
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer";
 import admin from "../assets/admin.svg";
@@ -98,10 +99,12 @@ function ProAccueil() {
                     fontWeight: "semibold",
                   }}
                 />
-                <Button variant="gradient" _hover={{ animation }}>
-                  Je m'inscris maintenant
-                  <VscChevronRight size="s" />
-                </Button>
+                <Link to="/register/?role=freelancer">
+                  <Button variant="gradient" _hover={{ animation }}>
+                    Je m'inscris maintenant
+                    <VscChevronRight size="s" />
+                  </Button>
+                </Link>
               </Flex>
             </Box>
             <Box
@@ -405,13 +408,15 @@ function ProAccueil() {
                     fontWeight: "semibold",
                   }}
                 />
-                <Button
-                  variant="gradient"
-                  marginBottom="5rem"
-                  width={{ lg: "10rem" }}
-                >
-                  Je m'inscris <VscChevronRight size="s" />
-                </Button>
+                <Link to="/register/?role=freelancer">
+                  <Button
+                    variant="gradient"
+                    marginBottom="5rem"
+                    width={{ lg: "10rem" }}
+                  >
+                    Je m'inscris <VscChevronRight size="s" />
+                  </Button>
+                </Link>
               </Flex>
             </Box>
             <Image
@@ -645,9 +650,11 @@ function ProAccueil() {
                   fontWeight: "semibold",
                 }}
               />
-              <Button marginBottom="2rem" variant="outlineWhitePink">
-                Je m'inscris, c'est gratuit ! <VscChevronRight size="s" />
-              </Button>
+              <Link to="/register/?role=freelancer">
+                <Button marginBottom="2rem" variant="outlineWhitePink">
+                  Je m'inscris, c'est gratuit ! <VscChevronRight size="s" />
+                </Button>
+              </Link>
             </Flex>
           </Box>
         </Flex>

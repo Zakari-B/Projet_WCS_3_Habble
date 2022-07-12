@@ -61,7 +61,7 @@ const deleteOne = async (req, res) => {
     serviceId
   );
   if (!serviceCheck) {
-    return res.status(404).json({ Erreur: "Aucune réponses trouvé" });
+    return res.status(404).json({ Erreur: "Aucune réponse trouvée" });
   }
 
   try {

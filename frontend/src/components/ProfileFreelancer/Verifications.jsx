@@ -14,7 +14,7 @@ import { CheckIcon, CloseIcon } from "@chakra-ui/icons";
 
 import backendAPI from "../../services/backendAPI";
 
-export default function Verifications({ freelancerId }) {
+export default function Verifications({ freelancer, loggedUser }) {
   const [itemList, setItemList] = useState([]);
   const [profileStatus, setProfileStatus] = useState({
     cni: false,
@@ -25,10 +25,14 @@ export default function Verifications({ freelancerId }) {
   const [profileKey, setProfileKey] = useState(0);
 
   useEffect(() => {
-    backendAPI.get(`/api/freelancers/${freelancerId}/documents`).then((res) => {
-      setItemList(res.data);
-    });
-  }, []);
+    if (freelancer.id !== undefined) {
+      backendAPI
+        .get(`/api/freelancers/${freelancer.id}/documents`)
+        .then((res) => {
+          setItemList(res.data);
+        });
+    }
+  }, [freelancer]);
 
   useEffect(() => {
     let cni = false;
@@ -133,9 +137,11 @@ export default function Verifications({ freelancerId }) {
             </ListItem>
           ))}
         </List>
-        <Button marginTop="2rem" variant="solid_gradient">
-          Demander une vérification
-        </Button>
+        {loggedUser.userId === freelancer.userId ? (
+          <Button marginTop="2rem" variant="solid_gradient">
+            Demander une vérification
+          </Button>
+        ) : null}
       </Flex>
     </Flex>
   );

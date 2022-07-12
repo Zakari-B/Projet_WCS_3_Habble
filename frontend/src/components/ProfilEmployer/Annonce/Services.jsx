@@ -35,7 +35,7 @@ export default function Services({ annonce }) {
   // axios qui va chercher les services d'un freelancer
   const getAllServicesByEmployer = () => {
     backendAPI
-      .get(`/api/employer/${employerId}/annonce/${annonce.id}/services`)
+      .get(`/api/annonce/${annonce.id}/services`)
       .then((response) => {
         setServiceName(response.data.map((e) => e.fk_service_id.name));
         setServiceNumber(response.data.map((e) => e.fk_service_id.id));
