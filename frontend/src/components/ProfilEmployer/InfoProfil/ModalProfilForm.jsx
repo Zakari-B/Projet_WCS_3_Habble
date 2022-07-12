@@ -18,15 +18,17 @@ import {
   useToast,
   Textarea,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import backendAPI from "../../../services/backendAPI";
 import PictureProfileEmployer from "./PictureProfilEmployer";
 
 export default function ModalProfilForm({ isOpen, onClose, employer }) {
-  const [displayName, setDisplayName] = useState(employer.displayName);
-  const [phonePro, setPhonePro] = useState(employer.phone);
-  const [description, setDescription] = useState(employer.description);
+  const [displayName, setDisplayName] = useState("");
+  const [phonePro, setPhonePro] = useState("");
+  const [description, setDescription] = useState("");
   const toast = useToast();
+
+  useEffect(() => setDisplayName(employer.displayName), [employer]);
 
   const updateEmployer = (e) => {
     e.preventDefault();
