@@ -81,23 +81,29 @@ export default function AnnonceFreelancerSearchForm() {
           >
             Étape 2 : Sélectionnez les professionnels
           </Text>
-          <Flex justify="center" gap="3px">
-            <Text color="purple.average">
-              Envoyez directement votre annonce jusqu'à 10 professionnels
-            </Text>
-            <Text
-              color="pink.light"
-              fontWeight="700"
-            >{`(${expertiseList.length}/10)`}</Text>
-          </Flex>
-          <Button
-            variant="solid_PrimaryColor"
-            type="submit"
-            width="fit-content"
-            isDisabled={!expertiseList.length > 0 || expertiseList.length > 10}
-          >
-            J'ai terminé, je publie mon annonce
-          </Button>
+          {freelancers.length !== 0 && (
+            <>
+              <Flex justify="center" gap="3px">
+                <Text color="purple.average">
+                  Envoyez directement votre annonce jusqu'à 10 professionnels
+                </Text>
+                <Text
+                  color="pink.light"
+                  fontWeight="700"
+                >{`(${expertiseList.length}/10)`}</Text>
+              </Flex>
+              <Button
+                variant="solid_PrimaryColor"
+                type="submit"
+                width="fit-content"
+                isDisabled={
+                  !expertiseList.length > 0 || expertiseList.length > 10
+                }
+              >
+                J'ai terminé, je publie mon annonce
+              </Button>
+            </>
+          )}
         </Flex>
         <Flex
           direction="column"
@@ -133,7 +139,7 @@ export default function AnnonceFreelancerSearchForm() {
 
               {freelancers?.map((freelancer) => (
                 <Box
-                  key={freelancer.id}
+                  key={freelancer?.id}
                   borderColor="#ededed"
                   borderWidth="2px"
                   boxShadow="rgb(0 0 0 / 4%) 0px 2px 6px"
@@ -149,7 +155,7 @@ export default function AnnonceFreelancerSearchForm() {
                       bgColor: "pink.light",
                       iconColor: "white",
                     }}
-                    value={freelancer.id}
+                    value={freelancer?.id}
                     onChange={updateExpertise}
                   />
                   <ProfileCard freelancer={freelancer} key={freelancer.id} />
@@ -169,16 +175,59 @@ export default function AnnonceFreelancerSearchForm() {
               mt="0px"
               maxW="1200px"
               marginTop="20px"
+              gap="40px"
+              justify="flex-start"
             >
               <Text
                 as="h2"
-                minH="350px"
                 color="purple.average"
                 fontSize="1.5em"
                 fontWeight="700"
               >
                 Aucun professionnel ne correspond à votre recherche
               </Text>
+              <Box>
+                <Flex gap="10px" alignItems="flex-start" justify="flex-start">
+                  <Checkbox
+                    marginTop="5px"
+                    size="lg"
+                    colorScheme="white"
+                    borderColor="gray"
+                    _checked={{
+                      borderColor: "pink.light",
+                      bgColor: "pink.light",
+                      iconColor: "white",
+                    }}
+                    value="Habble"
+                    onChange={updateExpertise}
+                  />
+                  <Flex gap="10px" direction="column">
+                    <Text
+                      as="h3"
+                      color="pink.light"
+                      fontSize="1.3em"
+                      fontWeight="600"
+                    >
+                      Transmettre ma demande à Habble
+                    </Text>
+                    <Text>
+                      Un membre de notre équipe vous contactera via email pour
+                      vous aider dans votre démarche. (Pensez à vérifier votre
+                      dossier "spams")
+                    </Text>
+                  </Flex>
+                </Flex>
+              </Box>
+              <Button
+                variant="solid_PrimaryColor"
+                type="submit"
+                width="fit-content"
+                isDisabled={
+                  !expertiseList.length > 0 || expertiseList.length > 10
+                }
+              >
+                Transmettre ma demande
+              </Button>
             </Flex>
           )}
         </Flex>
