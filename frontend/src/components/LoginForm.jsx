@@ -65,6 +65,10 @@ const loginForm = () => {
             window.localStorage.setItem("role", "employer");
             navigate(`/profil-employer/${response.data.fkId}`);
           }
+          if (response.data.type === "coordinator") {
+            window.localStorage.setItem("role", "coordinator");
+            navigate(`/profil-coordinator/${response.data.fkId}`);
+          }
           return null;
         })
         .catch((error) => {

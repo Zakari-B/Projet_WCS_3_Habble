@@ -1,6 +1,7 @@
 const { verifyAccessToken } = require("../helpers/jwtHelper");
 const freelancer = require("../models/freelancer");
 const employer = require("../models/employer");
+const coordinator = require("../models/coordinator");
 
 const authorization = async (req, res, next) => {
   const token = req.cookies.userToken;
@@ -25,6 +26,14 @@ const authorization = async (req, res, next) => {
         req.roleId = employerEntry.id;
       }
     }
+    if (req.userRole === "coordinator") {
+      const coordinatorEntry = await coordinator.findOneCoordinatorByUserId(
+        req.userId
+      );
+      if (coordinatorEntry) {
+        req.roleId = coordinatorEntry.id;
+      }
+    }
 
     return next();
   } catch (e) {
@@ -41,10 +50,15 @@ const authSelf = async (req, res, next) => {
 };
 
 const authSelfRole = async (req, res, next) => {
+  // ne trouve pas req.params.freelancerid
   if (req.roleId === parseInt(req.params.freelancerid, 10)) {
     return next();
   }
+  if (req.roleId === parseInt(req.params.coordinatorId, 10)) {
+    return next();
+  }
 
+  // console.log("no role");
   return res.sendStatus(401);
 };
 

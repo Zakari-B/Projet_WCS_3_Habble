@@ -10,7 +10,11 @@ const { validateEmployer } = require("../utils/validate");
 
 exports.createOne = async (req, res) => {
   const userAccount = req.userCreated;
-  if (userAccount.role !== "employer" && userAccount.role !== "freelancer") {
+  if (
+    userAccount.role !== "employer" &&
+    userAccount.role !== "freelancer" &&
+    userAccount.role !== "coordinator"
+  ) {
     return res
       .status(400)
       .send("Erreur : le rôle de l'utilisateur est incorrect");
