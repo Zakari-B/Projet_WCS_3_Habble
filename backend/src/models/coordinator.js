@@ -70,7 +70,7 @@ exports.getUserFromCoordinator = async (userId) => {
         id: userId,
       },
       include: {
-        freelancer: true,
+        coordinator: true,
       },
     });
   } finally {

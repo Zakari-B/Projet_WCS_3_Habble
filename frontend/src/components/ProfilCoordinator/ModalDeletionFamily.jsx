@@ -15,12 +15,12 @@ import { deleteItemList } from "../../services/ProfileProUtils";
 
 function ModalDeletionFamily() {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { freelancerId, familyId } = useParams();
+  const { coordinatorId, familyId } = useParams();
   const navigate = useNavigate();
   const toast = useToast();
 
   const handleDeletion = () => {
-    deleteItemList("coordinators", "famille", freelancerId, familyId)
+    deleteItemList("coordinators", "famille", coordinatorId, familyId)
       .then(
         () =>
           toast({
@@ -30,7 +30,7 @@ function ModalDeletionFamily() {
             duration: 7000,
             isClosable: true,
           }),
-        navigate(`/profil-coordinator/${freelancerId}`)
+        navigate(`/profil-coordinator/${coordinatorId}`)
       )
       .catch((e) =>
         toast({

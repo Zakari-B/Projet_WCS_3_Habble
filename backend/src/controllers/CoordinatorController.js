@@ -1,6 +1,8 @@
 const {
   createOneCoordinator,
   getAllCoordinatorsProfileInfo,
+  findOneCoordinator,
+  getUserFromCoordinator,
 } = require("../models/coordinator");
 
 exports.createOne = async (req, res, next) => {
@@ -43,5 +45,21 @@ exports.getOne = async (req, res) => {
     return res.status(200).json(coordinator);
   } catch (e) {
     return res.status(500).send(e);
+  }
+};
+
+exports.getUserFromCoordinator = async (req, res) => {
+  const coordinatorId = parseInt(req.params.coordinatorId, 10);
+
+  try {
+    const userId = await findOneCoordinator(coordinatorId);
+
+    const employer = await getUserFromCoordinator(userId.userId);
+
+    return res.status(200).json(employer);
+  } catch (e) {
+    return res
+      .status(500)
+      .json({ error: "Problème de mise à jour du employer" });
   }
 };

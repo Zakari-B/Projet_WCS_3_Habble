@@ -96,6 +96,11 @@ router.get(
 // Routes for Coordinators
 // router.get("/coordinators/", CoordinatorController.getAll);
 router.get("/coordinators/:id", authorization, CoordinatorController.getOne);
+router.get(
+  "/coordinator/:coordinatorId/user",
+  authorization,
+  CoordinatorController.getUserFromCoordinator
+);
 // router.put(
 //   "/coordinators/:id",
 //   authorization,

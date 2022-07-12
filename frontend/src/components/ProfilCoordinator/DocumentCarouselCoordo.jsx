@@ -23,11 +23,11 @@ export default function DocumentCarouselCoordo({ updated, setUpdated }) {
   const [fileType, setFileType] = useState([]);
   const [profileCoordoDocuments, setProfileCoordoDocuments] = useState([]);
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const { coordinatorId, familyId } = useParams();
+  const { coordinatorId } = useParams();
 
   useEffect(() => {
     backendAPI
-      .get(`/api/coordinators/${coordinatorId}/family/${familyId}/documents`)
+      .get(`/api/coordinator/${coordinatorId}/documents`)
       .then((res) => {
         setProfileCoordoDocuments(res.data);
       });
