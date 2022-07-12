@@ -3,8 +3,9 @@ import dateFormat from "dateformat";
 
 import ModalProfilForm from "./ModalProfilForm";
 
-export default function BannerProfile({ employer }) {
+export default function BannerProfile({ employer, updated, setUpdated }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
+
   return (
     <Flex
       w={{ base: "95%", lg: "80%" }}
@@ -95,6 +96,8 @@ export default function BannerProfile({ employer }) {
             isOpen={isOpen}
             onClose={onClose}
             employer={employer}
+            updated={updated}
+            setUpdated={setUpdated}
           />
           <Button variant="outlineWhite">Voir mon profil en ligne</Button>
         </Flex>

@@ -22,13 +22,23 @@ import { useState, useEffect } from "react";
 import backendAPI from "../../../services/backendAPI";
 import PictureProfileEmployer from "./PictureProfilEmployer";
 
-export default function ModalProfilForm({ isOpen, onClose, employer }) {
+export default function ModalProfilForm({
+  isOpen,
+  onClose,
+  employer,
+  updated,
+  setUpdated,
+}) {
   const [displayName, setDisplayName] = useState("");
   const [phonePro, setPhonePro] = useState("");
   const [description, setDescription] = useState("");
   const toast = useToast();
 
-  useEffect(() => setDisplayName(employer.displayName), [employer]);
+  useEffect(() => {
+    setDisplayName(employer.displayName);
+    setPhonePro(employer.phone);
+    setDescription(employer.description);
+  }, [isOpen]);
 
   const updateEmployer = (e) => {
     e.preventDefault();
@@ -47,6 +57,7 @@ export default function ModalProfilForm({ isOpen, onClose, employer }) {
             position: "bottom-right",
             isClosable: true,
           });
+          setUpdated(!updated);
           onClose();
         }
       })
@@ -63,6 +74,7 @@ export default function ModalProfilForm({ isOpen, onClose, employer }) {
         console.warn(error);
       });
   };
+
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="3xl">
       <ModalOverlay />
