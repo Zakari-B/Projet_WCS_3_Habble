@@ -68,7 +68,7 @@ export default function Verifications({ freelancer, loggedUser }) {
             </ListItem>
           ))}
         </List>
-        {loggedUser.userId === freelancer.userId ? (
+        {loggedUser.userId === freelancer.userId || freelancer.id ? (
           <Button marginTop="2rem" variant="solid_gradient">
             Demander une vérification
           </Button>
