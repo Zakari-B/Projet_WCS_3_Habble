@@ -7,10 +7,14 @@ import {
   Divider,
   useDisclosure,
 } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import dateFormat from "dateformat";
 import MakeOfferModal from "./MakeOfferModal";
-import { deleteItemList } from "../../services/ProfileProUtils";
+import {
+  deleteItemList,
+  getSubListforAnId,
+} from "../../services/ProfileProUtils";
 
 export default function AnnonceRecap({ annonce, offers }) {
   let tagColor = "";
@@ -23,8 +27,9 @@ export default function AnnonceRecap({ annonce, offers }) {
   } else {
     tagColor = "gray";
   }
-
   const { freelancerId } = useParams();
+  const { id } = useParams();
+  const [services, setServices] = useState([]);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const currentFreeOffer = offers.filter(
     (offer) => offer.freelancerId === parseInt(freelancerId, 10)
@@ -40,6 +45,14 @@ export default function AnnonceRecap({ annonce, offers }) {
       currentFreeOffer[0].id
     );
   };
+
+  useEffect(() => {
+    getSubListforAnId("annonce", parseInt(id, 10), "services").then(
+      (response) => {
+        setServices(response.data);
+      }
+    );
+  }, []);
 
   return (
     <Flex
@@ -66,6 +79,7 @@ export default function AnnonceRecap({ annonce, offers }) {
               >
                 {annonce.title}
               </Heading>
+
               <Tag colorScheme={tagColor}> {annonce.status}</Tag>
             </Flex>
 
@@ -181,11 +195,11 @@ export default function AnnonceRecap({ annonce, offers }) {
                 Services requis
               </Text>
 
-              {/* <Flex gap="10px">
-                {annonce.services.map((service) => (
-                  <Tag>{service}</Tag>
+              <Flex gap="10px">
+                {services.map((service) => (
+                  <Tag>{service?.fk_service_id?.name}</Tag>
                 ))}
-              </Flex> */}
+              </Flex>
             </Flex>
           </Flex>
         </Flex>

@@ -14,10 +14,16 @@ import { getSubListforAnId } from "../../services/ProfileProUtils";
 
 export default function ProfileCard({ freelancer }) {
   const [city, setCity] = useState([]);
+  const [services, setServices] = useState([]);
   useEffect(() => {
     getSubListforAnId("freelancers", freelancer.id, "city").then((response) => {
       setCity(response.data[0]);
     });
+    getSubListforAnId("freelancers", freelancer.id, "services").then(
+      (response) => {
+        setServices(response.data);
+      }
+    );
   }, []);
 
   return (
@@ -84,15 +90,15 @@ export default function ProfileCard({ freelancer }) {
                 </Text>
               </Flex>
             </Flex>
-            {/* <Flex
+            <Flex
               gap="10px"
               wrap="wrap"
               justify={{ lg: "flex-start", base: "center" }}
             >
-              {freelancer.tags.map((tag) => (
-                <Tag>{tag}</Tag>
+              {services.map((service) => (
+                <Tag>{service?.fk_services_id?.name}</Tag>
               ))}
-            </Flex> */}
+            </Flex>
           </Flex>
         </Flex>
         <Link to={`/profil/${freelancer.id}`}>

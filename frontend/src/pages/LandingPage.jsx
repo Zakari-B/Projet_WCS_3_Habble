@@ -11,6 +11,7 @@ import {
   InputGroup,
 } from "@chakra-ui/react";
 import { SearchIcon } from "@chakra-ui/icons";
+import { Link } from "react-router-dom";
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer";
 
@@ -93,15 +94,17 @@ export default function LandingPage() {
                   fontWeight: "semibold",
                 }}
               />
-              <InputRightElement
-                borderRadius="0 4px 4px 0"
-                w="15%"
-                bgColor="#a7197f"
-                cursor="pointer"
-                _hover={{ bgColor: "#342c50" }}
-              >
-                <SearchIcon color="white" />
-              </InputRightElement>
+              <Link to="/register/?role=employer">
+                <InputRightElement
+                  borderRadius="0 4px 4px 0"
+                  w="15%"
+                  bgColor="#a7197f"
+                  cursor="pointer"
+                  _hover={{ bgColor: "#342c50" }}
+                >
+                  <SearchIcon color="white" />
+                </InputRightElement>
+              </Link>
             </InputGroup>
           </Box>
         </Box>
@@ -129,47 +132,49 @@ export default function LandingPage() {
           wrap="wrap"
         >
           {LandingData.map((data) => (
-            <Box key={data.id} cursor="pointer">
-              <Box
-                w={{
-                  base: "95vw",
-                  md: "45vw",
-                  lg: "20vw",
-                  xl: "14vw",
-                  "2xl": "13vw",
-                }}
-                h="29.3vh"
-                mb="1rem"
-                borderRadius="0.625rem"
-                boxShadow="0 1px 1px 0 rgb(69 43 65 / 14%), 0 2px 1px -1px rgb(69 43 65 / 12%), 0 1px 3px 0 rgb(69 43 65 / 20%)"
-                _hover={{
-                  boxShadow:
-                    "0 6px 10px 0 rgb(69 43 65 / 14%), 0 1px 18px 0 rgb(69 43 65 / 12%), 0 3px 5px -1px rgb(69 43 65 / 20%)",
-                }}
-              >
+            <Link to="/register/?role=employer">
+              <Box key={data.id} cursor="pointer">
                 <Box
-                  bgImage={data.image}
-                  alt={data.title}
-                  bgPos="center"
-                  bgRepeat="no-repeat"
-                  bgSize="cover"
-                  borderRadius="0.625rem 0.625rem 0 0"
-                  h="55%"
-                />
-                <Text
-                  w="100%"
-                  p="0.5rem"
-                  mt="1rem"
-                  fontSize="xl"
-                  fontWeight="bold"
-                  lineHeight="28px"
-                  color="#2F1D2C"
-                  textAlign="center"
+                  w={{
+                    base: "95vw",
+                    md: "45vw",
+                    lg: "20vw",
+                    xl: "14vw",
+                    "2xl": "13vw",
+                  }}
+                  h="29.3vh"
+                  mb="1rem"
+                  borderRadius="0.625rem"
+                  boxShadow="0 1px 1px 0 rgb(69 43 65 / 14%), 0 2px 1px -1px rgb(69 43 65 / 12%), 0 1px 3px 0 rgb(69 43 65 / 20%)"
+                  _hover={{
+                    boxShadow:
+                      "0 6px 10px 0 rgb(69 43 65 / 14%), 0 1px 18px 0 rgb(69 43 65 / 12%), 0 3px 5px -1px rgb(69 43 65 / 20%)",
+                  }}
                 >
-                  {data.title}
-                </Text>
+                  <Box
+                    bgImage={data.image}
+                    alt={data.title}
+                    bgPos="center"
+                    bgRepeat="no-repeat"
+                    bgSize="cover"
+                    borderRadius="0.625rem 0.625rem 0 0"
+                    h="55%"
+                  />
+                  <Text
+                    w="100%"
+                    p="0.5rem"
+                    mt="1rem"
+                    fontSize="xl"
+                    fontWeight="bold"
+                    lineHeight="28px"
+                    color="#2F1D2C"
+                    textAlign="center"
+                  >
+                    {data.title}
+                  </Text>
+                </Box>
               </Box>
-            </Box>
+            </Link>
           ))}
         </Flex>
       </Box>
@@ -195,87 +200,93 @@ export default function LandingPage() {
           flexDir={{ base: "column", lg: "row" }}
           justifyContent="space-around"
         >
-          <Box
-            w={{ base: "100%", xl: "22.61vw" }}
-            p="0.938rem"
-            borderRadius="21px"
-            color="purple.average"
-            lineHeight="1.5"
-            _hover={{
-              boxShadow: "0px 18px 37px rgb(212 50 151 / 20%)",
-              color: "#a7197f",
-            }}
-          >
-            <Flex flexDir="column" alignItems="center">
-              <Image src={Chat} w="5rem" />
-              <Heading as="h4" mt="2rem" fontSize="1.5rem" fontWeight="500">
-                Transmettez nous votre demande
-              </Heading>
-              <Text
-                color="#656565"
-                m="0 0 0.625rem"
-                mt="2rem"
-                mb="1rem"
-                fontSize="md"
-                align="center"
-              >
-                Inscrivez vous gratuitement à Habble et dîtes nous de quel
-                service vous avez besoin et à quel moment : garde, éducation
-                spécialisée, aide administrative, auxiliaire de vie,
-                ergothérapeuthe... Recevez des propositions de professionnels,
-                discutez avec eux des détails, choisissez la proposition la plus
-                adaptée puis profitez !
-              </Text>
-            </Flex>
-          </Box>
-          <Box
-            w={{ base: "100%", xl: "22.61vw" }}
-            p="0.938rem"
-            borderRadius="21px"
-            color="purple.average"
-            _hover={{
-              boxShadow: "0px 18px 37px rgb(212 50 151 / 20%)",
-              color: "#a7197f",
-            }}
-          >
-            <Flex flexDir="column" alignItems="center">
-              <Image
-                src={Chat}
-                pos="relative"
-                w="5rem"
-                // background="linear-gradient(to right, #6541c1 0%, #d43396 98%, #d43396 100%)"
-              />
-              <Heading as="h4" mt="2rem" fontSize="1.5rem" fontWeight="500">
-                Contactez en direct
-              </Heading>
-              <Text
-                color="#656565"
-                m="0 0 0.625rem"
-                mt="2rem"
-                mb="1rem"
-                fontSize="md"
-                align="center"
-              >
-                Parcourez les profils des professionnels de votre région. Ils
-                ont tous été vérifiés pour votre tranquillité d'esprit. Affinez
-                votre recherche avec les options de filtre et de tri :
-                disponibilité, compétences et plus encore. <br />
-                <br />
-                Trouver un professionnel du handicap
-              </Text>
-            </Flex>
-          </Box>
+          <Link to="/register/?role=employer">
+            <Box
+              w={{ base: "100%", xl: "22.61vw" }}
+              p="0.938rem"
+              borderRadius="21px"
+              color="purple.average"
+              lineHeight="1.5"
+              _hover={{
+                boxShadow: "0px 18px 37px rgb(212 50 151 / 20%)",
+                color: "#a7197f",
+              }}
+            >
+              <Flex flexDir="column" alignItems="center">
+                <Image src={Chat} w="5rem" />
+                <Heading as="h4" mt="2rem" fontSize="1.5rem" fontWeight="500">
+                  Transmettez nous votre demande
+                </Heading>
+                <Text
+                  color="#656565"
+                  m="0 0 0.625rem"
+                  mt="2rem"
+                  mb="1rem"
+                  fontSize="md"
+                  align="center"
+                >
+                  Inscrivez vous gratuitement à Habble et dîtes nous de quel
+                  service vous avez besoin et à quel moment : garde, éducation
+                  spécialisée, aide administrative, auxiliaire de vie,
+                  ergothérapeuthe... Recevez des propositions de professionnels,
+                  discutez avec eux des détails, choisissez la proposition la
+                  plus adaptée puis profitez !
+                </Text>
+              </Flex>
+            </Box>
+          </Link>
+          <Link to="/register/?role=employer">
+            <Box
+              w={{ base: "100%", xl: "22.61vw" }}
+              p="0.938rem"
+              borderRadius="21px"
+              color="purple.average"
+              _hover={{
+                boxShadow: "0px 18px 37px rgb(212 50 151 / 20%)",
+                color: "#a7197f",
+              }}
+            >
+              <Flex flexDir="column" alignItems="center">
+                <Image
+                  src={Chat}
+                  pos="relative"
+                  w="5rem"
+                  // background="linear-gradient(to right, #6541c1 0%, #d43396 98%, #d43396 100%)"
+                />
+                <Heading as="h4" mt="2rem" fontSize="1.5rem" fontWeight="500">
+                  Contactez en direct
+                </Heading>
+                <Text
+                  color="#656565"
+                  m="0 0 0.625rem"
+                  mt="2rem"
+                  mb="1rem"
+                  fontSize="md"
+                  align="center"
+                >
+                  Parcourez les profils des professionnels de votre région. Ils
+                  ont tous été vérifiés pour votre tranquillité d'esprit.
+                  Affinez votre recherche avec les options de filtre et de tri :
+                  disponibilité, compétences et plus encore. <br />
+                  <br />
+                  Trouver un professionnel du handicap
+                </Text>
+              </Flex>
+            </Box>
+          </Link>
         </Flex>
         <Flex justifyContent="center">
-          <Button
-            h="auto"
-            p="0.625rem 1.375rem"
-            borderRadius="4px"
-            mt="3.125rem"
-            variant="solid_PrimaryColor"
-          >
-            Trouver un professionnel du handicap
-          </Button>
+          <Link to="/register/?role=employer">
+            <Button
+              h="auto"
+              p="0.625rem 1.375rem"
+              borderRadius="4px"
+              mt="3.125rem"
+              variant="solid_PrimaryColor"
+            >
+              Trouver un professionnel du handicap
+            </Button>
+          </Link>
         </Flex>
       </Box>
       <Box
@@ -568,7 +579,7 @@ export default function LandingPage() {
           pb="2rem"
           pt={{ base: "0.5rem", lg: "2rem" }}
         >
-          <Flex direction="column" alignItems={{ base: "center", lg: "none" }}>
+          <Flex direction="column">
             <Heading
               as="h3"
               fontSize="calc(1rem + 1vw)"
@@ -589,14 +600,16 @@ export default function LandingPage() {
               vie,...Faites-vous connaître, choisissez les missions qui vous
               correspondent et développez votre activité !
             </Text>
-            <Button
-              w={{ base: "75%", lg: "90%" }}
-              h="auto"
-              p="0.625rem 1.375rem"
-              variant="outline_White_Gradient"
-            >
-              En savoir plus
-            </Button>
+            <Link to="/professionnel-handicap">
+              <Button
+                w={{ base: "75%", lg: "90%" }}
+                h="auto"
+                p="0.625rem 1.375rem"
+                variant="outline_White_Gradient"
+              >
+                En savoir plus
+              </Button>
+            </Link>
             <Text color="#f9f9f9" mt="2rem" fontSize="sm">
               Inscrivez-vous et détaillez vos services
             </Text>
