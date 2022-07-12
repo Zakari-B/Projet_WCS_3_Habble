@@ -13,6 +13,7 @@ export default function ProfilPageEmployer() {
   const { employerId } = useParams();
   const [user, setUser] = useState({});
   const [employer, setEmployer] = useState({});
+  const [updated, setUpdated] = useState(false);
 
   const getuser = () => {
     backendAPI
@@ -39,7 +40,7 @@ export default function ProfilPageEmployer() {
     }
   }, []);
 
-  useEffect(() => getuser(), []);
+  useEffect(() => getuser(), [updated]);
 
   return (
     <Box h="100vh">
@@ -74,7 +75,7 @@ export default function ProfilPageEmployer() {
             direction="column"
             gap="20px"
           >
-            <AnnonceCarousel />
+            <AnnonceCarousel updated={updated} setUpdated={setUpdated} />
           </Flex>
         </Flex>
       </Flex>

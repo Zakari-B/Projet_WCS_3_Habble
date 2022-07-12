@@ -353,10 +353,8 @@ router.get("/expertises/:id", ExpertiseController.getOne);
 // router.delete("/expertises/:id", ExpertiseController.deleteOne);
 
 // Routes for services of one annonce
-router.get(
-  "/employer/:employerId/annonce/:annonceId/services",
-  AnnonceServicesController.getAll
-);
+router.get("/annonce/:annonceId/services", AnnonceServicesController.getAll);
+
 router.get(
   "/annonce/:annonceId/services/:serviceId",
   AnnonceServicesController.getOneByAnnonceId
@@ -376,7 +374,7 @@ router.get("/locations/:locationId", LieuController.getOne);
 router.post("/locations/:locationId", LieuController.createOne);
 router.delete("/locations/:locationId", LieuController.deleteOne);
 
-// routes for lieux annoncesx
+// routes for lieux annonces
 
 router.get(
   "/employer/:employerId/annonce/:annonceId/locations",

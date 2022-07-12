@@ -160,7 +160,7 @@ model annonce {
   zipCode         String             @db.VarChar(10)
   price           Int
   emergency       Boolean            @default(false)
-  status          String             @default("En cours") @db.VarChar(100)
+  status          String?             @default("En cours") @db.VarChar(100)
   dateCreated     DateTime           @default(now()) @db.Timestamp(0)
   fk_employer_id  employer           @relation(fields: [employerId], references: [id], onDelete: Cascade)
   annonce_lieu    annonce_lieu[]

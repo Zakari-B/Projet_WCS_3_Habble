@@ -41,8 +41,9 @@ import backendAPI from "../../../services/backendAPI";
 export default function AnnonceForm() {
   const toast = useToast();
   const navigate = useNavigate();
-
   const [title, setTitle] = useState("");
+  const [titlePlaceHolder, setTitlePlaceHolder] = useState("");
+
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState();
   const [locations, setLocations] = useState([]);
@@ -52,11 +53,9 @@ export default function AnnonceForm() {
   const [serviceName, setServiceName] = useState([]);
   const [serviceNumber, setServiceNumber] = useState([]);
 
-  const [status] = useState("En cours");
-
   const { employerId, annonceId } = useParams();
 
-  const [setCityPro] = useState("");
+  const [cityPro, setCityPro] = useState("");
   const [cityProName, setCityProName] = useState("");
   const [search, setSearch] = useState("");
   const [addressList, setAddressList] = useState([]);
@@ -83,9 +82,16 @@ export default function AnnonceForm() {
       getAddressList(signal);
     }
   }, [search]);
+
   const handleSearch = (event) => {
     setSearch(event.target.value);
   };
+
+  useEffect(() => {
+    backendAPI
+      .get(`api/annonces/${parseInt(annonceId, 10)}`)
+      .then((result) => setTitlePlaceHolder(result.data.title));
+  });
 
   const updateEmergency = (e) => {
     setEmergency(e.target.checked);
@@ -97,9 +103,10 @@ export default function AnnonceForm() {
       .put(`/api/employers/${employerId}/annonce/${annonceId}`, {
         title,
         description,
+        zipCode: cityPro,
         emergency,
         price,
-        status,
+        status: "En attente de validation",
       })
       .then(() => {
         navigate(`/profil-employer/${employerId}`);
@@ -125,6 +132,27 @@ export default function AnnonceForm() {
       });
   };
 
+  const handleCancel = (event) => {
+    event.preventDefault();
+    backendAPI
+      .delete(`/api/employers/${employerId}/annonce/${annonceId}`)
+      .then(() => {
+        navigate(`/profil-employer/${employerId}`);
+      })
+      .then(() =>
+        toast({
+          title: "Votre annonce n'a pas été crée",
+          status: "error",
+          position: "bottom-right",
+          duration: 7000,
+          isClosable: true,
+        })
+      )
+      .catch((e) => {
+        console.error(e);
+      });
+  };
+
   // axios qui va chercher la liste des services
   const getAllServices = () => {
     backendAPI
@@ -140,7 +168,7 @@ export default function AnnonceForm() {
   // axios qui va chercher les services d'un freelancer
   const getAllServicesByAnnonce = () => {
     backendAPI
-      .get(`/api/employer/${employerId}/annonce/${annonceId}/services`)
+      .get(`/api/annonce/${annonceId}/services`)
       .then((response) => {
         setServiceName(response.data.map((e) => e.fk_services_id.name));
         setServiceNumber(response.data.map((e) => e.fk_services_id.id));
@@ -218,8 +246,13 @@ export default function AnnonceForm() {
 
   return (
     <Box h="100vh">
-      <Header onDark={false} isSticky={false} isStickyWhite={false} isSignUp />
-      <Flex bgColor="background.gray" direction="column" justify="flex-start">
+      <Header onDark={false} isSticky={false} isStickyWhite />
+      <Flex
+        bgColor="background.gray"
+        direction="column"
+        justify="flex-start"
+        paddingTop="100px"
+      >
         <FormControl
           alignSelf="center"
           dir="column"
@@ -263,7 +296,7 @@ export default function AnnonceForm() {
                 type="text"
                 id="title"
                 name="title"
-                placeholder="Résumez votre besoin ici"
+                placeholder={titlePlaceHolder || "Résumez votre besoin ici"}
                 _placeholder={{
                   fontSize: "0.8rem",
                   fontWeight: "500",
@@ -339,6 +372,7 @@ export default function AnnonceForm() {
                       h="50px"
                       fontSize="0.9rem"
                       fontWeight="400"
+                      zIndex={100}
                       placeholder="Veuillez saisir un code postal et selectionnez une ville dans la liste"
                       value={search}
                       onChange={handleSearch}
@@ -351,7 +385,6 @@ export default function AnnonceForm() {
                       width="100%"
                       borderRadius="4px"
                       overflow="hidden"
-                      zIndex="997"
                       boxShadow="rgb(0 0 0 / 4%) 0px 2px 6px"
                       border="1px solid #ededed"
                     >
@@ -360,8 +393,8 @@ export default function AnnonceForm() {
                           <ListItem
                             onClick={() => {
                               if (city.properties.citycode) {
-                                setCityPro(city.properties.citycode);
                                 setCityProName(city.properties.name);
+                                setCityPro(city.properties.citycode);
                                 setSearch("");
                               }
                             }}
@@ -603,6 +636,14 @@ export default function AnnonceForm() {
                   onClick={handleSubmit}
                 >
                   J'ai terminé, je dépose mon annonce
+                </Button>
+                <Button
+                  variant="outline_Pink"
+                  type="submit"
+                  marginTop="2rem"
+                  onClick={handleCancel}
+                >
+                  Annuler
                 </Button>
                 <Divider />
                 <Text
