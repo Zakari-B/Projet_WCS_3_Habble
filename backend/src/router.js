@@ -94,25 +94,25 @@ router.get(
 // route delete a valider (si besoin)
 
 // Routes for Coordinators
-// router.get("/coordinators/", CoordinatorController.getAll);
+router.get("/coordinators/", authorization, CoordinatorController.getAll);
 router.get("/coordinators/:id", authorization, CoordinatorController.getOne);
 router.get(
   "/coordinator/:coordinatorId/user",
   authorization,
   CoordinatorController.getUserFromCoordinator
 );
-// router.put(
-//   "/coordinators/:id",
-//   authorization,
-//   authSelfRole,
-//   CoordinatorController.updateOne
-// );
+router.put(
+  "/coordinators/:id",
+  authorization,
+  authSelfRole,
+  CoordinatorController.updateOne
+);
+router.get(
+  "/coordinators/:id/user",
+  authorization,
+  CoordinatorController.getUser
+);
 
-// router.get(
-//   "/coordinators/:id/user",
-//   authorization,
-//   CoordinatorController.getUser
-// );
 // Routes for freelancer's picture
 router.put(
   "/freelancers/:freelancerid/picture",
