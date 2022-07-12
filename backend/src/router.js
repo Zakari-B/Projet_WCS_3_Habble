@@ -144,7 +144,7 @@ router.get(
 );
 router.get(
   "/coordinators/:coordinatorId/family/:familyId/documents",
-  // authorization,
+  authorization,
   DocumentsController.getAllByFamilyId
 );
 router.delete(

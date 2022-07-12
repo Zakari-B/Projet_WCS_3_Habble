@@ -27,7 +27,7 @@ export default function DocumentCarouselFamily({ updated, setUpdated }) {
 
   useEffect(() => {
     backendAPI
-      .get(`api/coordinators/${freelancerId}/${familyId}/documents`)
+      .get(`api/coordinators/${freelancerId}/family/${familyId}/documents`)
       .then((res) => {
         setProfileDocuments(res.data);
       });
