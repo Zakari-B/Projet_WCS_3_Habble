@@ -149,7 +149,7 @@ export default function ModalProfilForm({
                         fontWeight="800"
                         color="purple.average"
                       >
-                        N° de téléphone
+                        N° de téléphone *
                       </FormLabel>
                       <Input
                         type="text"

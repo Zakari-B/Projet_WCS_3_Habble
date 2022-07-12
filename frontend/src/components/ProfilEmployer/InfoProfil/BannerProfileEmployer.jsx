@@ -42,7 +42,11 @@ export default function BannerProfile({ employer, updated, setUpdated }) {
             border="1px solid gray.200"
           />
         </Flex>
-        <Flex direction="column" w={{ base: "95%", md: "40%" }} margin="auto 0">
+        <Flex
+          direction="column"
+          w={{ base: "100%", md: "40%" }}
+          margin="auto 0"
+        >
           <Text
             fontSize="2rem"
             fontWeight="700"
@@ -60,8 +64,9 @@ export default function BannerProfile({ employer, updated, setUpdated }) {
             p="0.75rem"
             gap={5}
             margin="auto"
-            w="auto"
+            w="30%"
             display={{ base: "flex", md: "none" }}
+            justifyContent="center"
           >
             <Button
               marginTop="0.75rem"
@@ -70,18 +75,16 @@ export default function BannerProfile({ employer, updated, setUpdated }) {
             >
               Modifier
             </Button>
-            <Button marginTop="0.75rem" variant="outlineWhite">
-              Voir mon profil en ligne
-            </Button>
           </Flex>
         </Flex>
 
         <Flex
+          alignSelf="center"
           direction="column"
           p="0.75rem"
           gap={5}
           margin="0 0 0 auto"
-          w="auto"
+          w="30%"
           display={{ base: "none", md: "flex" }}
         >
           <Button
@@ -99,10 +102,8 @@ export default function BannerProfile({ employer, updated, setUpdated }) {
             updated={updated}
             setUpdated={setUpdated}
           />
-          <Button variant="outlineWhite">Voir mon profil en ligne</Button>
         </Flex>
       </Flex>
-
       <Flex
         bgColor="lightgray"
         direction="column"
