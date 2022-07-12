@@ -3,6 +3,7 @@ const jwt = require("../helpers/jwtHelper");
 const argon = require("../helpers/argonHelper");
 const { findOneFreelancerByUserId } = require("./freelancer");
 const { findOneEmployerByUserId } = require("./employer");
+const { findOneCoordinatorByUserId } = require("./coordinator");
 
 const prisma = new PrismaClient();
 
@@ -47,6 +48,9 @@ const login = async (userData) => {
     fkId = fkId.id;
   } else if (user.role === "employer") {
     fkId = await findOneEmployerByUserId(user.id);
+    fkId = fkId.id;
+  } else if (user.role === "coordinator") {
+    fkId = await findOneCoordinatorByUserId(user.id);
     fkId = fkId.id;
   }
 

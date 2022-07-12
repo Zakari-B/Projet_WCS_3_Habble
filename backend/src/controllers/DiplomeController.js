@@ -75,9 +75,7 @@ const updateOne = async (req, res) => {
   const diploma = await getOneDiplomabyFreelancerId(freelancerId, diplomeID);
 
   if (!diploma) {
-    res
-      .status(404)
-      .send("Aucun diplôme diplôme correspondant pour ce professionnel");
+    res.status(404).send("Aucun diplôme correspondant pour ce professionnel");
   }
 
   // on check les erreurs de formulaire
@@ -106,9 +104,7 @@ const deleteOne = async (req, res) => {
   const diploma = await getOneDiplomabyFreelancerId(freelancerId, diplomeID);
 
   if (!diploma) {
-    res
-      .status(404)
-      .send("Aucun diplôme diplôme correspondant pour ce professionnel");
+    res.status(404).send("Aucun diplôme correspondant pour ce professionnel");
   }
 
   try {

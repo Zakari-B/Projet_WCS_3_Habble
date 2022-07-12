@@ -99,6 +99,11 @@ const signupForm = () => {
             if (newresponse.data.type === "employer") {
               navigate(`/profil-employer/${newresponse.data.fkId}`);
             }
+            if (newresponse.data.type === "coordinator") {
+              return newresponse.data.profil
+                ? navigate(`/profil/${newresponse.data.fkId}`)
+                : navigate(`/welcome-pro/${newresponse.data.fkId}`);
+            }
             return null;
           })
           .catch((error) => {
