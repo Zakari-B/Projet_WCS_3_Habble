@@ -16,6 +16,7 @@ import {
   Text,
   Divider,
   useToast,
+  Textarea,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import backendAPI from "../../../services/backendAPI";
@@ -24,6 +25,7 @@ import PictureProfileEmployer from "./PictureProfilEmployer";
 export default function ModalProfilForm({ isOpen, onClose, employer }) {
   const [displayName, setDisplayName] = useState(employer.displayName);
   const [phonePro, setPhonePro] = useState(employer.phone);
+  const [description, setDescription] = useState(employer.description);
   const toast = useToast();
 
   const updateEmployer = (e) => {
@@ -32,6 +34,7 @@ export default function ModalProfilForm({ isOpen, onClose, employer }) {
       .put(`/api/employers/${employer.id}`, {
         displayName,
         phone: phonePro,
+        description,
       })
       .then((response) => {
         if (response) {
@@ -151,6 +154,29 @@ export default function ModalProfilForm({ isOpen, onClose, employer }) {
                   </FormControl>
                   <PictureProfileEmployer employer={employer} />
                 </Flex>
+                <FormLabel
+                  htmlFor="presentation"
+                  fontSize="md"
+                  fontWeight="800"
+                  color="purple.average"
+                >
+                  Présentez-vous en quelques mots *
+                </FormLabel>
+                <Textarea
+                  h="auto"
+                  placeholder="Bonjour,
+                je m'appelle Sandra, j'ai 37 ans. je suis éducatrice spécialisée diplômée, j'ai plusieurs expériences auprès des enfants, des personnes en situation de handicap, des personnes en difficultés sociales. J'ai également de l'expérience dans la garde d'enfants, dans les cours à domicile et le soutien scolaire.
+                Je possède deux chats et j'adore m'occuper des animaux. Je possède le permis B.
+                (30 caractères minimum)"
+                  _placeholder={{
+                    lineHeight: "1.5",
+                    fontSize: "0.8rem",
+                    fontWeight: "500",
+                    color: "gray",
+                  }}
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                />
                 <Button
                   variant="solid_PrimaryColor"
                   type="submit"
