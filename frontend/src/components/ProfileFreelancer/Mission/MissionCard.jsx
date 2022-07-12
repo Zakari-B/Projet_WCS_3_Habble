@@ -13,7 +13,7 @@ import MissionFormContext from "../../../contexts/MissionFormContext";
 
 import DeleteConfirmModal from "../../DeleteConfirmModal";
 
-export default function MissionCard({ mission }) {
+export default function MissionCard({ mission, loggedUser, freelancer }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { isVisible, setIsVisible } = useContext(MissionFormContext);
 
@@ -36,24 +36,28 @@ export default function MissionCard({ mission }) {
         {mission.description}
       </Text>
       <Flex gap="20px">
-        <Button
-          leftIcon={<EditIcon />}
-          variant="text"
-          color="pink.light"
-          padding="0px"
-          onClick={showForm}
-        >
-          Modifier
-        </Button>
-        <Button
-          rightIcon={<DeleteIcon />}
-          variant="text"
-          color="pink.light"
-          padding="0px"
-          onClick={onOpen}
-        >
-          Supprimer
-        </Button>
+        {loggedUser.userId === freelancer.userId ? (
+          <>
+            <Button
+              leftIcon={<EditIcon />}
+              variant="text"
+              color="pink.light"
+              padding="0px"
+              onClick={showForm}
+            >
+              Modifier
+            </Button>
+            <Button
+              rightIcon={<DeleteIcon />}
+              variant="text"
+              color="pink.light"
+              padding="0px"
+              onClick={onOpen}
+            >
+              Supprimer
+            </Button>
+          </>
+        ) : null}
 
         <DeleteConfirmModal onOpen={onOpen} isOpen={isOpen} onClose={onClose} />
       </Flex>
