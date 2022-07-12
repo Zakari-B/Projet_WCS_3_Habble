@@ -5,7 +5,7 @@ import Header from "../components/Header/Header";
 import Footer from "../components/Footer";
 import DocumentCarouselCoordo from "../components/ProfilCoordinator/DocumentCarouselCoordo";
 // import AnnonceCarousel from "../components/ProfilEmployer/Annonce/AnnonceCarousel";
-import BannerProfileCoordinator from "../components/ProfilCoordinator/InfoProfil/BannerProfileCoordinator";
+import BannerProfileCoordinator from "../components/ProfilCoordinator/InfoProfilCoordinator/BannerProfileCoordinator";
 import AccountCard from "../components/ProfileFreelancer/Account/AccountCard";
 import Verifications from "../components/ProfileFreelancer/Verifications";
 import Accompagnement from "../components/ProfilCoordinator/Accompagnement";
