@@ -93,7 +93,7 @@ export default function ProAccountForm({
     setSearch(event.target.value);
   };
 
-  // Appel axios pour mettre à jour le freelancer avec ses informations et le user associé si profil complet
+  // Appel axios pour mettre à jour le coordinateur avec ses informations
 
   const updateCoordinatorProfile = (e) => {
     e.preventDefault();

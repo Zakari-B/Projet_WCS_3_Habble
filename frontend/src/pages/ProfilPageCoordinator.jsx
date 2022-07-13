@@ -20,7 +20,6 @@ export default function ProfilPageCoordinator() {
   const [updated, setUpdated] = useState(false);
   const [coordoUser, setCoordoUser] = useState([]);
   const [loggedUser, setLoggedUser] = useState("");
-  // eslint-disable-next-line no-unused-vars
   const [cityInfo, setCityInfo] = useState([]);
 
   const getCoordinator = () => {
