@@ -7,29 +7,34 @@ import {
 } from "@chakra-ui/react";
 
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
 
 import backendAPI from "../../../services/backendAPI";
 
-export default function Lieux() {
-  const { employerId, annonceId } = useParams();
+export default function Lieux({ annonce }) {
   // useState pour chaque input //
   const [locations, setLocations] = useState([]);
   const [locationList, setLocationList] = useState([]);
+  const [locationListFiltered, setLocationListFiltered] = useState([]);
+
   // Constante valeur par défaut //
+
+  const locationsIndex = locationListFiltered.filter((e) =>
+    ["1", "2", "3", "4", "5", "6"].includes(e)
+  );
 
   // fonction retrait et d'ajout d'une expertise //
   const updateLocation = (e) => {
     if (e.target.checked && !locationList.includes(e.target.value)) {
       setLocationList([...locationList, e.target.value]);
-      backendAPI.post(
-        `/api/employer/${employerId}/annonce/${annonceId}/locations/${e.target.value}`
-      );
+      backendAPI.post(`/api/annonce/${annonce.id}/locations/${e.target.value}`);
     } else if (!e.target.checked) {
+      const locationListFilter = locationList.filter(
+        (elem) => elem !== e.target.value
+      );
       locationList.splice(locationList.indexOf(e.target.value), 1);
-
+      setLocationList(locationListFilter);
       backendAPI.delete(
-        `/api/employer/${employerId}/annonce/${annonceId}/locations/${e.target.value}`
+        `/api/annonce/${annonce.id}/locations/${e.target.value}`
       );
     }
   };
@@ -47,22 +52,23 @@ export default function Lieux() {
   };
 
   // axios qui va chercher les services d'un freelancer
-  // const getAllLocationsByAnnonce = () => {
-  //   backendAPI
-  //     .get(`/api/employer/${employerId}/annonce/${annonceId}/locations`)
-  //     .then((response) => {
-  //       setLocationList(
-  //         response.data.map((e) => e.fk_expertise_id.id.toString())
-  //       );
-  //     })
-  //     .catch((error) => {
-  //       console.warn(error);
-  //     });
-  // };
+  const getAllLocationsByAnnonce = () => {
+    backendAPI
+      .get(`/api/annonce/${annonce.id}/locations`)
+      .then((response) => {
+        setLocationList(response.data.map((e) => e.fk_lieu_id.id.toString()));
+        setLocationListFiltered(
+          response.data.map((e) => e.fk_lieu_id.id.toString())
+        );
+      })
+      .catch((error) => {
+        console.warn(error);
+      });
+  };
 
   useEffect(() => {
     getAllLocations();
-    // getAllLocationsByAnnonce();
+    getAllLocationsByAnnonce();
   }, []);
 
   return (
@@ -84,7 +90,7 @@ export default function Lieux() {
         w="fit-content%"
       >
         {locations.map((element) => (
-          <CheckboxGroup>
+          <CheckboxGroup defaultValue={locationsIndex}>
             <Checkbox
               defaultChecked
               iconColor="pink.light"

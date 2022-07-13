@@ -25,7 +25,7 @@ export default function AnnonceCarousel({ updated, setUpdated }) {
         zipCode: "00000",
         emergency: false,
         price: 0,
-        status: "uncompleted",
+        status: "Brouillon",
       })
       .then((response) => {
         backendAPI.put(
@@ -71,14 +71,16 @@ export default function AnnonceCarousel({ updated, setUpdated }) {
             Il n'y a pas encore d'activité.
           </Text>
         ) : (
-          announcements.map((annonce) => (
-            <AnnonceCard
-              annonce={annonce}
-              key={annonce.id}
-              updated={updated}
-              setUpdated={setUpdated}
-            />
-          ))
+          announcements
+            // .filter((ann) => ann.status !== "uncompleted")
+            .map((annonce) => (
+              <AnnonceCard
+                annonce={annonce}
+                key={annonce.id}
+                updated={updated}
+                setUpdated={setUpdated}
+              />
+            ))
         )}
       </Flex>
     </Flex>

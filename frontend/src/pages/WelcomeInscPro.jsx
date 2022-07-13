@@ -18,6 +18,7 @@ export default function WelcomeInscPro() {
   const handleNavigate = () => {
     navigate(`/register-onboarding-pro/${freelancerId}`);
   };
+
   return (
     <Box h="100vh">
       <Header onDark={false} isSticky={false} isStickyWhite />

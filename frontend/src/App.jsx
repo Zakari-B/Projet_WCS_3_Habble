@@ -17,8 +17,12 @@ import AnnonceForm from "./components/ProfilEmployer/Annonce/AnnonceForm";
 import ProfilPageEmployer from "./pages/ProfilPageEmployer";
 import AnnoncesPageEmployer from "./pages/AnnoncesPageEmployer";
 import Logout from "./pages/Logout";
+import PasswordResetForm from "./pages/PasswordReset";
+import Administrator from "./pages/Administrator";
+import ProfilPageCoordinator from "./pages/ProfilPageCoordinator";
 import ProAnnonces from "./pages/ProAnnonces";
 import AnnonceFreelancerSearchForm from "./components/ProfilEmployer/Annonce/AnnonceFreelancerSearch";
+import FamilyOverview from "./pages/FamilyOverview";
 
 import "./App.css";
 
@@ -40,6 +44,14 @@ function App() {
           element={<ProfilPageProfessional />}
         />
         <Route
+          path="/profil-coordinator/:coordinatorId"
+          element={<ProfilPageCoordinator />}
+        />
+        <Route
+          path="/profil-coordinator/:coordinatorId/famille/:familyId"
+          element={<FamilyOverview />}
+        />
+        <Route
           path="/register-onboarding-pro/:freelancerId"
           element={<RegisterOnboardingPro />}
         />
@@ -55,6 +67,10 @@ function App() {
         />
 
         <Route
+          path="/deposer-une-annonce/:coordinatorId/annonce/:annonceId"
+          element={<AnnonceForm />}
+        />
+        <Route
           path="/profil-employer/:employerId"
           element={<ProfilPageEmployer />}
         />
@@ -67,6 +83,9 @@ function App() {
           element={<AnnoncesPageEmployer />}
         />
         <Route path="/logout" element={<Logout />} />
+
+        <Route path="/passwordReset" element={<PasswordResetForm />} />
+        <Route path="/habbleAdministrationPanel" element={<Administrator />} />
         <Route
           path="/profil/:freelancerId/mes-annonces"
           element={<ProAnnonces />}
@@ -74,6 +93,14 @@ function App() {
         <Route
           path="/profil-employer/:employerId/mes-annonces"
           element={<ProAnnonces />}
+        />
+        <Route
+          path="/profil-coordinator/:coordinatorId/mes-annonces"
+          element={<ProAnnonces />}
+        />
+        <Route
+          path="/profil-coordinator/:coordinatorId/mes-annonces/:id"
+          element={<AnnoncesPageEmployer />}
         />
         <Route path="*" element={<Error />} />
       </Routes>

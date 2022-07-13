@@ -8,16 +8,19 @@ datasource db {
 }
 
 model user {
-  id                Int         @id @default(autoincrement())
-  firstname         String      @db.VarChar(100)
-  lastname          String      @db.VarChar(100)
-  email             String      @unique @db.VarChar(100)
-  role              String      @db.VarChar(100)
-  profileIsComplete Boolean     @default(false)
-  hashedPassword    String      @db.VarChar(255)
-  dateCreated       DateTime    @default(now()) @db.Timestamp(0)
-  employer          employer?
+  id                Int          @id @default(autoincrement())
+  firstname         String       @db.VarChar(100)
+  lastname          String       @db.VarChar(100)
+  email             String       @unique @db.VarChar(100)
+  hashedPassword    String       @db.VarChar(255)
+  role              String       @db.VarChar(100)
+  profileIsComplete Boolean      @default(false)
+  dateCreated       DateTime     @default(now()) @db.Timestamp(0)
+  isAdmin           Boolean      @default(false)
   freelancer        freelancer?
+  employer          employer?
+  coordinator       coordinator?
+  token             token[]
 }
 
 model freelancer {
@@ -58,13 +61,38 @@ model employer {
   annonce     annonce[]
 }
 
+model coordinator {
+  id                  Int         @id @default(autoincrement())
+  displayName         String      @db.VarChar(100)
+  activityDescription String      @db.VarChar(255)
+  userId              Int         @unique
+  zipCode             String      @db.VarChar(10)
+  phone               String?     @db.VarChar(30)
+  experienceYear      Int
+  price               Float
+  description         String      @db.VarChar(1000)
+  acceptEmails        Boolean     @default(false)
+  siret               Int?
+  available           Boolean     @default(false)
+  dateCreated         DateTime    @default(now()) @db.Timestamp(0)
+  picture             String?     @db.VarChar(1000)
+  fk_user_id          user        @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  documents           documents[]
+  family              family[]
+  annonce             annonce[]
+}
+
 model documents {
-  id               Int        @id @default(autoincrement())
-  name             String     @db.VarChar(255)
-  freelancerId     Int
-  documentLink     String     @db.VarChar(300)
-  verified         Boolean    @default(false)
-  fk_freelancer_id freelancer @relation(fields: [freelancerId], references: [id], onDelete: Cascade)
+  id                Int          @id @default(autoincrement())
+  name              String       @db.VarChar(255)
+  freelancerId      Int?
+  coordinatorId     Int?
+  familyId          Int?
+  documentLink      String       @db.VarChar(300)
+  verified          Boolean      @default(false)
+  fk_freelancer_id  freelancer?  @relation(fields: [freelancerId], references: [id], onDelete: Cascade)
+  fk_coordinator_id coordinator? @relation(fields: [coordinatorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  fk_family_id      family?      @relation(fields: [familyId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@index([freelancerId], map: "documents_freelancerId_fkey")
 }
@@ -153,19 +181,23 @@ model diplomes {
 }
 
 model annonce {
-  id              Int                @id @default(autoincrement())
-  employerId      Int
-  title           String             @db.VarChar(100)
-  description     String             @db.VarChar(500)
-  zipCode         String             @db.VarChar(10)
-  price           Int
-  emergency       Boolean            @default(false)
-  status          String             @default("En cours") @db.VarChar(100)
-  dateCreated     DateTime           @default(now()) @db.Timestamp(0)
-  fk_employer_id  employer           @relation(fields: [employerId], references: [id], onDelete: Cascade)
-  annonce_lieu    annonce_lieu[]
-  annonce_offers  annonce_offers[]
-  annonce_service annonce_services[]
+  id                Int                @id @default(autoincrement())
+  employerId        Int?
+  coordinatorId     Int?
+  familyId          Int?
+  title             String             @db.VarChar(100)
+  description       String             @db.VarChar(500)
+  zipCode           String             @db.VarChar(10)
+  price             Int
+  emergency         Boolean            @default(false)
+  status            String?            @default("En cours") @db.VarChar(100)
+  dateCreated       DateTime           @default(now()) @db.Timestamp(0)
+  fk_employer_id    employer?          @relation(fields: [employerId], references: [id], onDelete: Cascade)
+  fk_coordinator_id coordinator?       @relation(fields: [coordinatorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  fk_family_id      family?            @relation(fields: [familyId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  annonce_lieu      annonce_lieu[]
+  annonce_offers    annonce_offers[]
+  annonce_service   annonce_services[]
 
   @@index([employerId], map: "annonce_employerId_fkey")
 }
@@ -187,11 +219,12 @@ model annonce_offers {
 }
 
 model annonce_services {
-  id            Int      @id @default(autoincrement())
-  annonceId     Int
-  serviceId     Int
-  fk_annonce_id annonce  @relation(fields: [annonceId], references: [id], onDelete: Cascade)
-  fk_service_id services @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  id                   Int      @id @default(autoincrement())
+  annonceId            Int?
+  serviceId            Int
+  fk_annonce_id        annonce? @relation(fields: [annonceId], references: [id], onDelete: Cascade)
+  fk_service_id        services @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  annonceCoordinatorId Int?
 
   @@index([annonceId], map: "annonce_services_annonceId_fkey")
   @@index([serviceId], map: "annonce_services_serviceId_fkey")
@@ -234,4 +267,28 @@ model city {
   @@index([ville_nom], map: "ville_nom")
   @@index([ville_nom_reel], map: "ville_nom_reel")
   @@index([ville_nom_simple], map: "ville_nom_simple")
+}
+
+model token {
+  id         Int    @id @default(autoincrement())
+  token      String @db.VarChar(255)
+  userId     Int    @unique
+  expiration String @db.VarChar(255)
+  fk_user_id user   @relation(fields: [userId], references: [id])
+}
+
+model family {
+  id                 Int         @id @default(autoincrement())
+  firstname          String      @db.VarChar(100)
+  lastname           String      @db.VarChar(100)
+  legalGuardian      String      @db.VarChar(100)
+  address            String      @db.VarChar(255)
+  phoneNumber        String      @db.VarChar(20)
+  email              String      @db.VarChar(100)
+  disabilityType     String      @db.VarChar(100)
+  complementary_info String      @db.Text
+  coordinatorId      Int
+  coordinator        coordinator @relation(fields: [coordinatorId], references: [id])
+  annonce            annonce[]
+  documents          documents[]
 }

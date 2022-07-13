@@ -1,15 +1,15 @@
-import {
-  Flex,
-  Button,
-  Text,
-  FormLabel,
-  Image,
-  Tag,
-  Avatar,
-} from "@chakra-ui/react";
+import { Flex, Button, Text, Image, useDisclosure } from "@chakra-ui/react";
 import dateFormat from "dateformat";
 
-export default function BannerProfile({ employer }) {
+import ModalProfilForm from "./ModalProfilForm";
+
+export default function BannerProfileEmployer({
+  employer,
+  updated,
+  setUpdated,
+}) {
+  const { isOpen, onOpen, onClose } = useDisclosure();
+
   return (
     <Flex
       w={{ base: "95%", lg: "80%" }}
@@ -32,25 +32,25 @@ export default function BannerProfile({ employer }) {
           alignItems="center"
           justifyContent="center"
         >
-          {employer.picture ? (
-            <Image
-              src={employer.picture}
-              height="200px"
-              width="200px"
-              borderRadius="100%"
-              border="1px solid gray.200"
-            />
-          ) : (
-            <Avatar
-              src="https://bit.ly/broken-link"
-              height="auto"
-              width={{ base: "80%", md: "100%%" }}
-              maxW="200"
-              maxH="200"
-            />
-          )}
+          <Image
+            src={
+              employer.picture
+                ? `${import.meta.env.VITE_BACKEND_URL}/uploads/${
+                    employer.picture
+                  }`
+                : "https://secure.gravatar.com/avatar/c308ee24184a32cdf10650eb7e311157?s=125&d=mm&r=G"
+            }
+            height="200px"
+            width="200px"
+            borderRadius="100%"
+            border="1px solid gray.200"
+          />
         </Flex>
-        <Flex direction="column" w={{ base: "95%", md: "40%" }} margin="auto 0">
+        <Flex
+          direction="column"
+          w={{ base: "100%", md: "40%" }}
+          margin="auto 0"
+        >
           <Text
             fontSize="2rem"
             fontWeight="700"
@@ -63,51 +63,51 @@ export default function BannerProfile({ employer }) {
           <Text color="white" textAlign={{ base: "center", md: "left" }}>
             Membre depuis le {dateFormat(employer.dateCreated, "dd/mm/yyyy")}
           </Text>
-          <FormLabel
-            htmlFor="availabilityToggle"
-            mt="10px"
-            alignSelf={{ base: "center", md: "flex-start" }}
-          >
-            {employer.picture ? (
-              <Tag variant="solid" colorScheme="green">
-                Profil vérifié
-              </Tag>
-            ) : (
-              <Tag color="red">Profil non vérifié</Tag>
-            )}
-          </FormLabel>
           <Flex
             direction={{ base: "column", sm: "row" }}
             p="0.75rem"
             gap={5}
             margin="auto"
-            w="auto"
+            w="30%"
             display={{ base: "flex", md: "none" }}
+            justifyContent="center"
           >
-            <Button marginTop="0.75rem" variant="solid_PrimaryColor">
+            <Button
+              marginTop="0.75rem"
+              variant="solid_PrimaryColor"
+              onClick={onOpen}
+            >
               Modifier
-            </Button>
-            <Button marginTop="0.75rem" variant="outlineWhite">
-              Voir mon profil en ligne
             </Button>
           </Flex>
         </Flex>
 
         <Flex
+          alignSelf="center"
           direction="column"
           p="0.75rem"
           gap={5}
           margin="0 0 0 auto"
-          w="auto"
+          w="30%"
           display={{ base: "none", md: "flex" }}
         >
-          <Button marginTop="0.75rem" variant="solid_PrimaryColor">
+          <Button
+            marginTop="0.75rem"
+            variant="solid_PrimaryColor"
+            onClick={onOpen}
+          >
             Modifier
           </Button>
-          <Button variant="outlineWhite">Voir mon profil en ligne</Button>
+          <ModalProfilForm
+            onOpen={onOpen}
+            isOpen={isOpen}
+            onClose={onClose}
+            employer={employer}
+            updated={updated}
+            setUpdated={setUpdated}
+          />
         </Flex>
       </Flex>
-
       <Flex
         bgColor="lightgray"
         direction="column"

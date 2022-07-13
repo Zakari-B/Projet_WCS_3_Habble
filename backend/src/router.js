@@ -2,6 +2,7 @@ const express = require("express");
 
 const UserController = require("./controllers/UsersController");
 const FreelancerController = require("./controllers/FreelancerController");
+const CoordinatorController = require("./controllers/CoordinatorController");
 const EmployerController = require("./controllers/EmployerController");
 const DiplomeController = require("./controllers/DiplomeController");
 const FormationController = require("./controllers/FormationController");
@@ -14,18 +15,23 @@ const mailController = require("./controllers/mailController");
 const AnnonceController = require("./controllers/AnnonceController");
 const fileController = require("./controllers/FileController");
 const DocumentsController = require("./controllers/DocumentsController");
+const FamilyController = require("./controllers/FamilyController");
 const multer = require("./middlewares/multer");
 const FreelancerServicesController = require("./controllers/FreelancerServicesControllers");
 const AnnonceServicesController = require("./controllers/AnnonceServicesController");
 const FreelancerExpertisesController = require("./controllers/FreelancerExpertisesControllers");
 const PictureFreelancerController = require("./controllers/PictureFreelancerController");
 const AnnonceLieuController = require("./controllers/AnnonceLieuController");
+const PictureEmployerController = require("./controllers/PictureEmployerController");
+const PictureCoordinatorController = require("./controllers/PictureCoordinateurController");
 
 const {
   authorization,
   authSelf,
   authSelfRole,
   sessionControl,
+  forgotPassword,
+  adminAuth,
 } = require("./middlewares/auth");
 
 const router = express.Router();
@@ -36,15 +42,24 @@ router.post(
   "/auth/register",
   UserController.createOne,
   FreelancerController.createOne,
+  CoordinatorController.createOne,
   EmployerController.createOne
 );
 router.post("/auth/login", UserController.login);
 router.get("/auth/logout", authorization, UserController.logout);
 router.get("/auth/sessionControl", authorization, sessionControl);
+router.post("/auth/forgotPassword", forgotPassword);
+router.post("/auth/login", UserController.login);
+router.post("/auth/resetPassword", UserController.resetPassword);
 
 router.post("/file", authorization, multer, fileController.addOne);
+router.post(
+  "/family/:familyId/file",
+  authorization,
+  multer,
+  fileController.addOneByFamily
+);
 
-router.post("/maiyl/forgotten", mailController.forgotten);
 router.post("/mail/contact", mailController.contact);
 router.post(
   "/mail/freelancerAnnonceMatch",
@@ -109,12 +124,64 @@ router.put(
   PictureFreelancerController.removeOne
 );
 
+// Routes for Coordinators
+router.get("/coordinators/", authorization, CoordinatorController.getAll);
+router.get("/coordinators/:id", authorization, CoordinatorController.getOne);
+router.get(
+  "/coordinator/:coordinatorId/user",
+  authorization,
+  CoordinatorController.getUserFromCoordinator
+);
+
+router.put(
+  "/coordinators/:coordinatorid",
+  authorization,
+  authSelfRole,
+  CoordinatorController.updateOne
+);
+
+router.get(
+  "/coordinators/:coordinatorid/city",
+  authorization,
+  CoordinatorController.getOneCoordinatorWithCityInfo
+);
+
+// Routes for coordinator's picture
+router.put(
+  "/coordinators/:id/picture",
+  authorization,
+  multer,
+  PictureCoordinatorController.updateOne
+);
+
+router.put(
+  "/coordinators/:id/removedPicture",
+  authorization,
+  multer,
+  PictureCoordinatorController.removeOne
+);
+
 // Routes for Employers
 
 router.get("/employers/", EmployerController.getAll);
 router.get("/employers/:id", EmployerController.getOne);
 router.put("/employers/:id", EmployerController.updateOne);
 router.get("/employers/:id/user", EmployerController.getUserFromEmployer);
+
+// Routes for employer's picture
+router.put(
+  "/employers/:id/picture",
+  authorization,
+  multer,
+  PictureEmployerController.updateOne
+);
+
+router.put(
+  "/employers/:id/removedPicture",
+  authorization,
+  multer,
+  PictureEmployerController.removeOne
+);
 
 // Routes for documentsController
 
@@ -123,11 +190,33 @@ router.get(
   // authorization,
   DocumentsController.getAll
 );
+router.get(
+  "/coordinator/:coordinatorId/documents",
+  authorization,
+  DocumentsController.getAllByCoordinatorId
+);
+router.get(
+  "/coordinators/:coordinatorId/family/:familyId/documents",
+  authorization,
+  DocumentsController.getAllByFamilyId
+);
 router.delete(
   "/freelancers/:freelancerid/documents/:id",
   authorization,
   authSelfRole,
   DocumentsController.deleteOne
+);
+router.delete(
+  "/coordinator/:coordinatorId/documents/:id",
+  authorization,
+  authSelfRole,
+  DocumentsController.deleteOneByCoordinatorId
+);
+router.delete(
+  "/coordinator/:coordinatorId/family/:familyId/documents/:id",
+  authorization,
+  // authSelfRole,
+  DocumentsController.deleteOneByFamily
 );
 
 // Routes for Diplomes
@@ -261,8 +350,34 @@ router.get("/expertises/:id", ExpertiseController.getOne);
 router.put("/expertises/:id", ExpertiseController.updateOne);
 router.delete("/expertises/:id", ExpertiseController.deleteOne);
 
-// Routes for expertises of one freelancer
+// Routes pour famille/accompagnement
+router.post(
+  "/coordinators/:coordinatorId/famille",
+  authorization,
+  FamilyController.createOne
+);
+router.get(
+  "/coordinators/:coordinatorId/familles",
+  authorization,
+  FamilyController.getAll
+);
+router.get(
+  "/coordinators/:coordinatorId/famille/:familyId",
+  authorization,
+  FamilyController.getOne
+);
+router.put(
+  "/coordinators/:coordinatorId/famille/:familyId",
+  authorization,
+  FamilyController.updateOne
+);
+router.delete(
+  "/coordinators/:coordinatorId/famille/:familyId",
+  authorization,
+  FamilyController.deleteOne
+);
 
+// Routes for expertises of one freelancer
 router.get(
   "/freelancers/:freelancerId/expertises",
   FreelancerExpertisesController.getAll
@@ -306,6 +421,27 @@ router.put("/employers/:employerid/annonce/:id", AnnonceController.updateOne);
 router.delete(
   "/employers/:employerid/annonce/:id",
   AnnonceController.deleteOne
+);
+
+router.post(
+  "/coordinator/:coordinatorId/annonce",
+  authorization,
+  AnnonceController.createOneByCoordinatorId
+);
+router.get(
+  "/coordinator/:coordinatorId/annonces",
+  authorization,
+  AnnonceController.getAllByCoordinatorId
+);
+router.put(
+  "/coordinator/:coordinatorId/annonce/:id",
+  authorization,
+  AnnonceController.updateOneByCoordinatorId
+);
+router.delete(
+  "/coordinator/:coordinatorId/annonce/:id",
+  authorization,
+  AnnonceController.deleteOneByCoordinatorId
 );
 
 // Routes for offers
@@ -362,6 +498,20 @@ router.delete(
   AnnonceServicesController.deleteOne
 );
 
+// Admin routes
+router.get(
+  "/users/adminGetOne/:id",
+  authorization,
+  adminAuth,
+  UserController.getUserWithRole
+);
+router.post(
+  "/users/:freelancerId/verify/:docId",
+  authorization,
+  adminAuth,
+  DocumentsController.verify
+);
+
 // routes for locations
 router.get("/locations", LieuController.getAll);
 router.get("/locations/:locationId", LieuController.getOne);
@@ -371,17 +521,17 @@ router.delete("/locations/:locationId", LieuController.deleteOne);
 // routes for lieux annonces
 
 router.get(
-  "/employer/:employerId/annonce/:annonceId/locations",
+  "/annonce/:annonceId/locations",
   AnnonceLieuController.getAllByAnnonceId
 );
 
 router.post(
-  "/employer/:employerId/annonce/:annonceId/locations/:locationId",
+  "/annonce/:annonceId/locations/:locationId",
   AnnonceLieuController.createOne
 );
 
 router.delete(
-  "/employer/:employerId/annonce/:annonceId/locations/locationId",
+  "/annonce/:annonceId/locations/locationId",
   AnnonceLieuController.deleteOne
 );
 

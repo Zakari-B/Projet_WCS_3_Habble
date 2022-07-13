@@ -19,6 +19,7 @@ export default function BannerProfile({
   city,
   updated,
   setUpdated,
+  loggedUser,
 }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
@@ -57,39 +58,42 @@ export default function BannerProfile({
       border="1px solid #ededed"
       borderRadius="25px"
     >
-      <Flex bgColor="white" p="1.5rem" borderRadius="25px 25px 0 0">
-        <FormControl display="flex" alignItems="center">
-          <Switch
-            colorScheme="pink"
-            id="availabilityToggle"
-            onChange={handleSubmit}
-            isChecked={!!freelancer.available}
-          />
+      {loggedUser.userId === freelancer.userId ? (
+        <Flex bgColor="white" p="1.5rem" borderRadius="25px 25px 0 0">
+          <FormControl display="flex" alignItems="center">
+            <Switch
+              colorScheme="pink"
+              id="availabilityToggle"
+              onChange={handleSubmit}
+              isChecked={!!freelancer.available}
+            />
 
-          <FormLabel htmlFor="availabilityToggle" mb="-1px">
-            {freelancer.available ? (
-              <Flex alignItems="center" wrap="wrap" justifyContent="center">
-                <Text fontSize="1.2rem" fontWeight="700">
-                  &nbsp; Disponible{" "}
-                </Text>
-                <Text fontWeight="500" textAlign="center">
-                  &nbsp; - Vous pouvez être contacté et recevoir des demandes
-                </Text>
-              </Flex>
-            ) : (
-              <Flex alignItems="center" wrap="wrap" justifyContent="center">
-                <Text fontSize="1.2rem" fontWeight="700">
-                  &nbsp; Indisponible
-                </Text>
-                <Text fontWeight="500" textAlign="center">
-                  &nbsp; - Vous ne pouvez pas être contacté et recevoir des
-                  demandes
-                </Text>
-              </Flex>
-            )}
-          </FormLabel>
-        </FormControl>
-      </Flex>
+            <FormLabel htmlFor="availabilityToggle" mb="-1px">
+              {freelancer.available ? (
+                <Flex alignItems="center" wrap="wrap" justifyContent="center">
+                  <Text fontSize="1.2rem" fontWeight="700">
+                    &nbsp; Disponible{" "}
+                  </Text>
+                  <Text fontWeight="500" textAlign="center">
+                    &nbsp; - Vous pouvez être contacté et recevoir des demandes
+                  </Text>
+                </Flex>
+              ) : (
+                <Flex alignItems="center" wrap="wrap" justifyContent="center">
+                  <Text fontSize="1.2rem" fontWeight="700">
+                    &nbsp; Indisponible
+                  </Text>
+                  <Text fontWeight="500" textAlign="center">
+                    &nbsp; - Vous ne pouvez pas être contacté et recevoir des
+                    demandes
+                  </Text>
+                </Flex>
+              )}
+            </FormLabel>
+          </FormControl>
+        </Flex>
+      ) : null}
+
       <Flex bgColor="purple.average" minH="60%" p="10px" flexDir="column">
         <Flex flexDir={{ base: "column", md: "row" }}>
           <Flex
@@ -160,21 +164,26 @@ export default function BannerProfile({
               w="auto"
               display={{ base: "flex", md: "none" }}
             >
-              <Button
-                marginTop="0.75rem"
-                variant="solid_PrimaryColor"
-                onClick={onOpen}
-              >
-                Modifier
-              </Button>
-              <ModalAccountForm
-                onOpen={onOpen}
-                isOpen={isOpen}
-                onClose={onClose}
-              />
-              <Button marginTop="0.75rem" variant="outlineWhite">
-                Voir mon profil en ligne
-              </Button>
+              {loggedUser.userId === freelancer.userId ? (
+                <>
+                  <Button
+                    marginTop="0.75rem"
+                    variant="solid_PrimaryColor"
+                    onClick={onOpen}
+                  >
+                    Modifier
+                  </Button>
+
+                  <ModalAccountForm
+                    onOpen={onOpen}
+                    isOpen={isOpen}
+                    onClose={onClose}
+                  />
+                  <Button marginTop="0.75rem" variant="outlineWhite">
+                    Voir mon profil en ligne
+                  </Button>
+                </>
+              ) : null}
             </Flex>
           </Flex>
           <Flex
@@ -185,14 +194,18 @@ export default function BannerProfile({
             w="auto"
             display={{ base: "none", md: "flex" }}
           >
-            <Button
-              marginTop="0.75rem"
-              variant="solid_PrimaryColor"
-              onClick={onOpen}
-            >
-              Modifier
-            </Button>
-            <Button variant="outlineWhite">Voir mon profil en ligne</Button>
+            {loggedUser.userId === freelancer.userId ? (
+              <>
+                <Button
+                  marginTop="0.75rem"
+                  variant="solid_PrimaryColor"
+                  onClick={onOpen}
+                >
+                  Modifier
+                </Button>
+                <Button variant="outlineWhite">Voir mon profil en ligne</Button>
+              </>
+            ) : null}
           </Flex>
         </Flex>
       </Flex>

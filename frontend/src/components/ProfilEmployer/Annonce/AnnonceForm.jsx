@@ -51,10 +51,10 @@ export default function AnnonceForm({ updated, setUpdated }) {
   const [servicesList, setServicesList] = useState([]);
   const [serviceName, setServiceName] = useState([]);
   const [serviceNumber, setServiceNumber] = useState([]);
+  const [families, setFamilies] = useState([]);
+  const [currentFamily, setCurrentFamily] = useState(0);
 
-  const [status] = useState("En cours");
-
-  const { employerId, annonceId } = useParams();
+  const { employerId, annonceId, coordinatorId } = useParams();
 
   const [cityPro, setCityPro] = useState("");
   const [cityProName, setCityProName] = useState("");
@@ -94,55 +94,108 @@ export default function AnnonceForm({ updated, setUpdated }) {
       .then((result) => setTitlePlaceHolder(result.data.title));
   });
 
-  // fonction retrait d'un item //
-  // const removeItem = (indexToRemove) => {
-  //   setTags([...tags.filter((_, index) => index !== indexToRemove)]);
-  // };
-
-  // fonction retrait d'ajout d'un item //
-  // const service = (e) => {
-  //   if (e.target.value !== "" && !tags.includes(e.target.value)) {
-  //     setTags([...tags, e.target.value]);
-  //     e.target.value = "";
-  //   }
-  // };
-
-  // fonction retrait et d'ajout d'une expertise //
-  // const updateLocation = (e) => {
-  //   if (e.target.checked && !location.includes(e.target.value)) {
-  //     setLocation([...location, e.target.value]);
-  //   } else if (!e.target.checked) {
-  //     location.splice(location.indexOf(e.target.value), 1);
-  //     setLocation(location);
-  //   }
-  // };
+  useEffect(() => {
+    backendAPI
+      .get(`/api/coordinators/${coordinatorId}/familles`)
+      .then((res) => {
+        setFamilies(res.data);
+      });
+  }, []);
 
   const updateEmergency = (e) => {
-    if (e.target.checked) {
-      setEmergency(true);
-    }
+    setEmergency(e.target.checked);
+  };
+
+  const addFamily = (e) => {
+    setCurrentFamily(parseInt(e.target.value, 10));
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
+    if (coordinatorId !== "undefined") {
+      backendAPI
+        .put(`/api/coordinator/${coordinatorId}/annonce/${annonceId}`, {
+          title,
+          description,
+          zipCode: cityPro,
+          emergency,
+          price,
+          status: "En cours",
+          familyId: currentFamily,
+        })
+        .then(() => {
+          navigate(`/profil-coordinator/${coordinatorId}`);
+        })
+        .then(() =>
+          toast({
+            title: "Votre annonce a bien été crée",
+            status: "success",
+            position: "bottom-right",
+            duration: 7000,
+            isClosable: true,
+          })
+        )
+        .catch((e) => {
+          console.error(e);
+          toast({
+            title: "Votre annonce n'a pas pu être ajoutée",
+            status: "error",
+            position: "bottom-right",
+            duration: 7000,
+            isClosable: true,
+          });
+        });
+      setUpdated(!updated);
+    }
+
+    if (employerId !== "undefined") {
+      backendAPI
+        .put(`/api/employers/${employerId}/annonce/${annonceId}`, {
+          title,
+          description,
+          zipCode: cityPro,
+          emergency,
+          price,
+          status: "En cours",
+        })
+        .then(() => {
+          navigate(
+            `/deposer-une-annonce/${employerId}/annonce/${annonceId}/choix-professionnels`
+          );
+        })
+        .then(() =>
+          toast({
+            title: "Votre annonce a bien été crée",
+            status: "success",
+            position: "bottom-right",
+            duration: 7000,
+            isClosable: true,
+          })
+        )
+        .catch((e) => {
+          console.error(e);
+          toast({
+            title: "Votre annonce n'a pas pu être ajoutée",
+            status: "error",
+            position: "bottom-right",
+            duration: 7000,
+            isClosable: true,
+          });
+        });
+    }
+  };
+
+  const handleCancel = (event) => {
+    event.preventDefault();
     backendAPI
-      .put(`/api/employers/${employerId}/annonce/${annonceId}`, {
-        title,
-        description,
-        zipCode: cityPro,
-        emergency,
-        price,
-        status,
-      })
+      .delete(`/api/employers/${employerId}/annonce/${annonceId}`)
       .then(() => {
-        navigate(
-          `/deposer-une-annonce/${employerId}/annonce/${annonceId}/choix-professionnels`
-        );
+        navigate(`/profil-employer/${employerId}`);
       })
       .then(() =>
         toast({
-          title: "Votre annonce a bien été crée",
-          status: "success",
+          title: "Votre annonce n'a pas été crée",
+          status: "error",
           position: "bottom-right",
           duration: 7000,
           isClosable: true,
@@ -150,15 +203,7 @@ export default function AnnonceForm({ updated, setUpdated }) {
       )
       .catch((e) => {
         console.error(e);
-        toast({
-          title: "Votre annonce n'a pas pu être ajoutée",
-          status: "error",
-          position: "bottom-right",
-          duration: 7000,
-          isClosable: true,
-        });
       });
-    setUpdated(!updated);
   };
 
   // axios qui va chercher la liste des services
@@ -176,7 +221,7 @@ export default function AnnonceForm({ updated, setUpdated }) {
   // axios qui va chercher les services d'un freelancer
   const getAllServicesByAnnonce = () => {
     backendAPI
-      .get(`/api/employer/${employerId}/annonce/${annonceId}/services`)
+      .get(`/api/annonce/${annonceId}/services`)
       .then((response) => {
         setServiceName(response.data.map((e) => e.fk_services_id.name));
         setServiceNumber(response.data.map((e) => e.fk_services_id.id));
@@ -197,9 +242,16 @@ export default function AnnonceForm({ updated, setUpdated }) {
     if (nameService !== "" && !serviceName.includes(nameService)) {
       setServiceName([...serviceName, nameService]);
       setServiceNumber([...serviceNumber, e.target.value]);
-      backendAPI.post(
-        `/api/employer/${employerId}/annonce/${annonceId}/services/${e.target.value}`
-      );
+      if (coordinatorId !== "undefined") {
+        backendAPI.post(
+          `/api/coordinator/${coordinatorId}/annonce/${annonceId}/services/${e.target.value}`
+        );
+      }
+      if (employerId !== "undefined") {
+        backendAPI.post(
+          `/api/employer/${employerId}/annonce/${annonceId}/services/${e.target.value}`
+        );
+      }
     }
   };
 
@@ -224,14 +276,12 @@ export default function AnnonceForm({ updated, setUpdated }) {
   const updateLocation = (e) => {
     if (e.target.checked && !locationList.includes(e.target.value)) {
       setLocationList([...locationList, e.target.value]);
-      backendAPI.post(
-        `/api/employer/${employerId}/annonce/${annonceId}/locations/${e.target.value}`
-      );
+      backendAPI.post(`/api/annonce/${annonceId}/locations/${e.target.value}`);
     } else if (!e.target.checked) {
       locationList.splice(locationList.indexOf(e.target.value), 1);
 
       backendAPI.delete(
-        `/api/employer/${employerId}/annonce/${annonceId}/locations/${e.target.value}`
+        `/api/annonce/${annonceId}/locations/${e.target.value}`
       );
     }
   };
@@ -248,23 +298,8 @@ export default function AnnonceForm({ updated, setUpdated }) {
       });
   };
 
-  // axios qui va chercher les services d'un freelancer
-  // const getAllLocationsByAnnonce = () => {
-  //   backendAPI
-  //     .get(`/api/employer/${employerId}/annonce/${annonceId}/locations`)
-  //     .then((response) => {
-  //       setLocationList(
-  //         response.data.map((e) => e.fk_expertise_id.id.toString())
-  //       );
-  //     })
-  //     .catch((error) => {
-  //       console.warn(error);
-  //     });
-  // };
-
   useEffect(() => {
     getAllLocations();
-    // getAllLocationsByAnnonce();
   }, []);
 
   return (
@@ -335,6 +370,24 @@ export default function AnnonceForm({ updated, setUpdated }) {
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
               />
+              {coordinatorId ? (
+                <Select
+                  border="none"
+                  type="text"
+                  id="formProService"
+                  name="Service"
+                  fontSize="0.8rem"
+                  fontWeight="500"
+                  color="gray"
+                  placeholder="Quelle est la famille concernée ?"
+                  onChange={addFamily}
+                >
+                  {families.map((family) => (
+                    <option value={family.id}>{family.lastname}</option>
+                  ))}
+                </Select>
+              ) : null}
+
               <FormLabel
                 htmlFor="description"
                 fontSize="md"
@@ -656,8 +709,8 @@ export default function AnnonceForm({ updated, setUpdated }) {
                   colorScheme="white"
                   borderColor="gray"
                   _checked={{ borderColor: "pink.light" }}
-                  value="Urgence"
                   onChange={updateEmergency}
+                  isChecked={!!emergency}
                 >
                   <Text fontSize="sm">Oui</Text>
                 </Checkbox>
@@ -669,6 +722,14 @@ export default function AnnonceForm({ updated, setUpdated }) {
                   onClick={handleSubmit}
                 >
                   Suivant{" "}
+                </Button>
+                <Button
+                  variant="outline_Pink"
+                  type="submit"
+                  marginTop="2rem"
+                  onClick={handleCancel}
+                >
+                  Annuler
                 </Button>
                 <Divider />
                 <Text

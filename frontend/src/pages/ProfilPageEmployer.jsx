@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer";
-import BannerProfileEmployer from "../components/ProfilEmployer/BannerProfileEmployer";
+import BannerProfileEmployer from "../components/ProfilEmployer/InfoProfil/BannerProfileEmployer";
 import AnnonceCarousel from "../components/ProfilEmployer/Annonce/AnnonceCarousel";
 import AccountCard from "../components/ProfileFreelancer/Account/AccountCard";
 import backendAPI from "../services/backendAPI";
@@ -52,7 +52,12 @@ export default function ProfilPageEmployer() {
         paddingY="30px"
         paddingTop="150px"
       >
-        <BannerProfileEmployer employer={employer} />
+        <BannerProfileEmployer
+          employer={employer}
+          setEmployer={setEmployer}
+          updated={updated}
+          setUpdated={setUpdated}
+        />
         <Flex
           w={{ base: "95%", lg: "80%" }}
           gap="20px"

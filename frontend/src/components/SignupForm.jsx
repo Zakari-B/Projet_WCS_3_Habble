@@ -54,8 +54,8 @@ const signupForm = () => {
       .then((response) => {
         if (response) {
           toast({
-            title: "Vous avez bien créez votre compte.",
-            description: "Bienvenu chez nous !",
+            title: "Vous avez bien créé votre compte.",
+            description: "Bienvenue chez nous !",
             status: "success",
             duration: 7000,
             position: "bottom-right",
@@ -99,12 +99,15 @@ const signupForm = () => {
             if (newresponse.data.type === "employer") {
               navigate(`/profil-employer/${newresponse.data.fkId}`);
             }
+            if (newresponse.data.type === "coordinator") {
+              navigate(`/profil-coordinator/${newresponse.data.fkId}`);
+            }
             return null;
           })
           .catch((error) => {
             if (error) {
               toast({
-                title: "Une erreur est survenue lors du login",
+                title: "Une erreur est survenue lors de la connexion",
                 status: "error",
                 duration: 7000,
                 position: "bottom-right",

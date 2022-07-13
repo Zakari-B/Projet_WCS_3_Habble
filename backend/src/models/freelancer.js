@@ -42,15 +42,6 @@ exports.findOneFreelancer = async (freelancerid) => {
   }
 };
 
-exports.findOneFreelancerByUserId = async (id) => {
-  try {
-    return await prisma.freelancer.findUnique({
-      where: { userId: id },
-    });
-  } finally {
-    await prisma.$disconnect();
-  }
-};
 exports.createOneFreelancer = async (freelancer) => {
   try {
     return await prisma.freelancer.create({

@@ -14,48 +14,24 @@ const connection = mysql.createConnection({
 
 const db = connection.promise();
 
-const createOneAnnouncement = async (announcement) => {
-  try {
-    return await prisma.annonce.create({
-      data: { ...announcement },
-    });
-  } finally {
-    await prisma.$disconnect();
-  }
-};
-const getAllAnnouncementsbyEmployerId = async (employerId) => {
+const getAllAnnouncementsbyCoordinatorId = async (coordinatorId) => {
   try {
     return await prisma.annonce.findMany({
-      where: { employerId },
-      include: { annonce_offers: true },
+      where: { coordinatorId },
+      include: { annonce_offers: true, fk_family_id: true },
     });
   } finally {
     await prisma.$disconnect();
   }
 };
 
-const getAllAnnouncements = async () => {
-  try {
-    return await prisma.annonce.findMany();
-  } finally {
-    await prisma.$disconnect();
-  }
-};
-
-const getOneAnnouncementByEmployerId = async (employerId, id) => {
+const getOneAnnouncementByCoordinatorId = async (coordinatorId, id) => {
   try {
     return await prisma.annonce.findMany({
-      where: { employerId, id },
-    });
-  } finally {
-    await prisma.$disconnect();
-  }
-};
-
-const getOneAnnouncement = async (id) => {
-  try {
-    return await prisma.annonce.findUnique({
-      where: { id },
+      where: { coordinatorId, id },
+      include: {
+        fk_family_id: true,
+      },
     });
   } finally {
     await prisma.$disconnect();
@@ -81,10 +57,77 @@ const getOneAnnonceWithCity = (annonceId) => {
     });
 };
 
+const getAllAnnouncements = async () => {
+  try {
+    return await prisma.annonce.findMany();
+  } finally {
+    await prisma.$disconnect();
+  }
+};
+
+const getOneAnnouncement = async (id) => {
+  try {
+    return await prisma.annonce.findUnique({
+      where: { id },
+    });
+  } finally {
+    await prisma.$disconnect();
+  }
+};
+
+const createOneAnnouncement = async (announcement) => {
+  try {
+    return await prisma.annonce.create({
+      data: { ...announcement },
+    });
+  } finally {
+    await prisma.$disconnect();
+  }
+};
+
+// routes for employer/annonces
+
+const getAllAnnouncementsbyEmployerId = async (employerId) => {
+  try {
+    return await prisma.annonce.findMany({
+      where: { employerId },
+      include: { annonce_offers: true },
+    });
+  } finally {
+    await prisma.$disconnect();
+  }
+};
+
+const getOneAnnouncementByEmployerId = async (employerId, id) => {
+  try {
+    return await prisma.annonce.findMany({
+      where: { employerId, id },
+    });
+  } finally {
+    await prisma.$disconnect();
+  }
+};
+
 const updateOneAnnouncement = async (employerId, id, data) => {
   try {
     const annonce = await prisma.annonce.updateMany({
       where: { employerId, id },
+      data: { ...data },
+    });
+    return annonce;
+  } finally {
+    await prisma.$disconnect();
+  }
+};
+
+const updateOneAnnouncementByCoordinatorId = async (
+  coordinatorId,
+  id,
+  data
+) => {
+  try {
+    const annonce = await prisma.annonce.updateMany({
+      where: { coordinatorId, id },
       data: { ...data },
     });
     return annonce;
@@ -101,13 +144,25 @@ const deleteOneAnnouncement = async (employerId, id) => {
   }
 };
 
+const deleteOneAnnouncementByCoordinatorId = async (coordinatorId, id) => {
+  try {
+    return await prisma.annonce.deleteMany({ where: { coordinatorId, id } });
+  } finally {
+    await prisma.$disconnect();
+  }
+};
+
 module.exports = {
   getAllAnnouncementsbyEmployerId,
+  getAllAnnouncementsbyCoordinatorId,
   getAllAnnouncements,
   createOneAnnouncement,
   getOneAnnouncementByEmployerId,
+  getOneAnnouncementByCoordinatorId,
   getOneAnnonceWithCity,
   getOneAnnouncement,
   updateOneAnnouncement,
+  updateOneAnnouncementByCoordinatorId,
   deleteOneAnnouncement,
+  deleteOneAnnouncementByCoordinatorId,
 };

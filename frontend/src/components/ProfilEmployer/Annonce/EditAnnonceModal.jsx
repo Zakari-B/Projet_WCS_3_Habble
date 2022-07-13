@@ -1,3 +1,4 @@
+/* eslint-disable no-lone-blocks */
 import axios from "axios";
 import { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
@@ -35,6 +36,7 @@ import {
   List,
   IconButton,
   ListItem,
+  Select,
 } from "@chakra-ui/react";
 import PropTypes from "prop-types";
 import { Search2Icon } from "@chakra-ui/icons";
@@ -50,14 +52,14 @@ export default function EditAnnonceModal({
   updated,
   setUpdated,
 }) {
-  const { employerId } = useParams();
+  const { employerId, coordinatorId } = useParams();
   const toast = useToast();
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState();
   const [emergency, setEmergency] = useState(false);
-  const [status] = useState("En cours");
+  const [status, setStatus] = useState("");
 
   const [search, setSearch] = useState("");
   const [cityPro, setCityPro] = useState("");
@@ -107,34 +109,67 @@ export default function EditAnnonceModal({
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    backendAPI
-      .put(`/api/employers/${employerId}/annonce/${annonce.id}`, {
-        title,
-        description,
-        zipCode: cityPro,
-        emergency,
-        price,
-        status,
-      })
-      .then(() =>
-        toast({
-          title: "Votre annonce a bien été modifiée",
-          status: "success",
-          position: "bottom-right",
-          duration: 7000,
-          isClosable: true,
+    if (employerId === "undefined") {
+      backendAPI
+        .put(`/api/coordinator/${coordinatorId}/annonce/${annonce.id}`, {
+          title,
+          description,
+          zipCode: cityPro,
+          emergency,
+          price,
+          status,
         })
-      )
-      .catch((e) => {
-        console.error(e);
-        toast({
-          title: "Votre annonce n'a pas pu être modifiée",
-          status: "error",
-          position: "bottom-right",
-          duration: 7000,
-          isClosable: true,
+        .then(() =>
+          toast({
+            title: "Votre annonce a bien été modifiée",
+            status: "success",
+            position: "bottom-right",
+            duration: 7000,
+            isClosable: true,
+          })
+        )
+        .catch((e) => {
+          console.error(e);
+          toast({
+            title: "Votre annonce n'a pas pu être modifiée",
+            status: "error",
+            position: "bottom-right",
+            duration: 7000,
+            isClosable: true,
+          });
         });
-      });
+    }
+    if (coordinatorId === "undefined") {
+      backendAPI
+        .put(`/api/employers/${employerId}/annonce/${annonce.id}`, {
+          title,
+          description,
+          zipCode: cityPro,
+          emergency,
+          price,
+          status,
+        })
+        .then(() =>
+          toast({
+            title: "Votre annonce a bien été modifiée",
+            status: "success",
+            position: "bottom-right",
+            duration: 7000,
+            isClosable: true,
+          })
+        )
+        .catch((e) => {
+          console.error(e);
+          toast({
+            title: "Votre annonce n'a pas pu être modifiée",
+            status: "error",
+            position: "bottom-right",
+            duration: 7000,
+            isClosable: true,
+          });
+        });
+    }
+
     onClose();
     setUpdated(!updated);
   };
@@ -157,6 +192,10 @@ export default function EditAnnonceModal({
     setEmergency(e.target.checked);
   };
 
+  const handleStatus = (e) => {
+    setStatus(e.target.value);
+  };
+
   return (
     <Modal size="4xl" isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
@@ -172,7 +211,7 @@ export default function EditAnnonceModal({
         </ModalHeader>
         <ModalCloseButton />
         <ModalBody paddingY="30px">
-          <Box h="100vh">
+          <Box h="auto">
             <Flex direction="column" justify="flex-start">
               <Stack
                 className="noAccount"
@@ -416,38 +455,64 @@ export default function EditAnnonceModal({
                       €/h (indicatif)
                     </Text>
                   </Flex>
-                </Flex>
-                <Lieux />
-                <FormLabel
-                  htmlFor="chronicDiseases"
-                  fontSize="sm"
-                  fontWeight="800"
-                  color="purple.average"
-                >
-                  Demande urgente
-                </FormLabel>
-                <CheckboxGroup>
-                  <Flex
-                    justifyContent="left"
-                    columnGap="3"
-                    rowGap="2"
-                    flexWrap="wrap"
-                    h="fit-content"
-                    w="fit-content%"
-                    flexDirection="column"
-                  >
-                    <Checkbox
-                      iconColor="pink.light"
-                      colorScheme="white"
-                      borderColor="gray"
-                      _checked={{ borderColor: "pink.light" }}
-                      onChange={updateEmergency}
-                      isChecked={!!emergency}
+                  <Flex direction="column" w="100%">
+                    <Lieux annonce={annonce} />
+                    <FormLabel
+                      paddingTop="5%"
+                      htmlFor="chronicDiseases"
+                      fontSize="sm"
+                      fontWeight="800"
+                      color="purple.average"
                     >
-                      <Text fontSize="sm">Oui</Text>
-                    </Checkbox>
+                      Demande urgente
+                    </FormLabel>
+                    <CheckboxGroup>
+                      <Flex
+                        justifyContent="left"
+                        columnGap="3"
+                        rowGap="2"
+                        flexWrap="wrap"
+                        h="fit-content"
+                        w="fit-content%"
+                        flexDirection="column"
+                      >
+                        <Checkbox
+                          iconColor="pink.light"
+                          colorScheme="white"
+                          borderColor="gray"
+                          _checked={{ borderColor: "pink.light" }}
+                          onChange={updateEmergency}
+                          isChecked={!!emergency}
+                        >
+                          <Text fontSize="sm">Oui</Text>
+                        </Checkbox>
+                        <FormLabel
+                          paddingTop="5%"
+                          fontSize="sm"
+                          fontWeight="800"
+                          color="purple.average"
+                        >
+                          Changer le statut
+                        </FormLabel>
+                        <Select
+                          border="none"
+                          type="text"
+                          id="status"
+                          name="status"
+                          fontSize="0.8rem"
+                          fontWeight="500"
+                          color="gray"
+                          placeholder="Modifier le statut de l'annonce"
+                          onChange={handleStatus}
+                        >
+                          <option value="En cours">En cours</option>
+                          <option value="En suspens">En suspens</option>
+                          <option value="Finie">Finie</option>
+                        </Select>
+                      </Flex>
+                    </CheckboxGroup>
                   </Flex>
-                </CheckboxGroup>
+                </Flex>
               </Stack>
             </Flex>
           </Box>

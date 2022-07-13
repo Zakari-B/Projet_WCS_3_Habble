@@ -73,7 +73,7 @@ const createManyExpertises = async () => {
           name: "Trouble de stress post-traumatique (TSPT)",
           category: "Santé mentale",
         },
-        { name: "Skizophrénie", category: "Santé mentale" },
+        { name: "Schizophrénie", category: "Santé mentale" },
         {
           name: "Abus de substances et toxicomanie",
           category: "Santé mentale",

@@ -2,7 +2,6 @@ const nodemailer = require("nodemailer");
 
 require("dotenv").config();
 
-// async function mailer({ lastname, firstname, email, phone, message }) {
 const sendMail = async (data, template) => {
   const transporter = nodemailer.createTransport({
     host: process.env.SMTP_HOST,
@@ -18,11 +17,9 @@ const sendMail = async (data, template) => {
     from:
       data.recipient === "habble"
         ? `${data.firstname} ${data.lastname} <${data.email}>`
-        : `Habble <${process.env.SMTP_USER}>`,
+        : `Habble <${process.env.SMTP_USER}>`, // Penser a remplacer l'adresse mail par un noreply ?
     to:
-      data.recipient === "habble"
-        ? `Habble <marie.serradori@gmail.com>`
-        : data.email,
+      data.recipient === "habble" ? `Habble <contact@habble.com>` : data.email, // Penser a remplacer l'adresse mail par celle fournie par Patrice.
     subject: template.subject,
     html: template.body,
   };
