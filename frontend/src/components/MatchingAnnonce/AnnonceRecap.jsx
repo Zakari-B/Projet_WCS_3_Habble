@@ -207,7 +207,9 @@ export default function AnnonceRecap({ annonce, offers }) {
           {role === "employer" && (
             <Button variant="solid_PrimaryColor">Modifier</Button>
           )}
-
+          {role === "coordinator" && (
+            <Button variant="solid_PrimaryColor">Modifier</Button>
+          )}
           {role === "freelancer" && currentFreeOffer.length === 0 && (
             <Button variant="solid_PrimaryColor" onClick={onOpen}>
               Faire une Proposition

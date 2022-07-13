@@ -11,7 +11,7 @@ export default function AnnonceCarouselCoordo(updated, setUpdated) {
 
   const getannouncements = () => {
     backendAPI
-      .get(`api/employers/${coordinatorId}/annonces`)
+      .get(`/api/coordinator/${coordinatorId}/annonces`)
       .then((response) => {
         if (response.data !== "Il n'y a pas encore d'activité") {
           setAnnouncements(response.data);
@@ -21,17 +21,17 @@ export default function AnnonceCarouselCoordo(updated, setUpdated) {
 
   const postAnnonce = () => {
     backendAPI
-      .post(`api/employers/${coordinatorId}/annonce`, {
+      .post(`/api/coordinator/${coordinatorId}/annonce`, {
         title: "Nouvelle Annonce ",
         description: "Exemple description",
         zipCode: "00000",
         emergency: false,
         price: 0,
-        status: "uncompleted",
+        status: "Brouillon",
       })
       .then((response) => {
         backendAPI.put(
-          `api/employers/${coordinatorId}/annonce/${response.data.id}`,
+          `/api/coordinator/${coordinatorId}/annonce/${response.data.id}`,
           { title: `Nouvelle Annonce #${response.data.id}` }
         );
         navigate(

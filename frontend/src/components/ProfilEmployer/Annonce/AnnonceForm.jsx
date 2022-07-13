@@ -1,7 +1,6 @@
 import axios from "axios";
 import {
   Flex,
-  Heading,
   Stack,
   VStack,
   FormControl,
@@ -38,7 +37,7 @@ import Header from "../../Header/Header";
 import Footer from "../../Footer";
 import backendAPI from "../../../services/backendAPI";
 
-export default function AnnonceForm() {
+export default function AnnonceForm({ updated, setUpdated }) {
   const toast = useToast();
   const navigate = useNavigate();
   const [title, setTitle] = useState("");
@@ -52,8 +51,10 @@ export default function AnnonceForm() {
   const [servicesList, setServicesList] = useState([]);
   const [serviceName, setServiceName] = useState([]);
   const [serviceNumber, setServiceNumber] = useState([]);
+  const [families, setFamilies] = useState([]);
+  const [currentFamily, setCurrentFamily] = useState(0);
 
-  const { employerId, annonceId } = useParams();
+  const { employerId, annonceId, coordinatorId } = useParams();
 
   const [cityPro, setCityPro] = useState("");
   const [cityProName, setCityProName] = useState("");
@@ -93,43 +94,95 @@ export default function AnnonceForm() {
       .then((result) => setTitlePlaceHolder(result.data.title));
   });
 
+  useEffect(() => {
+    backendAPI
+      .get(`/api/coordinators/${coordinatorId}/familles`)
+      .then((res) => {
+        setFamilies(res.data);
+      });
+  }, []);
+
   const updateEmergency = (e) => {
     setEmergency(e.target.checked);
   };
 
+  const addFamily = (e) => {
+    setCurrentFamily(parseInt(e.target.value, 10));
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    backendAPI
-      .put(`/api/employers/${employerId}/annonce/${annonceId}`, {
-        title,
-        description,
-        zipCode: cityPro,
-        emergency,
-        price,
-        status: "En attente de validation",
-      })
-      .then(() => {
-        navigate(`/profil-employer/${employerId}`);
-      })
-      .then(() =>
-        toast({
-          title: "Votre annonce a bien été crée",
-          status: "success",
-          position: "bottom-right",
-          duration: 7000,
-          isClosable: true,
+    if (coordinatorId !== "undefined") {
+      backendAPI
+        .put(`/api/coordinator/${coordinatorId}/annonce/${annonceId}`, {
+          title,
+          description,
+          zipCode: cityPro,
+          emergency,
+          price,
+          status: "En cours",
+          familyId: currentFamily,
         })
-      )
-      .catch((e) => {
-        console.error(e);
-        toast({
-          title: "Votre annonce n'a pas pu être ajoutée",
-          status: "error",
-          position: "bottom-right",
-          duration: 7000,
-          isClosable: true,
+        .then(() => {
+          navigate(`/profil-coordinator/${coordinatorId}`);
+        })
+        .then(() =>
+          toast({
+            title: "Votre annonce a bien été crée",
+            status: "success",
+            position: "bottom-right",
+            duration: 7000,
+            isClosable: true,
+          })
+        )
+        .catch((e) => {
+          console.error(e);
+          toast({
+            title: "Votre annonce n'a pas pu être ajoutée",
+            status: "error",
+            position: "bottom-right",
+            duration: 7000,
+            isClosable: true,
+          });
         });
-      });
+      setUpdated(!updated);
+    }
+
+    if (employerId !== "undefined") {
+      backendAPI
+        .put(`/api/employers/${employerId}/annonce/${annonceId}`, {
+          title,
+          description,
+          zipCode: cityPro,
+          emergency,
+          price,
+          status: "En cours",
+        })
+        .then(() => {
+          navigate(
+            `/deposer-une-annonce/${employerId}/annonce/${annonceId}/choix-professionnels`
+          );
+        })
+        .then(() =>
+          toast({
+            title: "Votre annonce a bien été crée",
+            status: "success",
+            position: "bottom-right",
+            duration: 7000,
+            isClosable: true,
+          })
+        )
+        .catch((e) => {
+          console.error(e);
+          toast({
+            title: "Votre annonce n'a pas pu être ajoutée",
+            status: "error",
+            position: "bottom-right",
+            duration: 7000,
+            isClosable: true,
+          });
+        });
+    }
   };
 
   const handleCancel = (event) => {
@@ -189,9 +242,16 @@ export default function AnnonceForm() {
     if (nameService !== "" && !serviceName.includes(nameService)) {
       setServiceName([...serviceName, nameService]);
       setServiceNumber([...serviceNumber, e.target.value]);
-      backendAPI.post(
-        `/api/employer/${employerId}/annonce/${annonceId}/services/${e.target.value}`
-      );
+      if (coordinatorId !== "undefined") {
+        backendAPI.post(
+          `/api/coordinator/${coordinatorId}/annonce/${annonceId}/services/${e.target.value}`
+        );
+      }
+      if (employerId !== "undefined") {
+        backendAPI.post(
+          `/api/employer/${employerId}/annonce/${annonceId}/services/${e.target.value}`
+        );
+      }
     }
   };
 
@@ -216,14 +276,12 @@ export default function AnnonceForm() {
   const updateLocation = (e) => {
     if (e.target.checked && !locationList.includes(e.target.value)) {
       setLocationList([...locationList, e.target.value]);
-      backendAPI.post(
-        `/api/employer/${employerId}/annonce/${annonceId}/locations/${e.target.value}`
-      );
+      backendAPI.post(`/api/annonce/${annonceId}/locations/${e.target.value}`);
     } else if (!e.target.checked) {
       locationList.splice(locationList.indexOf(e.target.value), 1);
 
       backendAPI.delete(
-        `/api/employer/${employerId}/annonce/${annonceId}/locations/${e.target.value}`
+        `/api/annonce/${annonceId}/locations/${e.target.value}`
       );
     }
   };
@@ -251,13 +309,30 @@ export default function AnnonceForm() {
         bgColor="background.gray"
         direction="column"
         justify="flex-start"
-        paddingTop="100px"
+        paddingTop="150px"
+        paddingBottom="50px"
+        gap="50px"
       >
+        <Flex direction="column" gap="10px" alignItems="center">
+          <Text
+            as="h2"
+            color="purple.average"
+            w={{ base: "95%", lg: "80%" }}
+            fontSize="1.5em"
+            fontWeight="700"
+            m="auto"
+            align="center"
+          >
+            Étape 1 : Détaillez votre annonce
+          </Text>
+          <Text color="purple.average">
+            Trouvez un professionnel du handicap adapté à vos besoins
+          </Text>
+        </Flex>
         <FormControl
           alignSelf="center"
           dir="column"
           mx="10%"
-          my="5%"
           className="employerForm"
           bgColor="white"
           maxWidth="900px"
@@ -273,16 +348,6 @@ export default function AnnonceForm() {
             margin="auto"
             maxW="95%"
           >
-            <Heading
-              as="h2"
-              textAlign="left"
-              fontSize="1.2rem"
-              fontWeight="600"
-              color="purple.average"
-            >
-              Détaillez votre besoin et trouvez un professionnel du handicap
-              adapté
-            </Heading>
             <VStack alignItems="left">
               <FormLabel
                 htmlFor="name"
@@ -305,6 +370,24 @@ export default function AnnonceForm() {
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
               />
+              {coordinatorId ? (
+                <Select
+                  border="none"
+                  type="text"
+                  id="formProService"
+                  name="Service"
+                  fontSize="0.8rem"
+                  fontWeight="500"
+                  color="gray"
+                  placeholder="Quelle est la famille concernée ?"
+                  onChange={addFamily}
+                >
+                  {families.map((family) => (
+                    <option value={family.id}>{family.lastname}</option>
+                  ))}
+                </Select>
+              ) : null}
+
               <FormLabel
                 htmlFor="description"
                 fontSize="md"
@@ -367,7 +450,7 @@ export default function AnnonceForm() {
                       id="proFormCity"
                       name="city"
                       variant="outline"
-                      autocomplete="off"
+                      autoComplete="off"
                       bgColor="white"
                       h="50px"
                       fontSize="0.9rem"
@@ -391,6 +474,7 @@ export default function AnnonceForm() {
                       <Flex direction="column" w="-webkit-fill-available">
                         {addressList.map((city) => (
                           <ListItem
+                            key={city.id}
                             onClick={() => {
                               if (city.properties.citycode) {
                                 setCityProName(city.properties.name);
@@ -515,7 +599,9 @@ export default function AnnonceForm() {
                   }
                 >
                   {servicesList.map((element) => (
-                    <option value={element.id}>{element.name}</option>
+                    <option key={element.id} value={element.id}>
+                      {element.name}
+                    </option>
                   ))}
                 </Select>
               </Box>
@@ -584,7 +670,7 @@ export default function AnnonceForm() {
                 w="fit-content%"
               >
                 {locations.map((element) => (
-                  <CheckboxGroup>
+                  <CheckboxGroup key={element.id}>
                     <Checkbox
                       defaultChecked
                       iconColor="pink.light"
@@ -635,7 +721,7 @@ export default function AnnonceForm() {
                   marginTop="2rem"
                   onClick={handleSubmit}
                 >
-                  J'ai terminé, je dépose mon annonce
+                  Suivant{" "}
                 </Button>
                 <Button
                   variant="outline_Pink"

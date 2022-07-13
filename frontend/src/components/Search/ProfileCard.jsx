@@ -101,7 +101,7 @@ export default function ProfileCard({ freelancer }) {
             </Flex>
           </Flex>
         </Flex>
-        <Link to={`/profil/${freelancer.id}`}>
+        <Link to={`/profil/${freelancer.id}`} target="_blank">
           <Button variant="solid_PrimaryColor">Voir le profil</Button>
         </Link>
       </Flex>

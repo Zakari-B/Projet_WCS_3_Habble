@@ -23,6 +23,7 @@ const FreelancerExpertisesController = require("./controllers/FreelancerExpertis
 const PictureFreelancerController = require("./controllers/PictureFreelancerController");
 const AnnonceLieuController = require("./controllers/AnnonceLieuController");
 const PictureEmployerController = require("./controllers/PictureEmployerController");
+const PictureCoordinatorController = require("./controllers/PictureCoordinateurController");
 
 const {
   authorization,
@@ -60,9 +61,14 @@ router.post(
 );
 
 router.post("/mail/contact", mailController.contact);
+router.post(
+  "/mail/freelancerAnnonceMatch",
+  mailController.freelancerAnnonceMatch
+);
+router.post("/mail/freelancerNoMatch", mailController.freelancerNoMatch);
 
 router.get("/users", UserController.getAll);
-router.get("/users/:id", authorization, UserController.getOne);
+router.get("/users/:id", UserController.getOne);
 router.put("/users/", authorization, UserController.updateOne);
 router.put("/users/:id", authorization, authSelf, UserController.updateOne);
 router.delete("/users/:id", UserController.deleteOne);
@@ -74,6 +80,11 @@ router.get("/freelancers/:id/user", FreelancerController.getUser);
 // Routes for Freelancers
 router.get("/freelancers/", FreelancerController.getAll);
 router.get("/freelancers/search", FreelancerController.getAllWithinDistance);
+router.get(
+  "/freelancers/search/filtered",
+  FreelancerController.getAllWithinFixedDistanceAndServices
+);
+
 router.get(
   "/freelancers/:freelancerid/city",
   authorization,
@@ -96,35 +107,6 @@ router.get(
   authorization,
   FreelancerController.getUser
 );
-// route delete a valider (si besoin)
-
-// Routes for Coordinators
-router.get("/coordinators/", authorization, CoordinatorController.getAll);
-router.get("/coordinators/:id", authorization, CoordinatorController.getOne);
-router.get(
-  "/coordinator/:coordinatorId/user",
-  authorization,
-  CoordinatorController.getUserFromCoordinator
-);
-
-router.get(
-  "/coordinator/:coordinatorId/city",
-  authorization,
-  CoordinatorController.getOneCoordinatorWithCityInfo
-);
-
-router.put(
-  "/coordinators/:id",
-  authorization,
-  authSelfRole,
-  CoordinatorController.updateOne
-);
-
-router.get(
-  "/coordinator/:coordinatorId/user",
-  authorization,
-  CoordinatorController.getUser
-);
 
 // Routes for freelancer's picture
 router.put(
@@ -139,6 +121,43 @@ router.put(
   authorization,
   multer,
   PictureFreelancerController.removeOne
+);
+
+// Routes for Coordinators
+router.get("/coordinators/", authorization, CoordinatorController.getAll);
+router.get("/coordinators/:id", authorization, CoordinatorController.getOne);
+router.get(
+  "/coordinator/:coordinatorId/user",
+  authorization,
+  CoordinatorController.getUserFromCoordinator
+);
+
+router.put(
+  "/coordinators/:coordinatorid",
+  authorization,
+  authSelfRole,
+  CoordinatorController.updateOne
+);
+
+router.get(
+  "/coordinators/:coordinatorid/city",
+  authorization,
+  CoordinatorController.getOneCoordinatorWithCityInfo
+);
+
+// Routes for coordinator's picture
+router.put(
+  "/coordinators/:id/picture",
+  authorization,
+  multer,
+  PictureCoordinatorController.updateOne
+);
+
+router.put(
+  "/coordinators/:id/removedPicture",
+  authorization,
+  multer,
+  PictureCoordinatorController.removeOne
 );
 
 // Routes for Employers
@@ -172,7 +191,7 @@ router.get(
 );
 router.get(
   "/coordinator/:coordinatorId/documents",
-  // authorization,
+  authorization,
   DocumentsController.getAllByCoordinatorId
 );
 router.get(
@@ -406,19 +425,22 @@ router.delete(
 router.post(
   "/coordinator/:coordinatorId/annonce",
   authorization,
-  AnnonceController.createOne
+  AnnonceController.createOneByCoordinatorId
 );
 router.get(
   "/coordinator/:coordinatorId/annonces",
+  authorization,
   AnnonceController.getAllByCoordinatorId
 );
 router.put(
   "/coordinator/:coordinatorId/annonce/:id",
+  authorization,
   AnnonceController.updateOneByCoordinatorId
 );
 router.delete(
   "/coordinator/:coordinatorId/annonce/:id",
-  AnnonceController.deleteOne
+  authorization,
+  AnnonceController.deleteOneByCoordinatorId
 );
 
 // Routes for offers
@@ -498,17 +520,17 @@ router.delete("/locations/:locationId", LieuController.deleteOne);
 // routes for lieux annonces
 
 router.get(
-  "/employer/:employerId/annonce/:annonceId/locations",
+  "/annonce/:annonceId/locations",
   AnnonceLieuController.getAllByAnnonceId
 );
 
 router.post(
-  "/employer/:employerId/annonce/:annonceId/locations/:locationId",
+  "/annonce/:annonceId/locations/:locationId",
   AnnonceLieuController.createOne
 );
 
 router.delete(
-  "/employer/:employerId/annonce/:annonceId/locations/locationId",
+  "/annonce/:annonceId/locations/locationId",
   AnnonceLieuController.deleteOne
 );
 

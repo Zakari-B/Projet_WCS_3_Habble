@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import AnnonceCard from "./AnnonceCard";
 import backendAPI from "../../../services/backendAPI";
 
-export default function AnnonceCarousel(updated, setUpdated) {
+export default function AnnonceCarousel({ updated, setUpdated }) {
   const { employerId } = useParams();
   const navigate = useNavigate();
   const [announcements, setAnnouncements] = useState([]);
@@ -25,7 +25,7 @@ export default function AnnonceCarousel(updated, setUpdated) {
         zipCode: "00000",
         emergency: false,
         price: 0,
-        status: "uncompleted",
+        status: "Brouillon",
       })
       .then((response) => {
         backendAPI.put(
@@ -44,7 +44,7 @@ export default function AnnonceCarousel(updated, setUpdated) {
 
   useEffect(() => {
     getannouncements();
-  }, []);
+  }, [updated]);
 
   return (
     <Flex
@@ -72,7 +72,7 @@ export default function AnnonceCarousel(updated, setUpdated) {
           </Text>
         ) : (
           announcements
-            .filter((ann) => ann.status !== "uncompleted")
+            // .filter((ann) => ann.status !== "uncompleted")
             .map((annonce) => (
               <AnnonceCard
                 annonce={annonce}

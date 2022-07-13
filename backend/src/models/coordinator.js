@@ -32,11 +32,10 @@ exports.findOneCoordinatorByUserId = async (id) => {
     await prisma.$disconnect();
   }
 };
-
-exports.findOneCoordinator = async (coordinatorId) => {
+exports.findOneCoordinator = async (coordinatorid) => {
   try {
     return await prisma.coordinator.findUnique({
-      where: { id: coordinatorId },
+      where: { id: coordinatorid },
     });
   } finally {
     await prisma.$disconnect();
@@ -65,11 +64,11 @@ exports.updateOneCoordinator = async (coordinatorId, data) => {
   }
 };
 
-exports.getAllCoordinatorsProfileInfo = async (coordinatorId) => {
+exports.getAllCoordinatorsProfileInfo = async (coordinatorid) => {
   try {
     return await prisma.coordinator.findUnique({
       where: {
-        id: coordinatorId,
+        id: coordinatorid,
       },
     });
   } finally {

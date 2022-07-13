@@ -10,17 +10,11 @@ import {
   Button,
   Text,
   Divider,
-  NumberInput,
-  NumberInputField,
-  NumberInputStepper,
-  NumberIncrementStepper,
-  NumberDecrementStepper,
   TagCloseButton,
   Textarea,
   Checkbox,
   Tag,
   TagLeftIcon,
-  Link,
   useToast,
   InputGroup,
   IconButton,
@@ -30,25 +24,23 @@ import {
 } from "@chakra-ui/react";
 import { Search2Icon } from "@chakra-ui/icons";
 import { MdRoom } from "react-icons/md";
-import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
-import Services from "./Services";
-import Epertises from "./Expertises";
-import PictureProfilePro from "./PictureProfilPro";
-import backendAPI from "../../services/backendAPI";
+import PictureProfilCoordinator from "./PictureProfilCoordinator";
+import backendAPI from "../../../services/backendAPI";
 
-export default function ProAccountForm({ onModal = false, onClose }) {
-  const navigate = useNavigate();
+export default function ProAccountForm({
+  isOpen,
+  onClose,
+  coordinator,
+  updated,
+  setUpdated,
+}) {
   const toast = useToast();
-  const { freelancerId } = useParams();
+
   // useState pour chaque input //
-  const [user, setUser] = useState("");
-  const [freelancerPicture, setFreelancerPicture] = useState("");
   const [displayName, setDisplayName] = useState("");
   const [activityPro, setActivityPro] = useState("");
   const [phonePro, setPhonePro] = useState("");
-  const [experienceYearPro, setExperienceYearPro] = useState();
-  const [pricePro, setPricePro] = useState();
   const [descriptionPro, setDescriptionPro] = useState("");
   const [acceptEmailPro, setAcceptEmailPro] = useState(false);
   const [siretPro, setSiretPro] = useState();
@@ -57,6 +49,7 @@ export default function ProAccountForm({ onModal = false, onClose }) {
   const [cityProName, setCityProName] = useState("");
   const [search, setSearch] = useState("");
   const [addressList, setAddressList] = useState([]);
+
   const getAddressList = (signal) => {
     axios
       .get(
@@ -80,75 +73,41 @@ export default function ProAccountForm({ onModal = false, onClose }) {
       getAddressList(signal);
     }
   }, [search]);
+
+  useEffect(() => {
+    setDisplayName(coordinator.displayName);
+    setActivityPro(coordinator.activityDescription);
+    setPhonePro(coordinator.phone);
+    setDescriptionPro(coordinator.description);
+    setAcceptEmailPro(coordinator.acceptEmails);
+    setSiretPro(coordinator.siret);
+    backendAPI
+      .get(`/api/coordinators/${coordinator.id}/city`)
+      .then((response) => {
+        setCityPro(response.data[0].zipCode);
+        setCityProName(response.data[0].ville_nom);
+      });
+  }, [isOpen]);
+
   const handleSearch = (event) => {
     setSearch(event.target.value);
   };
-  // Appel axios pour récuperer un user
 
-  const getOneUser = () => {
-    backendAPI.get(`/api/freelancers/${freelancerId}/user`).then((response) => {
-      setUser(response.data);
-      setFreelancerPicture(response.data.freelancer.picture);
-      setDisplayName(
-        response.data.freelancer.displayName === "undefined"
-          ? ""
-          : response.data.freelancer.displayName
-      );
-      setActivityPro(
-        response.data.freelancer.activityDescription === "undefined"
-          ? ""
-          : response.data.freelancer.activityDescription
-      );
-      setPhonePro(response.data.freelancer.phone);
-      setExperienceYearPro(
-        response.data.freelancer.experienceYear === 0
-          ? ""
-          : response.data.freelancer.experienceYear
-      );
-      setPricePro(
-        response.data.freelancer.price === 0
-          ? ""
-          : response.data.freelancer.price
-      );
-      setDescriptionPro(
-        response.data.freelancer.description === "undefined"
-          ? ""
-          : response.data.freelancer.description
-      );
-      setAcceptEmailPro(response.data.freelancer.acceptEmail);
-      setSiretPro(response.data.freelancer.siret);
-    });
-    backendAPI.get(`/api/freelancers/${freelancerId}/city`).then((response) => {
-      setCityPro(response.data[0].zipCode);
-      setCityProName(response.data[0].ville_nom);
-    });
-  };
+  // Appel axios pour mettre à jour le coordinateur avec ses informations
 
-  useEffect(() => {
-    getOneUser();
-  }, []);
-
-  // Appel axios pour mettre à jour le freelancer avec ses informations et le user associé si profil complet
-
-  const updateFreelancerCompletedProfile = (event) => {
-    event.preventDefault();
-    const userId = user.id;
+  const updateCoordinatorProfile = (e) => {
+    e.preventDefault();
     backendAPI
-      .put(`/api/freelancers/${freelancerId}`, {
+      .put(`/api/coordinators/${coordinator.id}`, {
         displayName,
         activityDescription: activityPro,
         zipCode: cityPro,
         phone: phonePro,
-        experienceYear: experienceYearPro,
-        price: pricePro,
         description: descriptionPro,
         acceptEmails: acceptEmailPro,
         siret: siretPro,
       })
       .then((response) => {
-        backendAPI.put(`/api/users/${userId}`, {
-          profileIsComplete: true,
-        });
         if (response) {
           toast({
             title: "Vos données ont bien été enregistrées.",
@@ -157,64 +116,21 @@ export default function ProAccountForm({ onModal = false, onClose }) {
             position: "bottom-right",
             isClosable: true,
           });
-          if (onModal === false) {
-            navigate(`/profil/${freelancerId}`);
-          } else {
-            onClose();
-          }
+          setUpdated(!updated);
+          onClose();
         }
       })
-      .catch((e) => {
-        console.error(e);
-        if (e.message === "Request failed with status code 422") {
+      .catch((error) => {
+        if (error) {
           toast({
-            title: "Veuillez compléter tous les champs obligatoires",
+            title: "Veuillez renseigner tous les champs obligatoires",
             status: "error",
-            description: `${e.response.data[0].message}`,
-            duration: 7000,
-            position: "bottom-right",
-            isClosable: true,
-          });
-        } else {
-          toast({
-            title: "Votre compte n'a pas pu être créé",
-            status: "error",
-            position: "bottom-right",
-            duration: 7000,
-            isClosable: true,
-          });
-        }
-      });
-  };
-
-  // Appel axios pour mettre à jour le freelancer avec ses informations si profil incomplet
-
-  const updateFreelancerUncompletedProfile = (e) => {
-    e.preventDefault();
-    backendAPI
-      .put(`/api/freelancers/${freelancerId}`, {
-        displayName: displayName === "" ? "undefined" : displayName,
-        activityDescription: activityPro === "" ? "undefined" : activityPro,
-        zipCode: cityPro === "" ? "undefined" : cityPro,
-        phone: phonePro,
-        experienceYear: experienceYearPro === "" ? 0 : experienceYearPro,
-        price: pricePro === "" ? 0 : pricePro,
-        description: descriptionPro === "" ? "undefined" : descriptionPro,
-        acceptEmails: acceptEmailPro,
-        siret: siretPro,
-      })
-      .then((response) => {
-        if (response) {
-          toast({
-            title: "Vos données ont bien été sauvgardées.",
-            description: "N'hésitez pas à revenir completer votre profil !",
-            status: "success",
             duration: 7000,
             position: "bottom-right",
             isClosable: true,
           });
         }
-        navigate("/");
+        console.warn(error);
       });
   };
 
@@ -331,6 +247,9 @@ export default function ProAccountForm({ onModal = false, onClose }) {
                         autocomplete="off"
                         bgColor="white"
                         h="50px"
+                        fontSize="0.9rem"
+                        fontWeight="400"
+                        zIndex={100}
                         placeholder="Veuillez saisir un code postal et selectionnez une ville dans la liste"
                         value={search}
                         onChange={handleSearch}
@@ -343,7 +262,6 @@ export default function ProAccountForm({ onModal = false, onClose }) {
                         width="100%"
                         borderRadius="4px"
                         overflow="hidden"
-                        zIndex="997"
                         boxShadow="rgb(0 0 0 / 4%) 0px 2px 6px"
                         border="1px solid #ededed"
                       >
@@ -352,8 +270,8 @@ export default function ProAccountForm({ onModal = false, onClose }) {
                             <ListItem
                               onClick={() => {
                                 if (city.properties.citycode) {
-                                  setCityPro(city.properties.citycode);
                                   setCityProName(city.properties.name);
+                                  setCityPro(city.properties.citycode);
                                   setSearch("");
                                 }
                               }}
@@ -443,146 +361,63 @@ export default function ProAccountForm({ onModal = false, onClose }) {
                 />
               </VStack>
             </FormControl>
-            <PictureProfilePro freelancerPicture={freelancerPicture} />
+            <PictureProfilCoordinator coordinator={coordinator} />
           </Flex>
           <FormControl>
-            <Flex direction="column" rowGap="5" mt="1rem">
-              <Flex
-                justifyContent="left"
-                gap="3"
-                flexWrap="wrap"
-                h="fit-content"
-                w="fit-content%"
-              >
-                <FormLabel
-                  htmlFor="experience"
-                  fontSize="md"
-                  fontWeight="800"
-                  color="purple.average"
-                  my="auto"
-                >
-                  Depuis combien d'années exercez-vous ? *
-                </FormLabel>
-                <Flex justifyContent="left" gap="3">
-                  <NumberInput
-                    max={50}
-                    min={0}
-                    w="80px"
-                    value={experienceYearPro}
-                    onChange={(value) =>
-                      setExperienceYearPro(parseInt(value, 10))
-                    }
-                  >
-                    <NumberInputField
-                      id="proFormexperience"
-                      name="experience"
-                      placeholder="7"
-                      fontSize="0.9rem"
-                      _placeholder={{ fontSize: "0.9rem" }}
-                    />
-                    <NumberInputStepper>
-                      <NumberIncrementStepper />
-                      <NumberDecrementStepper />
-                    </NumberInputStepper>
-                  </NumberInput>
-                  <Text my="auto" fontSize="0.9rem">
-                    {" "}
-                    ans d'expérience
-                  </Text>
-                </Flex>
-              </Flex>
-              <Flex
-                justifyContent="left"
-                gap="3"
-                flexWrap="wrap"
-                h="fit-content"
-                w="fit-content%"
-              >
-                <FormLabel
-                  htmlFor="price"
-                  fontSize="md"
-                  fontWeight="800"
-                  color="purple.average"
-                  my="auto"
-                >
-                  Quel est le prix moyen de vos prestations ? *
-                </FormLabel>
-                <Flex justifyContent="left" gap="3">
-                  <NumberInput
-                    min={0}
-                    w="80px"
-                    value={pricePro === 0 ? "" : pricePro}
-                    onChange={(value) => {
-                      setPricePro(parseFloat(value));
-                    }}
-                  >
-                    <NumberInputField
-                      id="proFormPrice"
-                      name="price"
-                      placeholder="25"
-                      fontSize="0.9rem"
-                      _placeholder={{ fontSize: "0.9rem" }}
-                    />
-                    <NumberInputStepper>
-                      <NumberIncrementStepper />
-                      <NumberDecrementStepper />
-                    </NumberInputStepper>
-                  </NumberInput>
-                  <Text my="auto" fontSize="0.9rem">
-                    {" "}
-                    €/h (indicatif)
-                  </Text>
-                </Flex>
-              </Flex>
-              <FormLabel
-                htmlFor="presentation"
-                fontSize="md"
-                fontWeight="800"
-                color="purple.average"
-              >
-                Présentez-vous en quelques mots *
-              </FormLabel>
-              <Textarea
-                h="auto"
-                placeholder="Bonjour,
+            <FormLabel
+              htmlFor="presentation"
+              fontSize="md"
+              fontWeight="800"
+              color="purple.average"
+            >
+              Présentez-vous en quelques mots *
+            </FormLabel>
+            <Textarea
+              h="auto"
+              placeholder="Bonjour,
                 je m'appelle Sandra, j'ai 37 ans. je suis éducatrice spécialisée diplômée, j'ai plusieurs expériences auprès des enfants, des personnes en situation de handicap, des personnes en difficultés sociales. J'ai également de l'expérience dans la garde d'enfants, dans les cours à domicile et le soutien scolaire.
                 Je possède deux chats et j'adore m'occuper des animaux. Je possède le permis B.
                 (30 caractères minimum)"
-                _placeholder={{
-                  lineHeight: "1.5",
-                  fontSize: "0.8rem",
-                  fontWeight: "500",
-                  color: "gray",
-                }}
-                value={descriptionPro}
-                onChange={(e) => setDescriptionPro(e.target.value)}
-              />
-
-              <FormLabel
-                htmlFor="services"
-                fontSize="md"
-                fontWeight="800"
-                color="purple.average"
-              >
-                Sélectionnez un ou plusieurs services que vous proposez *
-              </FormLabel>
-              <Services />
-            </Flex>
+              _placeholder={{
+                lineHeight: "1.5",
+                fontSize: "0.8rem",
+                fontWeight: "500",
+                color: "gray",
+              }}
+              value={descriptionPro}
+              onChange={(e) => setDescriptionPro(e.target.value)}
+            />
           </FormControl>
-          <Checkbox
-            iconColor="pink.light"
-            colorScheme="white"
-            borderColor="gray"
-            _checked={{ borderColor: "pink.light" }}
-            onChange={() => setAcceptEmailPro(!acceptEmailPro)}
-          >
-            <Text fontSize="sm">
-              {" "}
-              Envoyez moi par email les annonces en rapport avec les services
-              que je propose
-            </Text>
-          </Checkbox>
-          <Epertises />
+          {coordinator.acceptEmails ? (
+            <Checkbox
+              defaultChecked
+              iconColor="pink.light"
+              colorScheme="white"
+              borderColor="gray"
+              _checked={{ borderColor: "pink.light" }}
+              onChange={() => setAcceptEmailPro(!acceptEmailPro)}
+            >
+              <Text fontSize="sm">
+                {" "}
+                Envoyez moi par email les annonces en rapport avec les services
+                que je propose
+              </Text>
+            </Checkbox>
+          ) : (
+            <Checkbox
+              iconColor="pink.light"
+              colorScheme="white"
+              borderColor="gray"
+              _checked={{ borderColor: "pink.light" }}
+              onChange={() => setAcceptEmailPro(!acceptEmailPro)}
+            >
+              <Text fontSize="sm">
+                {" "}
+                Envoyez moi par email les annonces en rapport avec les services
+                que je propose
+              </Text>
+            </Checkbox>
+          )}
           <FormLabel
             htmlFor="company"
             fontSize="md"
@@ -609,66 +444,32 @@ export default function ProAccountForm({ onModal = false, onClose }) {
               fontWeight: "500",
               color: "gray",
             }}
-            value={siretPro === "" ? "" : siretPro}
-            onChange={(e) => setSiretPro(e.target.value)}
+            value={siretPro === 0 ? "" : siretPro}
+            onChange={(e) => setSiretPro(parseInt(e.target.value, 10))}
           />
           <Text fontSize="xs" color="gray.light">
             Le numéro de Siret est un identifiant de 14 chiffres (exemple :
             12002701600357)
           </Text>
-          {onModal === false ? (
-            <>
-              <Button
-                variant="solid_PrimaryColor"
-                type="submit"
-                onClick={updateFreelancerCompletedProfile}
-              >
-                Enregistrer
-              </Button>
-              <Button
-                bg="transparent"
-                border="2px solid"
-                fontWeight="500"
-                borderColor="pink.light"
-                color="pink.light"
-                _hover={{ bgcolor: "white" }}
-                type="submit"
-                onClick={updateFreelancerUncompletedProfile}
-              >
-                Sauvegarder les informations
-              </Button>
-              <Link
-                href="/"
-                textAlign="left"
-                fontSize="xs"
-                fontWeight="600"
-                w="100px"
-              >
-                Annulez
-              </Link>
-            </>
-          ) : (
-            <>
-              <Button
-                variant="solid_PrimaryColor"
-                type="submit"
-                onClick={updateFreelancerCompletedProfile}
-              >
-                Enregistrer
-              </Button>
-              <Button
-                bgColor="white"
-                _hover={{ bgColor: "white" }}
-                onClick={onClose}
-                textAlign="left"
-                fontSize="xs"
-                fontWeight="600"
-                w="100px"
-              >
-                Annulez
-              </Button>
-            </>
-          )}
+
+          <Button
+            variant="solid_PrimaryColor"
+            type="submit"
+            onClick={updateCoordinatorProfile}
+          >
+            Enregistrer
+          </Button>
+          <Button
+            bgColor="white"
+            _hover={{ bgColor: "white" }}
+            onClick={onClose}
+            textAlign="left"
+            fontSize="xs"
+            fontWeight="600"
+            w="100px"
+          >
+            Annulez
+          </Button>
           <Divider />
           <Text
             fontSize="xs"

@@ -38,6 +38,7 @@ export default function Header({
   const [data, setData] = useState();
   const [freelancerPicture, setFreelancerPicture] = useState();
   const [employerPicture, setEmployerPicture] = useState();
+  const [coordinatorPicture, setCoordinatorPicture] = useState();
 
   const navigate = useNavigate();
 
@@ -72,6 +73,11 @@ export default function Header({
             backendAPI
               .get(`/api/employers/${res.data.roleId}`)
               .then((response) => setEmployerPicture(response.data.picture));
+          }
+          if (res.data.userRole === "coordinator") {
+            backendAPI
+              .get(`/api/coordinators/${res.data.roleId}`)
+              .then((response) => setCoordinatorPicture(response.data.picture));
           }
         })
         .catch((err) => console.error(err));
@@ -164,6 +170,21 @@ export default function Header({
                       border="1px solid gray.200"
                     />
                   )}
+                  {data && data.data.userRole === "coordinator" && (
+                    <Image
+                      src={
+                        coordinatorPicture
+                          ? `${
+                              import.meta.env.VITE_BACKEND_URL
+                            }/uploads/${coordinatorPicture}`
+                          : "https://secure.gravatar.com/avatar/c308ee24184a32cdf10650eb7e311157?s=125&d=mm&r=G"
+                      }
+                      height="40px"
+                      width="40px"
+                      borderRadius="100%"
+                      border="1px solid gray.200"
+                    />
+                  )}
                   {data && `${data.data.firstname} ${data.data.lastname}`}
                   <ChevronDownIcon />
                 </Flex>
@@ -194,6 +215,11 @@ export default function Header({
                       if (data.data.userRole === "employer") {
                         navigate(
                           `/profil-employer/${data.data.roleId}/mes-annonces`
+                        );
+                      }
+                      if (data.data.userRole === "coordinator") {
+                        navigate(
+                          `/profil-coordinator/${data.data.roleId}/mes-annonces`
                         );
                       }
                     }}
