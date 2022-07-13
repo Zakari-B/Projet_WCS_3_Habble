@@ -17,6 +17,8 @@ import AnnonceForm from "./components/ProfilEmployer/Annonce/AnnonceForm";
 import ProfilPageEmployer from "./pages/ProfilPageEmployer";
 import AnnoncesPageEmployer from "./pages/AnnoncesPageEmployer";
 import Logout from "./pages/Logout";
+import PasswordResetForm from "./pages/PasswordReset";
+import Administrator from "./pages/Administrator";
 import ProfilPageCoordinator from "./pages/ProfilPageCoordinator";
 import ProAnnonces from "./pages/ProAnnonces";
 import FamilyOverview from "./pages/FamilyOverview";
@@ -75,6 +77,9 @@ function App() {
           element={<AnnoncesPageEmployer />}
         />
         <Route path="/logout" element={<Logout />} />
+
+        <Route path="/passwordReset" element={<PasswordResetForm />} />
+        <Route path="/habbleAdministrationPanel" element={<Administrator />} />
         <Route
           path="/profil/:freelancerId/mes-annonces"
           element={<ProAnnonces />}

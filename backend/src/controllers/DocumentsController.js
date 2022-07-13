@@ -8,6 +8,7 @@ const {
   getOneDocumentByCoordinatorId,
   getOneDocumentByCoordinatorIdAndFamilyId,
   deleteOneDocument,
+  verifyOneDocument,
 } = require("../models/documents");
 
 const getAll = async (req, res) => {
@@ -131,6 +132,20 @@ const deleteOneByFamily = async (req, res) => {
   }
 };
 
+const verify = async (req, res) => {
+  const { verified } = req.body;
+  const docId = parseInt(req.params.docId, 10);
+  try {
+    const verifiedDoc = await verifyOneDocument(docId, verified);
+    return res.status(200).send(verifiedDoc);
+  } catch (e) {
+    console.error(e);
+    return res
+      .status(500)
+      .json({ error: "Problème rencontré lors de la vérification" });
+  }
+};
+
 module.exports = {
   getAll,
   getAllByCoordinatorId,
@@ -138,4 +153,5 @@ module.exports = {
   deleteOne,
   deleteOneByCoordinatorId,
   deleteOneByFamily,
+  verify,
 };

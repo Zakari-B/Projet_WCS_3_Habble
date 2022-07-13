@@ -5,6 +5,7 @@ const {
   findOneCoordinator,
   getUserFromCoordinator,
   updateOneCoordinator,
+  getOneCoordinatorWithCity,
 } = require("../models/coordinator");
 
 const { validateCoordinator } = require("../utils/validate");
@@ -39,19 +40,6 @@ exports.createOne = async (req, res, next) => {
   return null;
 };
 
-exports.getOne = async (req, res) => {
-  const coordinatorId = parseInt(req.params.id, 10);
-  try {
-    const coordinator = await getAllCoordinatorsProfileInfo(coordinatorId);
-    if (!coordinator) {
-      return res.status(404).send(`Coordinator ${coordinatorId} not found.`);
-    }
-    return res.status(200).json(coordinator);
-  } catch (e) {
-    return res.status(500).send(e);
-  }
-};
-
 exports.getAll = async (req, res) => {
   try {
     const freelancers = await getAllCoordinators();
@@ -83,6 +71,19 @@ exports.getUserFromCoordinator = async (req, res) => {
   }
 };
 
+exports.getOne = async (req, res) => {
+  const coordinatorId = parseInt(req.params.id, 10);
+  try {
+    const coordinator = await getAllCoordinatorsProfileInfo(coordinatorId);
+    if (!coordinator) {
+      return res.status(404).send(`Coordinator ${coordinatorId} not found.`);
+    }
+    return res.status(200).json(coordinator);
+  } catch (e) {
+    return res.status(500).send(e);
+  }
+};
+
 exports.updateOne = async (req, res) => {
   const coordinatorId = parseInt(req.params.coordinatorid, 10);
   const error = validateCoordinator(req.body, false);
@@ -109,17 +110,34 @@ exports.updateOne = async (req, res) => {
   }
 };
 
-exports.getUser = async (req, res) => {
+exports.getUserFromCoordinator = async (req, res) => {
   const coordinatorId = parseInt(req.params.coordinatorId, 10);
 
   try {
-    const coordinator = await findOneCoordinator(coordinatorId);
-    const user = await getUserFromCoordinator(coordinator.userId);
-    return res.status(200).json(user);
+    const userId = await findOneCoordinator(coordinatorId);
+
+    const employer = await getUserFromCoordinator(userId.userId);
+
+    return res.status(200).json(employer);
+  } catch (e) {
+    return res
+      .status(500)
+      .json({ error: "Problème de mise à jour du employer" });
+  }
+};
+
+exports.getOneCoordinatorWithCityInfo = async (req, res) => {
+  const coordinatorId = parseInt(req.params.coordinatorid, 10);
+  try {
+    const coordinator = await getOneCoordinatorWithCity(coordinatorId);
+    if (!coordinator) {
+      return res.status(404).send(`Coordinator #${coordinatorId} not found.`);
+    }
+    return res.status(200).json(coordinator);
   } catch (e) {
     console.warn(e);
     return res
       .status(500)
-      .json({ error: "Problème de mise à jour du freelancer" });
+      .json({ error: "Problème de lecture des coordinateurs" });
   }
 };

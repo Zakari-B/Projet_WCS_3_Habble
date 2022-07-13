@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   Box,
   Text,
@@ -10,13 +10,46 @@ import {
   Divider,
   Flex,
   Heading,
+  useToast,
 } from "@chakra-ui/react";
 
 import Header from "./Header/Header";
 import Footer from "./Footer";
+import backendAPI from "../services/backendAPI";
 
 export default function PasswordReset() {
   const [resetEmail, setResetEmail] = useState("");
+  const toast = useToast();
+  const navigate = useNavigate();
+
+  const sendReset = () => {
+    backendAPI
+      .post("/api/auth/forgotPassword", {
+        email: resetEmail,
+      })
+      .then((res) => {
+        if (res.status === 200) {
+          toast({
+            title: "Demande envoyée.",
+            description: "Veuillez vérifier votre adresse mail.",
+            status: "success",
+            duration: 7000,
+            position: "bottom-right",
+            isClosable: true,
+          });
+          navigate("/");
+        }
+      })
+      .catch((e) => {
+        toast({
+          title: `${e.response.data}`,
+          status: "error",
+          duration: 7000,
+          position: "bottom-right",
+          isClosable: true,
+        });
+      });
+  };
 
   return (
     <Box h="100vh">
@@ -68,7 +101,7 @@ export default function PasswordReset() {
             <Button
               variant="solid_PrimaryColor"
               type="button"
-              onClick={() => null()}
+              onClick={sendReset}
             >
               Envoyer la réinitialisation du mot de passe
             </Button>

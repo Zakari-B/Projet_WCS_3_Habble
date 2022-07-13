@@ -23,12 +23,15 @@ const FreelancerExpertisesController = require("./controllers/FreelancerExpertis
 const PictureFreelancerController = require("./controllers/PictureFreelancerController");
 const AnnonceLieuController = require("./controllers/AnnonceLieuController");
 const PictureEmployerController = require("./controllers/PictureEmployerController");
+const PictureCoordinatorController = require("./controllers/PictureCoordinateurController");
 
 const {
   authorization,
   authSelf,
   authSelfRole,
   sessionControl,
+  forgotPassword,
+  adminAuth,
 } = require("./middlewares/auth");
 
 const router = express.Router();
@@ -45,6 +48,9 @@ router.post(
 router.post("/auth/login", UserController.login);
 router.get("/auth/logout", authorization, UserController.logout);
 router.get("/auth/sessionControl", authorization, sessionControl);
+router.post("/auth/forgotPassword", forgotPassword);
+router.post("/auth/login", UserController.login);
+router.post("/auth/resetPassword", UserController.resetPassword);
 
 router.post("/file", authorization, multer, fileController.addOne);
 router.post(
@@ -54,7 +60,6 @@ router.post(
   fileController.addOneByFamily
 );
 
-router.post("/maiyl/forgotten", mailController.forgotten);
 router.post("/mail/contact", mailController.contact);
 
 router.get("/users", UserController.getAll);
@@ -94,26 +99,6 @@ router.get(
 );
 // route delete a valider (si besoin)
 
-// Routes for Coordinators
-router.get("/coordinators/", authorization, CoordinatorController.getAll);
-router.get("/coordinators/:id", authorization, CoordinatorController.getOne);
-router.get(
-  "/coordinator/:coordinatorId/user",
-  authorization,
-  CoordinatorController.getUserFromCoordinator
-);
-router.put(
-  "/coordinators/:id",
-  authorization,
-  authSelfRole,
-  CoordinatorController.updateOne
-);
-router.get(
-  "/coordinator/:coordinatorId/user",
-  authorization,
-  CoordinatorController.getUser
-);
-
 // Routes for freelancer's picture
 router.put(
   "/freelancers/:freelancerid/picture",
@@ -127,6 +112,43 @@ router.put(
   authorization,
   multer,
   PictureFreelancerController.removeOne
+);
+
+// Routes for Coordinators
+router.get("/coordinators/", authorization, CoordinatorController.getAll);
+router.get("/coordinators/:id", authorization, CoordinatorController.getOne);
+router.get(
+  "/coordinator/:coordinatorId/user",
+  authorization,
+  CoordinatorController.getUserFromCoordinator
+);
+
+router.put(
+  "/coordinators/:coordinatorid",
+  authorization,
+  authSelfRole,
+  CoordinatorController.updateOne
+);
+
+router.get(
+  "/coordinators/:coordinatorid/city",
+  authorization,
+  CoordinatorController.getOneCoordinatorWithCityInfo
+);
+
+// Routes for coordinator's picture
+router.put(
+  "/coordinators/:id/picture",
+  authorization,
+  multer,
+  PictureCoordinatorController.updateOne
+);
+
+router.put(
+  "/coordinators/:id/removedPicture",
+  authorization,
+  multer,
+  PictureCoordinatorController.removeOne
 );
 
 // Routes for Employers
@@ -464,6 +486,20 @@ router.post(
 router.delete(
   "/annonce/:annonceId/services/:serviceId",
   AnnonceServicesController.deleteOne
+);
+
+// Admin routes
+router.get(
+  "/users/adminGetOne/:id",
+  authorization,
+  adminAuth,
+  UserController.getUserWithRole
+);
+router.post(
+  "/users/:freelancerId/verify/:docId",
+  authorization,
+  adminAuth,
+  DocumentsController.verify
 );
 
 // routes for locations

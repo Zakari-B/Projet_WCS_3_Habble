@@ -102,7 +102,6 @@ export default function ProfilPageProfessional() {
             {loggedUser.userId === freelancer.userId ? (
               <AccountCard user={user} />
             ) : null}
-
             <Verifications freelancer={freelancer} loggedUser={loggedUser} />
             <Expertises freelancer={freelancer} />
             <Tarif freelancer={freelancer} />
