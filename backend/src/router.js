@@ -61,9 +61,14 @@ router.post(
 );
 
 router.post("/mail/contact", mailController.contact);
+router.post(
+  "/mail/freelancerAnnonceMatch",
+  mailController.freelancerAnnonceMatch
+);
+router.post("/mail/freelancerNoMatch", mailController.freelancerNoMatch);
 
 router.get("/users", UserController.getAll);
-router.get("/users/:id", authorization, UserController.getOne);
+router.get("/users/:id", UserController.getOne);
 router.put("/users/", authorization, UserController.updateOne);
 router.put("/users/:id", authorization, authSelf, UserController.updateOne);
 router.delete("/users/:id", UserController.deleteOne);
@@ -75,6 +80,11 @@ router.get("/freelancers/:id/user", FreelancerController.getUser);
 // Routes for Freelancers
 router.get("/freelancers/", FreelancerController.getAll);
 router.get("/freelancers/search", FreelancerController.getAllWithinDistance);
+router.get(
+  "/freelancers/search/filtered",
+  FreelancerController.getAllWithinFixedDistanceAndServices
+);
+
 router.get(
   "/freelancers/:freelancerid/city",
   authorization,

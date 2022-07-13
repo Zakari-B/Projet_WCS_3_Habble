@@ -26,7 +26,9 @@ const sendMail = async (data, template) => {
 
   return transporter
     .sendMail(mailOption)
-    .then((info) => console.warn(info))
+    .then((info) => {
+      console.warn(info);
+    })
     .catch((err) => console.warn(err));
 };
 

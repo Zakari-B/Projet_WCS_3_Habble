@@ -11,7 +11,7 @@ import { DeleteIcon } from "@chakra-ui/icons";
 
 import PropTypes from "prop-types";
 
-import DeleteConfirmModal from "./DeleteConfirmModal";
+import DeleteConfirmModalAnnoncement from "./DeleteConfirmModalAnnoncement";
 import EditAnnonceModal from "./EditAnnonceModal";
 
 export default function AnnonceCard({ annonce, updated, setUpdated }) {
@@ -67,7 +67,7 @@ export default function AnnonceCard({ annonce, updated, setUpdated }) {
           Supprimer
         </Button>
 
-        <DeleteConfirmModal
+        <DeleteConfirmModalAnnoncement
           onOpen={onOpen}
           isOpen={isOpen}
           onClose={onClose}
@@ -83,6 +83,8 @@ export default function AnnonceCard({ annonce, updated, setUpdated }) {
         onOpen={onEditOpen}
         onClose={onEditClose}
         annonce={annonce}
+        updated={updated}
+        setUpdated={setUpdated}
       />
     </Flex>
   );
@@ -92,8 +94,8 @@ AnnonceCard.propTypes = {
   annonce: PropTypes.shape({
     id: PropTypes.number.isRequired,
     description: PropTypes.string.isRequired,
-    service: PropTypes.string.isRequired,
-    location: PropTypes.string.isRequired,
+    service: PropTypes.string,
+    location: PropTypes.string,
     status: PropTypes.string.isRequired,
   }).isRequired,
 };
