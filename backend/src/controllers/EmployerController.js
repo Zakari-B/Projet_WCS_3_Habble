@@ -10,7 +10,11 @@ const { validateEmployer } = require("../utils/validate");
 
 exports.createOne = async (req, res) => {
   const userAccount = req.userCreated;
-  if (userAccount.role !== "employer" && userAccount.role !== "freelancer") {
+  if (
+    userAccount.role !== "employer" &&
+    userAccount.role !== "freelancer" &&
+    userAccount.role !== "coordinator"
+  ) {
     return res
       .status(400)
       .send("Erreur : le rôle de l'utilisateur est incorrect");
@@ -79,7 +83,7 @@ exports.updateOne = async (req, res) => {
   } catch (e) {
     return res
       .status(500)
-      .json({ error: "Problème de mise à jour du employer" });
+      .json({ error: "Problème de mise à jour de l'employer" });
   }
 };
 
@@ -95,6 +99,6 @@ exports.getUserFromEmployer = async (req, res) => {
   } catch (e) {
     return res
       .status(500)
-      .json({ error: "Problème de mise à jour du employer" });
+      .json({ error: "Problème de mise à jour de l'employer" });
   }
 };

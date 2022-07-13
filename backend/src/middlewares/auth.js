@@ -9,6 +9,7 @@ const { resetHash } = require("../helpers/argonHelper");
 const { sendMail } = require("../utils/mailer");
 const resetTemplate = require("../templates/resetTemplate");
 const employer = require("../models/employer");
+const coordinator = require("../models/coordinator");
 
 const authorization = async (req, res, next) => {
   const authToken = req.cookies.userToken;
@@ -36,6 +37,14 @@ const authorization = async (req, res, next) => {
     if (data.payload.user.isAdmin === true) {
       req.isAdmin = true;
     }
+    if (req.userRole === "coordinator") {
+      const coordinatorEntry = await coordinator.findOneCoordinatorByUserId(
+        req.userId
+      );
+      if (coordinatorEntry) {
+        req.roleId = coordinatorEntry.id;
+      }
+    }
     return next();
   } catch (e) {
     console.error(e);
@@ -57,7 +66,11 @@ const authSelfRole = async (req, res, next) => {
   ) {
     return next();
   }
+  if (req.roleId === parseInt(req.params.coordinatorId, 10)) {
+    return next();
+  }
 
+  // console.log("no role");
   return res.sendStatus(401);
 };
 

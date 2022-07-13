@@ -19,7 +19,9 @@ import AnnoncesPageEmployer from "./pages/AnnoncesPageEmployer";
 import Logout from "./pages/Logout";
 import PasswordResetForm from "./pages/PasswordReset";
 import Administrator from "./pages/Administrator";
+import ProfilPageCoordinator from "./pages/ProfilPageCoordinator";
 import ProAnnonces from "./pages/ProAnnonces";
+import FamilyOverview from "./pages/FamilyOverview";
 
 import "./App.css";
 
@@ -39,6 +41,14 @@ function App() {
         <Route
           path="/profil/:freelancerId"
           element={<ProfilPageProfessional />}
+        />
+        <Route
+          path="/profil-coordinator/:coordinatorId"
+          element={<ProfilPageCoordinator />}
+        />
+        <Route
+          path="/profil-coordinator/:coordinatorId/famille/:familyId"
+          element={<FamilyOverview />}
         />
         <Route
           path="/register-onboarding-pro/:freelancerId"

@@ -2,6 +2,7 @@ const express = require("express");
 
 const UserController = require("./controllers/UsersController");
 const FreelancerController = require("./controllers/FreelancerController");
+const CoordinatorController = require("./controllers/CoordinatorController");
 const EmployerController = require("./controllers/EmployerController");
 const DiplomeController = require("./controllers/DiplomeController");
 const FormationController = require("./controllers/FormationController");
@@ -14,12 +15,14 @@ const mailController = require("./controllers/mailController");
 const AnnonceController = require("./controllers/AnnonceController");
 const fileController = require("./controllers/FileController");
 const DocumentsController = require("./controllers/DocumentsController");
+const FamilyController = require("./controllers/FamilyController");
 const multer = require("./middlewares/multer");
 const FreelancerServicesController = require("./controllers/FreelancerServicesControllers");
 const AnnonceServicesController = require("./controllers/AnnonceServicesController");
 const FreelancerExpertisesController = require("./controllers/FreelancerExpertisesControllers");
 const PictureFreelancerController = require("./controllers/PictureFreelancerController");
 const AnnonceLieuController = require("./controllers/AnnonceLieuController");
+const PictureEmployerController = require("./controllers/PictureEmployerController");
 
 const {
   authorization,
@@ -38,6 +41,7 @@ router.post(
   "/auth/register",
   UserController.createOne,
   FreelancerController.createOne,
+  CoordinatorController.createOne,
   EmployerController.createOne
 );
 router.post("/auth/login", UserController.login);
@@ -48,6 +52,12 @@ router.post("/auth/login", UserController.login);
 router.post("/auth/resetPassword", UserController.resetPassword);
 
 router.post("/file", authorization, multer, fileController.addOne);
+router.post(
+  "/family/:familyId/file",
+  authorization,
+  multer,
+  fileController.addOneByFamily
+);
 
 router.post("/mail/contact", mailController.contact);
 
@@ -88,6 +98,26 @@ router.get(
 );
 // route delete a valider (si besoin)
 
+// Routes for Coordinators
+// router.get("/coordinators/", CoordinatorController.getAll);
+router.get("/coordinators/:id", authorization, CoordinatorController.getOne);
+router.get(
+  "/coordinator/:coordinatorId/user",
+  authorization,
+  CoordinatorController.getUserFromCoordinator
+);
+// router.put(
+//   "/coordinators/:id",
+//   authorization,
+//   authSelfRole,
+//   CoordinatorController.updateOne
+// );
+
+// router.get(
+//   "/coordinators/:id/user",
+//   authorization,
+//   CoordinatorController.getUser
+// );
 // Routes for freelancer's picture
 router.put(
   "/freelancers/:freelancerid/picture",
@@ -110,6 +140,21 @@ router.get("/employers/:id", EmployerController.getOne);
 router.put("/employers/:id", EmployerController.updateOne);
 router.get("/employers/:id/user", EmployerController.getUserFromEmployer);
 
+// Routes for employer's picture
+router.put(
+  "/employers/:id/picture",
+  authorization,
+  multer,
+  PictureEmployerController.updateOne
+);
+
+router.put(
+  "/employers/:id/removedPicture",
+  authorization,
+  multer,
+  PictureEmployerController.removeOne
+);
+
 // Routes for documentsController
 
 router.get(
@@ -117,11 +162,33 @@ router.get(
   // authorization,
   DocumentsController.getAll
 );
+router.get(
+  "/coordinator/:coordinatorId/documents",
+  // authorization,
+  DocumentsController.getAllByCoordinatorId
+);
+router.get(
+  "/coordinators/:coordinatorId/family/:familyId/documents",
+  authorization,
+  DocumentsController.getAllByFamilyId
+);
 router.delete(
   "/freelancers/:freelancerid/documents/:id",
   authorization,
   authSelfRole,
   DocumentsController.deleteOne
+);
+router.delete(
+  "/coordinator/:coordinatorId/documents/:id",
+  authorization,
+  authSelfRole,
+  DocumentsController.deleteOneByCoordinatorId
+);
+router.delete(
+  "/coordinator/:coordinatorId/family/:familyId/documents/:id",
+  authorization,
+  // authSelfRole,
+  DocumentsController.deleteOneByFamily
 );
 
 // Routes for Diplomes
@@ -255,8 +322,34 @@ router.get("/expertises/:id", ExpertiseController.getOne);
 router.put("/expertises/:id", ExpertiseController.updateOne);
 router.delete("/expertises/:id", ExpertiseController.deleteOne);
 
-// Routes for expertises of one freelancer
+// Routes pour famille/accompagnement
+router.post(
+  "/coordinators/:coordinatorId/famille",
+  authorization,
+  FamilyController.createOne
+);
+router.get(
+  "/coordinators/:coordinatorId/familles",
+  authorization,
+  FamilyController.getAll
+);
+router.get(
+  "/coordinators/:coordinatorId/famille/:familyId",
+  authorization,
+  FamilyController.getOne
+);
+router.put(
+  "/coordinators/:coordinatorId/famille/:familyId",
+  authorization,
+  FamilyController.updateOne
+);
+router.delete(
+  "/coordinators/:coordinatorId/famille/:familyId",
+  authorization,
+  FamilyController.deleteOne
+);
 
+// Routes for expertises of one freelancer
 router.get(
   "/freelancers/:freelancerId/expertises",
   FreelancerExpertisesController.getAll

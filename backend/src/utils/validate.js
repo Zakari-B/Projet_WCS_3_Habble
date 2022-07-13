@@ -118,6 +118,24 @@ exports.validateLocation = (data, forCreation = true) => {
   return false;
 };
 
+exports.validateFamily = (data, forCreation = true) => {
+  const presence = forCreation ? "required" : "optional";
+  const validationErrors = Joi.object({
+    firstname: Joi.string().max(100).presence(presence),
+    lastname: Joi.string().max(100).presence(presence),
+    legalGuardian: Joi.string().max(100).presence(presence),
+    address: Joi.string().max(255).presence(presence),
+    phoneNumber: Joi.string().max(20).presence(presence),
+    email: Joi.string().max(100).presence(presence),
+    disabilityType: Joi.string().max(100).presence(presence),
+    complementary_info: Joi.string(),
+  }).validate(data, { abortEarly: false }).error;
+  if (validationErrors) {
+    return validationErrors;
+  }
+  return false;
+};
+
 exports.validateOfferCreation = (data, forCreation = true) => {
   const presence = forCreation ? "required" : "optional";
   const validationErrors = Joi.object({

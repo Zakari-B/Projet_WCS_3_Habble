@@ -3,24 +3,31 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer";
-import BannerProfileEmployer from "../components/ProfilEmployer/InfoProfil/BannerProfileEmployer";
-import AnnonceCarousel from "../components/ProfilEmployer/Annonce/AnnonceCarousel";
+import DocumentCarouselCoordo from "../components/ProfilCoordinator/DocumentCarouselCoordo";
+// import AnnonceCarousel from "../components/ProfilEmployer/Annonce/AnnonceCarousel";
+// import BannerProfile from "../components/ProfileFreelancer/Banner/BannerProfile";
 import AccountCard from "../components/ProfileFreelancer/Account/AccountCard";
+import Verifications from "../components/ProfileFreelancer/Verifications";
+import Accompagnement from "../components/ProfilCoordinator/Accompagnement";
 import backendAPI from "../services/backendAPI";
 
-export default function ProfilPageEmployer() {
+export default function ProfilPageCoordinator() {
   const navigate = useNavigate();
-  const { employerId } = useParams();
-  const [user, setUser] = useState({});
-  const [employer, setEmployer] = useState({});
-  const [updated, setUpdated] = useState(false);
 
-  const getuser = () => {
+  const { coordinatorId } = useParams();
+  // Will use coordinator in the future, just need to disable it for the moment
+  // eslint-disable-next-line no-unused-vars
+  const [coordinator, setCoordinator] = useState({});
+  const [updated, setUpdated] = useState(false);
+  const [coordoUser, setCoordoUser] = useState([]);
+  const [loggedUser, setLoggedUser] = useState("");
+
+  const getCoordinator = () => {
     backendAPI
-      .get(`/api/employers/${employerId}/user`)
+      .get(`/api/coordinator/${coordinatorId}/user`)
       .then((response) => {
-        setUser(response.data);
-        setEmployer(response.data.employer);
+        setCoordoUser(response.data);
+        setCoordinator(response.data.coordinator);
       })
       .catch((error) => {
         console.warn(error);
@@ -31,6 +38,7 @@ export default function ProfilPageEmployer() {
   useEffect(() => {
     if (JSON.parse(localStorage.getItem("isUserLoggedIn"))) {
       backendAPI.get("/api/auth/sessionControl").then((res) => {
+        setLoggedUser(res.data);
         if (res.code === "401") {
           navigate("/login");
         }
@@ -40,7 +48,9 @@ export default function ProfilPageEmployer() {
     }
   }, []);
 
-  useEffect(() => getuser(), [updated]);
+  useEffect(() => {
+    getCoordinator();
+  }, [updated]);
 
   return (
     <Box h="100vh">
@@ -52,12 +62,8 @@ export default function ProfilPageEmployer() {
         paddingY="30px"
         paddingTop="150px"
       >
-        <BannerProfileEmployer
-          employer={employer}
-          setEmployer={setEmployer}
-          updated={updated}
-          setUpdated={setUpdated}
-        />
+        {/* Banner to be fixed, will be done shortly, just want to pr the coordinator */}
+        {/* <BannerProfile freelancer={coordinator} /> */}
         <Flex
           w={{ base: "95%", lg: "80%" }}
           gap="20px"
@@ -72,7 +78,9 @@ export default function ProfilPageEmployer() {
             gap="20px"
             flexDir="column"
           >
-            <AccountCard user={user} />
+            <AccountCard user={coordoUser} />
+            <Verifications freelancer={coordoUser} loggedUser={loggedUser} />
+            <Accompagnement />
           </Flex>
           <Flex
             bgColor="background.gray"
@@ -80,10 +88,13 @@ export default function ProfilPageEmployer() {
             direction="column"
             gap="20px"
           >
-            <AnnonceCarousel updated={updated} setUpdated={setUpdated} />
+            <DocumentCarouselCoordo setUpdated={setUpdated} />
+            {/* Same thing will be fixed, just want to pr */}
+            {/* <AnnonceCarousel annonce={fakeAnnonce} /> */}
           </Flex>
         </Flex>
       </Flex>
+
       <Footer />
     </Box>
   );
