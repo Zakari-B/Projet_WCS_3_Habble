@@ -130,8 +130,8 @@ export default function ProAccountForm({ onModal = false, onClose }) {
 
   // Appel axios pour mettre à jour le freelancer avec ses informations et le user associé si profil complet
 
-  const updateFreelancerCompletedProfile = (e) => {
-    e.preventDefault();
+  const updateFreelancerCompletedProfile = (event) => {
+    event.preventDefault();
     const userId = user.id;
     backendAPI
       .put(`/api/freelancers/${freelancerId}`, {
@@ -164,17 +164,25 @@ export default function ProAccountForm({ onModal = false, onClose }) {
           }
         }
       })
-      .catch((error) => {
-        if (error) {
+      .catch((e) => {
+        console.error(e);
+        if (e.message === "Request failed with status code 422") {
           toast({
-            title: "Veuillez renseigner tous les champs obligatoires",
+            title: "Veuillez compléter tous les champs obligatoires",
             status: "error",
-            duration: 7000,
             position: "bottom-right",
+            duration: 7000,
+            isClosable: true,
+          });
+        } else {
+          toast({
+            title: "Votre compte n'a pas pu être créé",
+            status: "error",
+            position: "bottom-right",
+            duration: 7000,
             isClosable: true,
           });
         }
-        console.warn(error);
       });
   };
 

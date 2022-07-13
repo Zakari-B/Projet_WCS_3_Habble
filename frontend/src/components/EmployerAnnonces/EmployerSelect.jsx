@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import {
   Flex,
@@ -21,20 +21,36 @@ import {
 } from "@chakra-ui/react";
 import dateFormat from "dateformat";
 import EditAnnonceModal from "../ProfilEmployer/Annonce/EditAnnonceModal";
+import backendAPI from "../../services/backendAPI";
 
 function EmployerSelect({ annonces }) {
   const [option, setOption] = useState("");
+  const [setFamilyName] = useState("");
+  const [families, setFamilies] = useState([]);
   const [input, setInput] = useState("");
   const {
     isOpen: isEditOpen,
     onOpen: onEditOpen,
     onClose: onEditClose,
   } = useDisclosure();
-  const { employerId } = useParams();
+  const { employerId, coordinatorId } = useParams();
+
+  useEffect(() => {
+    backendAPI
+      .get(`/api/coordinators/${coordinatorId}/familles`)
+      .then((res) => {
+        setFamilies(res.data);
+      });
+  }, []);
 
   const handleFilter = (e) => {
     setOption(e.target.value);
   };
+
+  const handleFilterFamily = (e) => {
+    setFamilyName(e.target.value);
+  };
+
   const handleChange = (e) => {
     setInput(e.target.value);
   };
@@ -89,6 +105,26 @@ function EmployerSelect({ annonces }) {
               <option>En attente de validation</option>
             </Select>
           </VStack>
+          {coordinatorId ? (
+            <VStack
+              w={{ base: "100%", lg: "38%" }}
+              alignItems="flex-start"
+              pt={{ base: "1rem", lg: "0" }}
+            >
+              <Text fontWeight="bold" color="purple.average" fontSize="1.5rem">
+                Famille
+              </Text>
+              <Select
+                placeholder="Choisissez une option"
+                w="100%"
+                onChange={handleFilterFamily}
+              >
+                {families.map((family) => (
+                  <option>{family.lastname}</option>
+                ))}
+              </Select>
+            </VStack>
+          ) : null}
         </Flex>
         <Button
           color="pink.light"
@@ -129,6 +165,7 @@ function EmployerSelect({ annonces }) {
           <Table variant="simple">
             <Thead bgColor="gray.200">
               <Tr>
+                {coordinatorId ? <Th>Famille</Th> : null}
                 <Th>Titre de l'annonce</Th>
                 <Th isNumeric>Nombre d'offres</Th>
                 <Th>Taux horaire</Th>
@@ -148,12 +185,31 @@ function EmployerSelect({ annonces }) {
                   .map((data) => (
                     <Tr key={data.id}>
                       <Td>
-                        <Link
-                          href={`/profil-employer/${employerId}/mes-annonces/${data.id}`}
-                          _hover={{ color: "pink.light", fontWeight: "700" }}
-                        >
-                          {data.title}{" "}
-                        </Link>
+                        {coordinatorId ? (
+                          <Link
+                            href={`/profil-coordinator/${coordinatorId}/famille/${data.familyId}`}
+                            _hover={{ color: "pink.light", fontWeight: "700" }}
+                          >
+                            {data.fk_family_id.lastname}{" "}
+                          </Link>
+                        ) : null}
+                      </Td>
+                      <Td>
+                        {coordinatorId !== undefined ? (
+                          <Link
+                            href={`/profil-coordinator/${coordinatorId}/mes-annonces/${data.id}`}
+                            _hover={{ color: "pink.light", fontWeight: "700" }}
+                          >
+                            {data.title}{" "}
+                          </Link>
+                        ) : (
+                          <Link
+                            href={`/profil-employer/${employerId}/mes-annonces/${data.id}`}
+                            _hover={{ color: "pink.light", fontWeight: "700" }}
+                          >
+                            {data.title}{" "}
+                          </Link>
+                        )}
                       </Td>
 
                       <Td isNumeric>{data.annonce_offers?.length}</Td>

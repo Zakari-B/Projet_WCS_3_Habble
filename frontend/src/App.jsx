@@ -61,6 +61,10 @@ function App() {
           element={<AnnonceForm />}
         />
         <Route
+          path="/deposer-une-annonce/:coordinatorId/annonce/:annonceId"
+          element={<AnnonceForm />}
+        />
+        <Route
           path="/profil-employer/:employerId"
           element={<ProfilPageEmployer />}
         />
@@ -83,6 +87,14 @@ function App() {
         <Route
           path="/profil-employer/:employerId/mes-annonces"
           element={<ProAnnonces />}
+        />
+        <Route
+          path="/profil-coordinator/:coordinatorId/mes-annonces"
+          element={<ProAnnonces />}
+        />
+        <Route
+          path="/profil-coordinator/:coordinatorId/mes-annonces/:id"
+          element={<AnnoncesPageEmployer />}
         />
         <Route path="*" element={<Error />} />
       </Routes>

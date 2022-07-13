@@ -55,6 +55,22 @@ exports.getAll = async (req, res) => {
   }
 };
 
+exports.getUserFromCoordinator = async (req, res) => {
+  const coordinatorId = parseInt(req.roleId, 10);
+
+  try {
+    const userId = await findOneCoordinator(coordinatorId);
+
+    const coordinator = await getUserFromCoordinator(userId.userId);
+
+    return res.status(200).json(coordinator);
+  } catch (e) {
+    return res
+      .status(500)
+      .json({ error: "Problème de mise à jour du coordinator" });
+  }
+};
+
 exports.getOne = async (req, res) => {
   const coordinatorId = parseInt(req.params.id, 10);
   try {

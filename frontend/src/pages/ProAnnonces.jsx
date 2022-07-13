@@ -17,23 +17,28 @@ import { getSubListforAnId } from "../services/ProfileProUtils";
 
 function ProAnnonces() {
   // const { freelancerId } = useParams();
-  const { employerId } = useParams();
+  const { employerId, coordinatorId } = useParams();
   const [annonces, setAnnonces] = useState([]);
 
   useEffect(() => {
-    getSubListforAnId("employers", employerId, "annonces").then((res) => {
-      setAnnonces(res.data);
-    });
+    if (employerId !== undefined) {
+      getSubListforAnId("employers", employerId, "annonces").then((res) => {
+        setAnnonces(res.data);
+      });
+    }
+    if (coordinatorId !== undefined) {
+      getSubListforAnId("coordinator", coordinatorId, "annonces").then(
+        (res) => {
+          setAnnonces(res.data);
+        }
+      );
+    }
   }, []);
   const currentAnnonces = annonces.filter(
-    (annonce) =>
-      annonce.status !== "Terminée" && annonce.status !== "uncompleted"
+    (annonce) => annonce.status !== "Finie" && annonce.status !== "Brouillon"
   );
 
-  const oldAnnonces = annonces.filter(
-    (annonce) =>
-      annonce.status === "Terminée" && annonce.status !== "uncompleted"
-  );
+  const oldAnnonces = annonces.filter((annonce) => annonce.status === "Finie");
   return (
     <Box h="100vh">
       <Header onDark={false} isSticky={false} isStickyWhite />

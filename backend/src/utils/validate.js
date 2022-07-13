@@ -128,7 +128,7 @@ exports.validateFamily = (data, forCreation = true) => {
     phoneNumber: Joi.string().max(20).presence(presence),
     email: Joi.string().max(100).presence(presence),
     disabilityType: Joi.string().max(100).presence(presence),
-    complementary_info: Joi.string(),
+    complementary_info: Joi.string().presence("optional").allow(null, ""),
   }).validate(data, { abortEarly: false }).error;
   if (validationErrors) {
     return validationErrors;
@@ -174,6 +174,7 @@ exports.validateAnnouncement = (data, forCreation = true) => {
     expertise: Joi.string().max(500),
     location: Joi.string().max(100),
     status: Joi.string().max(100).allow(null, ""),
+    familyId: Joi.number().presence("optional").options({ convert: false }),
   }).validate(data, { abortEarly: false }).error;
   if (validationErrors) {
     return validationErrors;

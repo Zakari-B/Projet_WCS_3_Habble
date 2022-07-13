@@ -16,6 +16,21 @@ const {
 } = require("../models/annonce");
 const { validateAnnouncement } = require("../utils/validate");
 
+const getOne = async (req, res) => {
+  const annonceId = parseInt(req.params.id, 10);
+  try {
+    const announcement = await getOneAnnouncement(annonceId);
+    if (!announcement) {
+      return res.status(404).send("Cette annonce n'existe pas");
+    }
+    return res.status(201).send(announcement);
+  } catch (e) {
+    console.error(e);
+    return res.status(500).json({ error: "Problème de lecture de l'annonce" });
+  }
+};
+
+// routes for annonce/employer
 const createOne = async (req, res) => {
   const employerId = parseInt(req.params.employerid, 10);
   const employer = await findOneEmployer(employerId);
@@ -85,7 +100,7 @@ const getAllByEmployerId = async (req, res) => {
 };
 
 const getAllByCoordinatorId = async (req, res) => {
-  const coordinatorId = parseInt(req.params.coordinatorId, 10);
+  const coordinatorId = parseInt(req.roleId, 10);
   try {
     const announcementslist = await getAllAnnouncementsbyCoordinatorId(
       coordinatorId
@@ -124,20 +139,6 @@ const getOneByEmployerId = async (req, res) => {
     );
     if (announcement.length === 0) {
       return res.status(404).send("Il n'y a pas encore d'activité");
-    }
-    return res.status(201).send(announcement);
-  } catch (e) {
-    console.error(e);
-    return res.status(500).json({ error: "Problème de lecture de l'annonce" });
-  }
-};
-
-const getOne = async (req, res) => {
-  const annonceId = parseInt(req.params.id, 10);
-  try {
-    const announcement = await getOneAnnouncement(annonceId);
-    if (!announcement) {
-      return res.status(404).send("Cette annonce n'existe pas");
     }
     return res.status(201).send(announcement);
   } catch (e) {
@@ -193,7 +194,7 @@ const updateOne = async (req, res) => {
 };
 
 const updateOneByCoordinatorId = async (req, res) => {
-  const coordinatorId = parseInt(req.params.coordinatorId, 10);
+  const coordinatorId = parseInt(req.roleId, 10);
   const annonceId = parseInt(req.params.id, 10);
 
   const annonce = await getOneAnnouncementByCoordinatorId(
@@ -249,11 +250,11 @@ const deleteOne = async (req, res) => {
 };
 
 const deleteOneByCoordinatorId = async (req, res) => {
-  const coordinator = parseInt(req.params.coordinatorId, 10);
+  const coordinatorId = parseInt(req.roleId, 10);
   const annonceId = parseInt(req.params.id, 10);
 
   const annonce = await getOneAnnouncementByCoordinatorId(
-    coordinator,
+    coordinatorId,
     annonceId
   );
 
@@ -262,7 +263,7 @@ const deleteOneByCoordinatorId = async (req, res) => {
   }
 
   try {
-    await deleteOneAnnouncementByCoordinatorId(coordinator, annonceId);
+    await deleteOneAnnouncementByCoordinatorId(coordinatorId, annonceId);
     return res.status(200).send("L'annonce a été supprimée avec succès");
   } catch (e) {
     console.error(e);
