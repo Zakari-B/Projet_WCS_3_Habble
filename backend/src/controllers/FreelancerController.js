@@ -124,7 +124,7 @@ exports.getUser = async (req, res) => {
     console.warn(e);
     return res
       .status(500)
-      .json({ error: "Problème de mise à jour du freelancer" });
+      .json({ error: "Problème de lecture du freelancer demandé" });
   }
 };
 
