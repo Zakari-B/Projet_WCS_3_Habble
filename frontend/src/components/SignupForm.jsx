@@ -19,7 +19,6 @@ const signupForm = () => {
   const [signupFirstname, setSignupFirstname] = useState("");
   const [signupLastname, setSignupLastname] = useState("");
   const [signupEmail, setSignupEmail] = useState("");
-  // const [signupNickname, setSignupNickname] = useState("");
   const [signupPassword, setSignupPassword] = useState("");
   const [signupPasswordRepeat, setSignupPasswordRepeat] = useState("");
   const [searchParams] = useSearchParams();
@@ -180,16 +179,6 @@ const signupForm = () => {
               onChange={(e) => setSignupEmail(e.target.value)}
             />
           </FormControl>
-          {/* <FormControl>
-            <Input
-              type="text"
-              id="signupNickname"
-              name="Pseudo"
-              placeholder="Pseudo"
-              value={signupNickname}
-              onChange={(e) => setSignupNickname(e.target.value)}
-            />
-          </FormControl> */}
           <FormControl>
             <Input
               type="password"

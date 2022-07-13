@@ -18,6 +18,8 @@ import Header from "../components/Header/Header";
 import Footer from "../components/Footer";
 import UserDeleteModal from "../components/Admin/UserDeleteModal";
 import AdminDoc from "../components/Admin/AdminDoc";
+import AdminAnnonceCard from "../components/Admin/AdminAnnonceCard";
+import AdminCard from "../components/Admin/AdminCard";
 import backendAPI from "../services/backendAPI";
 import { getSubListforAnId } from "../services/ProfileProUtils";
 
@@ -32,6 +34,7 @@ export default function Administrator() {
   const [cityInfo, setCityInfo] = useState([]);
   const [serviceList, setServiceList] = useState([]);
   const [updated, setUpdated] = useState(false);
+  const [announcements, setAnnouncements] = useState([]);
 
   useEffect(() => {
     if (JSON.parse(localStorage.getItem("isUserLoggedIn"))) {
@@ -98,6 +101,7 @@ export default function Administrator() {
               .catch((error) => {
                 console.warn(error);
               });
+            setAnnouncements([]);
           });
       } else if (userToAdministrate.userResult.role === "coordinator") {
         backendAPI
@@ -126,13 +130,28 @@ export default function Administrator() {
               .catch((error) => {
                 console.warn(error);
               });
+            setAnnouncements([]);
           });
       } else {
         setUserDocuments([]);
         setServiceList([]);
+        backendAPI
+          .get(`api/employers/${userToAdministrate.roleResult.id}/annonces`)
+          .then((response) => {
+            if (response.data !== "Il n'y a pas encore d'activité") {
+              setAnnouncements(response.data);
+            }
+          });
       }
     }
   }, [userToAdministrate]);
+
+  const setAdmin = () => {
+    backendAPI.put(`api/users/${userToAdministrate.userResult.id}`, {
+      isAdmin: true,
+    });
+    setUpdated(!updated);
+  };
 
   const handleUserAvailability = () => {
     console.warn("User availability");
@@ -146,13 +165,61 @@ export default function Administrator() {
     <Box h="100vh">
       <Header onDark={false} isSticky={false} isStickyWhite isSignUp />
 
-      {/* Selection utilisateur à administrer */}
+      {/* Liste des administrateurs */}
       <Flex
         bgColor="background.gray"
         minHeight="100px"
         flexDirection="column"
         width="100%"
         pt={{ base: "8rem" }}
+        pb={{ base: "2rem" }}
+      >
+        <Flex
+          bgColor="white"
+          width="90%"
+          m="auto"
+          alignItems="center"
+          justifyContent="center"
+          flexDirection="column"
+          boxShadow="0px 1px 1px 0px rgb(185 184 184 / 75%)"
+          borderRadius="25px"
+          padding={{ base: "0", md: "20px", lg: "25px" }}
+          minHeight="120px"
+        >
+          <Heading
+            as="h2"
+            textAlign="left"
+            fontSize="1.4rem"
+            fontWeight="600"
+            color="purple.average"
+            mb="10px"
+          >
+            Administrateurs
+          </Heading>
+          <Flex w="100%" flexDirection="column" alignItems="center" gap="3">
+            {userList &&
+              userList
+                .filter((elem) => elem.isAdmin === true)
+                .map((elem) => {
+                  return (
+                    <AdminCard
+                      user={elem}
+                      udpated={updated}
+                      setUpdated={setUpdated}
+                    />
+                  );
+                })}
+          </Flex>
+        </Flex>
+      </Flex>
+
+      {/* Selection utilisateur à administrer */}
+      <Flex
+        bgColor="background.gray"
+        minHeight="100px"
+        flexDirection="column"
+        width="100%"
+        pt={{ base: "1rem" }}
         pb={{ base: "2rem" }}
       >
         <Flex
@@ -299,7 +366,7 @@ export default function Administrator() {
               <Flex
                 direction="column"
                 w={{ base: "95%", md: "40%" }}
-                margin="auto 0"
+                margin={{ base: "auto", md: "auto 0" }}
               >
                 <Text
                   fontSize="2rem"
@@ -347,22 +414,23 @@ export default function Administrator() {
                     "dd/mm/yyyy"
                   )}
                 </Text>
-                <Text color="white" textAlign={{ base: "center", md: "left" }}>
-                  <Flex
-                    justifyContent="flex-start"
-                    columnGap="3"
-                    rowGap="2"
-                    flexWrap="wrap"
-                    h="fit-content"
-                    w="fit-content"
-                  >
-                    {serviceList.map((element) => (
-                      <Tag fontSize="sm" w="fit-content" key={element}>
-                        {element}
-                      </Tag>
-                    ))}
-                  </Flex>
-                </Text>
+                <Flex
+                  alignSelf={{
+                    base: "center",
+                    md: "flex-start",
+                  }}
+                  columnGap="3"
+                  rowGap="2"
+                  flexWrap="wrap"
+                  h="fit-content"
+                  w="fit-content"
+                >
+                  {serviceList.map((element) => (
+                    <Tag fontSize="sm" w="fit-content" key={element}>
+                      {element}
+                    </Tag>
+                  ))}
+                </Flex>
 
                 <Flex
                   direction={{ base: "column", sm: "row" }}
@@ -389,6 +457,13 @@ export default function Administrator() {
                 w="auto"
                 display={{ base: "none", md: "flex" }}
               >
+                <Button
+                  marginTop="0.75rem"
+                  variant="solid_PrimaryColor"
+                  onClick={setAdmin}
+                >
+                  Passer administrateur
+                </Button>
                 <Button
                   marginTop="0.75rem"
                   variant="solid_PrimaryColor"
@@ -433,6 +508,54 @@ export default function Administrator() {
               </Text>
               <Text p="5px">{userToAdministrate.roleResult?.description}</Text>
             </Flex>
+            {announcements.length === 0 &&
+            userToAdministrate.userResult.role === "employer" ? (
+              <Flex
+                bgColor="white"
+                minH="60%"
+                p="10px"
+                mt="10px"
+                flexDir="column"
+                borderRadius="0px 0px 25px 25px"
+              >
+                <Text color="gray" fontSize="16px" fontWeight="500">
+                  Cet utilisateur n'a pas encore publié d'annonces.
+                </Text>
+              </Flex>
+            ) : null}
+            {announcements.length > 0 &&
+            userToAdministrate.userResult.role === "employer" ? (
+              <Flex
+                bgColor="white"
+                minH="60%"
+                p="10px"
+                mt="10px"
+                flexDir="column"
+                borderRadius="0px 0px 25px 25px"
+              >
+                <Heading
+                  as="h2"
+                  textAlign="left"
+                  fontSize="1.4rem"
+                  fontWeight="600"
+                  color="purple.average"
+                >
+                  Annonces
+                </Heading>
+
+                {announcements
+                  .filter((ann) => ann.status !== "uncompleted")
+                  .map((annonce) => (
+                    <AdminAnnonceCard
+                      annonce={annonce}
+                      key={annonce.id}
+                      updated={updated}
+                      setUpdated={setUpdated}
+                    />
+                  ))}
+              </Flex>
+            ) : null}
+
             {userDocuments.length > 0 ? (
               <Flex
                 bgColor="white"
@@ -485,7 +608,6 @@ export default function Administrator() {
                       >
                         Documents des familles suivies
                       </Heading>
-
                       <Flex
                         bgColor="white"
                         minH="60%"

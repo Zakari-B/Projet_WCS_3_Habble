@@ -97,6 +97,7 @@ const getAll = async (req, res) => {
     role: elem.role,
     profileIsComplete: elem.profileIsComplete,
     dateCreated: elem.dateCreated,
+    isAdmin: elem.isAdmin,
   }));
   res.status(200).json(newResults);
 };
@@ -118,8 +119,10 @@ const getOne = async (req, res) => {
 };
 
 const updateOne = async (req, res) => {
+  const userId = parseInt(req.params.id, 10);
+
   if (req.body.passwordChangeRequest) {
-    const userToVerify = await user.findOne(req.userId);
+    const userToVerify = await user.findOne(userId);
     const currentPasswordTest = await verifyPassword(
       req.body.passwordChangeRequest.currentPassword,
       userToVerify.hashedPassword
@@ -131,11 +134,11 @@ const updateOne = async (req, res) => {
       req.body.passwordChangeRequest.newPassword
     );
     delete req.body.passwordChangeRequest;
-    const result = await user.updateOne(req.userId, {
+    const result = await user.updateOne(userId, {
       hashedPassword: `${newHashedPassword}`,
     });
     if (result) {
-      // delete result.hashedPassword;
+      delete result.hashedPassword;
       res.status(200).json({ "Utilisateur mis jour :": { result } });
     } else {
       res.status(404).json({ Erreur: "L'utilisateur n'existe pas" });
@@ -143,7 +146,7 @@ const updateOne = async (req, res) => {
   } else if (req.body.password) {
     req.body.hashedPassword = await hashPassword(req.body.password);
     delete req.body.password;
-    const result = await user.updateOne(req.userId, req.body);
+    const result = await user.updateOne(userId, req.body);
     if (result) {
       delete result.hashedPassword;
       res.status(200).json({ "Utilisateur mis jour :": { result } });
@@ -151,7 +154,7 @@ const updateOne = async (req, res) => {
       res.status(404).json({ Erreur: "L'utilisateur n'existe pas" });
     }
   } else {
-    const result = await user.updateOne(req.userId, req.body);
+    const result = await user.updateOne(userId, req.body);
     if (result) {
       delete result.hashedPassword;
       res.status(200).json({ "Utilisateur mis jour :": { result } });
