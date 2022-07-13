@@ -31,7 +31,7 @@ exports.validateFreelancer = (data, forCreation = true) => {
     price: Joi.number().presence(presence).options({ convert: false }),
     description: Joi.string().max(1000).presence(presence),
     acceptEmails: Joi.boolean().presence(presence),
-    siret: Joi.number().presence(presence).options({ convert: false }),
+    siret: Joi.string().min(14).max(14).presence("optional").allow(null, ""),
     available: Joi.boolean().presence(presence),
     picture: Joi.string().max(1000).presence("optional").allow(null, ""),
   }).validate(data, { abortEarly: false }).error;

@@ -45,7 +45,13 @@ import backendAPI from "../../../services/backendAPI";
 import Services from "./Services";
 import Lieux from "./Lieux";
 
-export default function EditAnnonceModal({ isOpen, onClose, annonce }) {
+export default function EditAnnonceModal({
+  isOpen,
+  onClose,
+  annonce,
+  updated,
+  setUpdated,
+}) {
   const { employerId, coordinatorId } = useParams();
   const toast = useToast();
 
@@ -165,6 +171,7 @@ export default function EditAnnonceModal({ isOpen, onClose, annonce }) {
     }
 
     onClose();
+    setUpdated(!updated);
   };
 
   ///

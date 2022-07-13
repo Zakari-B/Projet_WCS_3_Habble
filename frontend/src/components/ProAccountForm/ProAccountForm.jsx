@@ -170,8 +170,9 @@ export default function ProAccountForm({ onModal = false, onClose }) {
           toast({
             title: "Veuillez compléter tous les champs obligatoires",
             status: "error",
-            position: "bottom-right",
+            description: `${e.response.data[0].message}`,
             duration: 7000,
+            position: "bottom-right",
             isClosable: true,
           });
         } else {
@@ -302,19 +303,6 @@ export default function ProAccountForm({ onModal = false, onClose }) {
                 >
                   Code postal de votre lieu d'intervention *
                 </FormLabel>
-                {/* <Input
-                  type="text"
-                  id="proFormCity"
-                  name="city"
-                  placeholder="Veuillez saisir un code postal et selectionnez une ville dans la liste"
-                  _placeholder={{
-                    fontSize: "0.8rem",
-                    fontWeight: "500",
-                    color: "gray",
-                  }}
-                  value={cityPro}
-                  onChange={(e) => setCityPro(e.target.value)}
-                /> */}
                 {!cityProName ? (
                   <Flex direction="column" w="100%">
                     <InputGroup
@@ -621,8 +609,8 @@ export default function ProAccountForm({ onModal = false, onClose }) {
               fontWeight: "500",
               color: "gray",
             }}
-            value={siretPro === 0 ? "" : siretPro}
-            onChange={(e) => setSiretPro(parseInt(e.target.value, 10))}
+            value={siretPro === "" ? "" : siretPro}
+            onChange={(e) => setSiretPro(e.target.value)}
           />
           <Text fontSize="xs" color="gray.light">
             Le numéro de Siret est un identifiant de 14 chiffres (exemple :
