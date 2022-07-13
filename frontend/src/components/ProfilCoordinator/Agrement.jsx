@@ -1,6 +1,5 @@
 import { Flex, Heading } from "@chakra-ui/react";
-import fakeData from "../../assets/fakeData.json";
-import UploadedDocs from "../ProfileFreelancer/DocumentUpload/UploadedDocs";
+// import UploadedDocs from "../ProfileFreelancer/DocumentUpload/UploadedDocs";
 
 export default function Agrement() {
   return (
@@ -27,9 +26,10 @@ export default function Agrement() {
         w={{ base: "100%", "2xl": "90%" }}
         m="auto"
       >
-        {fakeData.map((elem) => (
+        {/* MAP DATA FROM BDD HERE */}
+        {/* {fakeData.map((elem) => (
           <UploadedDocs key={`${elem.name}_${elem.id}`} data={elem} />
-        ))}
+        ))} */}
       </Flex>
     </Flex>
   );
