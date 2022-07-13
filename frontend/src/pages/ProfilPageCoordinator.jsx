@@ -15,8 +15,6 @@ export default function ProfilPageCoordinator() {
   const navigate = useNavigate();
 
   const { coordinatorId } = useParams();
-  // Will use coordinator in the future, just need to disable it for the moment
-  // eslint-disable-next-line no-unused-vars
   const [coordinator, setCoordinator] = useState({});
   const [updated, setUpdated] = useState(false);
   const [coordoUser, setCoordoUser] = useState([]);
