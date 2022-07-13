@@ -1,9 +1,13 @@
 const {
   createOneCoordinator,
   getAllCoordinatorsProfileInfo,
+  getAllCoordinators,
   findOneCoordinator,
   getUserFromCoordinator,
+  updateOneCoordinator,
 } = require("../models/coordinator");
+
+const { validateCoordinator } = require("../utils/validate");
 
 exports.createOne = async (req, res, next) => {
   const userAccount = req.userCreated;
@@ -48,6 +52,21 @@ exports.getOne = async (req, res) => {
   }
 };
 
+exports.getAll = async (req, res) => {
+  try {
+    const freelancers = await getAllCoordinators();
+    if (!freelancers) {
+      return res.status(404).send(`There are no freelancers yet`);
+    }
+    return res.status(200).json(freelancers);
+  } catch (e) {
+    console.warn(e);
+    return res
+      .status(500)
+      .json({ error: "Problème de lecture des freelancers" });
+  }
+};
+
 exports.getUserFromCoordinator = async (req, res) => {
   const coordinatorId = parseInt(req.params.coordinatorId, 10);
 
@@ -61,5 +80,46 @@ exports.getUserFromCoordinator = async (req, res) => {
     return res
       .status(500)
       .json({ error: "Problème de mise à jour du employer" });
+  }
+};
+
+exports.updateOne = async (req, res) => {
+  const coordinatorId = parseInt(req.params.coordinatorid, 10);
+  const error = validateCoordinator(req.body, false);
+  if (error) {
+    console.error(error);
+    return res.status(422).json(error.details);
+  }
+
+  const mycoordinator = await findOneCoordinator(coordinatorId);
+  if (!mycoordinator) {
+    return res.status(404).send(`Coordinator #${coordinatorId} not found.`);
+  }
+
+  try {
+    const coordinatorModify = await updateOneCoordinator(
+      coordinatorId,
+      req.body
+    );
+    return res.status(200).json(coordinatorModify);
+  } catch (e) {
+    return res
+      .status(500)
+      .json({ error: "Problème de mise à jour du coordinateur" });
+  }
+};
+
+exports.getUser = async (req, res) => {
+  const coordinatorId = parseInt(req.params.coordinatorId, 10);
+
+  try {
+    const coordinator = await findOneCoordinator(coordinatorId);
+    const user = await getUserFromCoordinator(coordinator.userId);
+    return res.status(200).json(user);
+  } catch (e) {
+    console.warn(e);
+    return res
+      .status(500)
+      .json({ error: "Problème de mise à jour du freelancer" });
   }
 };

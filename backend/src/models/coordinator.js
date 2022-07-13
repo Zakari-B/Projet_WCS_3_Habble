@@ -19,6 +19,7 @@ exports.findOneCoordinatorByUserId = async (id) => {
     await prisma.$disconnect();
   }
 };
+
 exports.findOneCoordinator = async (coordinatorId) => {
   try {
     return await prisma.coordinator.findUnique({
