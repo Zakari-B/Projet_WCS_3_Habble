@@ -22,7 +22,8 @@ export default function ProfilPageCoordinator() {
   const [updated, setUpdated] = useState(false);
   const [coordoUser, setCoordoUser] = useState([]);
   const [loggedUser, setLoggedUser] = useState("");
-  // const [cityInfo, setCityInfo] = useState([]);
+  // eslint-disable-next-line no-unused-vars
+  const [cityInfo, setCityInfo] = useState([]);
 
   const getCoordinator = () => {
     backendAPI
@@ -38,6 +39,7 @@ export default function ProfilPageCoordinator() {
   };
 
   // getSubListforAnId("coordinators", coordinatorId, "city").then((response) => {
+  //   console.log(response.data[0]);
   //   setCityInfo(response.data[0]);
   // });
 
@@ -70,13 +72,11 @@ export default function ProfilPageCoordinator() {
       >
         <BannerProfileCoordinator
           coordinator={coordinator}
-          // city={cityInfo}
+          city={cityInfo}
           updated={updated}
           setUpdated={setUpdated}
           loggedUser={loggedUser}
         />
-        {/* Banner to be fixed, will be done shortly, just want to pr the coordinator */}
-        {/* <BannerProfile freelancer={coordinator} /> */}
         <Flex
           w={{ base: "95%", lg: "80%" }}
           gap="20px"

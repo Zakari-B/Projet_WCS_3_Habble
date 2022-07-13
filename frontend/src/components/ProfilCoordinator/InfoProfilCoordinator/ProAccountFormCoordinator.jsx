@@ -50,6 +50,7 @@ export default function ProAccountForm({
   const [cityProName, setCityProName] = useState("");
   const [search, setSearch] = useState("");
   const [addressList, setAddressList] = useState([]);
+
   const getAddressList = (signal) => {
     axios
       .get(
@@ -73,59 +74,25 @@ export default function ProAccountForm({
       getAddressList(signal);
     }
   }, [search]);
-  const handleSearch = (event) => {
-    setSearch(event.target.value);
-  };
-  // Appel axios pour récuperer un user
-
-  // const getOneUser = () => {
-  //   backendAPI.get(`/api/freelancers/${freelancerId}/user`).then((response) => {
-  //     setUser(response.data);
-  //     setFreelancerPicture(response.data.freelancer.picture);
-  //     setDisplayName(
-  //       response.data.freelancer.displayName === "undefined"
-  //         ? ""
-  //         : response.data.freelancer.displayName
-  //     );
-  //     setActivityPro(
-  //       response.data.freelancer.activityDescription === "undefined"
-  //         ? ""
-  //         : response.data.freelancer.activityDescription
-  //     );
-  //     setPhonePro(response.data.freelancer.phone);
-  //     setExperienceYearPro(
-  //       response.data.freelancer.experienceYear === 0
-  //         ? ""
-  //         : response.data.freelancer.experienceYear
-  //     );
-  //     setPricePro(
-  //       response.data.freelancer.price === 0
-  //         ? ""
-  //         : response.data.freelancer.price
-  //     );
-  //     setDescriptionPro(
-  //       response.data.freelancer.description === "undefined"
-  //         ? ""
-  //         : response.data.freelancer.description
-  //     );
-  //     setAcceptEmailPro(response.data.freelancer.acceptEmail);
-  //     setSiretPro(response.data.freelancer.siret);
-  //   });
-  //   backendAPI.get(`/api/freelancers/${freelancerId}/city`).then((response) => {
-  //     setCityPro(response.data[0].zipCode);
-  //     setCityProName(response.data[0].ville_nom);
-  //   });
-  // };
-
-  // useEffect(() => {
-  //   getOneUser();
-  // }, []);
 
   useEffect(() => {
     setDisplayName(coordinator.displayName);
+    setActivityPro(coordinator.activityDescription);
     setPhonePro(coordinator.phone);
     setDescriptionPro(coordinator.description);
+    setAcceptEmailPro(coordinator.acceptEmails);
+    setSiretPro(coordinator.siret);
+    backendAPI
+      .get(`/api/coordinators/${coordinator.id}/city`)
+      .then((response) => {
+        setCityPro(response.data[0].zipCode);
+        setCityProName(response.data[0].ville_nom);
+      });
   }, [isOpen]);
+
+  const handleSearch = (event) => {
+    setSearch(event.target.value);
+  };
 
   // Appel axios pour mettre à jour le freelancer avec ses informations et le user associé si profil complet
 
@@ -167,37 +134,6 @@ export default function ProAccountForm({
         console.warn(error);
       });
   };
-
-  // Appel axios pour mettre à jour le freelancer avec ses informations si profil incomplet
-
-  // const updateFreelancerUncompletedProfile = (e) => {
-  //   e.preventDefault();
-  //   backendAPI
-  //     .put(`/api/freelancers/${freelancerId}`, {
-  //       displayName: displayName === "" ? "undefined" : displayName,
-  //       activityDescription: activityPro === "" ? "undefined" : activityPro,
-  //       zipCode: cityPro === "" ? "undefined" : cityPro,
-  //       phone: phonePro,
-  //       experienceYear: experienceYearPro === "" ? 0 : experienceYearPro,
-  //       price: pricePro === "" ? 0 : pricePro,
-  //       description: descriptionPro === "" ? "undefined" : descriptionPro,
-  //       acceptEmails: acceptEmailPro,
-  //       siret: siretPro,
-  //     })
-  //     .then((response) => {
-  //       if (response) {
-  //         toast({
-  //           title: "Vos données ont bien été sauvgardées.",
-  //           description: "N'hésitez pas à revenir completer votre profil !",
-  //           status: "success",
-  //           duration: 7000,
-  //           position: "bottom-right",
-  //           isClosable: true,
-  //         });
-  //       }
-  //       navigate("/");
-  //     });
-  // };
 
   return (
     <Flex bgColor="background.gray" direction="column" justify="flex-start">
@@ -312,6 +248,9 @@ export default function ProAccountForm({
                         autocomplete="off"
                         bgColor="white"
                         h="50px"
+                        fontSize="0.9rem"
+                        fontWeight="400"
+                        zIndex={100}
                         placeholder="Veuillez saisir un code postal et selectionnez une ville dans la liste"
                         value={search}
                         onChange={handleSearch}
@@ -324,7 +263,6 @@ export default function ProAccountForm({
                         width="100%"
                         borderRadius="4px"
                         overflow="hidden"
-                        zIndex="997"
                         boxShadow="rgb(0 0 0 / 4%) 0px 2px 6px"
                         border="1px solid #ededed"
                       >
@@ -333,8 +271,8 @@ export default function ProAccountForm({
                             <ListItem
                               onClick={() => {
                                 if (city.properties.citycode) {
-                                  setCityPro(city.properties.citycode);
                                   setCityProName(city.properties.name);
+                                  setCityPro(city.properties.citycode);
                                   setSearch("");
                                 }
                               }}

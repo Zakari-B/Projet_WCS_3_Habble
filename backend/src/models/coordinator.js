@@ -1,5 +1,18 @@
 const { PrismaClient } = require("@prisma/client");
 
+require("dotenv").config();
+const mysql = require("mysql2");
+
+const connection = mysql.createConnection({
+  host: process.env.DB_HOST, // address of the server
+  port: process.env.DB_PORT, // port of the DB server (mysql), not to be confused with the nodeJS server PORT !
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+});
+
+const db = connection.promise();
+
 const prisma = new PrismaClient();
 
 exports.getAllCoordinators = async () => {
@@ -19,10 +32,10 @@ exports.findOneCoordinatorByUserId = async (id) => {
     await prisma.$disconnect();
   }
 };
-exports.findOneCoordinator = async (coordinatorId) => {
+exports.findOneCoordinator = async (coordinatorid) => {
   try {
     return await prisma.coordinator.findUnique({
-      where: { id: coordinatorId },
+      where: { id: coordinatorid },
     });
   } finally {
     await prisma.$disconnect();
@@ -51,11 +64,11 @@ exports.updateOneCoordinator = async (coordinatorId, data) => {
   }
 };
 
-exports.getAllCoordinatorsProfileInfo = async (coordinatorId) => {
+exports.getAllCoordinatorsProfileInfo = async (coordinatorid) => {
   try {
     return await prisma.coordinator.findUnique({
       where: {
-        id: coordinatorId,
+        id: coordinatorid,
       },
     });
   } finally {
@@ -76,4 +89,17 @@ exports.getUserFromCoordinator = async (userId) => {
   } finally {
     await prisma.$disconnect();
   }
+};
+
+exports.getOneCoordinatorWithCity = (coordinatorid) => {
+  return db
+    .query(
+      `select *
+      from coordinator co
+      join city c on co.zipCode = c.ville_code_commune where co.id =?`,
+      [coordinatorid]
+    )
+    .then(([results]) => {
+      return results;
+    });
 };

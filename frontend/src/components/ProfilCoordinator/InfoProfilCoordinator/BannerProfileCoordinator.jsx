@@ -16,7 +16,7 @@ import { updateItem } from "../../../services/ProfileProUtils";
 
 export default function BannerProfileCoordinator({
   coordinator,
-  // city,
+  city,
   updated,
   setUpdated,
   loggedUser,
@@ -24,7 +24,7 @@ export default function BannerProfileCoordinator({
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
 
-  const updateFreelancer = (data) => {
+  const updateCoordinator = (data) => {
     updateItem("coordinators", coordinator.id, data)
       .then(() =>
         toast({
@@ -46,9 +46,10 @@ export default function BannerProfileCoordinator({
       );
   };
   const handleSubmit = () => {
-    updateFreelancer({ available: !coordinator.available });
+    updateCoordinator({ available: !coordinator.available });
     setUpdated(!updated);
   };
+
   return (
     <Flex
       w={{ base: "95%", lg: "80%" }}
@@ -137,14 +138,7 @@ export default function BannerProfileCoordinator({
               marginBottom="1rem"
               textAlign={{ base: "center", md: "left" }}
             >
-              {/* {`${coordinator.activityDescription} à ${city?.ville_nom} (${city?.ville_departement})`} */}
-            </Text>
-            <Text
-              color="white"
-              marginBottom="1.2rem"
-              textAlign={{ base: "center", md: "left" }}
-            >
-              {coordinator.experienceYear} années d'expérience
+              {`${coordinator.activityDescription} à ${city?.ville_nom} (${city?.ville_departement})`}
             </Text>
             <Text
               color="white"
@@ -173,6 +167,9 @@ export default function BannerProfileCoordinator({
                   </Button>
 
                   <ModalAccountFormCoordinator
+                    updated={updated}
+                    setUpdated={setUpdated}
+                    city={city}
                     onOpen={onOpen}
                     isOpen={isOpen}
                     onClose={onClose}

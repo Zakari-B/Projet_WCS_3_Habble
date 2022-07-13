@@ -38,6 +38,7 @@ export default function Header({
   const [data, setData] = useState();
   const [freelancerPicture, setFreelancerPicture] = useState();
   const [employerPicture, setEmployerPicture] = useState();
+  const [coordinatorPicture, setCoordinatorPicture] = useState();
 
   const navigate = useNavigate();
 
@@ -72,6 +73,11 @@ export default function Header({
             backendAPI
               .get(`/api/employers/${res.data.roleId}`)
               .then((response) => setEmployerPicture(response.data.picture));
+          }
+          if (res.data.userRole === "coordinator") {
+            backendAPI
+              .get(`/api/coordinators/${res.data.roleId}`)
+              .then((response) => setCoordinatorPicture(response.data.picture));
           }
         })
         .catch((err) => console.error(err));
@@ -134,13 +140,6 @@ export default function Header({
                 _hover={{ color: "pink.light" }}
               >
                 <Flex alignItems="center" gap="10px" fontWeight="500">
-                  {/* <Image
-                    src="https://secure.gravatar.com/avatar/c308ee24184a32cdf10650eb7e311157?s=125&d=mm&r=G"
-                    height="40px"
-                    width="40px"
-                    borderRadius="100%"
-                    border="1px solid gray.200"
-                  /> */}
                   {data && data.data.userRole === "freelancer" && (
                     <Image
                       src={
@@ -163,6 +162,21 @@ export default function Header({
                           ? `${
                               import.meta.env.VITE_BACKEND_URL
                             }/uploads/${employerPicture}`
+                          : "https://secure.gravatar.com/avatar/c308ee24184a32cdf10650eb7e311157?s=125&d=mm&r=G"
+                      }
+                      height="40px"
+                      width="40px"
+                      borderRadius="100%"
+                      border="1px solid gray.200"
+                    />
+                  )}
+                  {data && data.data.userRole === "coordinator" && (
+                    <Image
+                      src={
+                        coordinatorPicture
+                          ? `${
+                              import.meta.env.VITE_BACKEND_URL
+                            }/uploads/${coordinatorPicture}`
                           : "https://secure.gravatar.com/avatar/c308ee24184a32cdf10650eb7e311157?s=125&d=mm&r=G"
                       }
                       height="40px"
