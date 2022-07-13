@@ -1,13 +1,16 @@
-import { Flex, Box, Text, Checkbox, Button } from "@chakra-ui/react";
+import { Flex, Box, Text, Checkbox, Button, useToast } from "@chakra-ui/react";
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import Header from "../../Header/Header";
 import Footer from "../../Footer";
 import backendAPI from "../../../services/backendAPI";
 import ProfileCard from "../../Search/ProfileCard";
 
 export default function AnnonceFreelancerSearchForm() {
-  const { annonceId } = useParams();
+  const toast = useToast();
+  const { annonceId, employerId } = useParams();
+  const navigate = useNavigate();
+  const [annonce, setAnnonce] = useState([]);
   const [freelancers, setFreelancers] = useState([]);
 
   const searchMatchingFreelancer = () => {
@@ -25,6 +28,7 @@ export default function AnnonceFreelancerSearchForm() {
     Promise.all([promiseAnnonceServices, promiseCurrentAnnonce]).then(
       (response) => {
         const services = response[0].data.map((e) => e.fk_service_id.name);
+        setAnnonce(response[1].data);
 
         backendAPI
           .get(
@@ -43,20 +47,81 @@ export default function AnnonceFreelancerSearchForm() {
 
   // fonction ajout freelancer via checkbox//
 
-  const [expertiseList, setExpertiseList] = useState([]);
+  const [freelancerList, setFreelancerList] = useState([]);
+  const [freelancerEmailList, setFreelancerEmailList] = useState([]);
 
-  const updateExpertise = (e) => {
-    if (e.target.checked && !expertiseList.includes(e.target.value)) {
-      setExpertiseList([...expertiseList, e.target.value]);
+  const updateFreelancerList = (e) => {
+    if (e.target.checked && !freelancerList.includes(e.target.value)) {
+      const freeList = [...freelancerList, e.target.value];
+
+      setFreelancerList(freeList);
+
+      Promise.all(
+        freeList.map((id) =>
+          backendAPI.get(`api/freelancers/${parseInt(id, 10)}/user`)
+        )
+      ).then((responses) =>
+        setFreelancerEmailList(responses.map((response) => response.data))
+      );
     } else if (!e.target.checked) {
-      const expertiseListFilter = expertiseList.filter(
+      const freelancerListFilter = freelancerList.filter(
         (elem) => elem !== e.target.value
       );
-      expertiseList.splice(expertiseList.indexOf(e.target.value), 1);
 
-      setExpertiseList(expertiseListFilter);
+      setFreelancerList(freelancerListFilter);
+      Promise.all(
+        freelancerListFilter.map((id) =>
+          backendAPI.get(`api/freelancers/${parseInt(id, 10)}/user`)
+        )
+      ).then((responses) =>
+        setFreelancerEmailList(responses.map((response) => response.data))
+      );
     }
   };
+
+  const sendBulkEmails = (e) => {
+    e.preventDefault();
+
+    Promise.all(
+      freelancerEmailList.map((user) =>
+        backendAPI.post("api/mail/freelancerAnnonceMatch", {
+          lastname: user.lastname,
+          firstname: user.firstname,
+          email: user.email,
+          recipient: user.email,
+          annonce: {
+            title: annonce.title,
+            description: annonce.description,
+            price: annonce.price,
+          },
+        })
+      )
+    )
+      .then((responses) => {
+        if (responses.every((res) => res.status === 200)) {
+          navigate(`/profil-employer/${parseInt(employerId, 10)}`);
+          toast({
+            title: "Votre annonce a été publiée avec succès",
+            description: "Elle sera envoyée aux professionnels sélectionnés",
+            status: "success",
+            position: "bottom-right",
+            duration: 7000,
+            isClosable: true,
+          });
+        }
+      })
+      .catch((err) => {
+        console.error(err);
+        toast({
+          title: "Votre annonce n'a pas pu être envoyée aux professionnels",
+          status: "error",
+          position: "bottom-right",
+          duration: 7000,
+          isClosable: true,
+        });
+      });
+  };
+
   return (
     <Box h="100vh">
       <Header onDark={false} isSticky={false} isStickyWhite />
@@ -65,8 +130,7 @@ export default function AnnonceFreelancerSearchForm() {
         direction="column"
         justify="flex-start"
         paddingTop="150px"
-        minH="60vh"
-        paddingBottom="50px"
+        paddingBottom="180px"
         gap="50px"
       >
         <Flex direction="column" gap="10px" alignItems="center">
@@ -90,14 +154,15 @@ export default function AnnonceFreelancerSearchForm() {
                 <Text
                   color="pink.light"
                   fontWeight="700"
-                >{`(${expertiseList.length}/10)`}</Text>
+                >{`(${freelancerList.length}/10)`}</Text>
               </Flex>
               <Button
                 variant="solid_PrimaryColor"
                 type="submit"
                 width="fit-content"
+                onClick={sendBulkEmails}
                 isDisabled={
-                  !expertiseList.length > 0 || expertiseList.length > 10
+                  !freelancerList.length > 0 || freelancerList.length > 10
                 }
               >
                 J'ai terminé, je publie mon annonce
@@ -156,7 +221,7 @@ export default function AnnonceFreelancerSearchForm() {
                       iconColor: "white",
                     }}
                     value={freelancer?.id}
-                    onChange={updateExpertise}
+                    onChange={updateFreelancerList}
                   />
                   <ProfileCard freelancer={freelancer} key={freelancer.id} />
                 </Box>
@@ -199,7 +264,7 @@ export default function AnnonceFreelancerSearchForm() {
                       iconColor: "white",
                     }}
                     value="Habble"
-                    onChange={updateExpertise}
+                    onChange={updateFreelancerList}
                   />
                   <Flex gap="10px" direction="column">
                     <Text
@@ -223,7 +288,7 @@ export default function AnnonceFreelancerSearchForm() {
                 type="submit"
                 width="fit-content"
                 isDisabled={
-                  !expertiseList.length > 0 || expertiseList.length > 10
+                  !freelancerList.length > 0 || freelancerList.length > 10
                 }
               >
                 Transmettre ma demande

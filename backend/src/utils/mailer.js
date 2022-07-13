@@ -21,7 +21,7 @@ const sendMail = async (data, template) => {
         : `Habble <${process.env.SMTP_USER}>`,
     to:
       data.recipient === "habble"
-        ? `Habble <marie.serradori@gmail.com>`
+        ? `Habble <${process.env.SMTP_USER}>`
         : data.email,
     subject: template.subject,
     html: template.body,
@@ -29,7 +29,9 @@ const sendMail = async (data, template) => {
 
   return transporter
     .sendMail(mailOption)
-    .then((info) => console.warn(info))
+    .then((info) => {
+      console.warn(info);
+    })
     .catch((err) => console.warn(err));
 };
 

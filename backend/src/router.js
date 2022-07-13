@@ -46,9 +46,13 @@ router.post("/file", authorization, multer, fileController.addOne);
 
 router.post("/maiyl/forgotten", mailController.forgotten);
 router.post("/mail/contact", mailController.contact);
+router.post(
+  "/mail/freelancerAnnonceMatch",
+  mailController.freelancerAnnonceMatch
+);
 
 router.get("/users", UserController.getAll);
-router.get("/users/:id", authorization, UserController.getOne);
+router.get("/users/:id", UserController.getOne);
 router.put("/users/", authorization, UserController.updateOne);
 router.put("/users/:id", authorization, authSelf, UserController.updateOne);
 router.delete("/users/:id", UserController.deleteOne);
