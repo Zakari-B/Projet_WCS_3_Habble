@@ -268,16 +268,16 @@ model city {
   @@index([ville_nom_reel], map: "ville_nom_reel")
   @@index([ville_nom_simple], map: "ville_nom_simple")
 }
-<<<<<<< HEAD
 
 model token {
-  id                 Int         @id @default(autoincrement())
-  token              String      @db.VarChar(255)
-  userId             Int         @unique
-  expiration         String      @db.VarChar(255)
-  fk_user_id         user        @relation(fields: [userId], references: [id])
-  =======
-  model family {
+  id         Int    @id @default(autoincrement())
+  token      String @db.VarChar(255)
+  userId     Int    @unique
+  expiration String @db.VarChar(255)
+  fk_user_id user   @relation(fields: [userId], references: [id])
+}
+
+model family {
   id                 Int         @id @default(autoincrement())
   firstname          String      @db.VarChar(100)
   lastname           String      @db.VarChar(100)
@@ -291,5 +291,4 @@ model token {
   coordinator        coordinator @relation(fields: [coordinatorId], references: [id])
   annonce            annonce[]
   documents          documents[]
-  >>>>>>> 0cb561bea8631f9cafe1ec7ae247ac039648a06c
 }
