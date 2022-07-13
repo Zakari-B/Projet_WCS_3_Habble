@@ -83,7 +83,7 @@ exports.updateOne = async (req, res) => {
   } catch (e) {
     return res
       .status(500)
-      .json({ error: "Problème de mise à jour du employer" });
+      .json({ error: "Problème de mise à jour de l'employer" });
   }
 };
 
@@ -99,6 +99,6 @@ exports.getUserFromEmployer = async (req, res) => {
   } catch (e) {
     return res
       .status(500)
-      .json({ error: "Problème de mise à jour du employer" });
+      .json({ error: "Problème de mise à jour de l'employer" });
   }
 };
