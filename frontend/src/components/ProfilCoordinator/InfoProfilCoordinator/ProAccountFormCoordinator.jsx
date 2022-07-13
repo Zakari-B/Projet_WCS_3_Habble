@@ -388,19 +388,36 @@ export default function ProAccountForm({
               onChange={(e) => setDescriptionPro(e.target.value)}
             />
           </FormControl>
-          <Checkbox
-            iconColor="pink.light"
-            colorScheme="white"
-            borderColor="gray"
-            _checked={{ borderColor: "pink.light" }}
-            onChange={() => setAcceptEmailPro(!acceptEmailPro)}
-          >
-            <Text fontSize="sm">
-              {" "}
-              Envoyez moi par email les annonces en rapport avec les services
-              que je propose
-            </Text>
-          </Checkbox>
+          {coordinator.acceptEmails ? (
+            <Checkbox
+              defaultChecked
+              iconColor="pink.light"
+              colorScheme="white"
+              borderColor="gray"
+              _checked={{ borderColor: "pink.light" }}
+              onChange={() => setAcceptEmailPro(!acceptEmailPro)}
+            >
+              <Text fontSize="sm">
+                {" "}
+                Envoyez moi par email les annonces en rapport avec les services
+                que je propose
+              </Text>
+            </Checkbox>
+          ) : (
+            <Checkbox
+              iconColor="pink.light"
+              colorScheme="white"
+              borderColor="gray"
+              _checked={{ borderColor: "pink.light" }}
+              onChange={() => setAcceptEmailPro(!acceptEmailPro)}
+            >
+              <Text fontSize="sm">
+                {" "}
+                Envoyez moi par email les annonces en rapport avec les services
+                que je propose
+              </Text>
+            </Checkbox>
+          )}
           <FormLabel
             htmlFor="company"
             fontSize="md"
