@@ -21,15 +21,17 @@ function ProAnnonces() {
   const [annonces, setAnnonces] = useState([]);
 
   useEffect(() => {
-    if (employerId !== null) {
+    if (employerId !== undefined) {
       getSubListforAnId("employers", employerId, "annonces").then((res) => {
         setAnnonces(res.data);
       });
     }
-    if (coordinatorId !== null) {
-      getSubListforAnId("employers", employerId, "annonces").then((res) => {
-        setAnnonces(res.data);
-      });
+    if (coordinatorId !== undefined) {
+      getSubListforAnId("coordinator", coordinatorId, "annonces").then(
+        (res) => {
+          setAnnonces(res.data);
+        }
+      );
     }
   }, []);
   const currentAnnonces = annonces.filter(

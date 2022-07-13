@@ -52,8 +52,10 @@ export default function AnnonceForm() {
   const [servicesList, setServicesList] = useState([]);
   const [serviceName, setServiceName] = useState([]);
   const [serviceNumber, setServiceNumber] = useState([]);
+  const [families, setFamilies] = useState([]);
+  const [currentFamily, setCurrentFamily] = useState(0);
 
-  const { employerId, annonceId } = useParams();
+  const { employerId, annonceId, coordinatorId } = useParams();
 
   const [cityPro, setCityPro] = useState("");
   const [cityProName, setCityProName] = useState("");
@@ -93,23 +95,37 @@ export default function AnnonceForm() {
       .then((result) => setTitlePlaceHolder(result.data.title));
   });
 
+  useEffect(() => {
+    backendAPI
+      .get(`/api/coordinators/${coordinatorId}/familles`)
+      .then((res) => {
+        setFamilies(res.data);
+      });
+  }, []);
+
   const updateEmergency = (e) => {
     setEmergency(e.target.checked);
   };
 
+  const addFamily = (e) => {
+    setCurrentFamily(parseInt(e.target.value, 10));
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
+    // if (coordinatorId !== "undefined") {
     backendAPI
-      .put(`/api/employers/${employerId}/annonce/${annonceId}`, {
+      .put(`/api/coordinator/${coordinatorId}/annonce/${annonceId}`, {
         title,
         description,
         zipCode: cityPro,
         emergency,
         price,
         status: "En cours",
+        familyId: currentFamily,
       })
       .then(() => {
-        navigate(`/profil-employer/${employerId}`);
+        navigate(`/profil-coordinator/${coordinatorId}`);
       })
       .then(() =>
         toast({
@@ -130,6 +146,40 @@ export default function AnnonceForm() {
           isClosable: true,
         });
       });
+
+    if (employerId !== "undefined") {
+      backendAPI
+        .put(`/api/employers/${employerId}/annonce/${annonceId}`, {
+          title,
+          description,
+          zipCode: cityPro,
+          emergency,
+          price,
+          status: "En cours",
+        })
+        .then(() => {
+          navigate(`/profil-employer/${employerId}`);
+        })
+        .then(() =>
+          toast({
+            title: "Votre annonce a bien été crée",
+            status: "success",
+            position: "bottom-right",
+            duration: 7000,
+            isClosable: true,
+          })
+        )
+        .catch((e) => {
+          console.error(e);
+          toast({
+            title: "Votre annonce n'a pas pu être ajoutée",
+            status: "error",
+            position: "bottom-right",
+            duration: 7000,
+            isClosable: true,
+          });
+        });
+    }
   };
 
   const handleCancel = (event) => {
@@ -189,9 +239,16 @@ export default function AnnonceForm() {
     if (nameService !== "" && !serviceName.includes(nameService)) {
       setServiceName([...serviceName, nameService]);
       setServiceNumber([...serviceNumber, e.target.value]);
-      backendAPI.post(
-        `/api/employer/${employerId}/annonce/${annonceId}/services/${e.target.value}`
-      );
+      if (coordinatorId !== "undefined") {
+        backendAPI.post(
+          `/api/coordinator/${coordinatorId}/annonce/${annonceId}/services/${e.target.value}`
+        );
+      }
+      if (employerId !== "undefined") {
+        backendAPI.post(
+          `/api/employer/${employerId}/annonce/${annonceId}/services/${e.target.value}`
+        );
+      }
     }
   };
 
@@ -216,14 +273,12 @@ export default function AnnonceForm() {
   const updateLocation = (e) => {
     if (e.target.checked && !locationList.includes(e.target.value)) {
       setLocationList([...locationList, e.target.value]);
-      backendAPI.post(
-        `/api/employer/${employerId}/annonce/${annonceId}/locations/${e.target.value}`
-      );
+      backendAPI.post(`/api/annonce/${annonceId}/locations/${e.target.value}`);
     } else if (!e.target.checked) {
       locationList.splice(locationList.indexOf(e.target.value), 1);
 
       backendAPI.delete(
-        `/api/employer/${employerId}/annonce/${annonceId}/locations/${e.target.value}`
+        `/api/annonce/${annonceId}/locations/${e.target.value}`
       );
     }
   };
@@ -305,6 +360,24 @@ export default function AnnonceForm() {
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
               />
+              {coordinatorId ? (
+                <Select
+                  border="none"
+                  type="text"
+                  id="formProService"
+                  name="Service"
+                  fontSize="0.8rem"
+                  fontWeight="500"
+                  color="gray"
+                  placeholder="Quelle est la famille concernée ?"
+                  onChange={addFamily}
+                >
+                  {families.map((family) => (
+                    <option value={family.id}>{family.lastname}</option>
+                  ))}
+                </Select>
+              ) : null}
+
               <FormLabel
                 htmlFor="description"
                 fontSize="md"

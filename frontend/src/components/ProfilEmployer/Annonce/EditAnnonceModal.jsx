@@ -1,3 +1,4 @@
+/* eslint-disable no-lone-blocks */
 import axios from "axios";
 import { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
@@ -45,7 +46,7 @@ import Services from "./Services";
 import Lieux from "./Lieux";
 
 export default function EditAnnonceModal({ isOpen, onClose, annonce }) {
-  const { employerId } = useParams();
+  const { employerId, coordinatorId } = useParams();
   const toast = useToast();
 
   const [title, setTitle] = useState("");
@@ -102,34 +103,67 @@ export default function EditAnnonceModal({ isOpen, onClose, annonce }) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    backendAPI
-      .put(`/api/employers/${employerId}/annonce/${annonce.id}`, {
-        title,
-        description,
-        zipCode: cityPro,
-        emergency,
-        price,
-        status,
-      })
-      .then(() =>
-        toast({
-          title: "Votre annonce a bien été modifiée",
-          status: "success",
-          position: "bottom-right",
-          duration: 7000,
-          isClosable: true,
+    if (employerId === "undefined") {
+      backendAPI
+        .put(`/api/coordinator/${coordinatorId}/annonce/${annonce.id}`, {
+          title,
+          description,
+          zipCode: cityPro,
+          emergency,
+          price,
+          status,
         })
-      )
-      .catch((e) => {
-        console.error(e);
-        toast({
-          title: "Votre annonce n'a pas pu être modifiée",
-          status: "error",
-          position: "bottom-right",
-          duration: 7000,
-          isClosable: true,
+        .then(() =>
+          toast({
+            title: "Votre annonce a bien été modifiée",
+            status: "success",
+            position: "bottom-right",
+            duration: 7000,
+            isClosable: true,
+          })
+        )
+        .catch((e) => {
+          console.error(e);
+          toast({
+            title: "Votre annonce n'a pas pu être modifiée",
+            status: "error",
+            position: "bottom-right",
+            duration: 7000,
+            isClosable: true,
+          });
         });
-      });
+    }
+    if (coordinatorId === "undefined") {
+      backendAPI
+        .put(`/api/employers/${employerId}/annonce/${annonce.id}`, {
+          title,
+          description,
+          zipCode: cityPro,
+          emergency,
+          price,
+          status,
+        })
+        .then(() =>
+          toast({
+            title: "Votre annonce a bien été modifiée",
+            status: "success",
+            position: "bottom-right",
+            duration: 7000,
+            isClosable: true,
+          })
+        )
+        .catch((e) => {
+          console.error(e);
+          toast({
+            title: "Votre annonce n'a pas pu être modifiée",
+            status: "error",
+            position: "bottom-right",
+            duration: 7000,
+            isClosable: true,
+          });
+        });
+    }
+
     onClose();
   };
 

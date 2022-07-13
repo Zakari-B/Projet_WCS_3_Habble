@@ -25,7 +25,7 @@ const getAll = async (req, res) => {
 };
 
 const getAllByCoordinatorId = async (req, res) => {
-  const coordinatorId = parseInt(req.params.coordinatorId, 10);
+  const coordinatorId = parseInt(req.roleId, 10);
   try {
     const docList = await getAllDocumentsByCoordinatorId(coordinatorId);
     return res.status(200).send(docList);

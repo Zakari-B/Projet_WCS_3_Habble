@@ -7,12 +7,10 @@ import {
 } from "@chakra-ui/react";
 
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
 
 import backendAPI from "../../../services/backendAPI";
 
 export default function Lieux({ annonce }) {
-  const { employerId } = useParams();
   // useState pour chaque input //
   const [locations, setLocations] = useState([]);
   const [locationList, setLocationList] = useState([]);
@@ -28,9 +26,7 @@ export default function Lieux({ annonce }) {
   const updateLocation = (e) => {
     if (e.target.checked && !locationList.includes(e.target.value)) {
       setLocationList([...locationList, e.target.value]);
-      backendAPI.post(
-        `/api/employer/${employerId}/annonce/${annonce.id}/locations/${e.target.value}`
-      );
+      backendAPI.post(`/api/annonce/${annonce.id}/locations/${e.target.value}`);
     } else if (!e.target.checked) {
       const locationListFilter = locationList.filter(
         (elem) => elem !== e.target.value
@@ -38,7 +34,7 @@ export default function Lieux({ annonce }) {
       locationList.splice(locationList.indexOf(e.target.value), 1);
       setLocationList(locationListFilter);
       backendAPI.delete(
-        `/api/employer/${employerId}/annonce/${annonce.id}/locations/${e.target.value}`
+        `/api/annonce/${annonce.id}/locations/${e.target.value}`
       );
     }
   };
@@ -58,7 +54,7 @@ export default function Lieux({ annonce }) {
   // axios qui va chercher les services d'un freelancer
   const getAllLocationsByAnnonce = () => {
     backendAPI
-      .get(`/api/employer/${employerId}/annonce/${annonce.id}/locations`)
+      .get(`/api/annonce/${annonce.id}/locations`)
       .then((response) => {
         setLocationList(response.data.map((e) => e.fk_lieu_id.id.toString()));
         setLocationListFiltered(

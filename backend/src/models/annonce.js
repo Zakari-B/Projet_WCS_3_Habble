@@ -18,7 +18,7 @@ const getAllAnnouncementsbyCoordinatorId = async (coordinatorId) => {
   try {
     return await prisma.annonce.findMany({
       where: { coordinatorId },
-      include: { annonce_offers: true },
+      include: { annonce_offers: true, fk_family_id: true },
     });
   } finally {
     await prisma.$disconnect();
@@ -29,6 +29,9 @@ const getOneAnnouncementByCoordinatorId = async (coordinatorId, id) => {
   try {
     return await prisma.annonce.findMany({
       where: { coordinatorId, id },
+      include: {
+        fk_family_id: true,
+      },
     });
   } finally {
     await prisma.$disconnect();

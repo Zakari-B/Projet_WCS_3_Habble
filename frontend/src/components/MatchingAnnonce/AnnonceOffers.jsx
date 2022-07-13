@@ -45,7 +45,7 @@ export default function AnnonceOffers({ offers }) {
     onClose: onEditClose,
   } = useDisclosure();
 
-  const { employerId } = useParams();
+  const { employerId, coordinatorId } = useParams();
   const { freelancerId } = useParams();
   const { id } = useParams();
   const [currentOffer, setCurrentOffer] = useState({});
@@ -91,7 +91,7 @@ export default function AnnonceOffers({ offers }) {
           fontWeight="700"
           fontSize="20px"
         >
-          {role === "employer"
+          {role === "employer" || role === "coordinator"
             ? `Offres reçues (${offers.length})`
             : `Mon Offre`}
         </Heading>
@@ -101,7 +101,9 @@ export default function AnnonceOffers({ offers }) {
           <Thead bgColor="gray.200">
             <Tr>
               <Th>
-                {role === "employer" ? `OFFRES(${offers.length})` : `MON OFFRE`}
+                {role === "employer" || role === "coordinator"
+                  ? `OFFRES(${offers.length})`
+                  : `MON OFFRE`}
               </Th>
               <Th>REPUTATION</Th>
               <Th> DETAILS</Th>
@@ -109,7 +111,7 @@ export default function AnnonceOffers({ offers }) {
               <Th> STATUS</Th>
             </Tr>
           </Thead>
-          {employerId ? (
+          {employerId || coordinatorId ? (
             <Tbody>
               {offers.map((offer) => (
                 <Tr>

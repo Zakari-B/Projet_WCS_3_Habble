@@ -100,7 +100,7 @@ const getAllByEmployerId = async (req, res) => {
 };
 
 const getAllByCoordinatorId = async (req, res) => {
-  const coordinatorId = parseInt(req.params.coordinatorId, 10);
+  const coordinatorId = parseInt(req.roleId, 10);
   try {
     const announcementslist = await getAllAnnouncementsbyCoordinatorId(
       coordinatorId
@@ -194,7 +194,7 @@ const updateOne = async (req, res) => {
 };
 
 const updateOneByCoordinatorId = async (req, res) => {
-  const coordinatorId = parseInt(req.params.coordinatorId, 10);
+  const coordinatorId = parseInt(req.roleId, 10);
   const annonceId = parseInt(req.params.id, 10);
 
   const annonce = await getOneAnnouncementByCoordinatorId(
@@ -250,11 +250,11 @@ const deleteOne = async (req, res) => {
 };
 
 const deleteOneByCoordinatorId = async (req, res) => {
-  const coordinator = parseInt(req.params.coordinatorId, 10);
+  const coordinatorId = parseInt(req.roleId, 10);
   const annonceId = parseInt(req.params.id, 10);
 
   const annonce = await getOneAnnouncementByCoordinatorId(
-    coordinator,
+    coordinatorId,
     annonceId
   );
 
@@ -263,7 +263,7 @@ const deleteOneByCoordinatorId = async (req, res) => {
   }
 
   try {
-    await deleteOneAnnouncementByCoordinatorId(coordinator, annonceId);
+    await deleteOneAnnouncementByCoordinatorId(coordinatorId, annonceId);
     return res.status(200).send("L'annonce a été supprimée avec succès");
   } catch (e) {
     console.error(e);

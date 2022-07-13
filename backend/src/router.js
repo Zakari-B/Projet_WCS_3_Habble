@@ -160,7 +160,7 @@ router.get(
 );
 router.get(
   "/coordinator/:coordinatorId/documents",
-  // authorization,
+  authorization,
   DocumentsController.getAllByCoordinatorId
 );
 router.get(
@@ -394,19 +394,22 @@ router.delete(
 router.post(
   "/coordinator/:coordinatorId/annonce",
   authorization,
-  AnnonceController.createOne
+  AnnonceController.createOneByCoordinatorId
 );
 router.get(
   "/coordinator/:coordinatorId/annonces",
+  authorization,
   AnnonceController.getAllByCoordinatorId
 );
 router.put(
   "/coordinator/:coordinatorId/annonce/:id",
+  authorization,
   AnnonceController.updateOneByCoordinatorId
 );
 router.delete(
   "/coordinator/:coordinatorId/annonce/:id",
-  AnnonceController.deleteOne
+  authorization,
+  AnnonceController.deleteOneByCoordinatorId
 );
 
 // Routes for offers
@@ -472,36 +475,18 @@ router.delete("/locations/:locationId", LieuController.deleteOne);
 // routes for lieux annonces
 
 router.get(
-  "/employer/:employerId/annonce/:annonceId/locations",
+  "/annonce/:annonceId/locations",
   AnnonceLieuController.getAllByAnnonceId
 );
 
 router.post(
-  "/employer/:employerId/annonce/:annonceId/locations/:locationId",
+  "/annonce/:annonceId/locations/:locationId",
   AnnonceLieuController.createOne
 );
 
 router.delete(
-  "/employer/:employerId/annonce/:annonceId/locations/locationId",
+  "/annonce/:annonceId/locations/locationId",
   AnnonceLieuController.deleteOne
-);
-
-// routes for annonces/coordinator
-
-router.get(
-  "/coordinators/:coordinatorid/annonces",
-  AnnonceController.getAllByCoordinatorId
-);
-
-router.post(
-  "/coordinators/:coordinatorid/annonce",
-  authorization,
-  AnnonceController.createOne
-);
-
-router.put(
-  "/coordinators/:coordinatorid/annonce/:id",
-  AnnonceController.updateOneByCoordinatorId
 );
 
 module.exports = router;
