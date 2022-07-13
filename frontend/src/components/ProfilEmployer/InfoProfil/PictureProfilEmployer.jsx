@@ -151,7 +151,7 @@ export default function PictureProfilePro({ employer }) {
                     name="picturePro"
                     display="none"
                     onChange={(e) => {
-                      // eslint-disable-next-line no-undef
+                      const frame = document.getElementById("frame");
                       frame.src = URL.createObjectURL(e.target.files[0]);
                       setPictureEmployer(e.target.files);
                     }}

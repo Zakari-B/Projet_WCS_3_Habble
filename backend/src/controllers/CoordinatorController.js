@@ -1,6 +1,7 @@
 const {
   createOneCoordinator,
   getAllCoordinatorsProfileInfo,
+  getAllCoordinators,
   findOneCoordinator,
   getUserFromCoordinator,
   updateOneCoordinator,
@@ -37,6 +38,21 @@ exports.createOne = async (req, res, next) => {
     next();
   }
   return null;
+};
+
+exports.getAll = async (req, res) => {
+  try {
+    const freelancers = await getAllCoordinators();
+    if (!freelancers) {
+      return res.status(404).send(`There are no freelancers yet`);
+    }
+    return res.status(200).json(freelancers);
+  } catch (e) {
+    console.warn(e);
+    return res
+      .status(500)
+      .json({ error: "Problème de lecture des freelancers" });
+  }
 };
 
 exports.getOne = async (req, res) => {

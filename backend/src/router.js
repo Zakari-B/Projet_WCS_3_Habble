@@ -30,6 +30,8 @@ const {
   authSelf,
   authSelfRole,
   sessionControl,
+  forgotPassword,
+  adminAuth,
 } = require("./middlewares/auth");
 
 const router = express.Router();
@@ -46,6 +48,9 @@ router.post(
 router.post("/auth/login", UserController.login);
 router.get("/auth/logout", authorization, UserController.logout);
 router.get("/auth/sessionControl", authorization, sessionControl);
+router.post("/auth/forgotPassword", forgotPassword);
+router.post("/auth/login", UserController.login);
+router.post("/auth/resetPassword", UserController.resetPassword);
 
 router.post("/file", authorization, multer, fileController.addOne);
 router.post(
@@ -55,7 +60,6 @@ router.post(
   fileController.addOneByFamily
 );
 
-router.post("/maiyl/forgotten", mailController.forgotten);
 router.post("/mail/contact", mailController.contact);
 
 router.get("/users", UserController.getAll);
@@ -111,18 +115,12 @@ router.put(
 );
 
 // Routes for Coordinators
-// router.get("/coordinators/", CoordinatorController.getAll);
+router.get("/coordinators/", authorization, CoordinatorController.getAll);
 router.get("/coordinators/:id", authorization, CoordinatorController.getOne);
 router.get(
   "/coordinator/:coordinatorId/user",
   authorization,
   CoordinatorController.getUserFromCoordinator
-);
-
-router.get(
-  "/coordinators/:coordinatorid/city",
-  authorization,
-  CoordinatorController.getOneCoordinatorWithCityInfo
 );
 
 router.put(
@@ -132,11 +130,11 @@ router.put(
   CoordinatorController.updateOne
 );
 
-// router.get(
-//   "/coordinators/:id/user",
-//   authorization,
-//   CoordinatorController.getUser
-// );
+router.get(
+  "/coordinators/:coordinatorid/city",
+  authorization,
+  CoordinatorController.getOneCoordinatorWithCityInfo
+);
 
 // Routes for coordinator's picture
 router.put(
@@ -415,6 +413,24 @@ router.delete(
   AnnonceController.deleteOne
 );
 
+router.post(
+  "/coordinator/:coordinatorId/annonce",
+  authorization,
+  AnnonceController.createOne
+);
+router.get(
+  "/coordinator/:coordinatorId/annonces",
+  AnnonceController.getAllByCoordinatorId
+);
+router.put(
+  "/coordinator/:coordinatorId/annonce/:id",
+  AnnonceController.updateOneByCoordinatorId
+);
+router.delete(
+  "/coordinator/:coordinatorId/annonce/:id",
+  AnnonceController.deleteOne
+);
+
 // Routes for offers
 router.post(
   "/freelancers/:freelancerid/annonces/:annonceid/offers",
@@ -467,6 +483,20 @@ router.post(
 router.delete(
   "/annonce/:annonceId/services/:serviceId",
   AnnonceServicesController.deleteOne
+);
+
+// Admin routes
+router.get(
+  "/users/adminGetOne/:id",
+  authorization,
+  adminAuth,
+  UserController.getUserWithRole
+);
+router.post(
+  "/users/:freelancerId/verify/:docId",
+  authorization,
+  adminAuth,
+  DocumentsController.verify
 );
 
 // routes for locations

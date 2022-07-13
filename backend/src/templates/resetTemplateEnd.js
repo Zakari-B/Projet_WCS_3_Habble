@@ -1,6 +1,6 @@
-const resetTemplate = (resetLink) => {
+const resetTemplateEnd = (firstname) => {
   return {
-    subject: "Réinitialisation de mot de passe",
+    subject: "Réinitialisation de mot de passe réussie",
     body: `
   <!DOCTYPE html>
   <html
@@ -89,13 +89,11 @@ const resetTemplate = (resetLink) => {
         text-size-adjust: none;
       "
     >
-    <h1>Demande de réinitialisation de mot de passe</h1>
-    <p>Bonjour, vous avez demandé à réinitialiser votre mot de passe. Vous pouvez le faire sur le lien suivant :</p>
-    <p>${resetLink}</p>
-    <p>Si cette demande ne provient pas de vous, vous pouvez ignorer cet email</p>
+    <p>Bonjour ${firstname}, suite à votre demande nous vous informons que votre mot de passe a bien été réinitialisé.</p>
+    <p>A bientôt sur Habble</p>
     </body>
     `,
   };
 };
 
-module.exports = resetTemplate;
+module.exports = resetTemplateEnd;

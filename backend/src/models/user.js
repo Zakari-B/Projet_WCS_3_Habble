@@ -80,6 +80,16 @@ const findOne = async (userId) => {
   }
 };
 
+const findOneByEmail = async (userEmail) => {
+  try {
+    return await prisma.user.findUnique({
+      where: { email: userEmail },
+    });
+  } finally {
+    await prisma.$disconnect();
+  }
+};
+
 const updateOne = async (userId, payload) => {
   try {
     return await prisma.user.update({
@@ -107,5 +117,6 @@ module.exports = {
   updateOne,
   deleteOne,
   findOne,
+  findOneByEmail,
   findAll,
 };

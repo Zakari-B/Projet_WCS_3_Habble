@@ -55,7 +55,7 @@ const signupForm = () => {
         if (response) {
           toast({
             title: "Vous avez bien créez votre compte.",
-            description: "Bienvenu chez nous !",
+            description: "Bienvenue chez nous !",
             status: "success",
             duration: 7000,
             position: "bottom-right",
@@ -100,9 +100,7 @@ const signupForm = () => {
               navigate(`/profil-employer/${newresponse.data.fkId}`);
             }
             if (newresponse.data.type === "coordinator") {
-              return newresponse.data.profil
-                ? navigate(`/profil/${newresponse.data.fkId}`)
-                : navigate(`/welcome-pro/${newresponse.data.fkId}`);
+              navigate(`/profil-coordinator/${newresponse.data.fkId}`);
             }
             return null;
           })
