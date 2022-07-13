@@ -10,7 +10,7 @@ import AccountCard from "../components/ProfileFreelancer/Account/AccountCard";
 import Verifications from "../components/ProfileFreelancer/Verifications";
 import Accompagnement from "../components/ProfilCoordinator/Accompagnement";
 import backendAPI from "../services/backendAPI";
-// import { getSubListforAnId } from "../services/ProfileProUtils";
+import { getSubListforAnId } from "../services/ProfileProUtils";
 
 export default function ProfilPageCoordinator() {
   const navigate = useNavigate();
@@ -29,17 +29,15 @@ export default function ProfilPageCoordinator() {
       .then((response) => {
         setCoordoUser(response.data);
         setCoordinator(response.data.coordinator);
+        getSubListforAnId("coordinators", coordinatorId, "city").then((res) => {
+          setCityInfo(res.data[0]);
+        });
       })
       .catch((error) => {
         console.warn(error);
         navigate("/error");
       });
   };
-
-  // getSubListforAnId("coordinators", coordinatorId, "city").then((response) => {
-  //   console.log(response.data[0]);
-  //   setCityInfo(response.data[0]);
-  // });
 
   useEffect(() => {
     if (JSON.parse(localStorage.getItem("isUserLoggedIn"))) {

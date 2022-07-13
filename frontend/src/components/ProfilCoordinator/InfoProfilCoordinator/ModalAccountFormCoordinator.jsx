@@ -23,11 +23,14 @@ export default function ModalAccountForm({
     <Modal isOpen={isOpen} onClose={onClose} size="full">
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader>Modifier mes informations</ModalHeader>
+        <ModalHeader>
+          {coordinator.activityDescription === ""
+            ? "Completer mes informations"
+            : "Modifier mes informations"}
+        </ModalHeader>
         <ModalCloseButton />
         <ModalBody maxW="100%">
           <ProAccountFormCoordinator
-            onModal
             onOpen={onOpen}
             isOpen={isOpen}
             onClose={onClose}

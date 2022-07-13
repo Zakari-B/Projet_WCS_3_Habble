@@ -171,7 +171,9 @@ export default function BannerProfileCoordinator({
                     setUpdated={setUpdated}
                     city={city}
                     onOpen={onOpen}
-                    isOpen={isOpen}
+                    isOpen={
+                      coordinator.activityDescription === "" ? true : isOpen
+                    }
                     onClose={onClose}
                     coordinator={coordinator}
                   />
