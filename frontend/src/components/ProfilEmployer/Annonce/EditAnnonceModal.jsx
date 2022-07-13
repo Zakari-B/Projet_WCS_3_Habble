@@ -103,7 +103,7 @@ export default function EditAnnonceModal({ isOpen, onClose, annonce }) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (employerId === "undefined") {
+    if (coordinatorId !== "undefined") {
       backendAPI
         .put(`/api/coordinator/${coordinatorId}/annonce/${annonce.id}`, {
           title,
@@ -132,8 +132,7 @@ export default function EditAnnonceModal({ isOpen, onClose, annonce }) {
             isClosable: true,
           });
         });
-    }
-    if (coordinatorId === "undefined") {
+    } else if (employerId !== "undefined") {
       backendAPI
         .put(`/api/employers/${employerId}/annonce/${annonce.id}`, {
           title,

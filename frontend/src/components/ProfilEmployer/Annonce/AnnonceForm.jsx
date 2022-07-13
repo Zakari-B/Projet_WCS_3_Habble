@@ -360,23 +360,22 @@ export default function AnnonceForm() {
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
               />
-              {coordinatorId ? (
-                <Select
-                  border="none"
-                  type="text"
-                  id="formProService"
-                  name="Service"
-                  fontSize="0.8rem"
-                  fontWeight="500"
-                  color="gray"
-                  placeholder="Quelle est la famille concernée ?"
-                  onChange={addFamily}
-                >
-                  {families.map((family) => (
-                    <option value={family.id}>{family.lastname}</option>
-                  ))}
-                </Select>
-              ) : null}
+
+              <Select
+                border="none"
+                type="text"
+                id="formProService"
+                name="Service"
+                fontSize="0.8rem"
+                fontWeight="500"
+                color="gray"
+                placeholder="Quelle est la famille concernée ?"
+                onChange={addFamily}
+              >
+                {families.map((family) => (
+                  <option value={family.id}>{family.lastname}</option>
+                ))}
+              </Select>
 
               <FormLabel
                 htmlFor="description"
