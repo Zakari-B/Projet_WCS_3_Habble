@@ -27,6 +27,7 @@ export default function ModalAccountForm({
         <ModalCloseButton />
         <ModalBody maxW="100%">
           <ProAccountFormCoordinator
+            onModal
             onOpen={onOpen}
             isOpen={isOpen}
             onClose={onClose}

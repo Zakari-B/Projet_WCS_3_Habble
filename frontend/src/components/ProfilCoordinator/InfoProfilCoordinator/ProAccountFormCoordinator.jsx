@@ -21,21 +21,24 @@ import {
   InputLeftElement,
   List,
   ListItem,
+  Link,
 } from "@chakra-ui/react";
 import { Search2Icon } from "@chakra-ui/icons";
 import { MdRoom } from "react-icons/md";
 import { useState, useEffect, useRef } from "react";
-
+import { useNavigate } from "react-router-dom";
 import PictureProfilCoordinator from "./PictureProfilCoordinator";
 import backendAPI from "../../../services/backendAPI";
 
 export default function ProAccountForm({
+  onModal = false,
   isOpen,
   onClose,
   coordinator,
   updated,
   setUpdated,
 }) {
+  const navigate = useNavigate();
   const toast = useToast();
 
   // useState pour chaque input //
@@ -118,7 +121,11 @@ export default function ProAccountForm({
             isClosable: true,
           });
           setUpdated(!updated);
-          onClose();
+          if (onModal === false) {
+            navigate(`/profil-coordinator/${coordinator.id}`);
+          } else {
+            onClose();
+          }
         }
       })
       .catch((error) => {
@@ -435,25 +442,47 @@ export default function ProAccountForm({
             Le numéro de Siret est un identifiant de 14 chiffres (exemple :
             12002701600357)
           </Text>
-
-          <Button
-            variant="solid_PrimaryColor"
-            type="submit"
-            onClick={updateCoordinatorProfile}
-          >
-            Enregistrer
-          </Button>
-          <Button
-            bgColor="white"
-            _hover={{ bgColor: "white" }}
-            onClick={onClose}
-            textAlign="left"
-            fontSize="xs"
-            fontWeight="600"
-            w="100px"
-          >
-            Annulez
-          </Button>
+          {onModal === false ? (
+            <>
+              <Button
+                variant="solid_PrimaryColor"
+                type="submit"
+                onClick={updateCoordinatorProfile}
+              >
+                Enregistrer
+              </Button>
+              <Link
+                href="/"
+                textAlign="left"
+                fontSize="xs"
+                fontWeight="600"
+                w="100px"
+              >
+                Annulez
+              </Link>
+            </>
+          ) : (
+            <>
+              <Button
+                variant="solid_PrimaryColor"
+                type="submit"
+                onClick={updateCoordinatorProfile}
+              >
+                Enregistrer
+              </Button>
+              <Button
+                bgColor="white"
+                _hover={{ bgColor: "white" }}
+                onClick={onClose}
+                textAlign="left"
+                fontSize="xs"
+                fontWeight="600"
+                w="100px"
+              >
+                Annulez
+              </Button>
+            </>
+          )}
           <Divider />
           <Text
             fontSize="xs"
