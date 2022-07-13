@@ -11,6 +11,7 @@ export default function AnnonceFreelancerSearchForm() {
   const { annonceId, employerId } = useParams();
   const navigate = useNavigate();
   const [annonce, setAnnonce] = useState([]);
+
   const [freelancers, setFreelancers] = useState([]);
 
   const searchMatchingFreelancer = () => {
@@ -79,6 +80,18 @@ export default function AnnonceFreelancerSearchForm() {
     }
   };
 
+  const updateFreelancerListNoMatch = (e) => {
+    if (e.target.checked && !freelancerList.includes(e.target.value)) {
+      const freeList = [...freelancerList, e.target.value];
+      setFreelancerList(freeList);
+    } else if (!e.target.checked) {
+      const freelancerListFilter = freelancerList.filter(
+        (elem) => elem !== e.target.value
+      );
+      setFreelancerList(freelancerListFilter);
+    }
+  };
+
   const sendBulkEmails = (e) => {
     e.preventDefault();
 
@@ -119,6 +132,51 @@ export default function AnnonceFreelancerSearchForm() {
           duration: 7000,
           isClosable: true,
         });
+      });
+  };
+
+  const sendAnnonceToHabble = (e) => {
+    e.preventDefault();
+    backendAPI
+      .get(`/api/employers/${parseInt(employerId, 10)}/user`)
+      .then((res) => {
+        const user = res.data;
+        backendAPI
+          .post("api/mail/freelancerNoMatch", {
+            lastname: user.lastname,
+            firstname: user.firstname,
+            email: user.email,
+            phone: user.employer?.phone,
+            recipient: "habble",
+            annonce: {
+              id: annonce.id,
+              title: annonce.title,
+              description: annonce.description,
+              price: annonce.price,
+            },
+          })
+          .then(() => {
+            navigate(`/profil-employer/${parseInt(employerId, 10)}`);
+            toast({
+              title: "Votre annonce a été envoyée avec succès",
+              description: "Nous vous contacterons prochainement",
+              status: "success",
+              position: "bottom-right",
+              duration: 7000,
+              isClosable: true,
+            });
+          })
+          .catch((err) => {
+            console.error(err);
+            toast({
+              title:
+                "Votre annonce n'a pas pu être envoyée à Habble. Veuillez nous contacter",
+              status: "error",
+              position: "bottom-right",
+              duration: 7000,
+              isClosable: true,
+            });
+          });
       });
   };
 
@@ -263,8 +321,8 @@ export default function AnnonceFreelancerSearchForm() {
                       bgColor: "pink.light",
                       iconColor: "white",
                     }}
-                    value="Habble"
-                    onChange={updateFreelancerList}
+                    value="habble"
+                    onChange={updateFreelancerListNoMatch}
                   />
                   <Flex gap="10px" direction="column">
                     <Text
@@ -287,6 +345,7 @@ export default function AnnonceFreelancerSearchForm() {
                 variant="solid_PrimaryColor"
                 type="submit"
                 width="fit-content"
+                onClick={sendAnnonceToHabble}
                 isDisabled={
                   !freelancerList.length > 0 || freelancerList.length > 10
                 }

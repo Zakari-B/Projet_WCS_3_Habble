@@ -50,6 +50,7 @@ router.post(
   "/mail/freelancerAnnonceMatch",
   mailController.freelancerAnnonceMatch
 );
+router.post("/mail/freelancerNoMatch", mailController.freelancerNoMatch);
 
 router.get("/users", UserController.getAll);
 router.get("/users/:id", UserController.getOne);
