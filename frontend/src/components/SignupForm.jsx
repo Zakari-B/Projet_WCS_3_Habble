@@ -55,7 +55,7 @@ const signupForm = () => {
         if (response) {
           toast({
             title: "Vous avez bien créez votre compte.",
-            description: "Bienvenu chez nous !",
+            description: "Bienvenue chez nous !",
             status: "success",
             duration: 7000,
             position: "bottom-right",

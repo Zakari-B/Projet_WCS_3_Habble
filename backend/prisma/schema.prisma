@@ -12,13 +12,15 @@ model user {
   firstname         String       @db.VarChar(100)
   lastname          String       @db.VarChar(100)
   email             String       @unique @db.VarChar(100)
+  hashedPassword    String       @db.VarChar(255)
   role              String       @db.VarChar(100)
   profileIsComplete Boolean      @default(false)
-  hashedPassword    String       @db.VarChar(255)
   dateCreated       DateTime     @default(now()) @db.Timestamp(0)
+  isAdmin           Boolean      @default(false)
   freelancer        freelancer?
   employer          employer?
   coordinator       coordinator?
+  token             token[]
 }
 
 model freelancer {
@@ -265,6 +267,14 @@ model city {
   @@index([ville_nom], map: "ville_nom")
   @@index([ville_nom_reel], map: "ville_nom_reel")
   @@index([ville_nom_simple], map: "ville_nom_simple")
+}
+
+model token {
+  id         Int    @id @default(autoincrement())
+  token      String @db.VarChar(255)
+  userId     Int    @unique
+  expiration String @db.VarChar(255)
+  fk_user_id user   @relation(fields: [userId], references: [id])
 }
 
 model family {

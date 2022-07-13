@@ -29,6 +29,8 @@ const {
   authSelf,
   authSelfRole,
   sessionControl,
+  forgotPassword,
+  adminAuth,
 } = require("./middlewares/auth");
 
 const router = express.Router();
@@ -45,6 +47,9 @@ router.post(
 router.post("/auth/login", UserController.login);
 router.get("/auth/logout", authorization, UserController.logout);
 router.get("/auth/sessionControl", authorization, sessionControl);
+router.post("/auth/forgotPassword", forgotPassword);
+router.post("/auth/login", UserController.login);
+router.post("/auth/resetPassword", UserController.resetPassword);
 
 router.post("/file", authorization, multer, fileController.addOne);
 router.post(
@@ -54,7 +59,6 @@ router.post(
   fileController.addOneByFamily
 );
 
-router.post("/maiyl/forgotten", mailController.forgotten);
 router.post("/mail/contact", mailController.contact);
 
 router.get("/users", UserController.getAll);
@@ -443,6 +447,20 @@ router.post(
 router.delete(
   "/annonce/:annonceId/services/:serviceId",
   AnnonceServicesController.deleteOne
+);
+
+// Admin routes
+router.get(
+  "/users/adminGetOne/:id",
+  authorization,
+  adminAuth,
+  UserController.getUserWithRole
+);
+router.post(
+  "/users/:freelancerId/verify/:docId",
+  authorization,
+  adminAuth,
+  DocumentsController.verify
 );
 
 // routes for locations
