@@ -4,7 +4,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer";
 import DocumentCarouselCoordo from "../components/ProfilCoordinator/DocumentCarouselCoordo";
-// import AnnonceCarousel from "../components/ProfilEmployer/Annonce/AnnonceCarousel";
+import AnnonceCarouselCoordo from "../components/ProfilCoordinator/Annonces/AnnonceCarouselCoordo";
 // import BannerProfile from "../components/ProfileFreelancer/Banner/BannerProfile";
 import AccountCard from "../components/ProfileFreelancer/Account/AccountCard";
 import Verifications from "../components/ProfileFreelancer/Verifications";
@@ -15,8 +15,6 @@ export default function ProfilPageCoordinator() {
   const navigate = useNavigate();
 
   const { coordinatorId } = useParams();
-  // Will use coordinator in the future, just need to disable it for the moment
-  // eslint-disable-next-line no-unused-vars
   const [coordinator, setCoordinator] = useState({});
   const [updated, setUpdated] = useState(false);
   const [coordoUser, setCoordoUser] = useState([]);
@@ -63,7 +61,7 @@ export default function ProfilPageCoordinator() {
         paddingTop="150px"
       >
         {/* Banner to be fixed, will be done shortly, just want to pr the coordinator */}
-        {/* <BannerProfile freelancer={coordinator} /> */}
+        {/* <BannerProfile freelancer={coordinator} loggedUser={loggedUser} /> */}
         <Flex
           w={{ base: "95%", lg: "80%" }}
           gap="20px"
@@ -79,7 +77,7 @@ export default function ProfilPageCoordinator() {
             flexDir="column"
           >
             <AccountCard user={coordoUser} />
-            <Verifications freelancer={coordoUser} loggedUser={loggedUser} />
+            <Verifications freelancer={coordinator} loggedUser={loggedUser} />
             <Accompagnement />
           </Flex>
           <Flex
@@ -89,8 +87,7 @@ export default function ProfilPageCoordinator() {
             gap="20px"
           >
             <DocumentCarouselCoordo setUpdated={setUpdated} />
-            {/* Same thing will be fixed, just want to pr */}
-            {/* <AnnonceCarousel annonce={fakeAnnonce} /> */}
+            <AnnonceCarouselCoordo updated={updated} setUpdated={setUpdated} />
           </Flex>
         </Flex>
       </Flex>

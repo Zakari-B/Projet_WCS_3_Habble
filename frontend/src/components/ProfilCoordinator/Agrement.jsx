@@ -1,5 +1,4 @@
 import { Flex, Heading } from "@chakra-ui/react";
-// import UploadedDocs from "../ProfileFreelancer/DocumentUpload/UploadedDocs";
 
 export default function Agrement() {
   return (
@@ -25,12 +24,7 @@ export default function Agrement() {
         alignSelf="center"
         w={{ base: "100%", "2xl": "90%" }}
         m="auto"
-      >
-        {/* MAP DATA FROM BDD HERE */}
-        {/* {fakeData.map((elem) => (
-          <UploadedDocs key={`${elem.name}_${elem.id}`} data={elem} />
-        ))} */}
-      </Flex>
+      />
     </Flex>
   );
 }

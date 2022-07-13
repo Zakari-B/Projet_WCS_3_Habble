@@ -39,7 +39,6 @@ export default function Verifications({ freelancer, loggedUser }) {
     let diplome = false;
     let agrement = false;
     let casier = false;
-    // http://localhost:3000/profil/4
     if (
       itemList.some(
         (elem) => elem.verified === true && elem.name === "Carte d'identité"
