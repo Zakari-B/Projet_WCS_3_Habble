@@ -4,8 +4,8 @@ const {
   getAllCoordinators,
   findOneCoordinator,
   getUserFromCoordinator,
-  updateOneCoordinator,
   getOneCoordinatorWithCity,
+  updateOneCoordinator,
 } = require("../models/coordinator");
 
 const { validateCoordinator } = require("../utils/validate");
@@ -84,6 +84,22 @@ exports.getOne = async (req, res) => {
   }
 };
 
+exports.getOneCoordinatorWithCityInfo = async (req, res) => {
+  const coordinatorId = parseInt(req.params.coordinatorId, 10);
+  try {
+    const coordinator = await getOneCoordinatorWithCity(coordinatorId);
+    if (!coordinator) {
+      return res.status(404).send(`Coordinator #${coordinatorId} not found.`);
+    }
+    return res.status(200).json(coordinator);
+  } catch (e) {
+    console.warn(e);
+    return res
+      .status(500)
+      .json({ error: "Problème de lecture des coordinateurs" });
+  }
+};
+
 exports.updateOne = async (req, res) => {
   const coordinatorId = parseInt(req.params.coordinatorid, 10);
   const error = validateCoordinator(req.body, false);
@@ -123,21 +139,5 @@ exports.getUserFromCoordinator = async (req, res) => {
     return res
       .status(500)
       .json({ error: "Problème de mise à jour du employer" });
-  }
-};
-
-exports.getOneCoordinatorWithCityInfo = async (req, res) => {
-  const coordinatorId = parseInt(req.params.coordinatorid, 10);
-  try {
-    const coordinator = await getOneCoordinatorWithCity(coordinatorId);
-    if (!coordinator) {
-      return res.status(404).send(`Coordinator #${coordinatorId} not found.`);
-    }
-    return res.status(200).json(coordinator);
-  } catch (e) {
-    console.warn(e);
-    return res
-      .status(500)
-      .json({ error: "Problème de lecture des coordinateurs" });
   }
 };

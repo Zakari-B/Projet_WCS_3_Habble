@@ -14,8 +14,16 @@ import {
   Button,
 } from "@chakra-ui/react";
 import backendAPI from "../../services/backendAPI";
+import AdminDocDelete from "./AdminDocDelete";
 
-export default function AdminDoc({ data }) {
+export default function AdminDoc({
+  data,
+  updated,
+  setUpdated,
+  roleType,
+  roleId,
+}) {
+  const deletePopup = useDisclosure();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [documentState, setDocumentState] = useState(false);
 
@@ -86,11 +94,30 @@ export default function AdminDoc({ data }) {
             <Button
               variant="solid_PrimaryColor"
               onClick={() => {
+                deletePopup.onOpen();
+              }}
+            >
+              Supprimer
+            </Button>
+            <Button
+              variant="solid_SecondaryColor"
+              onClick={() => {
                 onClose();
               }}
             >
               Fermer
             </Button>
+            <AdminDocDelete
+              onOpen={deletePopup.onOpen}
+              isOpen={deletePopup.isOpen}
+              onClose={deletePopup.onClose}
+              item={data}
+              type="documents"
+              roleType={roleType}
+              roleId={roleId}
+              updated={updated}
+              setUpdated={setUpdated}
+            />
           </ModalFooter>
         </ModalContent>
       </Modal>
