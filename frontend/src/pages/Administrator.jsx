@@ -25,6 +25,7 @@ export default function Administrator() {
   const [userList, setUserList] = useState([]);
   const [selectedUser, setSelectedUser] = useState("");
   const [userToAdministrate, setUserToAdministrate] = useState("");
+  const [selectorValue, setSelectorValue] = useState("");
   const [userDocuments, setUserDocuments] = useState([]);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const navigate = useNavigate();
@@ -50,6 +51,13 @@ export default function Administrator() {
     const id = parseInt(e.target.value, 10);
     if (e.target.value !== "") {
       setSelectedUser(id);
+    }
+    if (e.target.id === "firstSelector") {
+      setSelectorValue([id, "", ""]);
+    } else if (e.target.id === "secondSelector") {
+      setSelectorValue(["", id, ""]);
+    } else {
+      setSelectorValue(["", "", id]);
     }
   };
 
@@ -165,7 +173,13 @@ export default function Administrator() {
             alignItems="center"
           >
             <Text fontWeight="bold">Familles</Text>
-            <Select mt="10px" w="90%" onChange={changeUser}>
+            <Select
+              id="firstSelector"
+              mt="10px"
+              w="90%"
+              onChange={changeUser}
+              value={selectorValue[0]}
+            >
               <option value="">---</option>
               {userList &&
                 userList
@@ -186,7 +200,13 @@ export default function Administrator() {
             alignItems="center"
           >
             <Text fontWeight="bold">Coordinateurs</Text>
-            <Select mt="10px" w="90%" onChange={changeUser}>
+            <Select
+              id="secondSelector"
+              mt="10px"
+              w="90%"
+              onChange={changeUser}
+              value={selectorValue[1]}
+            >
               <option value="">---</option>
               {userList &&
                 userList
@@ -207,7 +227,13 @@ export default function Administrator() {
             alignItems="center"
           >
             <Text fontWeight="bold">Freelancers</Text>
-            <Select mt="10px" w="90%" onChange={changeUser}>
+            <Select
+              id="thirdSelector"
+              mt="10px"
+              w="90%"
+              onChange={changeUser}
+              value={selectorValue[2]}
+            >
               <option value="">---</option>
               {userList &&
                 userList
