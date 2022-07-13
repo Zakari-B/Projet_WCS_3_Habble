@@ -17,13 +17,20 @@ import { getSubListforAnId } from "../services/ProfileProUtils";
 
 function ProAnnonces() {
   // const { freelancerId } = useParams();
-  const { employerId } = useParams();
+  const { employerId, coordinatorId } = useParams();
   const [annonces, setAnnonces] = useState([]);
 
   useEffect(() => {
-    getSubListforAnId("employers", employerId, "annonces").then((res) => {
-      setAnnonces(res.data);
-    });
+    if (employerId !== null) {
+      getSubListforAnId("employers", employerId, "annonces").then((res) => {
+        setAnnonces(res.data);
+      });
+    }
+    if (coordinatorId !== null) {
+      getSubListforAnId("employers", employerId, "annonces").then((res) => {
+        setAnnonces(res.data);
+      });
+    }
   }, []);
   const currentAnnonces = annonces.filter(
     (annonce) => annonce.status !== "Finie" && annonce.status !== "Brouillon"

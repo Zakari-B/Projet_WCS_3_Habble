@@ -79,6 +79,10 @@ function App() {
           path="/profil-employer/:employerId/mes-annonces"
           element={<ProAnnonces />}
         />
+        <Route
+          path="/profil-coordinator/:coordinatorId/mes-annonces"
+          element={<ProAnnonces />}
+        />
         <Route path="*" element={<Error />} />
       </Routes>
     </div>

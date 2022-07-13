@@ -156,6 +156,11 @@ export default function Header({
                           `/profil-employer/${data.data.roleId}/mes-annonces`
                         );
                       }
+                      if (data.data.userRole === "coordinator") {
+                        navigate(
+                          `/profil-coordinator/${data.data.roleId}/mes-annonces`
+                        );
+                      }
                     }}
                   >
                     MES ANNONCES

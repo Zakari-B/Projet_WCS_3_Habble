@@ -452,4 +452,22 @@ router.delete(
   AnnonceLieuController.deleteOne
 );
 
+// routes for annonces/coordinator
+
+router.get(
+  "/coordinators/:coordinatorid/annonces",
+  AnnonceController.getAllByCoordinatorId
+);
+
+router.post(
+  "/coordinators/:coordinatorid/annonce",
+  authorization,
+  AnnonceController.createOne
+);
+
+router.put(
+  "/coordinators/:coordinatorid/annonce/:id",
+  AnnonceController.updateOneByCoordinatorId
+);
+
 module.exports = router;
