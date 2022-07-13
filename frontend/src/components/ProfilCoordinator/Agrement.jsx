@@ -24,8 +24,7 @@ export default function Agrement() {
         alignSelf="center"
         w={{ base: "100%", "2xl": "90%" }}
         m="auto"
-      >
-      </Flex>
+      />
     </Flex>
   );
 }

@@ -66,7 +66,7 @@ const authSelfRole = async (req, res, next) => {
   ) {
     return next();
   }
-  if (req.roleId === parseInt(req.params.coordinatorId, 10)) {
+  if (req.roleId === parseInt(req.params.coordinatorid, 10)) {
     return next();
   }
 

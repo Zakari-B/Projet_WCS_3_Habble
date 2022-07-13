@@ -4,12 +4,13 @@ import { useParams, useNavigate } from "react-router-dom";
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer";
 import DocumentCarouselCoordo from "../components/ProfilCoordinator/DocumentCarouselCoordo";
+import BannerProfileCoordinator from "../components/ProfilCoordinator/InfoProfilCoordinator/BannerProfileCoordinator";
 import AnnonceCarouselCoordo from "../components/ProfilCoordinator/Annonces/AnnonceCarouselCoordo";
-// import BannerProfile from "../components/ProfileFreelancer/Banner/BannerProfile";
 import AccountCard from "../components/ProfileFreelancer/Account/AccountCard";
 import Verifications from "../components/ProfileFreelancer/Verifications";
 import Accompagnement from "../components/ProfilCoordinator/Accompagnement";
 import backendAPI from "../services/backendAPI";
+import { getSubListforAnId } from "../services/ProfileProUtils";
 
 export default function ProfilPageCoordinator() {
   const navigate = useNavigate();
@@ -19,6 +20,7 @@ export default function ProfilPageCoordinator() {
   const [updated, setUpdated] = useState(false);
   const [coordoUser, setCoordoUser] = useState([]);
   const [loggedUser, setLoggedUser] = useState("");
+  const [cityInfo, setCityInfo] = useState([]);
 
   const getCoordinator = () => {
     backendAPI
@@ -26,6 +28,9 @@ export default function ProfilPageCoordinator() {
       .then((response) => {
         setCoordoUser(response.data);
         setCoordinator(response.data.coordinator);
+        getSubListforAnId("coordinators", coordinatorId, "city").then((res) => {
+          setCityInfo(res.data[0]);
+        });
       })
       .catch((error) => {
         console.warn(error);
@@ -60,8 +65,13 @@ export default function ProfilPageCoordinator() {
         paddingY="30px"
         paddingTop="150px"
       >
-        {/* Banner to be fixed, will be done shortly, just want to pr the coordinator */}
-        {/* <BannerProfile freelancer={coordinator} loggedUser={loggedUser} /> */}
+        <BannerProfileCoordinator
+          coordinator={coordinator}
+          city={cityInfo}
+          updated={updated}
+          setUpdated={setUpdated}
+          loggedUser={loggedUser}
+        />
         <Flex
           w={{ base: "95%", lg: "80%" }}
           gap="20px"
