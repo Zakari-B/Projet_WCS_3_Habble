@@ -22,6 +22,7 @@ const AnnonceServicesController = require("./controllers/AnnonceServicesControll
 const FreelancerExpertisesController = require("./controllers/FreelancerExpertisesControllers");
 const PictureFreelancerController = require("./controllers/PictureFreelancerController");
 const AnnonceLieuController = require("./controllers/AnnonceLieuController");
+const PictureEmployerController = require("./controllers/PictureEmployerController");
 
 const {
   authorization,
@@ -134,6 +135,21 @@ router.get("/employers/", EmployerController.getAll);
 router.get("/employers/:id", EmployerController.getOne);
 router.put("/employers/:id", EmployerController.updateOne);
 router.get("/employers/:id/user", EmployerController.getUserFromEmployer);
+
+// Routes for employer's picture
+router.put(
+  "/employers/:id/picture",
+  authorization,
+  multer,
+  PictureEmployerController.updateOne
+);
+
+router.put(
+  "/employers/:id/removedPicture",
+  authorization,
+  multer,
+  PictureEmployerController.removeOne
+);
 
 // Routes for documentsController
 

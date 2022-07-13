@@ -144,7 +144,6 @@ export default function ProAccountForm({ onModal = false, onClose }) {
         description: descriptionPro,
         acceptEmails: acceptEmailPro,
         siret: siretPro,
-        available: false,
       })
       .then((response) => {
         backendAPI.put(`/api/users/${userId}`, {
@@ -202,7 +201,6 @@ export default function ProAccountForm({ onModal = false, onClose }) {
         description: descriptionPro === "" ? "undefined" : descriptionPro,
         acceptEmails: acceptEmailPro,
         siret: siretPro,
-        available: false,
       })
       .then((response) => {
         if (response) {

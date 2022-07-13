@@ -5,7 +5,7 @@ import {
   Button,
   Menu,
   MenuButton,
-  Avatar,
+  Image,
   MenuList,
   MenuGroup,
   Tag,
@@ -28,12 +28,16 @@ export default function Header({
   onDark = false,
   isSticky = false,
   isStickyWhite = false,
+  // employer,
+  // freelancer,
 }) {
   const [scrollPosition, setScrollPosition] = useState(0);
   const [isSignUp, setIsSignUp] = useState(
     JSON.parse(localStorage.getItem("isUserLoggedIn"))
   );
   const [data, setData] = useState();
+  const [freelancerPicture, setFreelancerPicture] = useState();
+  const [employerPicture, setEmployerPicture] = useState();
 
   const navigate = useNavigate();
 
@@ -58,6 +62,16 @@ export default function Header({
           if (res.data.sessionExpired === false) {
             setIsSignUp(true);
             setData(res);
+          }
+          if (res.data.userRole === "freelancer") {
+            backendAPI
+              .get(`/api/freelancers/${res.data.roleId}`)
+              .then((response) => setFreelancerPicture(response.data.picture));
+          }
+          if (res.data.userRole === "employer") {
+            backendAPI
+              .get(`/api/employers/${res.data.roleId}`)
+              .then((response) => setEmployerPicture(response.data.picture));
           }
         })
         .catch((err) => console.error(err));
@@ -120,10 +134,36 @@ export default function Header({
                 _hover={{ color: "pink.light" }}
               >
                 <Flex alignItems="center" gap="10px" fontWeight="500">
-                  <Avatar
-                    size="sm"
-                    src="https://images.unsplash.com/photo-1493666438817-866a91353ca9?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9"
-                  />
+                  {data && data.data.userRole === "freelancer" && (
+                    <Image
+                      src={
+                        freelancerPicture
+                          ? `${
+                              import.meta.env.VITE_BACKEND_URL
+                            }/uploads/${freelancerPicture}`
+                          : "https://secure.gravatar.com/avatar/c308ee24184a32cdf10650eb7e311157?s=125&d=mm&r=G"
+                      }
+                      height="40px"
+                      width="40px"
+                      borderRadius="100%"
+                      border="1px solid gray.200"
+                    />
+                  )}
+                  {data && data.data.userRole === "employer" && (
+                    <Image
+                      src={
+                        employerPicture
+                          ? `${
+                              import.meta.env.VITE_BACKEND_URL
+                            }/uploads/${employerPicture}`
+                          : "https://secure.gravatar.com/avatar/c308ee24184a32cdf10650eb7e311157?s=125&d=mm&r=G"
+                      }
+                      height="40px"
+                      width="40px"
+                      borderRadius="100%"
+                      border="1px solid gray.200"
+                    />
+                  )}
                   {data && `${data.data.firstname} ${data.data.lastname}`}
                   <ChevronDownIcon />
                 </Flex>
