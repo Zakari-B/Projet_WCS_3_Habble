@@ -3,6 +3,7 @@ const {
   getAllCoordinatorsProfileInfo,
   findOneCoordinator,
   getUserFromCoordinator,
+  getOneCoordinatorWithCity,
 } = require("../models/coordinator");
 
 exports.createOne = async (req, res, next) => {
@@ -61,5 +62,21 @@ exports.getUserFromCoordinator = async (req, res) => {
     return res
       .status(500)
       .json({ error: "Problème de mise à jour du employer" });
+  }
+};
+
+exports.getOneCoordinatorWithCityInfo = async (req, res) => {
+  const coordinatorId = parseInt(req.params.coordinatorId, 10);
+  try {
+    const coordinator = await getOneCoordinatorWithCity(coordinatorId);
+    if (!coordinator) {
+      return res.status(404).send(`Coordinator #${coordinatorId} not found.`);
+    }
+    return res.status(200).json(coordinator);
+  } catch (e) {
+    console.warn(e);
+    return res
+      .status(500)
+      .json({ error: "Problème de lecture des coordinateurs" });
   }
 };

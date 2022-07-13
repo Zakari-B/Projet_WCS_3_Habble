@@ -106,6 +106,11 @@ router.get(
   authorization,
   CoordinatorController.getUserFromCoordinator
 );
+router.get(
+  "/coordinator/:coordinatorId/city",
+  authorization,
+  CoordinatorController.getOneCoordinatorWithCityInfo
+);
 // router.put(
 //   "/coordinators/:id",
 //   authorization,

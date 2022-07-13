@@ -91,7 +91,36 @@ export default function Administrator() {
                 console.warn(error);
               });
           });
+      } else if (userToAdministrate.userResult.role === "coordinator") {
+        backendAPI
+          .get(`/api/coordinator/${userToAdministrate.roleResult.id}/documents`)
+          .then((res) => setUserDocuments(res.data))
+          .then(() => {
+            getSubListforAnId(
+              "coordinator",
+              userToAdministrate.roleResult.id,
+              "city"
+            )
+              .then((response) => {
+                setCityInfo(response.data[0]);
+              })
+              .catch((error) => {
+                console.warn(error);
+              });
+            setServiceList([]);
+            backendAPI
+              .get(
+                `/api/freelancers/${userToAdministrate.roleResult.id}/services`
+              )
+              .then((response) => {
+                setServiceList(response.data.map((e) => e.fk_services_id.name));
+              })
+              .catch((error) => {
+                console.warn(error);
+              });
+          });
       } else {
+        setUserDocuments([]);
         setServiceList([]);
       }
     }
@@ -261,9 +290,11 @@ export default function Administrator() {
                   marginBottom="1.2rem"
                   textAlign={{ base: "center", md: "left" }}
                 >
-                  {userToAdministrate.roleResult.activityDescription &&
-                  userToAdministrate.roleResult.zipCode
-                    ? `${userToAdministrate.roleResult.activityDescription} à
+                  {userToAdministrate.roleResult.activityDescription
+                    ? `${userToAdministrate.roleResult.activityDescription} `
+                    : null}
+                  {userToAdministrate.roleResult.zipCode
+                    ? `à
                   ${userToAdministrate.roleResult.zipCode} ${cityInfo?.ville_nom}`
                     : null}
                 </Text>
@@ -383,6 +414,7 @@ export default function Administrator() {
                 p="10px"
                 mt="10px"
                 flexDir="column"
+                borderRadius="0px 0px 25px 25px"
               >
                 <>
                   <Heading
@@ -401,15 +433,55 @@ export default function Administrator() {
                     p="10px"
                     flexDir={{ base: "column", md: "row" }}
                     flexWrap="wrap"
-                    borderRadius="25px 25px 0 0"
                     mt="10px"
                     gap="10px"
                     justifyContent="center"
                   >
-                    {userDocuments.map((elem) => (
-                      <AdminDoc data={elem} />
-                    ))}
+                    {userDocuments.map((elem) =>
+                      elem.familyId === null ? (
+                        <AdminDoc
+                          data={elem}
+                          roleType={userToAdministrate.userResult.role}
+                          roleId={userToAdministrate.roleResult.id}
+                        />
+                      ) : null
+                    )}
                   </Flex>
+                  {userToAdministrate.userResult.role === "coordinator" ? (
+                    <>
+                      <Heading
+                        as="h2"
+                        textAlign="left"
+                        fontSize="1.4rem"
+                        fontWeight="600"
+                        color="purple.average"
+                        mt="10px"
+                      >
+                        Documents des familles suivies
+                      </Heading>
+
+                      <Flex
+                        bgColor="white"
+                        minH="60%"
+                        p="10px"
+                        flexDir={{ base: "column", md: "row" }}
+                        flexWrap="wrap"
+                        mt="10px"
+                        gap="10px"
+                        justifyContent="center"
+                      >
+                        {userDocuments.map((elem) =>
+                          elem.familyId !== null ? (
+                            <AdminDoc
+                              data={elem}
+                              roleType={userToAdministrate.userResult.role}
+                              roleId={userToAdministrate.roleResult.id}
+                            />
+                          ) : null
+                        )}
+                      </Flex>
+                    </>
+                  ) : null}
                 </>
               </Flex>
             ) : null}

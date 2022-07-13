@@ -69,8 +69,6 @@ const authSelfRole = async (req, res, next) => {
   if (req.roleId === parseInt(req.params.coordinatorId, 10)) {
     return next();
   }
-
-  // console.log("no role");
   return res.sendStatus(401);
 };
 
