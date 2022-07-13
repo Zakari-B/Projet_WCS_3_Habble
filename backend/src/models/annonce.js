@@ -34,6 +34,17 @@ const getAllAnnouncementsbyEmployerId = async (employerId) => {
   }
 };
 
+const getAllAnnouncementsbyCoordinatorId = async (coordinatorId) => {
+  try {
+    return await prisma.annonce.findMany({
+      where: { coordinatorId },
+      include: { annonce_offers: true },
+    });
+  } finally {
+    await prisma.$disconnect();
+  }
+};
+
 const getAllAnnouncements = async () => {
   try {
     return await prisma.annonce.findMany();
@@ -46,6 +57,16 @@ const getOneAnnouncementByEmployerId = async (employerId, id) => {
   try {
     return await prisma.annonce.findMany({
       where: { employerId, id },
+    });
+  } finally {
+    await prisma.$disconnect();
+  }
+};
+
+const getOneAnnouncementByCoordinatorId = async (coordinatorId, id) => {
+  try {
+    return await prisma.annonce.findMany({
+      where: { coordinatorId, id },
     });
   } finally {
     await prisma.$disconnect();
@@ -93,6 +114,22 @@ const updateOneAnnouncement = async (employerId, id, data) => {
   }
 };
 
+const updateOneAnnouncementByCoordinatorId = async (
+  coordinatorId,
+  id,
+  data
+) => {
+  try {
+    const annonce = await prisma.annonce.updateMany({
+      where: { coordinatorId, id },
+      data: { ...data },
+    });
+    return annonce;
+  } finally {
+    await prisma.$disconnect();
+  }
+};
+
 const deleteOneAnnouncement = async (employerId, id) => {
   try {
     return await prisma.annonce.deleteMany({ where: { employerId, id } });
@@ -101,13 +138,25 @@ const deleteOneAnnouncement = async (employerId, id) => {
   }
 };
 
+const deleteOneAnnouncementByCoordinatorId = async (coordinatorId, id) => {
+  try {
+    return await prisma.annonce.deleteMany({ where: { coordinatorId, id } });
+  } finally {
+    await prisma.$disconnect();
+  }
+};
+
 module.exports = {
   getAllAnnouncementsbyEmployerId,
+  getAllAnnouncementsbyCoordinatorId,
   getAllAnnouncements,
   createOneAnnouncement,
   getOneAnnouncementByEmployerId,
+  getOneAnnouncementByCoordinatorId,
   getOneAnnonceWithCity,
   getOneAnnouncement,
   updateOneAnnouncement,
+  updateOneAnnouncementByCoordinatorId,
   deleteOneAnnouncement,
+  deleteOneAnnouncementByCoordinatorId,
 };

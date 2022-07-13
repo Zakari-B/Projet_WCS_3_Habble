@@ -108,11 +108,11 @@ router.put(
   authSelfRole,
   CoordinatorController.updateOne
 );
-// router.get(
-//   "/coordinator/:coordinatorId/user",
-//   authorization,
-//   CoordinatorController.getUser
-// );
+router.get(
+  "/coordinator/:coordinatorId/user",
+  authorization,
+  CoordinatorController.getUser
+);
 
 // Routes for freelancer's picture
 router.put(
@@ -388,6 +388,24 @@ router.get(
 router.put("/employers/:employerid/annonce/:id", AnnonceController.updateOne);
 router.delete(
   "/employers/:employerid/annonce/:id",
+  AnnonceController.deleteOne
+);
+
+router.post(
+  "/coordinator/:coordinatorId/annonce",
+  authorization,
+  AnnonceController.createOne
+);
+router.get(
+  "/coordinator/:coordinatorId/annonces",
+  AnnonceController.getAllByCoordinatorId
+);
+router.put(
+  "/coordinator/:coordinatorId/annonce/:id",
+  AnnonceController.updateOneByCoordinatorId
+);
+router.delete(
+  "/coordinator/:coordinatorId/annonce/:id",
   AnnonceController.deleteOne
 );
 

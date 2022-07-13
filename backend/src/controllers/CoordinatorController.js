@@ -7,7 +7,7 @@ const {
   updateOneCoordinator,
 } = require("../models/coordinator");
 
-const { validateFreelancer } = require("../utils/validate");
+const { validateCoordinator } = require("../utils/validate");
 
 exports.createOne = async (req, res, next) => {
   const userAccount = req.userCreated;
@@ -84,8 +84,8 @@ exports.getUserFromCoordinator = async (req, res) => {
 };
 
 exports.updateOne = async (req, res) => {
-  const coordinatorId = parseInt(req.params.coordinatorId, 10);
-  const error = validateFreelancer(req.body, false);
+  const coordinatorId = parseInt(req.params.coordinatorid, 10);
+  const error = validateCoordinator(req.body, false);
   if (error) {
     console.error(error);
     return res.status(422).json(error.details);
@@ -93,7 +93,7 @@ exports.updateOne = async (req, res) => {
 
   const mycoordinator = await findOneCoordinator(coordinatorId);
   if (!mycoordinator) {
-    return res.status(404).send(`Freelancer #${coordinatorId} not found.`);
+    return res.status(404).send(`Coordinator #${coordinatorId} not found.`);
   }
 
   try {
@@ -103,10 +103,9 @@ exports.updateOne = async (req, res) => {
     );
     return res.status(200).json(coordinatorModify);
   } catch (e) {
-    console.warn(e);
     return res
       .status(500)
-      .json({ error: "Problème de mise à jour du freelancer" });
+      .json({ error: "Problème de mise à jour du coordinateur" });
   }
 };
 
