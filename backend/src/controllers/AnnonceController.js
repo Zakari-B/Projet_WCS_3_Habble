@@ -151,7 +151,7 @@ const getOne = async (req, res) => {
   const annonceId = parseInt(req.params.id, 10);
   try {
     const announcement = await getOneAnnouncement(annonceId);
-    if (announcement.length === 0) {
+    if (!announcement) {
       return res.status(404).send("Cette annonce n'existe pas");
     }
     return res.status(200).send(announcement);
