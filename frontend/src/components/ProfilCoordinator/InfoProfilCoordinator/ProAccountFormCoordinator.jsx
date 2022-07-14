@@ -21,6 +21,11 @@ import {
   InputLeftElement,
   List,
   ListItem,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+  NumberIncrementStepper,
+  NumberDecrementStepper,
 } from "@chakra-ui/react";
 import { Search2Icon } from "@chakra-ui/icons";
 import { MdRoom } from "react-icons/md";
@@ -46,6 +51,8 @@ export default function ProAccountForm({
   const [descriptionPro, setDescriptionPro] = useState("");
   const [acceptEmailPro, setAcceptEmailPro] = useState(false);
   const [siretPro, setSiretPro] = useState();
+  const [experienceYearPro, setExperienceYearPro] = useState();
+  const [pricePro, setPricePro] = useState();
 
   const [cityPro, setCityPro] = useState("");
   const [cityProName, setCityProName] = useState("");
@@ -83,6 +90,8 @@ export default function ProAccountForm({
     setDescriptionPro(coordinator.description);
     setAcceptEmailPro(coordinator.acceptEmails);
     setSiretPro(coordinator.siret);
+    setExperienceYearPro(coordinator.experienceYear);
+    setPricePro(coordinator.price);
     backendAPI
       .get(`/api/coordinators/${coordinator.id}/city`)
       .then((response) => {
@@ -105,6 +114,8 @@ export default function ProAccountForm({
         activityDescription: activityPro,
         zipCode: cityPro,
         phone: phonePro,
+        experienceYear: experienceYearPro,
+        price: pricePro,
         description: descriptionPro,
         acceptEmails: acceptEmailPro,
         siret: siretPro,
@@ -389,11 +400,102 @@ export default function ProAccountForm({
               value={descriptionPro}
               onChange={(e) => setDescriptionPro(e.target.value)}
             />
+
+            <Flex
+              justifyContent="left"
+              gap="3"
+              flexWrap="wrap"
+              h="fit-content"
+              w="fit-content%"
+            >
+              <FormLabel
+                htmlFor="experience"
+                fontSize="md"
+                fontWeight="800"
+                color="purple.average"
+                my="auto"
+                marginTop="2.5rem"
+              >
+                Depuis combien d'années exercez-vous ? *
+              </FormLabel>
+              <Flex justifyContent="left" gap="3" marginTop="2rem">
+                <NumberInput
+                  max={50}
+                  min={0}
+                  w="80px"
+                  value={experienceYearPro}
+                  onChange={(value) =>
+                    setExperienceYearPro(parseInt(value, 10))
+                  }
+                >
+                  <NumberInputField
+                    id="proFormexperience"
+                    name="experience"
+                    placeholder="7"
+                    fontSize="0.9rem"
+                    _placeholder={{ fontSize: "0.9rem" }}
+                  />
+                  <NumberInputStepper>
+                    <NumberIncrementStepper />
+                    <NumberDecrementStepper />
+                  </NumberInputStepper>
+                </NumberInput>
+                <Text my="auto" fontSize="0.9rem">
+                  {" "}
+                  ans d'expérience
+                </Text>
+              </Flex>
+            </Flex>
+            <Flex
+              justifyContent="left"
+              gap="3"
+              flexWrap="wrap"
+              h="fit-content"
+              w="fit-content%"
+            >
+              <FormLabel
+                htmlFor="price"
+                fontSize="md"
+                fontWeight="800"
+                color="purple.average"
+                my="auto"
+                marginTop="2.5rem"
+              >
+                Quel est le prix moyen de vos prestations ? *
+              </FormLabel>
+              <Flex justifyContent="left" gap="3" marginTop="2rem">
+                <NumberInput
+                  min={0}
+                  w="80px"
+                  value={pricePro === 0 ? "" : pricePro}
+                  onChange={(value) => {
+                    setPricePro(parseFloat(value));
+                  }}
+                >
+                  <NumberInputField
+                    id="proFormPrice"
+                    name="price"
+                    placeholder="25"
+                    fontSize="0.9rem"
+                    _placeholder={{ fontSize: "0.9rem" }}
+                  />
+                  <NumberInputStepper>
+                    <NumberIncrementStepper />
+                    <NumberDecrementStepper />
+                  </NumberInputStepper>
+                </NumberInput>
+                <Text my="auto" fontSize="0.9rem">
+                  {" "}
+                  €/h (indicatif)
+                </Text>
+              </Flex>
+            </Flex>
             <FormLabel
               htmlFor="services"
               fontSize="md"
               fontWeight="800"
               color="purple.average"
+              marginTop="2rem"
             >
               Sélectionnez un ou plusieurs services que vous proposez *
             </FormLabel>
