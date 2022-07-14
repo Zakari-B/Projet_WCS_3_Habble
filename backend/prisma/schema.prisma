@@ -62,24 +62,25 @@ model employer {
 }
 
 model coordinator {
-  id                  Int         @id @default(autoincrement())
-  displayName         String      @db.VarChar(100)
-  activityDescription String      @db.VarChar(255)
-  userId              Int         @unique
-  zipCode             String      @db.VarChar(10)
-  phone               String?     @db.VarChar(30)
-  experienceYear      Int
-  price               Float
-  description         String      @db.VarChar(1000)
-  acceptEmails        Boolean     @default(false)
-  siret               Int?
-  available           Boolean     @default(false)
-  dateCreated         DateTime    @default(now()) @db.Timestamp(0)
-  picture             String?     @db.VarChar(1000)
-  fk_user_id          user        @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  documents           documents[]
-  family              family[]
-  annonce             annonce[]
+  id                   Int                    @id @default(autoincrement())
+  displayName          String                 @db.VarChar(100)
+  activityDescription  String                 @db.VarChar(255)
+  userId               Int                    @unique
+  zipCode              String                 @db.VarChar(10)
+  phone                String?                @db.VarChar(30)
+  experienceYear       Int
+  price                Float
+  description          String                 @db.VarChar(1000)
+  acceptEmails         Boolean                @default(false)
+  siret                Int?
+  available            Boolean                @default(false)
+  dateCreated          DateTime               @default(now()) @db.Timestamp(0)
+  picture              String?                @db.VarChar(1000)
+  fk_user_id           user                   @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  documents            documents[]
+  family               family[]
+  annonce              annonce[]
+  coordinator_services coordinator_services[]
 }
 
 model documents {
@@ -109,10 +110,22 @@ model freelancer_services {
 }
 
 model services {
-  id                  Int                   @id @default(autoincrement())
-  name                String                @unique @db.VarChar(255)
-  annonce_services    annonce_services[]
-  freelancer_services freelancer_services[]
+  id                   Int                    @id @default(autoincrement())
+  name                 String                 @unique @db.VarChar(255)
+  annonce_services     annonce_services[]
+  freelancer_services  freelancer_services[]
+  coordinator_services coordinator_services[]
+}
+
+model coordinator_services {
+  id                Int         @id @default(autoincrement())
+  coordinatorId     Int
+  serviceId         Int
+  fk_coordinator_id coordinator @relation(fields: [coordinatorId], references: [id], onDelete: Cascade)
+  fk_services_id    services    @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+
+  @@index([serviceId], map: "coordinator_services_serviceId_fkey")
+  @@index([coordinatorId], map: "coordinator_services_coordinatorId_fkey")
 }
 
 model freelancer_expertises {

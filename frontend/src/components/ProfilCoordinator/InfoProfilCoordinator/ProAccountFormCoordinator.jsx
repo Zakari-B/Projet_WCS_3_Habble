@@ -25,6 +25,7 @@ import {
 import { Search2Icon } from "@chakra-ui/icons";
 import { MdRoom } from "react-icons/md";
 import { useState, useEffect, useRef } from "react";
+import Services from "../../ProAccountForm/Services";
 import PictureProfilCoordinator from "./PictureProfilCoordinator";
 import backendAPI from "../../../services/backendAPI";
 
@@ -387,6 +388,15 @@ export default function ProAccountForm({
               value={descriptionPro}
               onChange={(e) => setDescriptionPro(e.target.value)}
             />
+            <FormLabel
+              htmlFor="services"
+              fontSize="md"
+              fontWeight="800"
+              color="purple.average"
+            >
+              Sélectionnez un ou plusieurs services que vous proposez *
+            </FormLabel>
+            <Services />
           </FormControl>
           {coordinator.acceptEmails ? (
             <Checkbox
