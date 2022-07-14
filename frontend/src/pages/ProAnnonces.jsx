@@ -39,6 +39,7 @@ function ProAnnonces() {
   );
 
   const oldAnnonces = annonces.filter((annonce) => annonce.status === "Finie");
+
   return (
     <Box h="100vh">
       <Header onDark={false} isSticky={false} isStickyWhite />
@@ -60,7 +61,7 @@ function ProAnnonces() {
                 color: "pink.light",
               }}
             >
-              Annonces en cours
+              Annonces Ouvertes
             </Tab>
             <Tab
               fontWeight="bold"

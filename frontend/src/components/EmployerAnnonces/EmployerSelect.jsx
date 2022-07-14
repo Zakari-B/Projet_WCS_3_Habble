@@ -157,7 +157,7 @@ function EmployerSelect({ annonces }) {
             fontWeight="700"
             fontSize="20px"
           >
-            Annonces en cours
+            Annonces Ouvertes
           </Heading>
         </Flex>
 
@@ -190,7 +190,7 @@ function EmployerSelect({ annonces }) {
                             href={`/profil-coordinator/${coordinatorId}/famille/${data.familyId}`}
                             _hover={{ color: "pink.light", fontWeight: "700" }}
                           >
-                            {data.fk_family_id.lastname}{" "}
+                            {data.fk_family_id?.lastname}{" "}
                           </Link>
                         ) : null}
                       </Td>

@@ -68,11 +68,12 @@ export default function AnnonceCarousel({ updated, setUpdated }) {
       <Flex direction="column">
         {announcements.length === 0 ? (
           <Text color="gray" fontSize="16px" fontWeight="500">
-            Il n'y a pas encore d'activité.
+            Il n'y a pas encore d'annonce.
           </Text>
         ) : (
           announcements
-            // .filter((ann) => ann.status !== "uncompleted")
+            .filter((ann) => ann.status !== "uncompleted")
+            .sort((a, b) => b.status.localeCompare(a.status))
             .map((annonce) => (
               <AnnonceCard
                 annonce={annonce}

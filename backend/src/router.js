@@ -106,8 +106,6 @@ router.put(
   FreelancerController.updateOne
 );
 
-// router.get("/freelancers/:id/user", FreelancerController.getUser);
-
 // route delete a valider (si besoin)
 
 // Routes for freelancer's picture
