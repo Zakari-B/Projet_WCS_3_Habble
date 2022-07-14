@@ -91,13 +91,22 @@ exports.getUserFromCoordinator = async (userId) => {
   }
 };
 
-exports.getOneCoordinatorWithCity = (coordinatorid) => {
+exports.getOneCoordinatorWithCity = (coordinatorId) => {
   return db
     .query(
-      `select *
-      from coordinator co
+      `select 
+      co.id,
+      co.displayName,
+      co.activityDescription,
+      co.zipCode,
+      co.acceptEmails,
+      c.ville_nom,
+      c.ville_nom_reel,
+      c.ville_code_postal,
+      c.ville_departement
+      from coordinator co 
       join city c on co.zipCode = c.ville_code_commune where co.id =?`,
-      [coordinatorid]
+      [coordinatorId]
     )
     .then(([results]) => {
       return results;

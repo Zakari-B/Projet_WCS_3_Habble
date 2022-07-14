@@ -8,6 +8,7 @@ const { verifyAccessToken } = require("../helpers/jwtHelper");
 const user = require("../models/user");
 const employer = require("../models/employer");
 const freelancer = require("../models/freelancer");
+const coordinator = require("../models/coordinator");
 const token = require("../models/token");
 const { validateUser } = require("../utils/validate");
 const { sendMail } = require("../utils/mailer");
@@ -96,6 +97,7 @@ const getAll = async (req, res) => {
     role: elem.role,
     profileIsComplete: elem.profileIsComplete,
     dateCreated: elem.dateCreated,
+    isAdmin: elem.isAdmin,
   }));
   res.status(200).json(newResults);
 };
@@ -136,7 +138,7 @@ const updateOne = async (req, res) => {
       hashedPassword: `${newHashedPassword}`,
     });
     if (result) {
-      // delete result.hashedPassword;
+      delete result.hashedPassword;
       res.status(200).json({ "Utilisateur mis jour :": { result } });
     } else {
       res.status(404).json({ Erreur: "L'utilisateur n'existe pas" });
@@ -220,10 +222,9 @@ const getUserWithRole = async (req, res) => {
     if (userResult.role === "freelancer") {
       roleResult = await freelancer.findOneFreelancerByUserId(userId);
     }
-    // if (userResult.role === "coordinator") {
-    //   roleResult = await freelancer.findOneCoordinatorByUserId(userId);
-    //   console.log(roleResult);
-    // }
+    if (userResult.role === "coordinator") {
+      roleResult = await coordinator.findOneCoordinatorByUserId(userId);
+    }
     return res.status(200).json({ userResult, roleResult });
   } catch (e) {
     return res
