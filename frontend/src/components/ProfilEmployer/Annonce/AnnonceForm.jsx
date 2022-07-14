@@ -367,7 +367,6 @@ export default function AnnonceForm({ updated, setUpdated }) {
               />
 
               <Select
-                border="none"
                 type="text"
                 id="formProService"
                 name="Service"
