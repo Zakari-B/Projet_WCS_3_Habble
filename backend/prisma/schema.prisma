@@ -82,6 +82,8 @@ model coordinator {
   family                   family[]
   annonce                  annonce[]
   annonce_match_freelancer annonce_match_freelancer[]
+  coordinator_services     coordinator_services[]
+  coordinator_expertises   coordinator_expertises[]
 }
 
 model documents {
@@ -111,10 +113,33 @@ model freelancer_services {
 }
 
 model services {
-  id                  Int                   @id @default(autoincrement())
-  name                String                @unique @db.VarChar(255)
-  annonce_services    annonce_services[]
-  freelancer_services freelancer_services[]
+  id                   Int                    @id @default(autoincrement())
+  name                 String                 @unique @db.VarChar(255)
+  annonce_services     annonce_services[]
+  freelancer_services  freelancer_services[]
+  coordinator_services coordinator_services[]
+}
+
+model coordinator_services {
+  id                Int         @id @default(autoincrement())
+  coordinatorId     Int
+  serviceId         Int
+  fk_coordinator_id coordinator @relation(fields: [coordinatorId], references: [id], onDelete: Cascade)
+  fk_services_id    services    @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+
+  @@index([serviceId], map: "coordinator_services_serviceId_fkey")
+  @@index([coordinatorId], map: "coordinator_services_coordinatorId_fkey")
+}
+
+model coordinator_expertises {
+  id                Int         @id @default(autoincrement())
+  coordinatorId     Int
+  expertiseId       Int
+  fk_expertise_id   expertises  @relation(fields: [expertiseId], references: [id], onDelete: Cascade)
+  fk_coordinator_id coordinator @relation(fields: [coordinatorId], references: [id], onDelete: Cascade)
+
+  @@index([expertiseId], map: "coordinator_expertises_expertiseId_fkey")
+  @@index([coordinatorId], map: "coordinator_expertises_coordinatorId_fkey")
 }
 
 model freelancer_expertises {
@@ -129,10 +154,11 @@ model freelancer_expertises {
 }
 
 model expertises {
-  id                    Int                     @id @default(autoincrement())
-  name                  String                  @unique @db.VarChar(100)
-  category              String                  @db.VarChar(100)
-  freelancer_expertises freelancer_expertises[]
+  id                     Int                      @id @default(autoincrement())
+  name                   String                   @unique @db.VarChar(100)
+  category               String                   @db.VarChar(100)
+  freelancer_expertises  freelancer_expertises[]
+  coordinator_expertises coordinator_expertises[]
 }
 
 model formations {

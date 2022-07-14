@@ -25,6 +25,8 @@ const AnnonceLieuController = require("./controllers/AnnonceLieuController");
 const PictureEmployerController = require("./controllers/PictureEmployerController");
 const PictureCoordinatorController = require("./controllers/PictureCoordinateurController");
 const MatchController = require("./controllers/MatchController");
+const CoordinatorServicesController = require("./controllers/CoordinatorServicesController");
+const CoordinatorExpertisesController = require("./controllers/CoordinatorExpertisesController");
 
 const {
   authorization,
@@ -343,6 +345,25 @@ router.delete(
   FreelancerServicesController.deleteOne
 );
 
+// Routes for services of one coordinator
+
+router.get(
+  "/coordinator/:coordinatorId/services",
+  CoordinatorServicesController.getAll
+);
+router.get(
+  "/coordinator/:coordinatorId/services/:serviceId",
+  CoordinatorServicesController.getOneByCoordinatorId
+);
+router.post(
+  "/coordinator/:coordinatorId/services/:serviceId",
+  CoordinatorServicesController.createOne
+);
+router.delete(
+  "/coordinator/:coordinatorId/services/:serviceId",
+  CoordinatorServicesController.deleteOne
+);
+
 // Routes for expertises
 router.post("/expertises", ExpertiseController.createOne);
 router.get("/expertises", ExpertiseController.getAll);
@@ -393,6 +414,24 @@ router.post(
 router.delete(
   "/freelancers/:freelancerId/expertises/:expertiseId",
   FreelancerExpertisesController.deleteOne
+);
+
+// Routes for expertises of one freelancer
+router.get(
+  "/coordinator/:coordinatorId/expertises",
+  CoordinatorExpertisesController.getAll
+);
+router.get(
+  "/coordinator/:coordinatorId/expertises/:expertiseId",
+  CoordinatorExpertisesController.getOneByCoordinator
+);
+router.post(
+  "/coordinator/:coordinatorId/expertises/:expertiseId",
+  CoordinatorExpertisesController.createOne
+);
+router.delete(
+  "/coordinator/:coordinatorId/expertises/:expertiseId",
+  CoordinatorExpertisesController.deleteOne
 );
 
 // Routes for announcements

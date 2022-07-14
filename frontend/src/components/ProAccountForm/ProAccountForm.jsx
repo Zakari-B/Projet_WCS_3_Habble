@@ -33,7 +33,7 @@ import { MdRoom } from "react-icons/md";
 import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import Services from "./Services";
-import Epertises from "./Expertises";
+import Expertises from "./Expertises";
 import PictureProfilePro from "./PictureProfilPro";
 import backendAPI from "../../services/backendAPI";
 
@@ -206,7 +206,7 @@ export default function ProAccountForm({ onModal = false, onClose }) {
       .then((response) => {
         if (response) {
           toast({
-            title: "Vos données ont bien été sauvgardées.",
+            title: "Vos données ont bien été sauvegardées.",
             description: "N'hésitez pas à revenir completer votre profil !",
             status: "success",
             duration: 7000,
@@ -214,7 +214,7 @@ export default function ProAccountForm({ onModal = false, onClose }) {
             isClosable: true,
           });
         }
-        navigate("/");
+        navigate("/logout");
       });
   };
 
@@ -582,7 +582,7 @@ export default function ProAccountForm({ onModal = false, onClose }) {
               que je propose
             </Text>
           </Checkbox>
-          <Epertises />
+          <Expertises />
           <FormLabel
             htmlFor="company"
             fontSize="md"

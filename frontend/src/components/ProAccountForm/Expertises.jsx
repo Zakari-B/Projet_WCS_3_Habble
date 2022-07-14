@@ -12,7 +12,7 @@ import { useParams } from "react-router-dom";
 import backendAPI from "../../services/backendAPI";
 
 export default function Expertises() {
-  const { freelancerId } = useParams();
+  const { freelancerId, coordinatorId } = useParams();
   // useState pour chaque input //
   const [expertise, setExpertise] = useState([]);
   const [expertiseList, setExpertiseList] = useState([]);
@@ -54,18 +54,32 @@ export default function Expertises() {
   const updateExpertise = (e) => {
     if (e.target.checked && !expertiseList.includes(e.target.value)) {
       setExpertiseList([...expertiseList, e.target.value]);
-      backendAPI.post(
-        `/api/freelancers/${freelancerId}/expertises/${e.target.value}`
-      );
+      if (freelancerId !== undefined) {
+        backendAPI.post(
+          `/api/freelancers/${freelancerId}/expertises/${e.target.value}`
+        );
+      }
+      if (coordinatorId !== undefined) {
+        backendAPI.post(
+          `/api/coordinator/${coordinatorId}/expertises/${e.target.value}`
+        );
+      }
     } else if (!e.target.checked) {
       const expertiseListFilter = expertiseList.filter(
         (elem) => elem !== e.target.value
       );
       expertiseList.splice(expertiseList.indexOf(e.target.value), 1);
       setExpertiseList(expertiseListFilter);
-      backendAPI.delete(
-        `/api/freelancers/${freelancerId}/expertises/${e.target.value}`
-      );
+      if (freelancerId !== undefined) {
+        backendAPI.delete(
+          `/api/freelancers/${freelancerId}/expertises/${e.target.value}`
+        );
+      }
+      if (coordinatorId !== undefined) {
+        backendAPI.delete(
+          `/api/coordinator/${coordinatorId}/expertises/${e.target.value}`
+        );
+      }
     }
   };
 
@@ -82,25 +96,42 @@ export default function Expertises() {
   };
 
   // axios qui va chercher les services d'un freelancer
-  const getAllExpertisesByFreelancer = () => {
-    backendAPI
-      .get(`/api/freelancers/${freelancerId}/expertises`)
-      .then((response) => {
-        setExpertiseList(
-          response.data.map((e) => e.fk_expertise_id.id.toString())
-        );
-        setExpertiseListFiltered(
-          response.data.map((e) => e.fk_expertise_id.id.toString())
-        );
-      })
-      .catch((error) => {
-        console.warn(error);
-      });
+  const getAllExpertisesByRole = () => {
+    if (freelancerId !== undefined) {
+      backendAPI
+        .get(`/api/freelancers/${freelancerId}/expertises`)
+        .then((response) => {
+          setExpertiseList(
+            response.data.map((e) => e.fk_expertise_id.id.toString())
+          );
+          setExpertiseListFiltered(
+            response.data.map((e) => e.fk_expertise_id.id.toString())
+          );
+        })
+        .catch((error) => {
+          console.warn(error);
+        });
+    }
+    if (coordinatorId !== undefined) {
+      backendAPI
+        .get(`/api/coordinator/${coordinatorId}/expertises`)
+        .then((response) => {
+          setExpertiseList(
+            response.data.map((e) => e.fk_expertise_id.id.toString())
+          );
+          setExpertiseListFiltered(
+            response.data.map((e) => e.fk_expertise_id.id.toString())
+          );
+        })
+        .catch((error) => {
+          console.warn(error);
+        });
+    }
   };
 
   useEffect(() => {
     getOneExpertise();
-    getAllExpertisesByFreelancer();
+    getAllExpertisesByRole();
   }, []);
 
   return (

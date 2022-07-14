@@ -45,7 +45,7 @@ const createOne = async (req, res) => {
 };
 
 const createOneByCoordinatorId = async (req, res) => {
-  const coordinatorId = parseInt(req.roleId, 10);
+  const coordinatorId = parseInt(req.params.coordinatorId, 10);
   const coordinator = await findOneCoordinator(coordinatorId);
   if (!coordinator) {
     return res.status(404).send(`Coordinator #${coordinatorId} not found.`);
@@ -209,7 +209,6 @@ const updateOne = async (req, res) => {
 
 const updateOneByCoordinatorId = async (req, res) => {
   const coordinatorId = parseInt(req.params.coordinatorId, 10);
-
   const annonceId = parseInt(req.params.id, 10);
 
   const annonce = await getOneAnnouncementByCoordinatorId(
@@ -265,7 +264,7 @@ const deleteOne = async (req, res) => {
 };
 
 const deleteOneByCoordinatorId = async (req, res) => {
-  const coordinatorId = parseInt(req.roleId, 10);
+  const coordinatorId = parseInt(req.params.coordinatorId, 10);
   const annonceId = parseInt(req.params.id, 10);
 
   const annonce = await getOneAnnouncementByCoordinatorId(
