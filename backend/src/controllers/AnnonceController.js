@@ -198,7 +198,7 @@ const updateOne = async (req, res) => {
       annonceId,
       { ...req.body }
     );
-    return res.status(201).send(announcementUpdated);
+    return res.status(200).send(announcementUpdated);
   } catch (e) {
     console.error(e);
     return res

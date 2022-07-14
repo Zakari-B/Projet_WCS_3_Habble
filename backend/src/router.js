@@ -107,7 +107,6 @@ router.get(
   authorization,
   FreelancerController.getUser
 );
-// route delete a valider (si besoin)
 
 // Routes for freelancer's picture
 router.put(
