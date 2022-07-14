@@ -92,10 +92,8 @@ export default function AnnonceFreelancerSearchForm() {
     }
   };
 
-  const sendBulkEmails = (e) => {
-    e.preventDefault();
-
-    Promise.all(
+  const sendBulkEmails = () => {
+    Promise.all([
       freelancerEmailList.map((user) =>
         backendAPI.post("api/mail/freelancerAnnonceMatch", {
           lastname: user.lastname,
@@ -108,40 +106,47 @@ export default function AnnonceFreelancerSearchForm() {
             price: annonce.price,
           },
         })
-      )
-    )
-      .then((responses) => {
-        if (responses.every((res) => res.status === 200)) {
-          if (employerId) {
-            backendAPI.put(
-              `/api/employers/${parseInt(employerId, 10)}/annonce/${annonceId}`,
-              {
-                status: "Ouverte",
-              }
-            );
-            navigate(`/profil-employer/${parseInt(employerId, 10)}`);
-          }
-          if (coordinatorId) {
-            backendAPI.put(
-              `/api/coordinator/${parseInt(
-                coordinatorId,
-                10
-              )}/annonce/${annonceId}`,
-              {
-                status: "Ouverte",
-              }
-            );
-            navigate(`/profil-coordinator/${parseInt(coordinatorId, 10)}`);
-          }
-          toast({
-            title: "Votre annonce a été publiée avec succès",
-            description: "Elle sera envoyée aux professionnels sélectionnés",
-            status: "success",
-            position: "bottom-right",
-            duration: 7000,
-            isClosable: true,
-          });
+      ),
+      freelancerEmailList.map((user) =>
+        backendAPI.post(
+          `api/annonce/${parseInt(annonceId, 10)}/freelancers/${parseInt(
+            user.freelancer.id,
+            10
+          )}/match`
+        )
+      ),
+    ])
+      .then(() => {
+        // if (responses.every((res) => res.status === 200)) {
+        if (employerId) {
+          backendAPI.put(
+            `/api/employers/${parseInt(employerId, 10)}/annonce/${annonceId}`,
+            {
+              status: "Ouverte",
+            }
+          );
+          navigate(`/profil-employer/${parseInt(employerId, 10)}`);
         }
+        if (coordinatorId) {
+          backendAPI.put(
+            `/api/coordinator/${parseInt(
+              coordinatorId,
+              10
+            )}/annonce/${annonceId}`,
+            {
+              status: "Ouverte",
+            }
+          );
+          navigate(`/profil-coordinator/${parseInt(coordinatorId, 10)}`);
+        }
+        toast({
+          title: "Votre annonce a été publiée avec succès",
+          description: "Elle sera envoyée aux professionnels sélectionnés",
+          status: "success",
+          position: "bottom-right",
+          duration: 7000,
+          isClosable: true,
+        });
       })
       .catch((err) => {
         console.error(err);
@@ -155,8 +160,7 @@ export default function AnnonceFreelancerSearchForm() {
       });
   };
 
-  const sendAnnonceToHabble = (e) => {
-    e.preventDefault();
+  const sendAnnonceToHabble = () => {
     if (employerId) {
       backendAPI
         .get(`/api/employers/${parseInt(employerId, 10)}/user`)
@@ -183,7 +187,6 @@ export default function AnnonceFreelancerSearchForm() {
                   status: "Ouverte",
                 }
               );
-              navigate(`/profil-employer/${parseInt(employerId, 10)}`);
               toast({
                 title: "Votre annonce a été envoyée avec succès",
                 description: "Nous vous contacterons prochainement",
@@ -192,6 +195,7 @@ export default function AnnonceFreelancerSearchForm() {
                 duration: 7000,
                 isClosable: true,
               });
+              navigate(`/profil-employer/${parseInt(employerId, 10)}`);
             })
             .catch((err) => {
               console.error(err);
@@ -236,7 +240,6 @@ export default function AnnonceFreelancerSearchForm() {
                   status: "Ouverte",
                 }
               );
-              navigate(`/profil-coordinator/${parseInt(coordinatorId, 10)}`);
               toast({
                 title: "Votre annonce a été envoyée avec succès",
                 description: "Nous vous contacterons prochainement",
@@ -245,6 +248,7 @@ export default function AnnonceFreelancerSearchForm() {
                 duration: 7000,
                 isClosable: true,
               });
+              navigate(`/profil-coordinator/${parseInt(coordinatorId, 10)}`);
             })
             .catch((err) => {
               console.error(err);
