@@ -209,6 +209,7 @@ const updateOne = async (req, res) => {
 
 const updateOneByCoordinatorId = async (req, res) => {
   const coordinatorId = parseInt(req.roleId, 10);
+
   const annonceId = parseInt(req.params.id, 10);
 
   const annonce = await getOneAnnouncementByCoordinatorId(
