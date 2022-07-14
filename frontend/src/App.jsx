@@ -62,6 +62,10 @@ function App() {
           element={<AnnonceForm />}
         />
         <Route
+          path="/deposer-une-annonce-coordinateur/:coordinatorId/annonce/:annonceId"
+          element={<AnnonceForm />}
+        />
+        <Route
           path="/deposer-une-annonce/:employerId/annonce/:annonceId/choix-professionnels"
           element={<AnnonceFreelancerSearchForm />}
         />

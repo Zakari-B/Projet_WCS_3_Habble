@@ -245,16 +245,8 @@ export default function AnnonceForm({ updated, setUpdated }) {
     if (nameService !== "" && !serviceName.includes(nameService)) {
       setServiceName([...serviceName, nameService]);
       setServiceNumber([...serviceNumber, e.target.value]);
-      if (coordinatorId !== "undefined") {
-        backendAPI.post(
-          `/api/coordinator/${coordinatorId}/annonce/${annonceId}/services/${e.target.value}`
-        );
-      }
-      if (employerId !== "undefined") {
-        backendAPI.post(
-          `/api/employer/${employerId}/annonce/${annonceId}/services/${e.target.value}`
-        );
-      }
+
+      backendAPI.post(`/api/annonce/${annonceId}/services/${e.target.value}`);
     }
   };
 

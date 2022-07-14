@@ -491,9 +491,10 @@ router.get(
   AnnonceServicesController.getOneByAnnonceId
 );
 router.post(
-  "/employer/:employerId/annonce/:annonceId/services/:serviceId",
+  "/annonce/:annonceId/services/:serviceId",
   AnnonceServicesController.createOne
 );
+
 router.delete(
   "/annonce/:annonceId/services/:serviceId",
   AnnonceServicesController.deleteOne
@@ -532,7 +533,7 @@ router.post(
 );
 
 router.delete(
-  "/annonce/:annonceId/locations/locationId",
+  "/annonce/:annonceId/locations/:locationId",
   AnnonceLieuController.deleteOne
 );
 
