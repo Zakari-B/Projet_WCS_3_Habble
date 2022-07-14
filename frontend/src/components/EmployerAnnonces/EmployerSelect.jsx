@@ -25,7 +25,7 @@ import backendAPI from "../../services/backendAPI";
 
 function EmployerSelect({ annonces }) {
   const [option, setOption] = useState("");
-  const [setFamilyName] = useState("");
+  const [familyName, setFamilyName] = useState("");
   const [families, setFamilies] = useState([]);
   const [input, setInput] = useState("");
   const {
@@ -57,6 +57,7 @@ function EmployerSelect({ annonces }) {
   const handleReset = () => {
     setOption("");
     setInput("");
+    setFamilyName("");
   };
 
   return (
@@ -180,7 +181,8 @@ function EmployerSelect({ annonces }) {
                   .filter(
                     (opt) =>
                       opt.title.toLowerCase().includes(input) &&
-                      opt.status.includes(option)
+                      opt.status.includes(option) &&
+                      opt.fk_family_id.lastname.includes(familyName)
                   )
                   .map((data) => (
                     <Tr key={data.id}>
