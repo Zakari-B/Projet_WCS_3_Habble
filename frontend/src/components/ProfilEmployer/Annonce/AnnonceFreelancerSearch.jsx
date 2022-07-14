@@ -8,7 +8,7 @@ import ProfileCard from "../../Search/ProfileCard";
 
 export default function AnnonceFreelancerSearchForm() {
   const toast = useToast();
-  const { annonceId, employerId } = useParams();
+  const { annonceId, employerId, coordinatorId } = useParams();
   const navigate = useNavigate();
   const [annonce, setAnnonce] = useState([]);
 
@@ -112,7 +112,24 @@ export default function AnnonceFreelancerSearchForm() {
     )
       .then((responses) => {
         if (responses.every((res) => res.status === 200)) {
-          navigate(`/profil-employer/${parseInt(employerId, 10)}`);
+          if (employerId) {
+            backendAPI.put(
+              `/api/employers/${employerId}/annonce/${annonceId}`,
+              {
+                status: "Ouverte",
+              }
+            );
+            navigate(`/profil-employer/${parseInt(employerId, 10)}`);
+          }
+          if (coordinatorId) {
+            backendAPI.put(
+              `/api/coordinator/${coordinatorId}/annonce/${annonceId}`,
+              {
+                status: "En cours",
+              }
+            );
+            navigate(`/profil-coordinator/${parseInt(coordinatorId, 10)}`);
+          }
           toast({
             title: "Votre annonce a été publiée avec succès",
             description: "Elle sera envoyée aux professionnels sélectionnés",
@@ -156,7 +173,24 @@ export default function AnnonceFreelancerSearchForm() {
             },
           })
           .then(() => {
-            navigate(`/profil-employer/${parseInt(employerId, 10)}`);
+            if (employerId) {
+              backendAPI.put(
+                `/api/employers/${employerId}/annonce/${annonceId}`,
+                {
+                  status: "Ouverte",
+                }
+              );
+              navigate(`/profil-employer/${parseInt(employerId, 10)}`);
+            }
+            if (coordinatorId) {
+              backendAPI.put(
+                `/api/coordinator/${coordinatorId}/annonce/${annonceId}`,
+                {
+                  status: "En cours",
+                }
+              );
+              navigate(`/profil-coordinator/${parseInt(coordinatorId, 10)}`);
+            }
             toast({
               title: "Votre annonce a été envoyée avec succès",
               description: "Nous vous contacterons prochainement",

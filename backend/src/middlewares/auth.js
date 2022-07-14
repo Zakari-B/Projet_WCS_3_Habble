@@ -13,6 +13,7 @@ const coordinator = require("../models/coordinator");
 
 const authorization = async (req, res, next) => {
   const authToken = req.cookies.userToken;
+
   if (!authToken) {
     return res.sendStatus(401);
   }
@@ -20,6 +21,7 @@ const authorization = async (req, res, next) => {
     const data = await verifyAccessToken(authToken);
     req.userId = data.payload.user.id;
     req.userRole = data.payload.user.role;
+
     if (req.userRole === "freelancer") {
       const freelancerEntry = await freelancer.findOneFreelancerByUserId(
         req.userId

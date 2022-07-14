@@ -165,7 +165,7 @@ function EmployerSelect({ annonces }) {
           <Table variant="simple">
             <Thead bgColor="gray.200">
               <Tr>
-                {coordinatorId ? <Th>Famille</Th> : null}
+                <Th> {coordinatorId && "Famille"}</Th>
                 <Th>Titre de l'annonce</Th>
                 <Th isNumeric>Nombre d'offres</Th>
                 <Th>Taux horaire</Th>

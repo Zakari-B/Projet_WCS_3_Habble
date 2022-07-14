@@ -208,7 +208,7 @@ router.delete(
   DocumentsController.deleteOne
 );
 router.delete(
-  "/coordinator/:coordinatorId/documents/:id",
+  "/coordinator/:coordinatorid/documents/:id",
   authorization,
   authSelfRole,
   DocumentsController.deleteOneByCoordinatorId

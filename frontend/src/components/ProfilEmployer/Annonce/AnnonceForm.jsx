@@ -121,11 +121,13 @@ export default function AnnonceForm({ updated, setUpdated }) {
           zipCode: cityPro,
           emergency,
           price,
-          status: "En cours",
+          status: "Brouillon",
           familyId: currentFamily,
         })
         .then(() => {
-          navigate(`/profil-coordinator/${coordinatorId}`);
+          navigate(
+            `/deposer-une-annonce/${coordinatorId}/annonce/${annonceId}/choix-professionnels`
+          );
         })
         .then(() =>
           toast({
@@ -157,7 +159,7 @@ export default function AnnonceForm({ updated, setUpdated }) {
           zipCode: cityPro,
           emergency,
           price,
-          status: "En cours",
+          status: "Brouillon",
         })
         .then(() => {
           navigate(

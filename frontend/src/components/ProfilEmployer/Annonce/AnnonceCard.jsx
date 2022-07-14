@@ -23,6 +23,16 @@ export default function AnnonceCard({ annonce, updated, setUpdated }) {
     onClose: onEditClose,
   } = useDisclosure();
 
+  let tagColor = "";
+  if (annonce.status === "Brouillon") {
+    tagColor = "gray";
+  } else if (annonce.status === "Rejetée") {
+    tagColor = "red";
+  } else if (annonce.status === "Ouverte" || annonce.status === "En Cours") {
+    tagColor = "green";
+  } else {
+    tagColor = "gray";
+  }
   return (
     <Flex direction="column" gap="10px" paddingY="10px">
       <Flex justify="space-between">
@@ -34,7 +44,7 @@ export default function AnnonceCard({ annonce, updated, setUpdated }) {
         >
           {annonce.title}
         </Heading>
-        <Tag colorScheme="teal" size="sm">
+        <Tag colorScheme={tagColor} size="sm">
           {annonce.status}
         </Tag>
       </Flex>
