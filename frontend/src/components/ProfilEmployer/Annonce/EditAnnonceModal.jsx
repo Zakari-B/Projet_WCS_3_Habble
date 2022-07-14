@@ -36,7 +36,7 @@ import {
   List,
   IconButton,
   ListItem,
-  // Select,
+  Select,
 } from "@chakra-ui/react";
 import PropTypes from "prop-types";
 import { Search2Icon } from "@chakra-ui/icons";
@@ -60,6 +60,8 @@ export default function EditAnnonceModal({
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState();
   const [emergency, setEmergency] = useState(false);
+  const [currentFamily, setCurrentFamily] = useState(0);
+  const [families, setFamilies] = useState([]);
   // const [setStatus] = useState("");
 
   const [search, setSearch] = useState("");
@@ -67,12 +69,25 @@ export default function EditAnnonceModal({
   const [cityProName, setCityProName] = useState("");
   const [addressList, setAddressList] = useState([]);
 
+  const addFamily = (e) => {
+    setCurrentFamily(parseInt(e.target.value, 10));
+  };
+
+  useEffect(() => {
+    backendAPI
+      .get(`/api/coordinators/${coordinatorId}/familles`)
+      .then((res) => {
+        setFamilies(res.data);
+      });
+  }, []);
+
   useEffect(() => {
     backendAPI.get(`/api/annonces/${annonce.id}`).then((res) => {
       setTitle(res.data.title);
       setDescription(res.data.description);
       setPrice(res.data.price);
       setEmergency(res.data.emergency);
+      setCurrentFamily(res.data.fk_family_id?.lastname);
     });
 
     backendAPI.get(`/api/annonces/${annonce.id}/city`).then((response) => {
@@ -118,6 +133,7 @@ export default function EditAnnonceModal({
           zipCode: cityPro,
           emergency,
           price,
+          familyId: currentFamily,
         })
         .then(() =>
           toast({
@@ -250,6 +266,22 @@ export default function EditAnnonceModal({
                     value={title}
                     onChange={handleTitleChange}
                   />
+                  {coordinatorId && (
+                    <Select
+                      type="text"
+                      id="formProService"
+                      name="Service"
+                      fontSize="0.8rem"
+                      fontWeight="500"
+                      color="gray"
+                      placeholder="Quelle est la famille concernée ?"
+                      onChange={addFamily}
+                    >
+                      {families.map((family) => (
+                        <option value={family.id}>{family.lastname}</option>
+                      ))}
+                    </Select>
+                  )}
                   <FormLabel
                     htmlFor="description"
                     fontSize="md"
