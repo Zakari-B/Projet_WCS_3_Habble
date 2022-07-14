@@ -218,15 +218,30 @@ function EmployerSelect({ annonces }) {
                       <Td>{data.price} €</Td>
                       <Td>{dateFormat(data.dateCreated, "dd/mm/yyyy")}</Td>
                       <Td>
-                        <Tag>{data.status}</Tag>
+                        {data.status === "Brouillon" ? (
+                          <Tag colorScheme="gray">{data.status} </Tag>
+                        ) : null}
+                        {data.status === "Rejetée" ? (
+                          <Tag colorScheme="red">{data.status} </Tag>
+                        ) : null}
+                        {data.status === "Ouverte" ||
+                        data.status === "En cours" ? (
+                          <Tag colorScheme="green">{data.status} </Tag>
+                        ) : (
+                          <Tag>{data.status} </Tag>
+                        )}
                       </Td>
                       <Td>
-                        <Button
-                          onClick={onEditOpen}
-                          variant="solid_PrimaryColor"
-                        >
-                          Modifier
-                        </Button>
+                        {data.status !== "Ouverte" &&
+                        data.status !== "En cours" ? (
+                          <Button
+                            onClick={onEditOpen}
+                            variant="solid_PrimaryColor"
+                          >
+                            Modifier
+                          </Button>
+                        ) : null}
+
                         <EditAnnonceModal
                           isOpen={isEditOpen}
                           onOpen={onEditOpen}
