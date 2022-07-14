@@ -532,7 +532,7 @@ router.post(
 );
 
 router.delete(
-  "/annonce/:annonceId/locations/locationId",
+  "/annonce/:annonceId/locations/:locationId",
   AnnonceLieuController.deleteOne
 );
 
