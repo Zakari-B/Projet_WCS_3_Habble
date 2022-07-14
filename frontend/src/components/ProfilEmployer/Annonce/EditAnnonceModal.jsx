@@ -130,7 +130,7 @@ export default function EditAnnonceModal({
         )
         .then(() => {
           navigate(
-            `/deposer-une-annonce/${coordinatorId}/annonce/${annonce.id}/choix-professionnels`
+            `/deposer-une-annonce-coordinateur/${coordinatorId}/annonce/${annonce.id}/choix-professionnels`
           );
         })
         .catch((e) => {

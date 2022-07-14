@@ -70,11 +70,12 @@ export default function AnnonceCarouselCoordo(updated, setUpdated) {
       <Flex direction="column">
         {announcements.length === 0 ? (
           <Text color="gray" fontSize="16px" fontWeight="500">
-            Il n'y a pas encore d'activité.
+            Il n'y a pas encore d'annonces.
           </Text>
         ) : (
           announcements
             .filter((ann) => ann.status !== "uncompleted")
+            .sort((a, b) => b.status.localeCompare(a.status))
             .map((annonce) => (
               <AnnonceCardCoordo
                 annonce={annonce}
