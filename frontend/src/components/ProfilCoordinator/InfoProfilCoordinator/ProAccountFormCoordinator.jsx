@@ -26,6 +26,7 @@ import { Search2Icon } from "@chakra-ui/icons";
 import { MdRoom } from "react-icons/md";
 import { useState, useEffect, useRef } from "react";
 import Services from "../../ProAccountForm/Services";
+import Expertises from "../../ProAccountForm/Expertises";
 import PictureProfilCoordinator from "./PictureProfilCoordinator";
 import backendAPI from "../../../services/backendAPI";
 
@@ -428,6 +429,7 @@ export default function ProAccountForm({
               </Text>
             </Checkbox>
           )}
+          <Expertises />
           <FormLabel
             htmlFor="company"
             fontSize="md"

@@ -349,18 +349,18 @@ router.get(
   "/coordinator/:coordinatorId/services",
   CoordinatorServicesController.getAll
 );
-// router.get(
-//   "/freelancers/:freelancerId/services/:serviceId",
-//   FreelancerServicesController.getOneByFreelancerId
-// );
+router.get(
+  "/coordinator/:coordinatorId/services/:serviceId",
+  CoordinatorServicesController.getOneByCoordinatorId
+);
 router.post(
   "/coordinator/:coordinatorId/services/:serviceId",
   CoordinatorServicesController.createOne
 );
-// router.delete(
-//   "/freelancers/:freelancerId/services/:serviceId",
-//   FreelancerServicesController.deleteOne
-// );
+router.delete(
+  "/coordinator/:coordinatorId/services/:serviceId",
+  CoordinatorServicesController.deleteOne
+);
 
 // Routes for expertises
 router.post("/expertises", ExpertiseController.createOne);

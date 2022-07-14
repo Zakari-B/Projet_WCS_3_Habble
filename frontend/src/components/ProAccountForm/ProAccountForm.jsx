@@ -33,7 +33,7 @@ import { MdRoom } from "react-icons/md";
 import { useParams, useNavigate } from "react-router-dom";
 import { useState, useEffect, useRef } from "react";
 import Services from "./Services";
-import Epertises from "./Expertises";
+import Expertises from "./Expertises";
 import PictureProfilePro from "./PictureProfilPro";
 import backendAPI from "../../services/backendAPI";
 
@@ -582,7 +582,7 @@ export default function ProAccountForm({ onModal = false, onClose }) {
               que je propose
             </Text>
           </Checkbox>
-          <Epertises />
+          <Expertises />
           <FormLabel
             htmlFor="company"
             fontSize="md"

@@ -16,15 +16,15 @@ const getAllByCoordinator = async (coordinatorId) => {
   }
 };
 
-// const getOneServiceByFreelancerId = async (freelancerId, serviceId) => {
-//   try {
-//     return await prisma.freelancer_services.findMany({
-//       where: { freelancerId, serviceId },
-//     });
-//   } finally {
-//     await prisma.$disconnect();
-//   }
-// };
+const getOneServiceByCoordinatorId = async (coordinatorId, serviceId) => {
+  try {
+    return await prisma.coordinator_services.findMany({
+      where: { coordinatorId, serviceId },
+    });
+  } finally {
+    await prisma.$disconnect();
+  }
+};
 
 const createOneByCoordinator = async (data) => {
   try {
@@ -36,19 +36,19 @@ const createOneByCoordinator = async (data) => {
   }
 };
 
-// const deleteOneByFreelancer = async (id) => {
-//   try {
-//     return await prisma.freelancer_services.delete({
-//       where: { id },
-//     });
-//   } finally {
-//     await prisma.$disconnect();
-//   }
-// };
+const deleteOneByCoordinator = async (id) => {
+  try {
+    return await prisma.coordinator_services.delete({
+      where: { id },
+    });
+  } finally {
+    await prisma.$disconnect();
+  }
+};
 
 module.exports = {
   getAllByCoordinator,
   createOneByCoordinator,
-  // deleteOneByFreelancer,
-  // getOneServiceByFreelancerId,
+  deleteOneByCoordinator,
+  getOneServiceByCoordinatorId,
 };
