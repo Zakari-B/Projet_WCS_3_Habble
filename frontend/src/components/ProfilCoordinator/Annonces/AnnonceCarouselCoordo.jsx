@@ -35,7 +35,7 @@ export default function AnnonceCarouselCoordo(updated, setUpdated) {
           { title: `Nouvelle Annonce #${response.data.id}` }
         );
         navigate(
-          `/deposer-une-annonce/${coordinatorId}/annonce/${response.data.id}`
+          `/deposer-une-annonce-coordinateur/${coordinatorId}/annonce/${response.data.id}`
         );
       })
       .catch((error) => {
