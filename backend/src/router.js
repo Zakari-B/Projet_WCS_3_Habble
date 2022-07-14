@@ -25,6 +25,7 @@ const AnnonceLieuController = require("./controllers/AnnonceLieuController");
 const PictureEmployerController = require("./controllers/PictureEmployerController");
 const PictureCoordinatorController = require("./controllers/PictureCoordinateurController");
 const CoordinatorServicesController = require("./controllers/CoordinatorServicesController");
+const CoordinatorExpertisesController = require("./controllers/CoordinatorExpertisesController");
 
 const {
   authorization,
@@ -412,6 +413,24 @@ router.post(
 router.delete(
   "/freelancers/:freelancerId/expertises/:expertiseId",
   FreelancerExpertisesController.deleteOne
+);
+
+// Routes for expertises of one freelancer
+router.get(
+  "/coordinator/:coordinatorId/expertises",
+  CoordinatorExpertisesController.getAll
+);
+router.get(
+  "/coordinator/:coordinatorId/expertises/:expertiseId",
+  CoordinatorExpertisesController.getOneByCoordinator
+);
+router.post(
+  "/coordinator/:coordinatorId/expertises/:expertiseId",
+  CoordinatorExpertisesController.createOne
+);
+router.delete(
+  "/coordinator/:coordinatorId/expertises/:expertiseId",
+  CoordinatorExpertisesController.deleteOne
 );
 
 // Routes for announcements
