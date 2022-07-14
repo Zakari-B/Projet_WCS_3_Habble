@@ -12,7 +12,9 @@ import Error from "./pages/Error";
 import SearchProfessionals from "./pages/SearchProfessionals";
 import Contact from "./pages/Contact";
 import RegisterOnboardingPro from "./pages/RegisterOnboardingPro";
+import RegisterOnboardingCoordo from "./pages/RegisterOnboardingCoordo";
 import WelcomeInscPro from "./pages/WelcomeInscPro";
+import WelcomeInscCoordo from "./pages/WelcomeInscCoordo";
 import AnnonceForm from "./components/ProfilEmployer/Annonce/AnnonceForm";
 import ProfilPageEmployer from "./pages/ProfilPageEmployer";
 import AnnoncesPageEmployer from "./pages/AnnoncesPageEmployer";
@@ -55,8 +57,17 @@ function App() {
           path="/register-onboarding-pro/:freelancerId"
           element={<RegisterOnboardingPro />}
         />
+        <Route
+          path="/register-onboarding-coordo/:coordinatorId"
+          element={<RegisterOnboardingCoordo />}
+        />
         <Route path="/profils" element={<SearchProfessionals />} />
         <Route path="/welcome-pro/:freelancerId" element={<WelcomeInscPro />} />
+        <Route
+          path="/welcome-coordo/:coordinatorId"
+          element={<WelcomeInscCoordo />}
+        />
+
         <Route
           path="/deposer-une-annonce/:employerId/annonce/:annonceId"
           element={<AnnonceForm />}
