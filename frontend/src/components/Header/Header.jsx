@@ -200,6 +200,9 @@ export default function Header({
                       if (data.data.userRole === "employer") {
                         navigate(`/profil-employer/${data.data.roleId}`);
                       }
+                      if (data.data.userRole === "coordinator") {
+                        navigate(`/profil-coordinator/${data.data.roleId}`);
+                      }
                     }}
                   >
                     MON PROFIL
@@ -226,6 +229,18 @@ export default function Header({
                   >
                     MES ANNONCES
                   </MenuItem>
+                  {data?.data?.userRole !== "freelancer" && (
+                    <MenuItem
+                      icon={<BiChat />}
+                      onClick={() => {
+                        navigate(`/profils`);
+                      }}
+                    >
+                      <Flex gap="5px" alignItems="center">
+                        <Text> ANNUAIRE DES PROFESSIONNELS</Text>
+                      </Flex>
+                    </MenuItem>
+                  )}
                   <MenuItem icon={<BiChat />} disabled>
                     <Flex gap="5px" alignItems="center">
                       <Text> MES MESSAGES</Text>

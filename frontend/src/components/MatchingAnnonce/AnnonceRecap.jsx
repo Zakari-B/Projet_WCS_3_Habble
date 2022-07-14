@@ -18,11 +18,11 @@ import {
 
 export default function AnnonceRecap({ annonce, offers }) {
   let tagColor = "";
-  if (annonce.status === "En cours de vérification") {
+  if (annonce.status === "Brouillon") {
     tagColor = "gray";
   } else if (annonce.status === "Rejetée") {
     tagColor = "red";
-  } else if (annonce.status === "Actif") {
+  } else if (annonce.status === "Ouverte" || annonce.status === "En Cours") {
     tagColor = "green";
   } else {
     tagColor = "gray";

@@ -114,11 +114,13 @@ exports.updateOne = async (req, res) => {
 };
 
 exports.getUser = async (req, res) => {
-  const freelancerId = parseInt(req.params.id, 10);
+  const freelancerId = parseInt(req.params.freelancerid, 10);
 
   try {
     const freelancer = await findOneFreelancer(freelancerId);
+
     const user = await getUserFromFreelancer(freelancer.userId);
+
     return res.status(200).json(user);
   } catch (e) {
     console.warn(e);
