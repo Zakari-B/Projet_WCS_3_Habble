@@ -125,7 +125,7 @@ export default function AnnonceFreelancerSearchForm() {
             backendAPI.put(
               `/api/coordinator/${coordinatorId}/annonce/${annonceId}`,
               {
-                status: "En cours",
+                status: "Ouverte",
               }
             );
             navigate(`/profil-coordinator/${parseInt(coordinatorId, 10)}`);

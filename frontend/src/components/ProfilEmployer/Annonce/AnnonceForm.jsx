@@ -126,7 +126,7 @@ export default function AnnonceForm({ updated, setUpdated }) {
         })
         .then(() => {
           navigate(
-            `/deposer-une-annonce/${coordinatorId}/annonce/${annonceId}/choix-professionnels`
+            `/deposer-une-annonce-coordinateur/${coordinatorId}/annonce/${annonceId}/choix-professionnels`
           );
         })
         .then(() =>
