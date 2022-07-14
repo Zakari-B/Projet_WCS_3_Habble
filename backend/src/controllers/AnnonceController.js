@@ -86,7 +86,7 @@ const getAllByEmployerId = async (req, res) => {
 };
 
 const getAllByCoordinatorId = async (req, res) => {
-  const coordinatorId = parseInt(req.roleId, 10);
+  const coordinatorId = parseInt(req.params.coordinatorId, 10);
   try {
     const announcementslist = await getAllAnnouncementsbyCoordinatorId(
       coordinatorId
@@ -208,7 +208,7 @@ const updateOne = async (req, res) => {
 };
 
 const updateOneByCoordinatorId = async (req, res) => {
-  const coordinatorId = parseInt(req.roleId, 10);
+  const coordinatorId = parseInt(req.params.coordinatorId, 10);
 
   const annonceId = parseInt(req.params.id, 10);
 
