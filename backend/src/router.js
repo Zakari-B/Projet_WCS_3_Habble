@@ -75,10 +75,13 @@ router.delete("/users/:id", UserController.deleteOne);
 
 // Routes for Freelancers
 
-router.get("/freelancers/:id/user", FreelancerController.getUser);
-
 // Routes for Freelancers
 router.get("/freelancers/", FreelancerController.getAll);
+router.get(
+  "/freelancers/:freelancerid/user",
+
+  FreelancerController.getUser
+);
 router.get("/freelancers/search", FreelancerController.getAllWithinDistance);
 router.get(
   "/freelancers/search/filtered",
@@ -90,6 +93,7 @@ router.get(
   authorization,
   FreelancerController.getOneFreelancerWithCityInfo
 );
+
 router.get(
   "/freelancers/:freelancerid",
   authorization,
@@ -102,11 +106,8 @@ router.put(
   FreelancerController.updateOne
 );
 
-router.get(
-  "/freelancers/:freelancerid/user",
-  authorization,
-  FreelancerController.getUser
-);
+// router.get("/freelancers/:id/user", FreelancerController.getUser);
+
 // route delete a valider (si besoin)
 
 // Routes for freelancer's picture

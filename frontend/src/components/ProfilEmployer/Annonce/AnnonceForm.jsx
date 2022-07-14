@@ -60,6 +60,7 @@ export default function AnnonceForm({ updated, setUpdated }) {
   const [cityProName, setCityProName] = useState("");
   const [search, setSearch] = useState("");
   const [addressList, setAddressList] = useState([]);
+
   const getAddressList = (signal) => {
     axios
       .get(
@@ -112,7 +113,7 @@ export default function AnnonceForm({ updated, setUpdated }) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (coordinatorId !== "undefined") {
+    if (coordinatorId !== undefined) {
       backendAPI
         .put(`/api/coordinator/${coordinatorId}/annonce/${annonceId}`, {
           title,
@@ -148,7 +149,7 @@ export default function AnnonceForm({ updated, setUpdated }) {
       setUpdated(!updated);
     }
 
-    if (employerId !== "undefined") {
+    if (employerId !== undefined) {
       backendAPI
         .put(`/api/employers/${employerId}/annonce/${annonceId}`, {
           title,

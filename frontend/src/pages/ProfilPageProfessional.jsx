@@ -21,7 +21,7 @@ export default function ProfilPageProfessional() {
 
   const { freelancerId } = useParams();
   const [freelancer, setFreelancer] = useState({});
-  const [user, setUSer] = useState({});
+  const [user, setUser] = useState({});
 
   const [updated, setUpdated] = useState(false);
   const [diplomes, setDiplomes] = useState([]);
@@ -43,13 +43,17 @@ export default function ProfilPageProfessional() {
         navigate("/error");
       });
 
-    getSubListforAnId("freelancers", freelancerId, "city").then((response) => {
-      setCityInfo(response.data[0]);
-    });
+    getSubListforAnId("freelancers", parseInt(freelancerId, 10), "city").then(
+      (response) => {
+        setCityInfo(response.data[0]);
+      }
+    );
 
-    getSubListforAnId("freelancers", freelancerId, "user").then((response) => {
-      setUSer(response.data);
-    });
+    getSubListforAnId("freelancers", parseInt(freelancerId, 10), "user").then(
+      (response) => {
+        setUser(response.data);
+      }
+    );
   };
   useEffect(() => {
     if (JSON.parse(localStorage.getItem("isUserLoggedIn"))) {

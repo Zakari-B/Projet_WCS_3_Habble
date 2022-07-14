@@ -3,6 +3,7 @@ import {
   Tag,
   Button,
   Text,
+  Box,
   Image,
   Heading,
   Avatar,
@@ -41,13 +42,24 @@ export default function ProfileCard({ freelancer }) {
           justify="center"
         >
           {freelancer.picture ? (
-            <Image
-              src={freelancer.picture}
+            <Box
+              minW="200px"
+              minH="200px"
+              maxW="200px"
+              maxH="200px"
               height="200px"
               width="200px"
-              borderRadius="100%"
-              border="1px solid gray.200"
-            />
+            >
+              <Image
+                width="fill-available"
+                height="fill-available"
+                src={`${import.meta.env.VITE_BACKEND_URL}/uploads/${
+                  freelancer.picture
+                }`}
+                borderRadius="100%"
+                border="1px solid gray.200"
+              />
+            </Box>
           ) : (
             <Avatar
               src="https://bit.ly/broken-link"
