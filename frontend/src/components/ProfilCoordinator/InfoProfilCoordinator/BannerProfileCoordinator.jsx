@@ -204,7 +204,11 @@ export default function BannerProfileCoordinator({
                 >
                   Modifier
                 </Button>
-                <Button variant="outlineWhite">Voir mon profil en ligne</Button>
+                <Link to={`/profil-coordinator-freelancer/${coordinator.id}`}>
+                  <Button variant="outlineWhite">
+                    Voir mon profil professionnel
+                  </Button>
+                </Link>
               </>
             ) : null}
           </Flex>
