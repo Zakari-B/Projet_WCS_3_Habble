@@ -190,23 +190,44 @@ export default function AnnonceForm({ updated, setUpdated }) {
 
   const handleCancel = (event) => {
     event.preventDefault();
-    backendAPI
-      .delete(`/api/employers/${employerId}/annonce/${annonceId}`)
-      .then(() => {
-        navigate(`/profil-employer/${employerId}`);
-      })
-      .then(() =>
-        toast({
-          title: "Votre annonce n'a pas été crée",
-          status: "error",
-          position: "bottom-right",
-          duration: 7000,
-          isClosable: true,
+    if (employerId !== undefined) {
+      backendAPI
+        .delete(`/api/employers/${employerId}/annonce/${annonceId}`)
+        .then(() => {
+          navigate(`/profil-employer/${employerId}`);
         })
-      )
-      .catch((e) => {
-        console.error(e);
-      });
+        .then(() =>
+          toast({
+            title: "Votre annonce n'a pas été crée",
+            status: "error",
+            position: "bottom-right",
+            duration: 7000,
+            isClosable: true,
+          })
+        )
+        .catch((e) => {
+          console.error(e);
+        });
+    }
+    if (coordinatorId !== undefined) {
+      backendAPI
+        .delete(`/api/coordinator/${coordinatorId}/annonce/${annonceId}`)
+        .then(() => {
+          navigate(`/profil-coordinator/${coordinatorId}`);
+        })
+        .then(() =>
+          toast({
+            title: "Votre annonce n'a pas été crée",
+            status: "error",
+            position: "bottom-right",
+            duration: 7000,
+            isClosable: true,
+          })
+        )
+        .catch((e) => {
+          console.error(e);
+        });
+    }
   };
 
   // axios qui va chercher la liste des services

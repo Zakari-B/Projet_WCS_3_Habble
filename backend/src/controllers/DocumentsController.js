@@ -106,12 +106,12 @@ const deleteOneByCoordinatorId = async (req, res) => {
 };
 
 const deleteOneByFamily = async (req, res) => {
-  const freelancerId = parseInt(req.roleId, 10);
+  const coordinatorId = parseInt(req.roleId, 10);
   const documentID = parseInt(req.params.id, 10);
   const familyId = parseInt(req.params.familyId, 10);
 
   const document = await getOneDocumentByCoordinatorIdAndFamilyId(
-    freelancerId,
+    coordinatorId,
     familyId,
     documentID
   );
