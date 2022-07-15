@@ -20,7 +20,6 @@ export default function UploadedDocFamily({ data, updated, setUpdated }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   const imagePopup = useDisclosure();
-  console.log(data.documentLink)
 
   return (
     // <Flex
