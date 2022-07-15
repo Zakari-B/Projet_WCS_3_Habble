@@ -59,7 +59,11 @@ const getOneAnnonceWithCity = (annonceId) => {
 
 const getAllAnnouncements = async () => {
   try {
-    return await prisma.annonce.findMany();
+    return await prisma.annonce.findMany({
+      include: {
+        annonce_match_freelancer: true,
+      },
+    });
   } finally {
     await prisma.$disconnect();
   }

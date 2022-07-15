@@ -24,6 +24,7 @@ const PictureFreelancerController = require("./controllers/PictureFreelancerCont
 const AnnonceLieuController = require("./controllers/AnnonceLieuController");
 const PictureEmployerController = require("./controllers/PictureEmployerController");
 const PictureCoordinatorController = require("./controllers/PictureCoordinateurController");
+const MatchController = require("./controllers/MatchController");
 const CoordinatorServicesController = require("./controllers/CoordinatorServicesController");
 const CoordinatorExpertisesController = require("./controllers/CoordinatorExpertisesController");
 
@@ -451,6 +452,7 @@ router.get(
   AnnonceController.getOneAnnonceWithCityInfo
 );
 router.get("/annonces/:id", AnnonceController.getOne);
+
 router.get(
   "/employers/:employerid/annonce/:id",
   AnnonceController.getOneByEmployerId
@@ -480,6 +482,17 @@ router.delete(
   "/coordinator/:coordinatorId/annonce/:id",
   authorization,
   AnnonceController.deleteOneByCoordinatorId
+);
+
+// Routes for matches
+router.post(
+  "/annonce/:annonceId/freelancers/:freelancerId/match",
+  MatchController.createOneFreelancerMatch
+);
+
+router.get(
+  "/freelancers/:freelancerId/match",
+  MatchController.getAllMatchForFreelancer
 );
 
 // Routes for offers

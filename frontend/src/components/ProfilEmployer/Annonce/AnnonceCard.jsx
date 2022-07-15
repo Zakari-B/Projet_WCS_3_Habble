@@ -66,25 +66,27 @@ export default function AnnonceCard({ annonce, updated, setUpdated }) {
 
       <Flex gap="20px">
         {annonce.status === "Brouillon" && (
-          <Button
-            variant="text"
-            color="pink.light"
-            padding="0px"
-            onClick={onEditOpen}
-          >
-            Modifier
-          </Button>
-        )}
-        <Button
-          rightIcon={<DeleteIcon />}
-          variant="text"
-          color="pink.light"
-          padding="0px"
-          onClick={onOpen}
-        >
-          Supprimer
-        </Button>
+          <>
+            <Button
+              variant="text"
+              color="pink.light"
+              padding="0px"
+              onClick={onEditOpen}
+            >
+              Modifier
+            </Button>
 
+            <Button
+              rightIcon={<DeleteIcon />}
+              variant="text"
+              color="pink.light"
+              padding="0px"
+              onClick={onOpen}
+            >
+              Supprimer
+            </Button>
+          </>
+        )}
         <DeleteConfirmModalAnnoncement
           onOpen={onOpen}
           isOpen={isOpen}

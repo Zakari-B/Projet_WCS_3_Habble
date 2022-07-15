@@ -24,28 +24,29 @@ model user {
 }
 
 model freelancer {
-  id                    Int                     @id @default(autoincrement())
-  displayName           String                  @db.VarChar(100)
-  activityDescription   String                  @db.VarChar(255)
-  userId                Int                     @unique
-  zipCode               String                  @db.VarChar(10)
-  phone                 String?                 @db.VarChar(30)
-  experienceYear        Int
-  price                 Float
-  description           String                  @db.VarChar(1000)
-  acceptEmails          Boolean                 @default(false)
-  siret                 String?                 @db.VarChar(14)
-  available             Boolean                 @default(false)
-  picture               String?                 @db.VarChar(1000)
-  dateCreated           DateTime                @default(now()) @db.Timestamp(0)
-  fk_user_id            user                    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  annonce_offers        annonce_offers[]
-  diplomes              diplomes[]
-  documents             documents[]
-  experience_pro        experience_pro[]
-  formations            formations[]
-  freelancer_expertises freelancer_expertises[]
-  freelancer_services   freelancer_services[]
+  id                       Int                        @id @default(autoincrement())
+  displayName              String                     @db.VarChar(100)
+  activityDescription      String                     @db.VarChar(255)
+  userId                   Int                        @unique
+  zipCode                  String                     @db.VarChar(10)
+  phone                    String?                    @db.VarChar(30)
+  experienceYear           Int
+  price                    Float
+  description              String                     @db.VarChar(1000)
+  acceptEmails             Boolean                    @default(false)
+  siret                    String?                    @db.VarChar(14)
+  available                Boolean                    @default(false)
+  picture                  String?                    @db.VarChar(1000)
+  dateCreated              DateTime                   @default(now()) @db.Timestamp(0)
+  fk_user_id               user                       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  annonce_offers           annonce_offers[]
+  diplomes                 diplomes[]
+  documents                documents[]
+  experience_pro           experience_pro[]
+  formations               formations[]
+  freelancer_expertises    freelancer_expertises[]
+  freelancer_services      freelancer_services[]
+  annonce_match_freelancer annonce_match_freelancer[]
 }
 
 model employer {
@@ -62,26 +63,27 @@ model employer {
 }
 
 model coordinator {
-  id                     Int                      @id @default(autoincrement())
-  displayName            String                   @db.VarChar(100)
-  activityDescription    String                   @db.VarChar(255)
-  userId                 Int                      @unique
-  zipCode                String                   @db.VarChar(10)
-  phone                  String?                  @db.VarChar(30)
-  experienceYear         Int
-  price                  Float
-  description            String                   @db.VarChar(1000)
-  acceptEmails           Boolean                  @default(false)
-  siret                  Int?
-  available              Boolean                  @default(false)
-  dateCreated            DateTime                 @default(now()) @db.Timestamp(0)
-  picture                String?                  @db.VarChar(1000)
-  fk_user_id             user                     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  documents              documents[]
-  family                 family[]
-  annonce                annonce[]
-  coordinator_services   coordinator_services[]
-  coordinator_expertises coordinator_expertises[]
+  id                       Int                        @id @default(autoincrement())
+  displayName              String                     @db.VarChar(100)
+  activityDescription      String                     @db.VarChar(255)
+  userId                   Int                        @unique
+  zipCode                  String                     @db.VarChar(10)
+  phone                    String?                    @db.VarChar(30)
+  experienceYear           Int
+  price                    Float
+  description              String                     @db.VarChar(1000)
+  acceptEmails             Boolean                    @default(false)
+  siret                    Int?
+  available                Boolean                    @default(false)
+  dateCreated              DateTime                   @default(now()) @db.Timestamp(0)
+  picture                  String?                    @db.VarChar(1000)
+  fk_user_id               user                       @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  documents                documents[]
+  family                   family[]
+  annonce                  annonce[]
+  annonce_match_freelancer annonce_match_freelancer[]
+  coordinator_services     coordinator_services[]
+  coordinator_expertises   coordinator_expertises[]
 }
 
 model documents {
@@ -207,25 +209,36 @@ model diplomes {
 }
 
 model annonce {
-  id                Int                @id @default(autoincrement())
-  employerId        Int?
-  coordinatorId     Int?
-  familyId          Int?
-  title             String             @db.VarChar(100)
-  description       String             @db.VarChar(500)
-  zipCode           String             @db.VarChar(10)
-  price             Int
-  emergency         Boolean            @default(false)
-  status            String?            @default("En cours") @db.VarChar(100)
-  dateCreated       DateTime           @default(now()) @db.Timestamp(0)
-  fk_employer_id    employer?          @relation(fields: [employerId], references: [id], onDelete: Cascade)
-  fk_coordinator_id coordinator?       @relation(fields: [coordinatorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  fk_family_id      family?            @relation(fields: [familyId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  annonce_lieu      annonce_lieu[]
-  annonce_offers    annonce_offers[]
-  annonce_service   annonce_services[]
+  id                       Int                        @id @default(autoincrement())
+  employerId               Int?
+  coordinatorId            Int?
+  familyId                 Int?
+  title                    String                     @db.VarChar(100)
+  description              String                     @db.VarChar(500)
+  zipCode                  String                     @db.VarChar(10)
+  price                    Int
+  emergency                Boolean                    @default(false)
+  status                   String?                    @default("En cours") @db.VarChar(100)
+  dateCreated              DateTime                   @default(now()) @db.Timestamp(0)
+  fk_employer_id           employer?                  @relation(fields: [employerId], references: [id], onDelete: Cascade)
+  fk_coordinator_id        coordinator?               @relation(fields: [coordinatorId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  fk_family_id             family?                    @relation(fields: [familyId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  annonce_lieu             annonce_lieu[]
+  annonce_offers           annonce_offers[]
+  annonce_service          annonce_services[]
+  annonce_match_freelancer annonce_match_freelancer[]
 
   @@index([employerId], map: "annonce_employerId_fkey")
+}
+
+model annonce_match_freelancer {
+  id                Int          @id @default(autoincrement())
+  annonceId         Int
+  freelancerId      Int?
+  coordinatorId     Int?
+  fk_annonce_id     annonce      @relation(fields: [annonceId], references: [id], onDelete: Cascade)
+  fk_freelancer_id  freelancer?  @relation(fields: [freelancerId], references: [id], onDelete: Cascade)
+  fk_coordinator_id coordinator? @relation(fields: [coordinatorId], references: [id], onDelete: Cascade)
 }
 
 model annonce_offers {
