@@ -3,26 +3,30 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer";
+import FormationCarousel from "../components/ProfileFreelancer/Formation/FormationCarousel";
 import DocumentCarouselCoordo from "../components/ProfilCoordinator/DocumentCarouselCoordo";
 import BannerProfileCoordinator from "../components/ProfilCoordinator/InfoProfilCoordinator/BannerProfileCoordinator";
-import AnnonceCarouselCoordo from "../components/ProfilCoordinator/Annonces/AnnonceCarouselCoordo";
 import AccountCard from "../components/ProfileFreelancer/Account/AccountCard";
+import DiplomeCarousel from "../components/ProfileFreelancer/Diplomes/DiplomeCarousel";
+import ExperienceCarousel from "../components/ProfileFreelancer/Experience/ExperienceCarousel";
 import Verifications from "../components/ProfileFreelancer/Verifications";
-import Accompagnement from "../components/ProfilCoordinator/Accompagnement";
-import Expertises from "../components/ProfileFreelancer/Expertises/Expertises";
 import Tarif from "../components/ProfileFreelancer/Tarif";
-import backendAPI from "../services/backendAPI";
+import Expertises from "../components/ProfileFreelancer/Expertises/Expertises";
+import MissionCarousel from "../components/ProfileFreelancer/Mission/MissionCarousel";
 import { getSubListforAnId } from "../services/ProfileProUtils";
+import backendAPI from "../services/backendAPI";
 
-export default function ProfilPageCoordinator() {
+export default function ProfilPageProfessional() {
   const navigate = useNavigate();
-
   const { coordinatorId } = useParams();
   const [coordinator, setCoordinator] = useState({});
   const [updated, setUpdated] = useState(false);
   const [coordoUser, setCoordoUser] = useState([]);
   const [loggedUser, setLoggedUser] = useState("");
   const [cityInfo, setCityInfo] = useState([]);
+  const [formations, setFormations] = useState([]);
+  const [diplomes, setDiplomes] = useState([]);
+  const [experiences, setExperiences] = useState([]);
 
   const getCoordinator = () => {
     backendAPI
@@ -30,6 +34,9 @@ export default function ProfilPageCoordinator() {
       .then((response) => {
         setCoordoUser(response.data);
         setCoordinator(response.data.coordinator);
+        setFormations(response.data.formations);
+        setDiplomes(response.data.diplomes);
+        setExperiences(response.data.experience_pro);
         getSubListforAnId("coordinators", coordinatorId, "city").then((res) => {
           setCityInfo(res.data[0]);
         });
@@ -39,7 +46,6 @@ export default function ProfilPageCoordinator() {
         navigate("/error");
       });
   };
-
   useEffect(() => {
     if (JSON.parse(localStorage.getItem("isUserLoggedIn"))) {
       backendAPI.get("/api/auth/sessionControl").then((res) => {
@@ -88,9 +94,10 @@ export default function ProfilPageCoordinator() {
             gap="20px"
             flexDir="column"
           >
-            <AccountCard user={coordoUser} />
+            {loggedUser.userId === coordinator.userId ? (
+              <AccountCard user={coordoUser} />
+            ) : null}
             <Verifications freelancer={coordinator} loggedUser={loggedUser} />
-            <Accompagnement />
             <Expertises freelancer={coordinator} />
             <Tarif freelancer={coordinator} />
           </Flex>
@@ -100,8 +107,32 @@ export default function ProfilPageCoordinator() {
             direction="column"
             gap="20px"
           >
-            <DocumentCarouselCoordo setUpdated={setUpdated} />
-            <AnnonceCarouselCoordo updated={updated} setUpdated={setUpdated} />
+            {loggedUser.userId === coordinator.userId ? (
+              <DocumentCarouselCoordo setUpdated={setUpdated} />
+            ) : null}
+
+            <FormationCarousel
+              formations={formations}
+              updated={updated}
+              setUpdated={setUpdated}
+              freelancer={coordinator}
+              loggedUser={loggedUser}
+            />
+            <DiplomeCarousel
+              diplomes={diplomes}
+              updated={updated}
+              setUpdated={setUpdated}
+              freelancer={coordinator}
+              loggedUser={loggedUser}
+            />
+            <ExperienceCarousel
+              experiences={experiences}
+              updated={updated}
+              setUpdated={setUpdated}
+              freelancer={coordinator}
+              loggedUser={loggedUser}
+            />
+            <MissionCarousel freelancer={coordinator} loggedUser={loggedUser} />
           </Flex>
         </Flex>
       </Flex>

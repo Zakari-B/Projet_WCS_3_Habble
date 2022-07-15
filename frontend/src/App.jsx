@@ -22,6 +22,7 @@ import Logout from "./pages/Logout";
 import PasswordResetForm from "./pages/PasswordReset";
 import Administrator from "./pages/Administrator";
 import ProfilPageCoordinator from "./pages/ProfilPageCoordinator";
+import ProfilPageProfessionalCoord from "./pages/ProfilPageProfessionalCoord";
 import ProAnnonces from "./pages/ProAnnonces";
 import AnnonceFreelancerSearchForm from "./components/ProfilEmployer/Annonce/AnnonceFreelancerSearch";
 import FamilyOverview from "./pages/FamilyOverview";
@@ -49,6 +50,11 @@ function App() {
           path="/profil-coordinator/:coordinatorId"
           element={<ProfilPageCoordinator />}
         />
+        <Route
+          path="/profil-coordinator-freelancer/:coordinatorId"
+          element={<ProfilPageProfessionalCoord />}
+        />
+
         <Route
           path="/profil-coordinator/:coordinatorId/famille/:familyId"
           element={<FamilyOverview />}

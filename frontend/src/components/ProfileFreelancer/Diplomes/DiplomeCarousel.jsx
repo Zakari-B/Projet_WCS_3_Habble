@@ -59,7 +59,7 @@ export default function DiplomeCarousel({
         )}
       </Collapse>
       <Flex direction="column">
-        {diplomes.length === 0 ? (
+        {!diplomes ? (
           loggedUser.userId === freelancer.userId ? (
             <Text color="gray" fontSize="16px" fontWeight="500">
               Ajoutez une certification professionnelle à votre profil.

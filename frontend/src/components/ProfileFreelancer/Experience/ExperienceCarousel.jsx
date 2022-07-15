@@ -62,7 +62,7 @@ export default function ExperienceCarousel({
         )}
       </Collapse>
       <Flex direction="column">
-        {experiences.length === 0 ? (
+        {!experiences ? (
           loggedUser.userId === freelancer.userId ? (
             <Text color="gray" fontSize="16px" fontWeight="500">
               Ajoutez une certification professionnelle à votre profil.
