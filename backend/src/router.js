@@ -251,6 +251,36 @@ router.delete(
   DiplomeController.deleteOne
 );
 
+// Routes for Diplomes/coordinator
+router.post(
+  "/coordinator/:coordinatorid/diplomes",
+  authorization,
+  authSelfRole,
+  DiplomeController.createOneByCoordinator
+);
+router.get(
+  "/coordinator/:coordinatorId/diplomes",
+  authorization,
+  DiplomeController.getAllByCoordinator
+);
+router.get(
+  "/coordinator/:coordinatorid/diplomes/:id",
+  authorization,
+  DiplomeController.getOneByCoordinator
+);
+router.put(
+  "/coordinator/:coordinatorid/diplomes/:id",
+  authorization,
+  authSelfRole,
+  DiplomeController.updateOneByCoordinator
+);
+router.delete(
+  "/coordinator/:coordinatorid/diplomes/:id",
+  authorization,
+  authSelfRole,
+  DiplomeController.deleteOneByCoordinator
+);
+
 // Routes for Formations
 router.post(
   "/freelancers/:freelancerid/formations",
@@ -310,6 +340,36 @@ router.delete(
   authorization,
   authSelfRole,
   ExperienceProController.deleteOne
+);
+
+// Routes for Expérience Pro/coordinator
+router.post(
+  "/coordinator/:coordinatorid/experiencePro",
+  authorization,
+  authSelfRole,
+  ExperienceProController.createOneByCoordinator
+);
+router.get(
+  "/coordinator/:coordinatorid/experiencePro",
+  authorization,
+  ExperienceProController.getAllByCoordinator
+);
+router.get(
+  "/coordinator/:coordinatorid/experiencePro/:id",
+  authorization,
+  ExperienceProController.getOneByCoordinator
+);
+router.put(
+  "/coordinator/:coordinatorid/experiencePro/:id",
+  authorization,
+  authSelfRole,
+  ExperienceProController.updateOneByCoordinator
+);
+router.delete(
+  "/coordinator/:coordinatorid/experiencePro/:id",
+  authorization,
+  authSelfRole,
+  ExperienceProController.deleteOneByCoordinator
 );
 
 // Routes for Lieu

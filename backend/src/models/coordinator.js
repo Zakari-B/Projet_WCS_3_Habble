@@ -70,6 +70,23 @@ exports.getAllCoordinatorsProfileInfo = async (coordinatorid) => {
       where: {
         id: coordinatorid,
       },
+      include: {
+        diplomes_coordinator: {
+          orderBy: {
+            dateCreated: "desc",
+          },
+        },
+        formations_coordinator: {
+          orderBy: {
+            dateCreated: "desc",
+          },
+        },
+        experience_pro_coordinator: {
+          orderBy: {
+            dateCreated: "desc",
+          },
+        },
+      },
     });
   } finally {
     await prisma.$disconnect();

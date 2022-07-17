@@ -24,7 +24,7 @@ export default function ExperienceForm({ updated, setUpdated }) {
   const [yearList, setYearList] = useState([]);
   const { setIsVisible, currentExperience } = useContext(ExperienceFormContext);
   const { isOpen, onToggle } = useDisclosure();
-  const { freelancerId } = useParams();
+  const { freelancerId, coordinatorId } = useParams();
   const [title, setTitle] = useState(currentExperience.title);
   const [company, setCompany] = useState(currentExperience.company);
   const [startMonth, setStartMonth] = useState(currentExperience.startMonth);
@@ -86,48 +86,8 @@ export default function ExperienceForm({ updated, setUpdated }) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    addToList("freelancers", "experiencePro", freelancerId, {
-      title,
-      company,
-      startMonth,
-      startYear,
-      endMonth,
-      endYear,
-      currentJob,
-      description,
-    })
-      .then(() =>
-        toast({
-          title: "Votre Expérience a bien été ajoutée",
-          status: "success",
-          position: "bottom-right",
-          duration: 7000,
-          isClosable: true,
-        })
-      )
-      .catch(() =>
-        toast({
-          title: "Votre Expérience n'a pas pu être ajoutée",
-          status: "error",
-          position: "bottom-right",
-          duration: 7000,
-          isClosable: true,
-        })
-      );
-    handleReset();
-    setIsVisible(false);
-    setUpdated(!updated);
-  };
-
-  const handleUpdate = (event) => {
-    event.preventDefault();
-
-    updateItemList(
-      "freelancers",
-      "experiencePro",
-      freelancerId,
-      currentExperience.id,
-      {
+    if (freelancerId !== undefined) {
+      addToList("freelancers", "experiencePro", freelancerId, {
         title,
         company,
         startMonth,
@@ -136,26 +96,137 @@ export default function ExperienceForm({ updated, setUpdated }) {
         endYear,
         currentJob,
         description,
-      }
-    )
-      .then(() =>
-        toast({
-          title: "Votre Expérience a bien été modifiée",
-          status: "success",
-          position: "bottom-right",
-          duration: 7000,
-          isClosable: true,
-        })
+      })
+        .then(() =>
+          toast({
+            title: "Votre Expérience a bien été ajoutée",
+            status: "success",
+            position: "bottom-right",
+            duration: 7000,
+            isClosable: true,
+          })
+        )
+        .catch(() =>
+          toast({
+            title: "Votre Expérience n'a pas pu être ajoutée",
+            status: "error",
+            position: "bottom-right",
+            duration: 7000,
+            isClosable: true,
+          })
+        );
+    }
+    if (coordinatorId !== undefined) {
+      addToList("coordinator", "experiencePro", coordinatorId, {
+        title,
+        company,
+        startMonth,
+        startYear,
+        endMonth,
+        endYear,
+        currentJob,
+        description,
+      })
+        .then(() =>
+          toast({
+            title: "Votre Expérience a bien été ajoutée",
+            status: "success",
+            position: "bottom-right",
+            duration: 7000,
+            isClosable: true,
+          })
+        )
+        .catch(() =>
+          toast({
+            title: "Votre Expérience n'a pas pu être ajoutée",
+            status: "error",
+            position: "bottom-right",
+            duration: 7000,
+            isClosable: true,
+          })
+        );
+    }
+
+    handleReset();
+    setIsVisible(false);
+    setUpdated(!updated);
+  };
+
+  const handleUpdate = (event) => {
+    event.preventDefault();
+    if (freelancerId !== undefined) {
+      updateItemList(
+        "freelancers",
+        "experiencePro",
+        freelancerId,
+        currentExperience.id,
+        {
+          title,
+          company,
+          startMonth,
+          startYear,
+          endMonth,
+          endYear,
+          currentJob,
+          description,
+        }
       )
-      .catch(() =>
-        toast({
-          title: "Votre Expérience n'a pas pu être modifiée",
-          status: "error",
-          position: "bottom-right",
-          duration: 7000,
-          isClosable: true,
-        })
-      );
+        .then(() =>
+          toast({
+            title: "Votre Expérience a bien été modifiée",
+            status: "success",
+            position: "bottom-right",
+            duration: 7000,
+            isClosable: true,
+          })
+        )
+        .catch(() =>
+          toast({
+            title: "Votre Expérience n'a pas pu être modifiée",
+            status: "error",
+            position: "bottom-right",
+            duration: 7000,
+            isClosable: true,
+          })
+        );
+    }
+    if (coordinatorId !== undefined) {
+      updateItemList(
+        "coordinator",
+        "experiencePro",
+        coordinatorId,
+        currentExperience.id,
+        {
+          title,
+          company,
+          startMonth,
+          startYear,
+          endMonth,
+          endYear,
+          currentJob,
+          description,
+        }
+      )
+        .then(() =>
+          toast({
+            title: "Votre Expérience a bien été modifiée",
+            status: "success",
+            position: "bottom-right",
+            duration: 7000,
+            isClosable: true,
+          })
+        )
+        .catch(() =>
+          toast({
+            title: "Votre Expérience n'a pas pu être modifiée",
+            status: "error",
+            position: "bottom-right",
+            duration: 7000,
+            isClosable: true,
+          })
+        );
+    }
+
     handleReset();
     setIsVisible(false);
     setUpdated(!updated);

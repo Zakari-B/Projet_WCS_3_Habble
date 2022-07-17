@@ -25,15 +25,31 @@ export default function DiplomeCard({
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { isVisible, setIsVisible, setCurrentDiploma, currentDiploma } =
     useContext(DiplomeFormContext);
-  const { freelancerId } = useParams();
+  const { freelancerId, coordinatorId } = useParams();
 
   const showForm = () => {
-    getOneItemOfList("freelancers", "diplomes", freelancerId, diplome.id).then(
-      (res) => {
+    if (freelancerId !== undefined) {
+      getOneItemOfList(
+        "freelancers",
+        "diplomes",
+        freelancerId,
+        diplome.id
+      ).then((res) => {
         setCurrentDiploma(res.data);
         setIsVisible(!isVisible);
-      }
-    );
+      });
+    }
+    if (coordinatorId !== undefined) {
+      getOneItemOfList(
+        "coordinator",
+        "diplomes",
+        coordinatorId,
+        diplome.id
+      ).then((res) => {
+        setCurrentDiploma(res.data);
+        setIsVisible(!isVisible);
+      });
+    }
   };
 
   return (
@@ -69,14 +85,26 @@ export default function DiplomeCard({
               padding="0px"
               onClick={() => {
                 onOpen();
-                getOneItemOfList(
-                  "freelancers",
-                  "diplomes",
-                  freelancerId,
-                  diplome.id
-                ).then((res) => {
-                  setCurrentDiploma(res.data);
-                });
+                if (freelancerId !== undefined) {
+                  getOneItemOfList(
+                    "freelancers",
+                    "diplomes",
+                    freelancerId,
+                    diplome.id
+                  ).then((res) => {
+                    setCurrentDiploma(res.data);
+                  });
+                }
+                if (coordinatorId !== undefined) {
+                  getOneItemOfList(
+                    "coordinator",
+                    "diplomes",
+                    coordinatorId,
+                    diplome.id
+                  ).then((res) => {
+                    setCurrentDiploma(res.data.id);
+                  });
+                }
               }}
             >
               Supprimer

@@ -1,10 +1,16 @@
 const { findOneFreelancer } = require("../models/freelancer");
+const { findOneCoordinator } = require("../models/coordinator");
 const {
   getAllExperiencebyFreelancerId,
+  getAllExperiencebyCoordinatorId,
   getOneExperiencebyFreelancerId,
+  getOneExperiencebyCoordinatorId,
   createOneExperience,
+  createOneExperienceByCoordinator,
   updateOneExperience,
+  updateOneExperienceByCoordinator,
   deleteOneExperience,
+  deleteOneExperienceByCoordinator,
 } = require("../models/experiencePro");
 const { validateExperiencePro } = require("../utils/validate");
 
@@ -38,10 +44,53 @@ const createOne = async (req, res) => {
   }
 };
 
+const createOneByCoordinator = async (req, res) => {
+  // on récupère l'id du freelancer dans la requête
+  const coordinatorId = parseInt(req.params.coordinatorid, 10);
+  // on check si le freelancer existe et on renvoie une 404 si il n'existe pas
+  const coordinator = await findOneCoordinator(coordinatorId);
+  if (!coordinator) {
+    return res.status(404).send(`Coordinator #${coordinatorId} not found.`);
+  }
+
+  // on check si les champs du diplome sont bons
+  const error = validateExperiencePro(req.body, true);
+  if (error) {
+    console.error(error);
+    return res.status(422).json(error.details);
+  }
+
+  try {
+    const experienceCreated = await createOneExperienceByCoordinator({
+      ...req.body,
+      coordinatorId,
+    });
+    return res.status(201).send(experienceCreated);
+  } catch (e) {
+    console.error(e);
+    return res.status(500).json({
+      error: "Problème de création de l'entrée expérience professionnelle",
+    });
+  }
+};
+
 const getAll = async (req, res) => {
   const freelancerId = parseInt(req.params.freelancerid, 10);
   try {
     const experiencelist = await getAllExperiencebyFreelancerId(freelancerId);
+    return res.status(201).send(experiencelist);
+  } catch (e) {
+    console.error(e);
+    return res
+      .status(500)
+      .json({ error: "Problème de lecture des expériences professionnelles" });
+  }
+};
+
+const getAllByCoordinator = async (req, res) => {
+  const coordinatorId = parseInt(req.params.coordinatorid, 10);
+  try {
+    const experiencelist = await getAllExperiencebyCoordinatorId(coordinatorId);
     return res.status(201).send(experiencelist);
   } catch (e) {
     console.error(e);
@@ -68,6 +117,33 @@ const getOne = async (req, res) => {
         );
     } else {
       return res.status(201).send(diploma);
+    }
+  } catch (e) {
+    console.error(e);
+    return res
+      .status(500)
+      .json({ error: "Problème de lecture de l'expérience professionnelle" });
+  }
+  return null;
+};
+
+const getOneByCoordinator = async (req, res) => {
+  const coordinatorId = parseInt(req.params.coordinatorid, 10);
+  const experienceID = parseInt(req.params.id, 10);
+
+  try {
+    const experience = await getOneExperiencebyCoordinatorId(
+      coordinatorId,
+      experienceID
+    );
+    if (!experience) {
+      res
+        .status(404)
+        .send(
+          "Aucune expérience professionnelle trouvée pour ce professionnel"
+        );
+    } else {
+      return res.status(201).send(experience);
     }
   } catch (e) {
     console.error(e);
@@ -117,6 +193,45 @@ const updateOne = async (req, res) => {
   }
 };
 
+const updateOneByCoordinator = async (req, res) => {
+  const coordinatorId = parseInt(req.params.coordinatorid, 10);
+  const experienceID = parseInt(req.params.id, 10);
+
+  // on check qu'un displome existe pour le couple freelancer/diplome
+  const experience = await getOneExperiencebyCoordinatorId(
+    coordinatorId,
+    experienceID
+  );
+
+  if (!experience) {
+    res
+      .status(404)
+      .send(
+        "Aucune expérience professionnelle correspondant pour ce professionnel"
+      );
+  }
+
+  // on check les erreurs de formulaire
+  const error = validateExperiencePro(req.body, false);
+  if (error) {
+    console.error(error);
+    return res.status(422).json(error.details);
+  }
+
+  try {
+    const experienceUpdated = await updateOneExperienceByCoordinator(
+      experience.id,
+      req.body
+    );
+    return res.status(201).send(experienceUpdated);
+  } catch (e) {
+    console.error(e);
+    return res.status(500).json({
+      error: "Problème de modification de l'entrée expérience professionnelle",
+    });
+  }
+};
+
 const deleteOne = async (req, res) => {
   const freelancerId = parseInt(req.params.freelancerid, 10);
   const experienceID = parseInt(req.params.id, 10);
@@ -147,4 +262,47 @@ const deleteOne = async (req, res) => {
     });
   }
 };
-module.exports = { createOne, getAll, getOne, updateOne, deleteOne };
+
+const deleteOneByCoordinator = async (req, res) => {
+  const coordinatorId = parseInt(req.params.coordinatorid, 10);
+  const experienceID = parseInt(req.params.id, 10);
+
+  // on check qu'un displome existe pour le couple freelancer/expérience professionnelle
+  const experience = await getOneExperiencebyCoordinatorId(
+    coordinatorId,
+    experienceID
+  );
+
+  if (!experience) {
+    res
+      .status(404)
+      .send(
+        "Aucune expérience professionnelle correspondant pour ce professionnel"
+      );
+  }
+
+  try {
+    await deleteOneExperienceByCoordinator(experience.id);
+    return res
+      .status(200)
+      .send("L'expérience professionnelle a été supprimée avec succès");
+  } catch (e) {
+    console.error(e);
+    return res.status(500).json({
+      error: "Problème de suppression de l'entrée expérience professionnelle",
+    });
+  }
+};
+
+module.exports = {
+  createOne,
+  createOneByCoordinator,
+  getAll,
+  getAllByCoordinator,
+  getOne,
+  getOneByCoordinator,
+  updateOne,
+  updateOneByCoordinator,
+  deleteOne,
+  deleteOneByCoordinator,
+};

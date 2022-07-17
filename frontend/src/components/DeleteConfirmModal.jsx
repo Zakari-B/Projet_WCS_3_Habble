@@ -24,7 +24,7 @@ export default function DeleteConfirmModal({
   setUpdated,
   type,
 }) {
-  const { freelancerId, employerId } = useParams();
+  const { freelancerId, employerId, coordinatorId } = useParams();
   const navigate = useNavigate();
   const toast = useToast();
   return (
@@ -99,6 +99,27 @@ export default function DeleteConfirmModal({
                       isClosable: true,
                     });
                     navigate(`/profil-employer/${employerId}`);
+                  })
+                  .catch((e) =>
+                    toast({
+                      title: e.message,
+                      status: "error",
+                      position: "bottom-right",
+                      duration: 7000,
+                      isClosable: true,
+                    })
+                  );
+              } else if (coordinatorId) {
+                deleteItemList("coordinator", type, coordinatorId, item)
+                  .then(() => {
+                    toast({
+                      title: `${type} supprimés(es).es avec succès`,
+                      status: "success",
+                      position: "bottom-right",
+                      duration: 7000,
+                      isClosable: true,
+                    });
+                    navigate(`/profil-coordinator-freelancer/${coordinatorId}`);
                   })
                   .catch((e) =>
                     toast({

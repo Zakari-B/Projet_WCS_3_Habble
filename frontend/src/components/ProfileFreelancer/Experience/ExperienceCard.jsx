@@ -25,18 +25,31 @@ export default function ExperienceCard({
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { isVisible, setIsVisible, setCurrentExperience, currentExperience } =
     useContext(ExperienceFormContext);
-  const { freelancerId } = useParams();
+  const { freelancerId, coordinatorId } = useParams();
 
   const showForm = () => {
-    getOneItemOfList(
-      "freelancers",
-      "experiencePro",
-      freelancerId,
-      experience.id
-    ).then((res) => {
-      setCurrentExperience(res.data);
-      setIsVisible(!isVisible);
-    });
+    if (freelancerId !== undefined) {
+      getOneItemOfList(
+        "freelancers",
+        "experiencePro",
+        freelancerId,
+        experience.id
+      ).then((res) => {
+        setCurrentExperience(res.data);
+        setIsVisible(!isVisible);
+      });
+    }
+    if (coordinatorId !== undefined) {
+      getOneItemOfList(
+        "coordinator",
+        "experiencePro",
+        coordinatorId,
+        experience.id
+      ).then((res) => {
+        setCurrentExperience(res.data);
+        setIsVisible(!isVisible);
+      });
+    }
   };
   return (
     <Flex direction="column" gap="10px" paddingY="10px" key={experience.id}>
@@ -75,14 +88,26 @@ export default function ExperienceCard({
               padding="0px"
               onClick={() => {
                 onOpen();
-                getOneItemOfList(
-                  "freelancers",
-                  "experiencePro",
-                  freelancerId,
-                  experience.id
-                ).then((res) => {
-                  setCurrentExperience(res.data);
-                });
+                if (freelancerId !== undefined) {
+                  getOneItemOfList(
+                    "freelancers",
+                    "experiencePro",
+                    freelancerId,
+                    experience.id
+                  ).then((res) => {
+                    setCurrentExperience(res.data);
+                  });
+                }
+                if (coordinatorId !== undefined) {
+                  getOneItemOfList(
+                    "coordinator",
+                    "experiencePro",
+                    coordinatorId,
+                    experience.id
+                  ).then((res) => {
+                    setCurrentExperience(res.data.id);
+                  });
+                }
               }}
             >
               Supprimer

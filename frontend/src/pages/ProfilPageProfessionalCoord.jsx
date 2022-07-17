@@ -13,10 +13,10 @@ import Verifications from "../components/ProfileFreelancer/Verifications";
 import Tarif from "../components/ProfileFreelancer/Tarif";
 import Expertises from "../components/ProfileFreelancer/Expertises/Expertises";
 import MissionCarousel from "../components/ProfileFreelancer/Mission/MissionCarousel";
-import { getSubListforAnId } from "../services/ProfileProUtils";
+import { getListforAnId, getSubListforAnId } from "../services/ProfileProUtils";
 import backendAPI from "../services/backendAPI";
 
-export default function ProfilPageProfessional() {
+export default function ProfilPageProfessionalCoord() {
   const navigate = useNavigate();
   const { coordinatorId } = useParams();
   const [coordinator, setCoordinator] = useState({});
@@ -29,23 +29,31 @@ export default function ProfilPageProfessional() {
   const [experiences, setExperiences] = useState([]);
 
   const getCoordinator = () => {
-    backendAPI
-      .get(`/api/coordinator/${coordinatorId}/user`)
+    getListforAnId("coordinators", coordinatorId)
       .then((response) => {
-        setCoordoUser(response.data);
-        setCoordinator(response.data.coordinator);
-        setFormations(response.data.formations);
-        setDiplomes(response.data.diplomes);
-        setExperiences(response.data.experience_pro);
-        getSubListforAnId("coordinators", coordinatorId, "city").then((res) => {
-          setCityInfo(res.data[0]);
-        });
+        setCoordinator(response.data);
+        setDiplomes(response.data.diplomes_coordinator);
+        setFormations(response.data.formations_coordinator);
+        setExperiences(response.data.experience_pro_coordinator);
       })
       .catch((error) => {
         console.warn(error);
         navigate("/error");
       });
+
+    getSubListforAnId("coordinators", parseInt(coordinatorId, 10), "city").then(
+      (response) => {
+        setCityInfo(response.data[0]);
+      }
+    );
+
+    getSubListforAnId("coordinator", parseInt(coordinatorId, 10), "user").then(
+      (response) => {
+        setCoordoUser(response.data);
+      }
+    );
   };
+
   useEffect(() => {
     if (JSON.parse(localStorage.getItem("isUserLoggedIn"))) {
       backendAPI.get("/api/auth/sessionControl").then((res) => {
