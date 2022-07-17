@@ -312,6 +312,37 @@ router.delete(
   FormationController.deleteOne
 );
 
+// Routes for Formations/ coordinator
+router.post(
+  "/coordinator/:coordinatorid/formations",
+  authorization,
+  authSelfRole,
+  FormationController.createOneByCoordinator
+);
+router.get(
+  "/coordinator/:coordinatorid/formations",
+  authorization,
+  FormationController.getAllByCoordinator
+);
+
+router.get(
+  "/coordinator/:coordinatorid/formations/:id",
+  authorization,
+  FormationController.getOneByCoordinator
+);
+router.put(
+  "/coordinator/:coordinatorid/formations/:id",
+  authorization,
+  authSelfRole,
+  FormationController.updateOneByCoordinator
+);
+router.delete(
+  "/coordinator/:coordinatorid/formations/:id",
+  authorization,
+  authSelfRole,
+  FormationController.deleteOneByCoordinator
+);
+
 // Routes for Expérience Pro
 router.post(
   "/freelancers/:freelancerid/experiencePro",

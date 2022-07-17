@@ -25,18 +25,31 @@ export default function FormationCard({
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { isVisible, setIsVisible, setCurrentFormation, currentFormation } =
     useContext(FormationFormContext);
-  const { freelancerId } = useParams();
+  const { freelancerId, coordinatorId } = useParams();
 
   const showForm = () => {
-    getOneItemOfList(
-      "freelancers",
-      "formations",
-      freelancerId,
-      formation.id
-    ).then((res) => {
-      setCurrentFormation(res.data);
-      setIsVisible(!isVisible);
-    });
+    if (freelancerId !== undefined) {
+      getOneItemOfList(
+        "freelancers",
+        "formations",
+        freelancerId,
+        formation.id
+      ).then((res) => {
+        setCurrentFormation(res.data);
+        setIsVisible(!isVisible);
+      });
+    }
+    if (coordinatorId !== undefined) {
+      getOneItemOfList(
+        "coordinator",
+        "formations",
+        coordinatorId,
+        formation.id
+      ).then((res) => {
+        setCurrentFormation(res.data);
+        setIsVisible(!isVisible);
+      });
+    }
   };
 
   return (
@@ -73,14 +86,26 @@ export default function FormationCard({
               padding="0px"
               onClick={() => {
                 onOpen();
-                getOneItemOfList(
-                  "freelancers",
-                  "formations",
-                  freelancerId,
-                  formation.id
-                ).then((res) => {
-                  setCurrentFormation(res.data);
-                });
+                if (freelancerId !== undefined) {
+                  getOneItemOfList(
+                    "freelancers",
+                    "formations",
+                    freelancerId,
+                    formation.id
+                  ).then((res) => {
+                    setCurrentFormation(res.data);
+                  });
+                }
+                if (coordinatorId !== undefined) {
+                  getOneItemOfList(
+                    "coordinator",
+                    "formations",
+                    coordinatorId,
+                    formation.id
+                  ).then((res) => {
+                    setCurrentFormation(res.data.id);
+                  });
+                }
               }}
             >
               Supprimer
