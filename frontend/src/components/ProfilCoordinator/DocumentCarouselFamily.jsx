@@ -31,7 +31,7 @@ export default function DocumentCarouselFamily({ updated, setUpdated }) {
       .then((res) => {
         setProfileDocuments(res.data);
       });
-  }, []);
+  }, [updated]);
 
   const handleForm = (e) => {
     e.preventDefault();
@@ -49,6 +49,7 @@ export default function DocumentCarouselFamily({ updated, setUpdated }) {
       })
       .then((res) => {
         console.warn(res);
+        setUpdated(!updated);
         onClose();
       });
   };
