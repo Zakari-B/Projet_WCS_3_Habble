@@ -32,6 +32,7 @@ export default function ModalAccountForm({
         <ModalBody maxW="100%">
           <ProAccountFormCoordinator
             onOpen={onOpen}
+            onModal
             isOpen={isOpen}
             onClose={onClose}
             coordinator={coordinator}

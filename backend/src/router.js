@@ -150,14 +150,14 @@ router.get(
 
 // Routes for coordinator's picture
 router.put(
-  "/coordinators/:id/picture",
+  "/coordinators/:coordinatorid/picture",
   authorization,
   multer,
   PictureCoordinatorController.updateOne
 );
 
 router.put(
-  "/coordinators/:id/removedPicture",
+  "/coordinators/:coordinatorId/removedPicture",
   authorization,
   multer,
   PictureCoordinatorController.removeOne

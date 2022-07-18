@@ -86,6 +86,7 @@ exports.getOne = async (req, res) => {
 
 exports.getOneCoordinatorWithCityInfo = async (req, res) => {
   const coordinatorId = parseInt(req.params.coordinatorid, 10);
+
   try {
     const coordinator = await getOneCoordinatorWithCity(coordinatorId);
     if (!coordinator) {

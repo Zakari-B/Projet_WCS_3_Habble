@@ -5,7 +5,8 @@ const { findOneCoordinator } = require("../models/coordinator");
 const { validateCoordinator } = require("../utils/validate");
 
 exports.updateOne = async (req, res) => {
-  const coordinatorId = parseInt(req.params.id, 10);
+  const coordinatorId = parseInt(req.params.coordinatorid, 10);
+
   const error = validateCoordinator(req.body, false);
   if (error) {
     console.error(error);
