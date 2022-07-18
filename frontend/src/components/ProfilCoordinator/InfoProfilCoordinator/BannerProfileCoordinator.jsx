@@ -9,6 +9,7 @@ import {
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
+import { Link } from "react-router-dom";
 import dateFormat from "dateformat";
 import ModalAccountFormCoordinator from "./ModalAccountFormCoordinator";
 
@@ -177,9 +178,11 @@ export default function BannerProfileCoordinator({
                     onClose={onClose}
                     coordinator={coordinator}
                   />
-                  <Button marginTop="0.75rem" variant="outlineWhite">
-                    Voir mon profil en ligne
-                  </Button>
+                  <Link to={`/profil-coordinator-freelancer/${coordinator.id}`}>
+                    <Button marginTop="0.75rem" variant="outlineWhite">
+                      Voir mon profil professionnel
+                    </Button>
+                  </Link>
                 </>
               ) : null}
             </Flex>
@@ -201,7 +204,11 @@ export default function BannerProfileCoordinator({
                 >
                   Modifier
                 </Button>
-                <Button variant="outlineWhite">Voir mon profil en ligne</Button>
+                <Link to={`/profil-coordinator-freelancer/${coordinator.id}`}>
+                  <Button variant="outlineWhite">
+                    Voir mon profil professionnel
+                  </Button>
+                </Link>
               </>
             ) : null}
           </Flex>

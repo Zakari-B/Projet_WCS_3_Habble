@@ -119,7 +119,9 @@ export default function AnnonceOffers({ offers }) {
                     <Flex alignItems="center" gap="20px">
                       {offer.freelancer.picture ? (
                         <Image
-                          src={offer.freelancer.picture}
+                          src={`${import.meta.env.VITE_BACKEND_URL}/uploads/${
+                            offer.freelancer.picture
+                          }`}
                           height="60px"
                           width="60px"
                           borderRadius="100%"
@@ -245,13 +247,24 @@ export default function AnnonceOffers({ offers }) {
                   <Td role="group">
                     <Flex alignItems="center" gap="20px">
                       {freelancerCurrentOffer.freelancer?.picture ? (
-                        <Image
-                          src={freelancerCurrentOffer.freelancer?.picture}
+                        <Box
+                          minW="60px"
+                          minH="60px"
+                          maxW="60px"
+                          maxH="60px"
                           height="60px"
                           width="60px"
-                          borderRadius="100%"
-                          border="1px solid gray.200"
-                        />
+                        >
+                          <Image
+                            src={`${import.meta.env.VITE_BACKEND_URL}/uploads/${
+                              freelancerCurrentOffer.freelancer.picture
+                            }`}
+                            height="60px"
+                            width="60px"
+                            borderRadius="100%"
+                            border="1px solid gray.200"
+                          />
+                        </Box>
                       ) : (
                         <Avatar
                           src="https://bit.ly/broken-link"

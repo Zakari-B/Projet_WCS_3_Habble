@@ -16,7 +16,7 @@ const resetTemplateEnd = require("../templates/resetTemplateEnd");
 
 const createOne = async (req, res, next) => {
   const { firstname, lastname, email, password, role } = req.body;
-  const completedProfile = role !== "freelancer";
+  const completedProfile = role !== "freelancer" && role !== "coordinator";
   const error = validateUser({
     firstname,
     lastname,

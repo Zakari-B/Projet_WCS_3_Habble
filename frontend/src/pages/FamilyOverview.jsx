@@ -27,7 +27,7 @@ function FamilyOverview() {
   }, [updated]);
 
   return (
-    <Box bgColor="background.gray" h="100vh">
+    <Box bgColor="background.gray" minH="100vh">
       <Header onDark={false} isSticky={false} isStickyWhite />
       <Flex
         w={{ base: "95%", lg: "80%" }}
@@ -107,7 +107,7 @@ function FamilyOverview() {
           </Flex>
         </Box>
         <Box w={{ base: "95%", lg: "49%" }} borderRadius="21px">
-          <DocumentCarouselFamily setUpdated={setUpdated} />
+          <DocumentCarouselFamily updated={updated} setUpdated={setUpdated} />
         </Box>
       </Flex>
       <Footer />

@@ -59,7 +59,7 @@ export default function FormationCarousel({
       </Collapse>
 
       <Flex direction="column">
-        {formations.length === 0 ? (
+        {!formations ? (
           loggedUser.userId === freelancer.userId ? (
             <Text color="gray" fontSize="16px" fontWeight="500">
               Ajoutez une formation à votre profil. (optionnel)

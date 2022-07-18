@@ -17,7 +17,7 @@ import { getSubListforAnId } from "../services/ProfileProUtils";
 
 function ProAnnonces() {
   // const { freelancerId } = useParams();
-  const { employerId, coordinatorId } = useParams();
+  const { employerId, coordinatorId, freelancerId } = useParams();
   const [annonces, setAnnonces] = useState([]);
 
   useEffect(() => {
@@ -33,12 +33,25 @@ function ProAnnonces() {
         }
       );
     }
+    if (freelancerId !== undefined) {
+      getSubListforAnId("freelancers", freelancerId, "match").then((res) => {
+        setAnnonces(res.data);
+      });
+    }
   }, []);
+
   const currentAnnonces = annonces.filter(
-    (annonce) => annonce.status !== "Finie" && annonce.status !== "Brouillon"
+    (annonce) =>
+      (annonce.status !== "Finie" && annonce.status !== "Brouillon") ||
+      (annonce.fk_annonce_id?.status !== "Finie" &&
+        annonce.fk_annonce_id?.status !== "Brouillon")
   );
 
-  const oldAnnonces = annonces.filter((annonce) => annonce.status === "Finie");
+  const oldAnnonces = annonces.filter(
+    (annonce) =>
+      annonce.status === "Finie" || annonce.fk_annonce_id?.status !== "Finie"
+  );
+
   return (
     <Box h="100vh">
       <Header onDark={false} isSticky={false} isStickyWhite />
@@ -60,7 +73,7 @@ function ProAnnonces() {
                 color: "pink.light",
               }}
             >
-              Annonces en cours
+              Annonces Ouvertes
             </Tab>
             <Tab
               fontWeight="bold"

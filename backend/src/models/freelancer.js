@@ -116,7 +116,7 @@ exports.getOneFreelancerWithCity = (freelancerid) => {
     });
 };
 
-exports.getUserfromfreelancer = async (userId) => {
+exports.getUserFromFreelancer = async (userId) => {
   try {
     return await prisma.user.findUnique({
       where: {

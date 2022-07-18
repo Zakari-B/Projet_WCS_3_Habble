@@ -126,6 +126,7 @@ function ModalAddFamily() {
                 Nom de la famille concernée *
               </FormLabel>
               <Input
+                name="lastname"
                 w={{ base: "95%", lg: "65%" }}
                 type="text"
                 lastname={lastname}
@@ -149,6 +150,7 @@ function ModalAddFamily() {
               <Input
                 w={{ base: "95%", lg: "65%" }}
                 type="text"
+                name="firstname"
                 value={firstname}
                 placeholder="Prénom de la personne"
                 _placeholder={{
@@ -169,6 +171,7 @@ function ModalAddFamily() {
               </FormLabel>
               <HStack>
                 <Input
+                  name="names"
                   w={{ base: "95%", lg: "65%" }}
                   type="text"
                   value={guardian}
@@ -193,6 +196,7 @@ function ModalAddFamily() {
               <Input
                 w={{ base: "95%", lg: "65%" }}
                 type="text"
+                name="address"
                 value={address}
                 placeholder="Adresse de la personne"
                 _placeholder={{
@@ -203,7 +207,7 @@ function ModalAddFamily() {
                 onChange={handleAddress}
               />
               <FormLabel
-                htmlFor="number"
+                htmlFor="Phone"
                 fontSize="md"
                 fontWeight="800"
                 color="purple.average"
@@ -224,7 +228,7 @@ function ModalAddFamily() {
                 />
               </InputGroup>
               <FormLabel
-                htmlFor="name"
+                htmlFor="email"
                 fontSize="md"
                 fontWeight="800"
                 color="purple.average"
@@ -235,6 +239,7 @@ function ModalAddFamily() {
               <Input
                 w={{ base: "95%", lg: "65%" }}
                 type="email"
+                name="email"
                 value={email}
                 placeholder="Adresse mail de la personne"
                 _placeholder={{
@@ -245,7 +250,7 @@ function ModalAddFamily() {
                 onChange={handleEmail}
               />
               <FormLabel
-                htmlFor="name"
+                htmlFor="handicap"
                 fontSize="md"
                 fontWeight="800"
                 color="purple.average"
@@ -255,9 +260,8 @@ function ModalAddFamily() {
               </FormLabel>
               <Select
                 w={{ base: "95%", lg: "65%" }}
-                type="handicap"
+                name="handicap"
                 value={disability}
-                placeholder="Handicap de la personne"
                 _placeholder={{
                   fontSize: "0.8rem",
                   fontWeight: "500",
@@ -265,6 +269,17 @@ function ModalAddFamily() {
                 }}
                 onChange={handleDisability}
               >
+                <option
+                  value=""
+                  disabled
+                  selected
+                  fontSize="0.8rem"
+                  fontWeight="500"
+                  color="gray"
+                >
+                  Sélectionnez le type handicap{" "}
+                </option>
+
                 <option>Handicap moteur</option>
                 <option>Handicap visuel</option>
                 <option>Handicap auditif</option>

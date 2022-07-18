@@ -8,7 +8,7 @@ import ProfileCard from "../../Search/ProfileCard";
 
 export default function AnnonceFreelancerSearchForm() {
   const toast = useToast();
-  const { annonceId, employerId } = useParams();
+  const { annonceId, employerId, coordinatorId } = useParams();
   const navigate = useNavigate();
   const [annonce, setAnnonce] = useState([]);
 
@@ -92,10 +92,8 @@ export default function AnnonceFreelancerSearchForm() {
     }
   };
 
-  const sendBulkEmails = (e) => {
-    e.preventDefault();
-
-    Promise.all(
+  const sendBulkEmails = () => {
+    Promise.all([
       freelancerEmailList.map((user) =>
         backendAPI.post("api/mail/freelancerAnnonceMatch", {
           lastname: user.lastname,
@@ -108,20 +106,47 @@ export default function AnnonceFreelancerSearchForm() {
             price: annonce.price,
           },
         })
-      )
-    )
-      .then((responses) => {
-        if (responses.every((res) => res.status === 200)) {
+      ),
+      freelancerEmailList.map((user) =>
+        backendAPI.post(
+          `api/annonce/${parseInt(annonceId, 10)}/freelancers/${parseInt(
+            user.freelancer.id,
+            10
+          )}/match`
+        )
+      ),
+    ])
+      .then(() => {
+        // if (responses.every((res) => res.status === 200)) {
+        if (employerId) {
+          backendAPI.put(
+            `/api/employers/${parseInt(employerId, 10)}/annonce/${annonceId}`,
+            {
+              status: "Ouverte",
+            }
+          );
           navigate(`/profil-employer/${parseInt(employerId, 10)}`);
-          toast({
-            title: "Votre annonce a été publiée avec succès",
-            description: "Elle sera envoyée aux professionnels sélectionnés",
-            status: "success",
-            position: "bottom-right",
-            duration: 7000,
-            isClosable: true,
-          });
         }
+        if (coordinatorId) {
+          backendAPI.put(
+            `/api/coordinator/${parseInt(
+              coordinatorId,
+              10
+            )}/annonce/${annonceId}`,
+            {
+              status: "Ouverte",
+            }
+          );
+          navigate(`/profil-coordinator/${parseInt(coordinatorId, 10)}`);
+        }
+        toast({
+          title: "Votre annonce a été publiée avec succès",
+          description: "Elle sera envoyée aux professionnels sélectionnés",
+          status: "success",
+          position: "bottom-right",
+          duration: 7000,
+          isClosable: true,
+        });
       })
       .catch((err) => {
         console.error(err);
@@ -135,49 +160,109 @@ export default function AnnonceFreelancerSearchForm() {
       });
   };
 
-  const sendAnnonceToHabble = (e) => {
-    e.preventDefault();
-    backendAPI
-      .get(`/api/employers/${parseInt(employerId, 10)}/user`)
-      .then((res) => {
-        const user = res.data;
-        backendAPI
-          .post("api/mail/freelancerNoMatch", {
-            lastname: user.lastname,
-            firstname: user.firstname,
-            email: user.email,
-            phone: user.employer?.phone,
-            recipient: "habble",
-            annonce: {
-              id: annonce.id,
-              title: annonce.title,
-              description: annonce.description,
-              price: annonce.price,
-            },
-          })
-          .then(() => {
-            navigate(`/profil-employer/${parseInt(employerId, 10)}`);
-            toast({
-              title: "Votre annonce a été envoyée avec succès",
-              description: "Nous vous contacterons prochainement",
-              status: "success",
-              position: "bottom-right",
-              duration: 7000,
-              isClosable: true,
+  const sendAnnonceToHabble = () => {
+    if (employerId) {
+      backendAPI
+        .get(`/api/employers/${parseInt(employerId, 10)}/user`)
+        .then((res) => {
+          const user = res.data;
+          backendAPI
+            .post("api/mail/freelancerNoMatch", {
+              lastname: user.lastname,
+              firstname: user.firstname,
+              email: user.email,
+              phone: user.employer?.phone,
+              recipient: "habble",
+              annonce: {
+                id: annonce.id,
+                title: annonce.title,
+                description: annonce.description,
+                price: annonce.price,
+              },
+            })
+            .then(() => {
+              backendAPI.put(
+                `/api/employers/${employerId}/annonce/${annonceId}`,
+                {
+                  status: "Ouverte",
+                }
+              );
+              toast({
+                title: "Votre annonce a été envoyée avec succès",
+                description: "Nous vous contacterons prochainement",
+                status: "success",
+                position: "bottom-right",
+                duration: 7000,
+                isClosable: true,
+              });
+              navigate(`/profil-employer/${parseInt(employerId, 10)}`);
+            })
+            .catch((err) => {
+              console.error(err);
+              toast({
+                title:
+                  "Votre annonce n'a pas pu être envoyée à Habble. Veuillez nous contacter",
+                status: "error",
+                position: "bottom-right",
+                duration: 7000,
+                isClosable: true,
+              });
             });
-          })
-          .catch((err) => {
-            console.error(err);
-            toast({
-              title:
-                "Votre annonce n'a pas pu être envoyée à Habble. Veuillez nous contacter",
-              status: "error",
-              position: "bottom-right",
-              duration: 7000,
-              isClosable: true,
+        });
+    }
+
+    if (coordinatorId) {
+      backendAPI
+        .get(`/api/coordinator/${parseInt(coordinatorId, 10)}/user`)
+        .then((res) => {
+          const user = res.data;
+          backendAPI
+            .post("api/mail/freelancerNoMatch", {
+              lastname: user.lastname,
+              firstname: user.firstname,
+              email: user.email,
+              phone: user.coordinator?.phone,
+              recipient: "habble",
+              annonce: {
+                id: annonce.id,
+                title: annonce.title,
+                description: annonce.description,
+                price: annonce.price,
+              },
+            })
+            .then(() => {
+              backendAPI.put(
+                `/api/coordinator/${parseInt(
+                  coordinatorId,
+                  10
+                )}/annonce/${annonceId}`,
+                {
+                  status: "Ouverte",
+                }
+              );
+              toast({
+                title: "Votre annonce a été envoyée avec succès",
+                description: "Nous vous contacterons prochainement",
+                status: "success",
+                position: "bottom-right",
+                duration: 7000,
+                isClosable: true,
+              });
+              navigate(`/profil-coordinator/${parseInt(coordinatorId, 10)}`);
+            })
+            .catch((err) => {
+              console.error(err);
+              toast({
+                title:
+                  "Votre annonce n'a pas pu être envoyée à Habble. Veuillez nous contacter",
+                status: "error",
+                position: "bottom-right",
+                duration: 7000,
+                isClosable: true,
+              });
             });
-          });
-      });
+        });
+    }
   };
 
   return (

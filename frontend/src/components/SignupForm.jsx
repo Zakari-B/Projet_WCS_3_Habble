@@ -86,7 +86,8 @@ const signupForm = () => {
 
             if (
               newresponse.data.type !== "freelancer" ||
-              newresponse.data.type !== "employer"
+              newresponse.data.type !== "employer" ||
+              newresponse.data.type !== "coordinator"
             ) {
               navigate("/");
             }
@@ -99,7 +100,9 @@ const signupForm = () => {
               navigate(`/profil-employer/${newresponse.data.fkId}`);
             }
             if (newresponse.data.type === "coordinator") {
-              navigate(`/profil-coordinator/${newresponse.data.fkId}`);
+              return newresponse.data.profil
+                ? navigate(`/profil-coordinator/${newresponse.data.fkId}`)
+                : navigate(`/welcome-coordo/${newresponse.data.fkId}`);
             }
             return null;
           })

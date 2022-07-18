@@ -60,6 +60,7 @@ export default function AnnonceForm({ updated, setUpdated }) {
   const [cityProName, setCityProName] = useState("");
   const [search, setSearch] = useState("");
   const [addressList, setAddressList] = useState([]);
+
   const getAddressList = (signal) => {
     axios
       .get(
@@ -112,7 +113,7 @@ export default function AnnonceForm({ updated, setUpdated }) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (coordinatorId !== "undefined") {
+    if (coordinatorId !== undefined) {
       backendAPI
         .put(`/api/coordinator/${coordinatorId}/annonce/${annonceId}`, {
           title,
@@ -120,11 +121,13 @@ export default function AnnonceForm({ updated, setUpdated }) {
           zipCode: cityPro,
           emergency,
           price,
-          status: "En cours",
+          status: "Brouillon",
           familyId: currentFamily,
         })
         .then(() => {
-          navigate(`/profil-coordinator/${coordinatorId}`);
+          navigate(
+            `/deposer-une-annonce-coordinateur/${coordinatorId}/annonce/${annonceId}/choix-professionnels`
+          );
         })
         .then(() =>
           toast({
@@ -148,7 +151,7 @@ export default function AnnonceForm({ updated, setUpdated }) {
       setUpdated(!updated);
     }
 
-    if (employerId !== "undefined") {
+    if (employerId !== undefined) {
       backendAPI
         .put(`/api/employers/${employerId}/annonce/${annonceId}`, {
           title,
@@ -156,7 +159,7 @@ export default function AnnonceForm({ updated, setUpdated }) {
           zipCode: cityPro,
           emergency,
           price,
-          status: "En cours",
+          status: "Brouillon",
         })
         .then(() => {
           navigate(
@@ -187,23 +190,44 @@ export default function AnnonceForm({ updated, setUpdated }) {
 
   const handleCancel = (event) => {
     event.preventDefault();
-    backendAPI
-      .delete(`/api/employers/${employerId}/annonce/${annonceId}`)
-      .then(() => {
-        navigate(`/profil-employer/${employerId}`);
-      })
-      .then(() =>
-        toast({
-          title: "Votre annonce n'a pas été crée",
-          status: "error",
-          position: "bottom-right",
-          duration: 7000,
-          isClosable: true,
+    if (employerId !== undefined) {
+      backendAPI
+        .delete(`/api/employers/${employerId}/annonce/${annonceId}`)
+        .then(() => {
+          navigate(`/profil-employer/${employerId}`);
         })
-      )
-      .catch((e) => {
-        console.error(e);
-      });
+        .then(() =>
+          toast({
+            title: "Votre annonce n'a pas été crée",
+            status: "error",
+            position: "bottom-right",
+            duration: 7000,
+            isClosable: true,
+          })
+        )
+        .catch((e) => {
+          console.error(e);
+        });
+    }
+    if (coordinatorId !== undefined) {
+      backendAPI
+        .delete(`/api/coordinator/${coordinatorId}/annonce/${annonceId}`)
+        .then(() => {
+          navigate(`/profil-coordinator/${coordinatorId}`);
+        })
+        .then(() =>
+          toast({
+            title: "Votre annonce n'a pas été crée",
+            status: "error",
+            position: "bottom-right",
+            duration: 7000,
+            isClosable: true,
+          })
+        )
+        .catch((e) => {
+          console.error(e);
+        });
+    }
   };
 
   // axios qui va chercher la liste des services
@@ -242,16 +266,8 @@ export default function AnnonceForm({ updated, setUpdated }) {
     if (nameService !== "" && !serviceName.includes(nameService)) {
       setServiceName([...serviceName, nameService]);
       setServiceNumber([...serviceNumber, e.target.value]);
-      if (coordinatorId !== "undefined") {
-        backendAPI.post(
-          `/api/coordinator/${coordinatorId}/annonce/${annonceId}/services/${e.target.value}`
-        );
-      }
-      if (employerId !== "undefined") {
-        backendAPI.post(
-          `/api/employer/${employerId}/annonce/${annonceId}/services/${e.target.value}`
-        );
-      }
+
+      backendAPI.post(`/api/annonce/${annonceId}/services/${e.target.value}`);
     }
   };
 
@@ -370,9 +386,9 @@ export default function AnnonceForm({ updated, setUpdated }) {
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
               />
-              {coordinatorId ? (
+
+              {coordinatorId && (
                 <Select
-                  border="none"
                   type="text"
                   id="formProService"
                   name="Service"
@@ -386,7 +402,7 @@ export default function AnnonceForm({ updated, setUpdated }) {
                     <option value={family.id}>{family.lastname}</option>
                   ))}
                 </Select>
-              ) : null}
+              )}
 
               <FormLabel
                 htmlFor="description"

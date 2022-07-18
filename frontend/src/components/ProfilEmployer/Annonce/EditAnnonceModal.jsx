@@ -1,7 +1,7 @@
 /* eslint-disable no-lone-blocks */
 import axios from "axios";
 import { useState, useEffect, useRef } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 import {
   Modal,
@@ -54,17 +54,32 @@ export default function EditAnnonceModal({
 }) {
   const { employerId, coordinatorId } = useParams();
   const toast = useToast();
+  const navigate = useNavigate();
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState();
   const [emergency, setEmergency] = useState(false);
-  const [status, setStatus] = useState("");
+  const [currentFamily, setCurrentFamily] = useState(0);
+  const [families, setFamilies] = useState([]);
+  // const [setStatus] = useState("");
 
   const [search, setSearch] = useState("");
   const [cityPro, setCityPro] = useState("");
   const [cityProName, setCityProName] = useState("");
   const [addressList, setAddressList] = useState([]);
+
+  const addFamily = (e) => {
+    setCurrentFamily(parseInt(e.target.value, 10));
+  };
+
+  useEffect(() => {
+    backendAPI
+      .get(`/api/coordinators/${coordinatorId}/familles`)
+      .then((res) => {
+        setFamilies(res.data);
+      });
+  }, []);
 
   useEffect(() => {
     backendAPI.get(`/api/annonces/${annonce.id}`).then((res) => {
@@ -72,6 +87,7 @@ export default function EditAnnonceModal({
       setDescription(res.data.description);
       setPrice(res.data.price);
       setEmergency(res.data.emergency);
+      setCurrentFamily(res.data.fk_family_id?.lastname);
     });
 
     backendAPI.get(`/api/annonces/${annonce.id}/city`).then((response) => {
@@ -109,7 +125,7 @@ export default function EditAnnonceModal({
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (employerId === "undefined") {
+    if (employerId === undefined) {
       backendAPI
         .put(`/api/coordinator/${coordinatorId}/annonce/${annonce.id}`, {
           title,
@@ -117,7 +133,7 @@ export default function EditAnnonceModal({
           zipCode: cityPro,
           emergency,
           price,
-          status,
+          familyId: currentFamily,
         })
         .then(() =>
           toast({
@@ -128,6 +144,11 @@ export default function EditAnnonceModal({
             isClosable: true,
           })
         )
+        .then(() => {
+          navigate(
+            `/deposer-une-annonce-coordinateur/${coordinatorId}/annonce/${annonce.id}/choix-professionnels`
+          );
+        })
         .catch((e) => {
           console.error(e);
           toast({
@@ -139,7 +160,7 @@ export default function EditAnnonceModal({
           });
         });
     }
-    if (coordinatorId === "undefined") {
+    if (coordinatorId === undefined) {
       backendAPI
         .put(`/api/employers/${employerId}/annonce/${annonce.id}`, {
           title,
@@ -147,7 +168,6 @@ export default function EditAnnonceModal({
           zipCode: cityPro,
           emergency,
           price,
-          status,
         })
         .then(() =>
           toast({
@@ -158,6 +178,11 @@ export default function EditAnnonceModal({
             isClosable: true,
           })
         )
+        .then(() => {
+          navigate(
+            `/deposer-une-annonce/${employerId}/annonce/${annonce.id}/choix-professionnels`
+          );
+        })
         .catch((e) => {
           console.error(e);
           toast({
@@ -170,7 +195,6 @@ export default function EditAnnonceModal({
         });
     }
 
-    onClose();
     setUpdated(!updated);
   };
 
@@ -192,9 +216,9 @@ export default function EditAnnonceModal({
     setEmergency(e.target.checked);
   };
 
-  const handleStatus = (e) => {
-    setStatus(e.target.value);
-  };
+  // const handleStatus = (e) => {
+  //   setStatus(e.target.value);
+  // };
 
   return (
     <Modal size="4xl" isOpen={isOpen} onClose={onClose}>
@@ -242,6 +266,22 @@ export default function EditAnnonceModal({
                     value={title}
                     onChange={handleTitleChange}
                   />
+                  {coordinatorId && (
+                    <Select
+                      type="text"
+                      id="formProService"
+                      name="Service"
+                      fontSize="0.8rem"
+                      fontWeight="500"
+                      color="gray"
+                      placeholder="Quelle est la famille concernée ?"
+                      onChange={addFamily}
+                    >
+                      {families.map((family) => (
+                        <option value={family.id}>{family.lastname}</option>
+                      ))}
+                    </Select>
+                  )}
                   <FormLabel
                     htmlFor="description"
                     fontSize="md"
@@ -486,15 +526,15 @@ export default function EditAnnonceModal({
                         >
                           <Text fontSize="sm">Oui</Text>
                         </Checkbox>
-                        <FormLabel
+                        {/* <FormLabel
                           paddingTop="5%"
                           fontSize="sm"
                           fontWeight="800"
                           color="purple.average"
                         >
                           Changer le statut
-                        </FormLabel>
-                        <Select
+                        </FormLabel> */}
+                        {/* <Select
                           border="none"
                           type="text"
                           id="status"
@@ -508,7 +548,7 @@ export default function EditAnnonceModal({
                           <option value="En cours">En cours</option>
                           <option value="En suspens">En suspens</option>
                           <option value="Finie">Finie</option>
-                        </Select>
+                        </Select> */}
                       </Flex>
                     </CheckboxGroup>
                   </Flex>

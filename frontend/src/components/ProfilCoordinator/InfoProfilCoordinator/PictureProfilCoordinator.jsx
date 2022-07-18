@@ -14,11 +14,17 @@ import {
   VStack,
   FormControl,
 } from "@chakra-ui/react";
-
+import { useParams } from "react-router-dom";
 import { useState } from "react";
 import backendAPI from "../../../services/backendAPI";
 
-export default function PictureProfilCoordinator({ coordinator }) {
+export default function PictureProfilCoordinator({
+  coordinator,
+  updated,
+  setUpdated,
+}) {
+  const { coordinatorId } = useParams();
+
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [pictureCoordinator, setPictureCoordinator] = useState();
 
@@ -28,26 +34,31 @@ export default function PictureProfilCoordinator({ coordinator }) {
 
     formData.append("file", pictureCoordinator[0]);
 
-    backendAPI.put(`/api/coordinators/${coordinator.id}/picture`, formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
+    backendAPI.put(
+      `/api/coordinators/${parseInt(coordinatorId, 10)}/picture`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
     onClose();
+    setUpdated(!updated);
   };
 
   const handleRemovePicture = () => {
-    backendAPI.put(`/api/coordinators/${coordinator.id}/removedPicture`);
+    backendAPI.put(
+      `/api/coordinators/${parseInt(coordinatorId, 10)}/removedPicture`
+    );
   };
 
   return (
     <VStack align="center" alignSelf="center" mx="auto">
       <Image
         src={
-          coordinator.picture
-            ? `${import.meta.env.VITE_BACKEND_URL}/uploads/${
-                coordinator.picture
-              }`
+          coordinator
+            ? `${import.meta.env.VITE_BACKEND_URL}/uploads/${coordinator}`
             : "https://secure.gravatar.com/avatar/c308ee24184a32cdf10650eb7e311157?s=125&d=mm&r=G"
         }
         height="150px"
@@ -122,10 +133,10 @@ export default function PictureProfilCoordinator({ coordinator }) {
                   <Image
                     id="frame"
                     src={
-                      coordinator.picture
-                        ? `${import.meta.env.VITE_BACKEND_URL}/uploads/${
-                            coordinator.picture
-                          }`
+                      coordinator
+                        ? `${
+                            import.meta.env.VITE_BACKEND_URL
+                          }/uploads/${coordinator}`
                         : "https://secure.gravatar.com/avatar/c308ee24184a32cdf10650eb7e311157?s=125&d=mm&r=G"
                     }
                     m="auto"

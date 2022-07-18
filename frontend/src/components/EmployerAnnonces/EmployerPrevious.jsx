@@ -113,7 +113,7 @@ function EmployerPrevious({ annonces }) {
             <Tbody>
               {annonces &&
                 annonces
-                  .filter((opt) => opt.title.toLowerCase().includes(input))
+                  .filter((opt) => opt.title?.toLowerCase().includes(input))
                   .map((data) => (
                     <Tr key={data.id}>
                       <Td>{data.title}</Td>

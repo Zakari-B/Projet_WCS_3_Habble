@@ -51,7 +51,8 @@ const loginForm = () => {
           }
           if (
             response.data.type !== "freelancer" ||
-            response.data.type !== "employer"
+            response.data.type !== "employer" ||
+            response.data.type !== "coordinator"
           ) {
             navigate("/");
           }
@@ -67,7 +68,9 @@ const loginForm = () => {
           }
           if (response.data.type === "coordinator") {
             window.localStorage.setItem("role", "coordinator");
-            navigate(`/profil-coordinator/${response.data.fkId}`);
+            return response.data.profil
+              ? navigate(`/profil-coordinator/${response.data.fkId}`)
+              : navigate(`/register-onboarding-coordo/${response.data.fkId}`);
           }
           return null;
         })

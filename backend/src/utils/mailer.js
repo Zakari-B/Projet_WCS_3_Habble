@@ -19,7 +19,9 @@ const sendMail = async (data, template) => {
         ? `${data.firstname} ${data.lastname} <${data.email}>`
         : `Habble <${process.env.SMTP_USER}>`, // Penser a remplacer l'adresse mail par un noreply ?
     to:
-      data.recipient === "habble" ? `Habble <contact@habble.com>` : data.email, // Penser a remplacer l'adresse mail par celle fournie par Patrice.
+      data.recipient === "habble"
+        ? `Habble <marie.serradori@gmail.com>`
+        : data.email, // Penser a remplacer l'adresse mail par celle fournie par Patrice.
     subject: template.subject,
     html: template.body,
   };

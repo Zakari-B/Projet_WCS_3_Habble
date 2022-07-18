@@ -25,7 +25,7 @@ import backendAPI from "../../services/backendAPI";
 
 function EmployerSelect({ annonces }) {
   const [option, setOption] = useState("");
-  const [setFamilyName] = useState("");
+  const [familyName, setFamilyName] = useState("");
   const [families, setFamilies] = useState([]);
   const [input, setInput] = useState("");
   const {
@@ -33,14 +33,16 @@ function EmployerSelect({ annonces }) {
     onOpen: onEditOpen,
     onClose: onEditClose,
   } = useDisclosure();
-  const { employerId, coordinatorId } = useParams();
+  const { employerId, coordinatorId, freelancerId } = useParams();
 
   useEffect(() => {
-    backendAPI
-      .get(`/api/coordinators/${coordinatorId}/familles`)
-      .then((res) => {
-        setFamilies(res.data);
-      });
+    if (coordinatorId) {
+      backendAPI
+        .get(`/api/coordinators/${coordinatorId}/familles`)
+        .then((res) => {
+          setFamilies(res.data);
+        });
+    }
   }, []);
 
   const handleFilter = (e) => {
@@ -57,6 +59,7 @@ function EmployerSelect({ annonces }) {
   const handleReset = () => {
     setOption("");
     setInput("");
+    setFamilyName("");
   };
 
   return (
@@ -120,7 +123,7 @@ function EmployerSelect({ annonces }) {
                 onChange={handleFilterFamily}
               >
                 {families.map((family) => (
-                  <option>{family.lastname}</option>
+                  <option>{family?.lastname}</option>
                 ))}
               </Select>
             </VStack>
@@ -157,7 +160,7 @@ function EmployerSelect({ annonces }) {
             fontWeight="700"
             fontSize="20px"
           >
-            Annonces en cours
+            Annonces Ouvertes
           </Heading>
         </Flex>
 
@@ -165,13 +168,13 @@ function EmployerSelect({ annonces }) {
           <Table variant="simple">
             <Thead bgColor="gray.200">
               <Tr>
-                {coordinatorId ? <Th>Famille</Th> : null}
+                <Th> {coordinatorId && "Famille"}</Th>
                 <Th>Titre de l'annonce</Th>
                 <Th isNumeric>Nombre d'offres</Th>
                 <Th>Taux horaire</Th>
                 <Th>Date de création</Th>
                 <Th>État</Th>
-                <Th>Action</Th>
+                {freelancerId === undefined && <Th> </Th>}
               </Tr>
             </Thead>
             <Tbody>
@@ -179,8 +182,13 @@ function EmployerSelect({ annonces }) {
                 annonces
                   .filter(
                     (opt) =>
-                      opt.title.toLowerCase().includes(input) &&
-                      opt.status.includes(option)
+                      (opt.title?.toLowerCase().includes(input) &&
+                        opt.fk_family_id?.lastname?.includes(familyName) &&
+                        opt.status?.includes(option)) ||
+                      (opt.fk_annonce_id?.title
+                        ?.toLowerCase()
+                        .includes(input) &&
+                        opt.fk_annonce_id?.status?.includes(option))
                   )
                   .map((data) => (
                     <Tr key={data.id}>
@@ -190,48 +198,78 @@ function EmployerSelect({ annonces }) {
                             href={`/profil-coordinator/${coordinatorId}/famille/${data.familyId}`}
                             _hover={{ color: "pink.light", fontWeight: "700" }}
                           >
-                            {data.fk_family_id.lastname}{" "}
+                            {data.fk_family_id?.lastname}{" "}
                           </Link>
                         ) : null}
                       </Td>
                       <Td>
-                        {coordinatorId !== undefined ? (
+                        {coordinatorId && (
                           <Link
                             href={`/profil-coordinator/${coordinatorId}/mes-annonces/${data.id}`}
                             _hover={{ color: "pink.light", fontWeight: "700" }}
                           >
                             {data.title}{" "}
                           </Link>
-                        ) : (
+                        )}
+                        {employerId && (
                           <Link
                             href={`/profil-employer/${employerId}/mes-annonces/${data.id}`}
                             _hover={{ color: "pink.light", fontWeight: "700" }}
                           >
-                            {data.title}{" "}
+                            {data.title || data.fk_annonce_id?.title}{" "}
+                          </Link>
+                        )}
+                        {freelancerId && (
+                          <Link
+                            href={`/profil/${freelancerId}/mes-annonces/${data.fk_annonce_id?.id}`}
+                            _hover={{ color: "pink.light", fontWeight: "700" }}
+                          >
+                            {data.title || data.fk_annonce_id?.title}{" "}
                           </Link>
                         )}
                       </Td>
 
                       <Td isNumeric>{data.annonce_offers?.length}</Td>
-                      <Td>{data.price} €</Td>
-                      <Td>{dateFormat(data.dateCreated, "dd/mm/yyyy")}</Td>
+                      <Td>{data.price || data.fk_annonce_id?.price} €</Td>
                       <Td>
-                        <Tag>{data.status}</Tag>
+                        {dateFormat(
+                          data.dateCreated || data.fk_annonce_id?.dateCreated,
+                          "dd/mm/yyyy"
+                        )}
                       </Td>
                       <Td>
-                        <Button
-                          onClick={onEditOpen}
-                          variant="solid_PrimaryColor"
-                        >
-                          Modifier
-                        </Button>
-                        <EditAnnonceModal
-                          isOpen={isEditOpen}
-                          onOpen={onEditOpen}
-                          onClose={onEditClose}
-                          annonce={data}
-                        />
+                        <Tag>{data.status || data.fk_annonce_id?.status}</Tag>
                       </Td>
+                      {/* {data.status === "Brouillon" ? (
+                          <Tag colorScheme="gray">{data.status} </Tag>
+                        ) : null}
+                        {data.status === "Rejetée" ? (
+                          <Tag colorScheme="red">{data.status} </Tag>
+                        ) : null}
+                        {data.status === "Ouverte" ||
+                        data.status === "En cours" ? (
+                          <Tag colorScheme="green">{data.status} </Tag>
+                        ) : (
+                          <Tag>{data.status} </Tag>
+                        )} */}
+                      {freelancerId === undefined ||
+                        data.status === "Brouillon" ||
+                        (data.fk_annonce_id?.status === "Brouillon" && (
+                          <Td>
+                            <Button
+                              onClick={onEditOpen}
+                              variant="solid_PrimaryColor"
+                            >
+                              Modifier
+                            </Button>
+                            <EditAnnonceModal
+                              isOpen={isEditOpen}
+                              onOpen={onEditOpen}
+                              onClose={onEditClose}
+                              annonce={data}
+                            />
+                          </Td>
+                        ))}
                     </Tr>
                   ))}
             </Tbody>

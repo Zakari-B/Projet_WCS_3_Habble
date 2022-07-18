@@ -21,29 +21,45 @@ import {
   InputLeftElement,
   List,
   ListItem,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+  NumberIncrementStepper,
+  NumberDecrementStepper,
 } from "@chakra-ui/react";
 import { Search2Icon } from "@chakra-ui/icons";
 import { MdRoom } from "react-icons/md";
 import { useState, useEffect, useRef } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+
+import Services from "../../ProAccountForm/Services";
+import Expertises from "../../ProAccountForm/Expertises";
 import PictureProfilCoordinator from "./PictureProfilCoordinator";
 import backendAPI from "../../../services/backendAPI";
 
-export default function ProAccountForm({
+export default function ProAccountFormCoordinator({
   isOpen,
+  onModal = false,
   onClose,
   coordinator,
   updated,
   setUpdated,
 }) {
   const toast = useToast();
+  const navigate = useNavigate();
+  const { coordinatorId } = useParams();
 
   // useState pour chaque input //
+  const [user, setUser] = useState("");
+  const [coordinatorPicture, setCoordinatorPicture] = useState("");
   const [displayName, setDisplayName] = useState("");
   const [activityPro, setActivityPro] = useState("");
   const [phonePro, setPhonePro] = useState("");
   const [descriptionPro, setDescriptionPro] = useState("");
   const [acceptEmailPro, setAcceptEmailPro] = useState(false);
   const [siretPro, setSiretPro] = useState();
+  const [experienceYearPro, setExperienceYearPro] = useState();
+  const [pricePro, setPricePro] = useState();
 
   const [cityPro, setCityPro] = useState("");
   const [cityProName, setCityProName] = useState("");
@@ -81,8 +97,11 @@ export default function ProAccountForm({
     setDescriptionPro(coordinator.description);
     setAcceptEmailPro(coordinator.acceptEmails);
     setSiretPro(coordinator.siret);
+    setExperienceYearPro(coordinator.experienceYear);
+    setPricePro(coordinator.price);
+
     backendAPI
-      .get(`/api/coordinators/${coordinator.id}/city`)
+      .get(`/api/coordinators/${coordinatorId}/city`)
       .then((response) => {
         setCityPro(response.data[0].zipCode);
         setCityProName(response.data[0].ville_nom);
@@ -93,21 +112,74 @@ export default function ProAccountForm({
     setSearch(event.target.value);
   };
 
+  const getOneUser = () => {
+    backendAPI
+      .get(`/api/coordinator/${coordinatorId}/user`)
+      .then((response) => {
+        setUser(response.data);
+        setCoordinatorPicture(response.data.coordinator.picture);
+        setDisplayName(
+          response.data.coordinator.displayName === "undefined"
+            ? ""
+            : response.data.coordinator.displayName
+        );
+        setActivityPro(
+          response.data.coordinator.activityDescription === "undefined"
+            ? ""
+            : response.data.coordinator.activityDescription
+        );
+        setPhonePro(response.data.coordinator.phone);
+        setExperienceYearPro(
+          response.data.coordinator.experienceYear === 0
+            ? ""
+            : response.data.coordinator.experienceYear
+        );
+        setPricePro(
+          response.data.coordinator.price === 0
+            ? ""
+            : response.data.coordinator.price
+        );
+        setDescriptionPro(
+          response.data.coordinator.description === "undefined"
+            ? ""
+            : response.data.coordinator.description
+        );
+        setAcceptEmailPro(response.data.coordinator.acceptEmail);
+        setSiretPro(response.data.coordinator.siret);
+      });
+    backendAPI
+      .get(`/api/coordinators/${coordinatorId}/city`)
+      .then((response) => {
+        setCityPro(response.data[0].zipCode);
+        setCityProName(response.data[0].ville_nom);
+      });
+  };
+
+  useEffect(() => {
+    getOneUser();
+  }, [updated]);
+
   // Appel axios pour mettre à jour le coordinateur avec ses informations
 
   const updateCoordinatorProfile = (e) => {
     e.preventDefault();
+    const userId = user.id;
     backendAPI
-      .put(`/api/coordinators/${coordinator.id}`, {
+      .put(`/api/coordinators/${coordinatorId}`, {
         displayName,
         activityDescription: activityPro,
         zipCode: cityPro,
         phone: phonePro,
+        experienceYear: experienceYearPro,
+        price: pricePro,
         description: descriptionPro,
         acceptEmails: acceptEmailPro,
         siret: siretPro,
       })
       .then((response) => {
+        backendAPI.put(`/api/users/${userId}`, {
+          profileIsComplete: true,
+        });
         if (response) {
           toast({
             title: "Vos données ont bien été enregistrées.",
@@ -116,8 +188,12 @@ export default function ProAccountForm({
             position: "bottom-right",
             isClosable: true,
           });
+          if (onModal === false) {
+            navigate(`/profil-coordinator/${coordinatorId}`);
+          } else {
+            onClose();
+          }
           setUpdated(!updated);
-          onClose();
         }
       })
       .catch((error) => {
@@ -131,6 +207,36 @@ export default function ProAccountForm({
           });
         }
         console.warn(error);
+      });
+  };
+
+  const updateCoordinatorUncompletedProfile = (e) => {
+    e.preventDefault();
+    backendAPI
+      .put(`/api/coordinators/${coordinatorId}`, {
+        displayName: displayName === "" ? "undefined" : displayName,
+        activityDescription: activityPro === "" ? "undefined" : activityPro,
+        zipCode: cityPro === "" ? "undefined" : cityPro,
+        phone: phonePro,
+        experienceYear: experienceYearPro === "" ? 0 : experienceYearPro,
+        price: pricePro === "" ? 0 : pricePro,
+        description: descriptionPro === "" ? "undefined" : descriptionPro,
+        acceptEmails: acceptEmailPro,
+        siret: siretPro,
+      })
+      .then((response) => {
+        if (response) {
+          toast({
+            title: "Vos données ont bien été sauvegardées.",
+            description: "N'hésitez pas à revenir completer votre profil !",
+            status: "success",
+            duration: 7000,
+            position: "bottom-right",
+            isClosable: true,
+          });
+        }
+        setUpdated(!updated);
+        navigate("/logout");
       });
   };
 
@@ -361,7 +467,11 @@ export default function ProAccountForm({
                 />
               </VStack>
             </FormControl>
-            <PictureProfilCoordinator coordinator={coordinator} />
+            <PictureProfilCoordinator
+              coordinator={coordinatorPicture}
+              updated={updated}
+              setUpdated={setUpdated}
+            />
           </Flex>
           <FormControl>
             <FormLabel
@@ -387,6 +497,106 @@ export default function ProAccountForm({
               value={descriptionPro}
               onChange={(e) => setDescriptionPro(e.target.value)}
             />
+
+            <Flex
+              justifyContent="left"
+              gap="3"
+              flexWrap="wrap"
+              h="fit-content"
+              w="fit-content%"
+            >
+              <FormLabel
+                htmlFor="experience"
+                fontSize="md"
+                fontWeight="800"
+                color="purple.average"
+                my="auto"
+                marginTop="2.5rem"
+              >
+                Depuis combien d'années exercez-vous ? *
+              </FormLabel>
+              <Flex justifyContent="left" gap="3" marginTop="2rem">
+                <NumberInput
+                  max={50}
+                  min={0}
+                  w="80px"
+                  value={experienceYearPro}
+                  onChange={(value) =>
+                    setExperienceYearPro(parseInt(value, 10))
+                  }
+                >
+                  <NumberInputField
+                    id="proFormexperience"
+                    name="experience"
+                    placeholder="7"
+                    fontSize="0.9rem"
+                    _placeholder={{ fontSize: "0.9rem" }}
+                  />
+                  <NumberInputStepper>
+                    <NumberIncrementStepper />
+                    <NumberDecrementStepper />
+                  </NumberInputStepper>
+                </NumberInput>
+                <Text my="auto" fontSize="0.9rem">
+                  {" "}
+                  ans d'expérience
+                </Text>
+              </Flex>
+            </Flex>
+            <Flex
+              justifyContent="left"
+              gap="3"
+              flexWrap="wrap"
+              h="fit-content"
+              w="fit-content%"
+            >
+              <FormLabel
+                htmlFor="price"
+                fontSize="md"
+                fontWeight="800"
+                color="purple.average"
+                my="auto"
+                marginTop="2.5rem"
+              >
+                Quel est le prix moyen de vos prestations ? *
+              </FormLabel>
+              <Flex justifyContent="left" gap="3" marginTop="2rem">
+                <NumberInput
+                  min={0}
+                  w="80px"
+                  value={pricePro === 0 ? "" : pricePro}
+                  onChange={(value) => {
+                    setPricePro(parseFloat(value));
+                  }}
+                >
+                  <NumberInputField
+                    id="proFormPrice"
+                    name="price"
+                    placeholder="25"
+                    fontSize="0.9rem"
+                    _placeholder={{ fontSize: "0.9rem" }}
+                  />
+                  <NumberInputStepper>
+                    <NumberIncrementStepper />
+                    <NumberDecrementStepper />
+                  </NumberInputStepper>
+                </NumberInput>
+                <Text my="auto" fontSize="0.9rem">
+                  {" "}
+                  €/h (indicatif)
+                </Text>
+              </Flex>
+            </Flex>
+            <FormLabel
+              htmlFor="services"
+              fontSize="md"
+              fontWeight="800"
+              color="purple.average"
+              marginTop="2rem"
+            >
+              Sélectionnez un ou plusieurs services que vous proposez *
+            </FormLabel>
+            <Services />
           </FormControl>
           {coordinator.acceptEmails ? (
             <Checkbox
@@ -418,6 +628,7 @@ export default function ProAccountForm({
               </Text>
             </Checkbox>
           )}
+          <Expertises />
           <FormLabel
             htmlFor="company"
             fontSize="md"
@@ -458,6 +669,18 @@ export default function ProAccountForm({
             onClick={updateCoordinatorProfile}
           >
             Enregistrer
+          </Button>
+          <Button
+            bg="transparent"
+            border="2px solid"
+            fontWeight="500"
+            borderColor="pink.light"
+            color="pink.light"
+            _hover={{ bgcolor: "white" }}
+            type="submit"
+            onClick={updateCoordinatorUncompletedProfile}
+          >
+            Sauvegarder les informations
           </Button>
           <Button
             bgColor="white"

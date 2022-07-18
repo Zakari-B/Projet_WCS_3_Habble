@@ -77,7 +77,7 @@ const deleteOne = async (req, res) => {
 };
 
 const deleteOneByCoordinatorId = async (req, res) => {
-  const coordinatorId = parseInt(req.roleId, 10);
+  const coordinatorId = parseInt(req.params.coordinatorid, 10);
   const documentID = parseInt(req.params.id, 10);
 
   const document = await getOneDocumentByCoordinatorId(
@@ -86,7 +86,9 @@ const deleteOneByCoordinatorId = async (req, res) => {
   );
 
   if (!document) {
-    res.status(404).send("Aucun document correspondant pour ce professionnel");
+    return res
+      .status(404)
+      .send("Aucun document correspondant pour ce professionnel");
   }
 
   try {
@@ -104,12 +106,12 @@ const deleteOneByCoordinatorId = async (req, res) => {
 };
 
 const deleteOneByFamily = async (req, res) => {
-  const freelancerId = parseInt(req.roleId, 10);
+  const coordinatorId = parseInt(req.roleId, 10);
   const documentID = parseInt(req.params.id, 10);
   const familyId = parseInt(req.params.familyId, 10);
 
   const document = await getOneDocumentByCoordinatorIdAndFamilyId(
-    freelancerId,
+    coordinatorId,
     familyId,
     documentID
   );

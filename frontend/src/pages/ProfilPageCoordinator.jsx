@@ -9,6 +9,8 @@ import AnnonceCarouselCoordo from "../components/ProfilCoordinator/Annonces/Anno
 import AccountCard from "../components/ProfileFreelancer/Account/AccountCard";
 import Verifications from "../components/ProfileFreelancer/Verifications";
 import Accompagnement from "../components/ProfilCoordinator/Accompagnement";
+import Expertises from "../components/ProfileFreelancer/Expertises/Expertises";
+import Tarif from "../components/ProfileFreelancer/Tarif";
 import backendAPI from "../services/backendAPI";
 import { getSubListforAnId } from "../services/ProfileProUtils";
 
@@ -89,6 +91,8 @@ export default function ProfilPageCoordinator() {
             <AccountCard user={coordoUser} />
             <Verifications freelancer={coordinator} loggedUser={loggedUser} />
             <Accompagnement />
+            <Expertises freelancer={coordinator} />
+            <Tarif freelancer={coordinator} />
           </Flex>
           <Flex
             bgColor="background.gray"

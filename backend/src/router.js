@@ -24,6 +24,9 @@ const PictureFreelancerController = require("./controllers/PictureFreelancerCont
 const AnnonceLieuController = require("./controllers/AnnonceLieuController");
 const PictureEmployerController = require("./controllers/PictureEmployerController");
 const PictureCoordinatorController = require("./controllers/PictureCoordinateurController");
+const MatchController = require("./controllers/MatchController");
+const CoordinatorServicesController = require("./controllers/CoordinatorServicesController");
+const CoordinatorExpertisesController = require("./controllers/CoordinatorExpertisesController");
 
 const {
   authorization,
@@ -75,10 +78,13 @@ router.delete("/users/:id", UserController.deleteOne);
 
 // Routes for Freelancers
 
-router.get("/freelancers/:id/user", FreelancerController.getUser);
-
 // Routes for Freelancers
 router.get("/freelancers/", FreelancerController.getAll);
+router.get(
+  "/freelancers/:freelancerid/user",
+
+  FreelancerController.getUser
+);
 router.get("/freelancers/search", FreelancerController.getAllWithinDistance);
 router.get(
   "/freelancers/search/filtered",
@@ -90,6 +96,7 @@ router.get(
   authorization,
   FreelancerController.getOneFreelancerWithCityInfo
 );
+
 router.get(
   "/freelancers/:freelancerid",
   authorization,
@@ -102,11 +109,7 @@ router.put(
   FreelancerController.updateOne
 );
 
-router.get(
-  "/freelancers/:freelancerid/user",
-  authorization,
-  FreelancerController.getUser
-);
+// route delete a valider (si besoin)
 
 // Routes for freelancer's picture
 router.put(
@@ -147,14 +150,14 @@ router.get(
 
 // Routes for coordinator's picture
 router.put(
-  "/coordinators/:id/picture",
+  "/coordinators/:coordinatorid/picture",
   authorization,
   multer,
   PictureCoordinatorController.updateOne
 );
 
 router.put(
-  "/coordinators/:id/removedPicture",
+  "/coordinators/:coordinatorId/removedPicture",
   authorization,
   multer,
   PictureCoordinatorController.removeOne
@@ -206,7 +209,7 @@ router.delete(
   DocumentsController.deleteOne
 );
 router.delete(
-  "/coordinator/:coordinatorId/documents/:id",
+  "/coordinator/:coordinatorid/documents/:id",
   authorization,
   authSelfRole,
   DocumentsController.deleteOneByCoordinatorId
@@ -248,6 +251,36 @@ router.delete(
   DiplomeController.deleteOne
 );
 
+// Routes for Diplomes/coordinator
+router.post(
+  "/coordinator/:coordinatorid/diplomes",
+  authorization,
+  authSelfRole,
+  DiplomeController.createOneByCoordinator
+);
+router.get(
+  "/coordinator/:coordinatorId/diplomes",
+  authorization,
+  DiplomeController.getAllByCoordinator
+);
+router.get(
+  "/coordinator/:coordinatorid/diplomes/:id",
+  authorization,
+  DiplomeController.getOneByCoordinator
+);
+router.put(
+  "/coordinator/:coordinatorid/diplomes/:id",
+  authorization,
+  authSelfRole,
+  DiplomeController.updateOneByCoordinator
+);
+router.delete(
+  "/coordinator/:coordinatorid/diplomes/:id",
+  authorization,
+  authSelfRole,
+  DiplomeController.deleteOneByCoordinator
+);
+
 // Routes for Formations
 router.post(
   "/freelancers/:freelancerid/formations",
@@ -279,6 +312,37 @@ router.delete(
   FormationController.deleteOne
 );
 
+// Routes for Formations/ coordinator
+router.post(
+  "/coordinator/:coordinatorid/formations",
+  authorization,
+  authSelfRole,
+  FormationController.createOneByCoordinator
+);
+router.get(
+  "/coordinator/:coordinatorid/formations",
+  authorization,
+  FormationController.getAllByCoordinator
+);
+
+router.get(
+  "/coordinator/:coordinatorid/formations/:id",
+  authorization,
+  FormationController.getOneByCoordinator
+);
+router.put(
+  "/coordinator/:coordinatorid/formations/:id",
+  authorization,
+  authSelfRole,
+  FormationController.updateOneByCoordinator
+);
+router.delete(
+  "/coordinator/:coordinatorid/formations/:id",
+  authorization,
+  authSelfRole,
+  FormationController.deleteOneByCoordinator
+);
+
 // Routes for Expérience Pro
 router.post(
   "/freelancers/:freelancerid/experiencePro",
@@ -307,6 +371,36 @@ router.delete(
   authorization,
   authSelfRole,
   ExperienceProController.deleteOne
+);
+
+// Routes for Expérience Pro/coordinator
+router.post(
+  "/coordinator/:coordinatorid/experiencePro",
+  authorization,
+  authSelfRole,
+  ExperienceProController.createOneByCoordinator
+);
+router.get(
+  "/coordinator/:coordinatorid/experiencePro",
+  authorization,
+  ExperienceProController.getAllByCoordinator
+);
+router.get(
+  "/coordinator/:coordinatorid/experiencePro/:id",
+  authorization,
+  ExperienceProController.getOneByCoordinator
+);
+router.put(
+  "/coordinator/:coordinatorid/experiencePro/:id",
+  authorization,
+  authSelfRole,
+  ExperienceProController.updateOneByCoordinator
+);
+router.delete(
+  "/coordinator/:coordinatorid/experiencePro/:id",
+  authorization,
+  authSelfRole,
+  ExperienceProController.deleteOneByCoordinator
 );
 
 // Routes for Lieu
@@ -340,6 +434,25 @@ router.post(
 router.delete(
   "/freelancers/:freelancerId/services/:serviceId",
   FreelancerServicesController.deleteOne
+);
+
+// Routes for services of one coordinator
+
+router.get(
+  "/coordinator/:coordinatorId/services",
+  CoordinatorServicesController.getAll
+);
+router.get(
+  "/coordinator/:coordinatorId/services/:serviceId",
+  CoordinatorServicesController.getOneByCoordinatorId
+);
+router.post(
+  "/coordinator/:coordinatorId/services/:serviceId",
+  CoordinatorServicesController.createOne
+);
+router.delete(
+  "/coordinator/:coordinatorId/services/:serviceId",
+  CoordinatorServicesController.deleteOne
 );
 
 // Routes for expertises
@@ -394,6 +507,24 @@ router.delete(
   FreelancerExpertisesController.deleteOne
 );
 
+// Routes for expertises of one freelancer
+router.get(
+  "/coordinator/:coordinatorId/expertises",
+  CoordinatorExpertisesController.getAll
+);
+router.get(
+  "/coordinator/:coordinatorId/expertises/:expertiseId",
+  CoordinatorExpertisesController.getOneByCoordinator
+);
+router.post(
+  "/coordinator/:coordinatorId/expertises/:expertiseId",
+  CoordinatorExpertisesController.createOne
+);
+router.delete(
+  "/coordinator/:coordinatorId/expertises/:expertiseId",
+  CoordinatorExpertisesController.deleteOne
+);
+
 // Routes for announcements
 router.post(
   "/employers/:employerid/annonce",
@@ -412,6 +543,7 @@ router.get(
   AnnonceController.getOneAnnonceWithCityInfo
 );
 router.get("/annonces/:id", AnnonceController.getOne);
+
 router.get(
   "/employers/:employerid/annonce/:id",
   AnnonceController.getOneByEmployerId
@@ -441,6 +573,17 @@ router.delete(
   "/coordinator/:coordinatorId/annonce/:id",
   authorization,
   AnnonceController.deleteOneByCoordinatorId
+);
+
+// Routes for matches
+router.post(
+  "/annonce/:annonceId/freelancers/:freelancerId/match",
+  MatchController.createOneFreelancerMatch
+);
+
+router.get(
+  "/freelancers/:freelancerId/match",
+  MatchController.getAllMatchForFreelancer
 );
 
 // Routes for offers
@@ -489,9 +632,10 @@ router.get(
   AnnonceServicesController.getOneByAnnonceId
 );
 router.post(
-  "/employer/:employerId/annonce/:annonceId/services/:serviceId",
+  "/annonce/:annonceId/services/:serviceId",
   AnnonceServicesController.createOne
 );
+
 router.delete(
   "/annonce/:annonceId/services/:serviceId",
   AnnonceServicesController.deleteOne
@@ -530,7 +674,7 @@ router.post(
 );
 
 router.delete(
-  "/annonce/:annonceId/locations/locationId",
+  "/annonce/:annonceId/locations/:locationId",
   AnnonceLieuController.deleteOne
 );
 
