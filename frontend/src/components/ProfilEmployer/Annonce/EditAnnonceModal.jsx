@@ -1,5 +1,7 @@
-import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+/* eslint-disable no-lone-blocks */
+import axios from "axios";
+import { useState, useEffect, useRef } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 
 import {
   Modal,
@@ -26,22 +28,58 @@ import {
   Checkbox,
   CheckboxGroup,
   Text,
+  Tag,
+  TagLeftIcon,
+  TagCloseButton,
+  InputGroup,
+  InputLeftElement,
+  List,
+  IconButton,
+  ListItem,
+  Select,
 } from "@chakra-ui/react";
 import PropTypes from "prop-types";
+import { Search2Icon } from "@chakra-ui/icons";
+import { MdRoom } from "react-icons/md";
 import backendAPI from "../../../services/backendAPI";
 import Services from "./Services";
 import Lieux from "./Lieux";
 
-export default function EditAnnonceModal({ isOpen, onClose, annonce }) {
-  const { employerId } = useParams();
+export default function EditAnnonceModal({
+  isOpen,
+  onClose,
+  annonce,
+  updated,
+  setUpdated,
+}) {
+  const { employerId, coordinatorId } = useParams();
   const toast = useToast();
+  const navigate = useNavigate();
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState();
   const [emergency, setEmergency] = useState(false);
+  const [currentFamily, setCurrentFamily] = useState(0);
+  const [families, setFamilies] = useState([]);
+  // const [setStatus] = useState("");
 
-  const [status] = useState("En cours");
+  const [search, setSearch] = useState("");
+  const [cityPro, setCityPro] = useState("");
+  const [cityProName, setCityProName] = useState("");
+  const [addressList, setAddressList] = useState([]);
+
+  const addFamily = (e) => {
+    setCurrentFamily(parseInt(e.target.value, 10));
+  };
+
+  useEffect(() => {
+    backendAPI
+      .get(`/api/coordinators/${coordinatorId}/familles`)
+      .then((res) => {
+        setFamilies(res.data);
+      });
+  }, []);
 
   useEffect(() => {
     backendAPI.get(`/api/annonces/${annonce.id}`).then((res) => {
@@ -49,39 +87,115 @@ export default function EditAnnonceModal({ isOpen, onClose, annonce }) {
       setDescription(res.data.description);
       setPrice(res.data.price);
       setEmergency(res.data.emergency);
+      setCurrentFamily(res.data.fk_family_id?.lastname);
+    });
+
+    backendAPI.get(`/api/annonces/${annonce.id}/city`).then((response) => {
+      setCityPro(response.data[0].zipCode);
+      setCityProName(response.data[0].ville_nom);
     });
   }, []);
 
+  const getAddressList = (signal) => {
+    axios
+      .get(
+        `https://api-adresse.data.gouv.fr/search/?q=${search}&type=municipality&autocomplete=1&limit=3`,
+        { signal }
+      )
+      .then((response) => {
+        setAddressList(response.data.features);
+      });
+  };
+  const previousController = useRef();
+
+  useEffect(() => {
+    if (search.length >= 1) {
+      if (previousController.current) {
+        previousController.current.abort();
+      }
+      const controller = new AbortController();
+      const { signal } = controller;
+      previousController.current = controller;
+      getAddressList(signal);
+    }
+  }, [search]);
+  const handleSearch = (event) => {
+    setSearch(event.target.value);
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    backendAPI
-      .put(`/api/employers/${employerId}/annonce/${annonce.id}`, {
-        title,
-        description,
-        emergency,
-        price,
-        status,
-      })
-      .then(() =>
-        toast({
-          title: "Votre annonce a bien été modifiée",
-          status: "success",
-          position: "bottom-right",
-          duration: 7000,
-          isClosable: true,
+    if (employerId === undefined) {
+      backendAPI
+        .put(`/api/coordinator/${coordinatorId}/annonce/${annonce.id}`, {
+          title,
+          description,
+          zipCode: cityPro,
+          emergency,
+          price,
+          familyId: currentFamily,
         })
-      )
-      .catch((e) => {
-        console.error(e);
-        toast({
-          title: "Votre annonce n'a pas pu être modifiée",
-          status: "error",
-          position: "bottom-right",
-          duration: 7000,
-          isClosable: true,
+        .then(() =>
+          toast({
+            title: "Votre annonce a bien été modifiée",
+            status: "success",
+            position: "bottom-right",
+            duration: 7000,
+            isClosable: true,
+          })
+        )
+        .then(() => {
+          navigate(
+            `/deposer-une-annonce-coordinateur/${coordinatorId}/annonce/${annonce.id}/choix-professionnels`
+          );
+        })
+        .catch((e) => {
+          console.error(e);
+          toast({
+            title: "Votre annonce n'a pas pu être modifiée",
+            status: "error",
+            position: "bottom-right",
+            duration: 7000,
+            isClosable: true,
+          });
         });
-      });
-    onClose();
+    }
+    if (coordinatorId === undefined) {
+      backendAPI
+        .put(`/api/employers/${employerId}/annonce/${annonce.id}`, {
+          title,
+          description,
+          zipCode: cityPro,
+          emergency,
+          price,
+        })
+        .then(() =>
+          toast({
+            title: "Votre annonce a bien été modifiée",
+            status: "success",
+            position: "bottom-right",
+            duration: 7000,
+            isClosable: true,
+          })
+        )
+        .then(() => {
+          navigate(
+            `/deposer-une-annonce/${employerId}/annonce/${annonce.id}/choix-professionnels`
+          );
+        })
+        .catch((e) => {
+          console.error(e);
+          toast({
+            title: "Votre annonce n'a pas pu être modifiée",
+            status: "error",
+            position: "bottom-right",
+            duration: 7000,
+            isClosable: true,
+          });
+        });
+    }
+
+    setUpdated(!updated);
   };
 
   ///
@@ -99,10 +213,12 @@ export default function EditAnnonceModal({ isOpen, onClose, annonce }) {
   };
 
   const updateEmergency = (e) => {
-    if (e.target.checked) {
-      setEmergency(true);
-    }
+    setEmergency(e.target.checked);
   };
+
+  // const handleStatus = (e) => {
+  //   setStatus(e.target.value);
+  // };
 
   return (
     <Modal size="4xl" isOpen={isOpen} onClose={onClose}>
@@ -119,7 +235,7 @@ export default function EditAnnonceModal({ isOpen, onClose, annonce }) {
         </ModalHeader>
         <ModalCloseButton />
         <ModalBody paddingY="30px">
-          <Box h="100vh">
+          <Box h="auto">
             <Flex direction="column" justify="flex-start">
               <Stack
                 className="noAccount"
@@ -150,6 +266,22 @@ export default function EditAnnonceModal({ isOpen, onClose, annonce }) {
                     value={title}
                     onChange={handleTitleChange}
                   />
+                  {coordinatorId && (
+                    <Select
+                      type="text"
+                      id="formProService"
+                      name="Service"
+                      fontSize="0.8rem"
+                      fontWeight="500"
+                      color="gray"
+                      placeholder="Quelle est la famille concernée ?"
+                      onChange={addFamily}
+                    >
+                      {families.map((family) => (
+                        <option value={family.id}>{family.lastname}</option>
+                      ))}
+                    </Select>
+                  )}
                   <FormLabel
                     htmlFor="description"
                     fontSize="md"
@@ -179,7 +311,134 @@ export default function EditAnnonceModal({ isOpen, onClose, annonce }) {
                     prestations de soins réalisés, résultats d’examens,
                     traitements, handicap, etc.
                   </Text>
+                  <FormLabel
+                    htmlFor="city"
+                    fontSize="md"
+                    fontWeight="800"
+                    color="purple.average"
+                  >
+                    Où avez-vous besoin de soutien ? *{" "}
+                  </FormLabel>
 
+                  {!cityProName ? (
+                    <Flex direction="column" w="100%">
+                      <InputGroup
+                        display="flex"
+                        alignItems="center"
+                        marginBottom="5px"
+                      >
+                        <InputLeftElement
+                          pointerEvents="none"
+                          display="flex"
+                          alignItems="center"
+                          h="100%"
+                        >
+                          <IconButton
+                            variant="unstyled"
+                            color="gray.500"
+                            aria-label="Search database"
+                            icon={<Search2Icon />}
+                          />
+                        </InputLeftElement>
+                        <Input
+                          type="search"
+                          id="proFormCity"
+                          name="city"
+                          variant="outline"
+                          autocomplete="off"
+                          bgColor="white"
+                          h="50px"
+                          fontSize="0.9rem"
+                          fontWeight="400"
+                          placeholder="Veuillez saisir un code postal et selectionnez une ville dans la liste"
+                          value={search}
+                          onChange={handleSearch}
+                        />
+                      </InputGroup>
+
+                      {addressList.length !== 0 && search !== "" && (
+                        <List
+                          bg="white"
+                          width="100%"
+                          borderRadius="4px"
+                          overflow="hidden"
+                          zIndex="997"
+                          boxShadow="rgb(0 0 0 / 4%) 0px 2px 6px"
+                          border="1px solid #ededed"
+                        >
+                          <Flex direction="column" w="-webkit-fill-available">
+                            {addressList.map((city) => (
+                              <ListItem
+                                onClick={() => {
+                                  if (city.properties.citycode) {
+                                    setCityProName(city.properties.name);
+                                    setCityPro(city.properties.citycode);
+                                    setSearch("");
+                                  }
+                                }}
+                              >
+                                <Flex
+                                  direction="row"
+                                  p={5}
+                                  w="100%"
+                                  align="center"
+                                >
+                                  <Flex
+                                    pl="20px"
+                                    justifyContent="space-between"
+                                    width="100%"
+                                    alignItems="center"
+                                  >
+                                    <Flex
+                                      direction="column"
+                                      alignItems="flex-start"
+                                    >
+                                      <Text
+                                        fontSize="lg"
+                                        align="left"
+                                        color="purple.dark"
+                                        _groupHover={{
+                                          color: "pink.light",
+                                          fontWeight: "700",
+                                        }}
+                                      >
+                                        {city.properties.name} (
+                                        {city.properties.postcode})
+                                      </Text>
+                                      <Text
+                                        fontSize="md"
+                                        align="left"
+                                        color="purple.dark"
+                                      >
+                                        {city.properties.context}
+                                      </Text>
+                                    </Flex>
+                                  </Flex>
+                                </Flex>
+                              </ListItem>
+                            ))}
+                          </Flex>
+                        </List>
+                      )}
+                    </Flex>
+                  ) : (
+                    <Tag
+                      variant="solid"
+                      bgColor="pink.light"
+                      size="lg"
+                      w="fit-content"
+                    >
+                      <TagLeftIcon as={MdRoom} />
+                      {cityProName}
+                      <TagCloseButton
+                        onClick={() => {
+                          setCityPro("");
+                          setCityProName("");
+                          setSearch("");
+                        }}
+                      />
+                    </Tag>
+                  )}
                   <FormLabel
                     htmlFor="skills"
                     fontSize="md"
@@ -236,38 +495,64 @@ export default function EditAnnonceModal({ isOpen, onClose, annonce }) {
                       €/h (indicatif)
                     </Text>
                   </Flex>
-                </Flex>
-                <Lieux />
-                <FormLabel
-                  htmlFor="chronicDiseases"
-                  fontSize="sm"
-                  fontWeight="800"
-                  color="purple.average"
-                >
-                  Demande urgente
-                </FormLabel>
-                <CheckboxGroup>
-                  <Flex
-                    justifyContent="left"
-                    columnGap="3"
-                    rowGap="2"
-                    flexWrap="wrap"
-                    h="fit-content"
-                    w="fit-content%"
-                    flexDirection="column"
-                  >
-                    <Checkbox
-                      iconColor="pink.light"
-                      colorScheme="white"
-                      borderColor="gray"
-                      _checked={{ borderColor: "pink.light" }}
-                      value="Urgence"
-                      onChange={updateEmergency}
+                  <Flex direction="column" w="100%">
+                    <Lieux annonce={annonce} />
+                    <FormLabel
+                      paddingTop="5%"
+                      htmlFor="chronicDiseases"
+                      fontSize="sm"
+                      fontWeight="800"
+                      color="purple.average"
                     >
-                      <Text fontSize="sm">Oui</Text>
-                    </Checkbox>
+                      Demande urgente
+                    </FormLabel>
+                    <CheckboxGroup>
+                      <Flex
+                        justifyContent="left"
+                        columnGap="3"
+                        rowGap="2"
+                        flexWrap="wrap"
+                        h="fit-content"
+                        w="fit-content%"
+                        flexDirection="column"
+                      >
+                        <Checkbox
+                          iconColor="pink.light"
+                          colorScheme="white"
+                          borderColor="gray"
+                          _checked={{ borderColor: "pink.light" }}
+                          onChange={updateEmergency}
+                          isChecked={!!emergency}
+                        >
+                          <Text fontSize="sm">Oui</Text>
+                        </Checkbox>
+                        {/* <FormLabel
+                          paddingTop="5%"
+                          fontSize="sm"
+                          fontWeight="800"
+                          color="purple.average"
+                        >
+                          Changer le statut
+                        </FormLabel> */}
+                        {/* <Select
+                          border="none"
+                          type="text"
+                          id="status"
+                          name="status"
+                          fontSize="0.8rem"
+                          fontWeight="500"
+                          color="gray"
+                          placeholder="Modifier le statut de l'annonce"
+                          onChange={handleStatus}
+                        >
+                          <option value="En cours">En cours</option>
+                          <option value="En suspens">En suspens</option>
+                          <option value="Finie">Finie</option>
+                        </Select> */}
+                      </Flex>
+                    </CheckboxGroup>
                   </Flex>
-                </CheckboxGroup>
+                </Flex>
               </Stack>
             </Flex>
           </Box>

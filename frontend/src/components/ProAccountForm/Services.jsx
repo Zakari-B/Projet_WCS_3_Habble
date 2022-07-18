@@ -15,7 +15,7 @@ import { useParams } from "react-router-dom";
 import backendAPI from "../../services/backendAPI";
 
 export default function Services() {
-  const { freelancerId } = useParams();
+  const { freelancerId, coordinatorId } = useParams();
   const [servicesList, setServicesList] = useState([]);
   const [serviceName, setServiceName] = useState([]);
   const [serviceNumber, setServiceNumber] = useState([]);
@@ -33,21 +33,34 @@ export default function Services() {
   };
 
   // axios qui va chercher les services d'un freelancer
-  const getAllServicesByFreelancer = () => {
-    backendAPI
-      .get(`/api/freelancers/${freelancerId}/services`)
-      .then((response) => {
-        setServiceName(response.data.map((e) => e.fk_services_id.name));
-        setServiceNumber(response.data.map((e) => e.fk_services_id.id));
-      })
-      .catch((error) => {
-        console.warn(error);
-      });
+  const getAllServicesByRole = () => {
+    if (freelancerId !== undefined) {
+      backendAPI
+        .get(`/api/freelancers/${freelancerId}/services`)
+        .then((response) => {
+          setServiceName(response.data.map((e) => e.fk_services_id.name));
+          setServiceNumber(response.data.map((e) => e.fk_services_id.id));
+        })
+        .catch((error) => {
+          console.warn(error);
+        });
+    }
+    if (coordinatorId !== undefined) {
+      backendAPI
+        .get(`/api/coordinator/${coordinatorId}/services`)
+        .then((response) => {
+          setServiceName(response.data.map((e) => e.fk_services_id.name));
+          setServiceNumber(response.data.map((e) => e.fk_services_id.id));
+        })
+        .catch((error) => {
+          console.warn(error);
+        });
+    }
   };
 
   useEffect(() => {
     getAllServices();
-    getAllServicesByFreelancer();
+    getAllServicesByRole();
   }, []);
 
   // fonction retrait d'ajout d'un item //
@@ -56,9 +69,16 @@ export default function Services() {
     if (nameService !== "" && !serviceName.includes(nameService)) {
       setServiceName([...serviceName, nameService]);
       setServiceNumber([...serviceNumber, e.target.value]);
-      backendAPI.post(
-        `/api/freelancers/${freelancerId}/services/${e.target.value}`
-      );
+      if (freelancerId !== undefined) {
+        backendAPI.post(
+          `/api/freelancers/${freelancerId}/services/${e.target.value}`
+        );
+      }
+      if (coordinatorId !== undefined) {
+        backendAPI.post(
+          `/api/coordinator/${coordinatorId}/services/${e.target.value}`
+        );
+      }
     }
   };
 
@@ -73,7 +93,16 @@ export default function Services() {
     setServiceNumber([
       ...serviceNumber.filter((_, index) => index !== indexToRemove),
     ]);
-    backendAPI.delete(`/api/freelancers/${freelancerId}/services/${serviceId}`);
+    if (freelancerId !== undefined) {
+      backendAPI.delete(
+        `/api/freelancers/${freelancerId}/services/${serviceId}`
+      );
+    }
+    if (coordinatorId !== undefined) {
+      backendAPI.delete(
+        `/api/coordinator/${coordinatorId}/services/${serviceId}`
+      );
+    }
   };
 
   return (

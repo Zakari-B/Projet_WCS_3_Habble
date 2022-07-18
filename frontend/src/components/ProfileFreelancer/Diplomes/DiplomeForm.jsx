@@ -23,7 +23,7 @@ export default function DiplomeForm({ updated, setUpdated }) {
   const [yearList, setYearList] = useState([]);
   const { setIsVisible, currentDiploma } = useContext(DiplomeFormContext);
   const { isOpen, onToggle } = useDisclosure();
-  const { freelancerId } = useParams();
+  const { freelancerId, coordinatorId } = useParams();
   const [title, setTitle] = useState(currentDiploma.title);
   const [school, setSchool] = useState(currentDiploma.school);
   const [monthDelivered, setMonthDelivered] = useState(
@@ -72,31 +72,61 @@ export default function DiplomeForm({ updated, setUpdated }) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    addToList("freelancers", "diplomes", freelancerId, {
-      title,
-      school,
-      monthDelivered,
-      yearDelivered,
-      description,
-    })
-      .then(() =>
-        toast({
-          title: "Votre diplôme a bien été ajouté",
-          status: "success",
-          position: "bottom-right",
-          duration: 7000,
-          isClosable: true,
-        })
-      )
-      .catch(() =>
-        toast({
-          title: "Votre diplôme n'a pas pu être ajouté",
-          status: "error",
-          position: "bottom-right",
-          duration: 7000,
-          isClosable: true,
-        })
-      );
+    if (freelancerId !== undefined) {
+      addToList("freelancers", "diplomes", freelancerId, {
+        title,
+        school,
+        monthDelivered,
+        yearDelivered,
+        description,
+      })
+        .then(() =>
+          toast({
+            title: "Votre diplôme a bien été ajouté",
+            status: "success",
+            position: "bottom-right",
+            duration: 7000,
+            isClosable: true,
+          })
+        )
+        .catch(() =>
+          toast({
+            title: "Votre diplôme n'a pas pu être ajouté",
+            status: "error",
+            position: "bottom-right",
+            duration: 7000,
+            isClosable: true,
+          })
+        );
+    }
+    if (coordinatorId !== undefined) {
+      addToList("coordinator", "diplomes", coordinatorId, {
+        title,
+        school,
+        monthDelivered,
+        yearDelivered,
+        description,
+      })
+        .then(() =>
+          toast({
+            title: "Votre diplôme a bien été ajouté",
+            status: "success",
+            position: "bottom-right",
+            duration: 7000,
+            isClosable: true,
+          })
+        )
+        .catch(() =>
+          toast({
+            title: "Votre diplôme n'a pas pu être ajouté",
+            status: "error",
+            position: "bottom-right",
+            duration: 7000,
+            isClosable: true,
+          })
+        );
+    }
+
     handleReset();
     setIsVisible(false);
     setUpdated(!updated);
@@ -104,32 +134,73 @@ export default function DiplomeForm({ updated, setUpdated }) {
 
   const handleUpdate = (event) => {
     event.preventDefault();
-
-    updateItemList("freelancers", "diplomes", freelancerId, currentDiploma.id, {
-      title,
-      school,
-      monthDelivered,
-      yearDelivered,
-      description,
-    })
-      .then(() =>
-        toast({
-          title: "Votre diplôme a bien été modifié",
-          status: "success",
-          position: "bottom-right",
-          duration: 7000,
-          isClosable: true,
-        })
+    if (freelancerId !== undefined) {
+      updateItemList(
+        "freelancers",
+        "diplomes",
+        freelancerId,
+        currentDiploma.id,
+        {
+          title,
+          school,
+          monthDelivered,
+          yearDelivered,
+          description,
+        }
       )
-      .catch(() =>
-        toast({
-          title: "Votre diplôme n'a pas pu être modifié",
-          status: "error",
-          position: "bottom-right",
-          duration: 7000,
-          isClosable: true,
-        })
-      );
+        .then(() =>
+          toast({
+            title: "Votre diplôme a bien été modifié",
+            status: "success",
+            position: "bottom-right",
+            duration: 7000,
+            isClosable: true,
+          })
+        )
+        .catch(() =>
+          toast({
+            title: "Votre diplôme n'a pas pu être modifié",
+            status: "error",
+            position: "bottom-right",
+            duration: 7000,
+            isClosable: true,
+          })
+        );
+    }
+    if (coordinatorId !== undefined) {
+      updateItemList(
+        "coordinator",
+        "diplomes",
+        coordinatorId,
+        currentDiploma.id,
+        {
+          title,
+          school,
+          monthDelivered,
+          yearDelivered,
+          description,
+        }
+      )
+        .then(() =>
+          toast({
+            title: "Votre diplôme a bien été modifié",
+            status: "success",
+            position: "bottom-right",
+            duration: 7000,
+            isClosable: true,
+          })
+        )
+        .catch(() =>
+          toast({
+            title: "Votre diplôme n'a pas pu être modifié",
+            status: "error",
+            position: "bottom-right",
+            duration: 7000,
+            isClosable: true,
+          })
+        );
+    }
+
     handleReset();
     setIsVisible(false);
     setUpdated(!updated);

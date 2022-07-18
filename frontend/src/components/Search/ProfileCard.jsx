@@ -1,16 +1,32 @@
 import {
   Flex,
+  Tag,
   Button,
   Text,
+  Box,
   Image,
   Heading,
-  // Tag,
   Avatar,
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 import { BsGeoAltFill } from "react-icons/bs";
+import { useEffect, useState } from "react";
+import { getSubListforAnId } from "../../services/ProfileProUtils";
 
 export default function ProfileCard({ freelancer }) {
+  const [city, setCity] = useState([]);
+  const [services, setServices] = useState([]);
+  useEffect(() => {
+    getSubListforAnId("freelancers", freelancer.id, "city").then((response) => {
+      setCity(response.data[0]);
+    });
+    getSubListforAnId("freelancers", freelancer.id, "services").then(
+      (response) => {
+        setServices(response.data);
+      }
+    );
+  }, []);
+
   return (
     <Flex direction="column" color="purple.average" gap="30px">
       <Flex
@@ -26,13 +42,24 @@ export default function ProfileCard({ freelancer }) {
           justify="center"
         >
           {freelancer.picture ? (
-            <Image
-              src={freelancer.picture}
+            <Box
+              minW="200px"
+              minH="200px"
+              maxW="200px"
+              maxH="200px"
               height="200px"
               width="200px"
-              borderRadius="100%"
-              border="1px solid gray.200"
-            />
+            >
+              <Image
+                width="fill-available"
+                height="fill-available"
+                src={`${import.meta.env.VITE_BACKEND_URL}/uploads/${
+                  freelancer.picture
+                }`}
+                borderRadius="100%"
+                border="1px solid gray.200"
+              />
+            </Box>
           ) : (
             <Avatar
               src="https://bit.ly/broken-link"
@@ -55,26 +82,38 @@ export default function ProfileCard({ freelancer }) {
             <Flex gap="60px" width="fit-content" alignItems="center">
               <Flex gap="5px" alignItems="center">
                 <BsGeoAltFill />
-                <Text>{freelancer.zipCode}</Text>
+                <Text>{`${city?.ville_nom}`}</Text>
+                {freelancer.distanceInMeters !== undefined && (
+                  <Tag
+                    variant="outline"
+                    color="pink.light"
+                    boxShadow="inset 0 0 0px 1px #A7197F"
+                  >
+                    {`${parseFloat(
+                      (freelancer.distanceInMeters / 1000).toFixed(1)
+                    )} km`}
+                  </Tag>
+                )}
               </Flex>
+
               <Flex>
                 <Text fontWeight="700">
                   {freelancer.price}€ /h * (indicatif)
                 </Text>
               </Flex>
             </Flex>
-            {/* <Flex
+            <Flex
               gap="10px"
               wrap="wrap"
               justify={{ lg: "flex-start", base: "center" }}
             >
-              {freelancer.tags.map((tag) => (
-                <Tag>{tag}</Tag>
+              {services.map((service) => (
+                <Tag>{service?.fk_services_id?.name}</Tag>
               ))}
-            </Flex> */}
+            </Flex>
           </Flex>
         </Flex>
-        <Link to={`/profil/${freelancer.id}`}>
+        <Link to={`/profil/${freelancer.id}`} target="_blank">
           <Button variant="solid_PrimaryColor">Voir le profil</Button>
         </Link>
       </Flex>

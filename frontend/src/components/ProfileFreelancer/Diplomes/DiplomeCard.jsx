@@ -15,19 +15,41 @@ import { getOneItemOfList } from "../../../services/ProfileProUtils";
 
 import DeleteConfirmModal from "../../DeleteConfirmModal";
 
-export default function DiplomeCard({ diplome, updated, setUpdated }) {
+export default function DiplomeCard({
+  diplome,
+  updated,
+  setUpdated,
+  freelancer,
+  loggedUser,
+}) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { isVisible, setIsVisible, setCurrentDiploma, currentDiploma } =
     useContext(DiplomeFormContext);
-  const { freelancerId } = useParams();
+  const { freelancerId, coordinatorId } = useParams();
 
   const showForm = () => {
-    getOneItemOfList("freelancers", "diplomes", freelancerId, diplome.id).then(
-      (res) => {
+    if (freelancerId !== undefined) {
+      getOneItemOfList(
+        "freelancers",
+        "diplomes",
+        freelancerId,
+        diplome.id
+      ).then((res) => {
         setCurrentDiploma(res.data);
         setIsVisible(!isVisible);
-      }
-    );
+      });
+    }
+    if (coordinatorId !== undefined) {
+      getOneItemOfList(
+        "coordinator",
+        "diplomes",
+        coordinatorId,
+        diplome.id
+      ).then((res) => {
+        setCurrentDiploma(res.data);
+        setIsVisible(!isVisible);
+      });
+    }
   };
 
   return (
@@ -45,34 +67,50 @@ export default function DiplomeCard({ diplome, updated, setUpdated }) {
         {diplome.description}
       </Text>
       <Flex gap="20px">
-        <Button
-          leftIcon={<EditIcon />}
-          variant="text"
-          color="pink.light"
-          padding="0px"
-          onClick={showForm}
-        >
-          Modifier
-        </Button>
-        <Button
-          rightIcon={<DeleteIcon />}
-          variant="text"
-          color="pink.light"
-          padding="0px"
-          onClick={() => {
-            onOpen();
-            getOneItemOfList(
-              "freelancers",
-              "diplomes",
-              freelancerId,
-              diplome.id
-            ).then((res) => {
-              setCurrentDiploma(res.data);
-            });
-          }}
-        >
-          Supprimer
-        </Button>
+        {loggedUser.userId === freelancer.userId ? (
+          <>
+            <Button
+              leftIcon={<EditIcon />}
+              variant="text"
+              color="pink.light"
+              padding="0px"
+              onClick={showForm}
+            >
+              Modifier
+            </Button>
+            <Button
+              rightIcon={<DeleteIcon />}
+              variant="text"
+              color="pink.light"
+              padding="0px"
+              onClick={() => {
+                onOpen();
+                if (freelancerId !== undefined) {
+                  getOneItemOfList(
+                    "freelancers",
+                    "diplomes",
+                    freelancerId,
+                    diplome.id
+                  ).then((res) => {
+                    setCurrentDiploma(res.data);
+                  });
+                }
+                if (coordinatorId !== undefined) {
+                  getOneItemOfList(
+                    "coordinator",
+                    "diplomes",
+                    coordinatorId,
+                    diplome.id
+                  ).then((res) => {
+                    setCurrentDiploma(res.data.id);
+                  });
+                }
+              }}
+            >
+              Supprimer
+            </Button>
+          </>
+        ) : null}
 
         <DeleteConfirmModal
           onOpen={onOpen}

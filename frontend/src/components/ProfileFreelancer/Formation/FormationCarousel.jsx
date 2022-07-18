@@ -1,10 +1,17 @@
+/* eslint-disable no-nested-ternary */
 import { Flex, Heading, Button, Text, Collapse } from "@chakra-ui/react";
 import { useState, useMemo } from "react";
 import FormationCard from "./FormationCard";
 import FormationForm from "./FormationForm";
 import FormationFormContext from "../../../contexts/FormationFormContext";
 
-export default function FormationCarousel({ formations, updated, setUpdated }) {
+export default function FormationCarousel({
+  formations,
+  updated,
+  setUpdated,
+  freelancer,
+  loggedUser,
+}) {
   const [isVisible, setIsVisible] = useState(false);
   const [currentFormation, setCurrentFormation] = useState({});
 
@@ -36,11 +43,12 @@ export default function FormationCarousel({ formations, updated, setUpdated }) {
         >
           Formations
         </Heading>
-        {!isVisible && (
-          <Button variant="outline_Pink" onClick={toggleForm}>
-            Ajouter
-          </Button>
-        )}
+        {!isVisible &&
+          (loggedUser.userId === freelancer.userId ? (
+            <Button variant="outline_Pink" onClick={toggleForm}>
+              Ajouter
+            </Button>
+          ) : null)}
       </Flex>
       <Collapse in={isVisible}>
         {isVisible && (
@@ -51,10 +59,16 @@ export default function FormationCarousel({ formations, updated, setUpdated }) {
       </Collapse>
 
       <Flex direction="column">
-        {formations.length === 0 ? (
-          <Text color="gray" fontSize="16px" fontWeight="500">
-            Ajoutez une formation à votre profil. (optionnel)
-          </Text>
+        {!formations ? (
+          loggedUser.userId === freelancer.userId ? (
+            <Text color="gray" fontSize="16px" fontWeight="500">
+              Ajoutez une formation à votre profil. (optionnel)
+            </Text>
+          ) : (
+            <Text color="gray" fontSize="16px" fontWeight="500">
+              Aucune formation ajoutée
+            </Text>
+          )
         ) : (
           formations.map((formation) => (
             <FormationFormContext.Provider value={context}>
@@ -63,6 +77,8 @@ export default function FormationCarousel({ formations, updated, setUpdated }) {
                 key={formation.id}
                 updated={updated}
                 setUpdated={setUpdated}
+                freelancer={freelancer}
+                loggedUser={loggedUser}
               />
             </FormationFormContext.Provider>
           ))

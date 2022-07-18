@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 import React, { useState, useMemo } from "react";
 import { Heading, Flex, Button, Text, Collapse } from "@chakra-ui/react";
 import ExperienceCard from "./ExperienceCard";
@@ -8,6 +9,8 @@ export default function ExperienceCarousel({
   experiences,
   updated,
   setUpdated,
+  loggedUser,
+  freelancer,
 }) {
   const [isVisible, setIsVisible] = useState(false);
   const [currentExperience, setCurrentExperience] = useState({});
@@ -44,11 +47,12 @@ export default function ExperienceCarousel({
         >
           Expériences Professionnelles
         </Heading>
-        {!isVisible && (
-          <Button variant="outline_Pink" onClick={toggleForm}>
-            Ajouter
-          </Button>
-        )}
+        {!isVisible &&
+          (loggedUser.userId === freelancer.userId ? (
+            <Button variant="outline_Pink" onClick={toggleForm}>
+              Ajouter
+            </Button>
+          ) : null)}
       </Flex>
       <Collapse in={isVisible}>
         {isVisible && (
@@ -58,11 +62,17 @@ export default function ExperienceCarousel({
         )}
       </Collapse>
       <Flex direction="column">
-        {experiences.length === 0 ? (
-          <Text color="gray" fontSize="16px" fontWeight="500">
-            Ajoutez une certification professionnelle à votre profil.
-            (Optionnel)
-          </Text>
+        {!experiences ? (
+          loggedUser.userId === freelancer.userId ? (
+            <Text color="gray" fontSize="16px" fontWeight="500">
+              Ajoutez une certification professionnelle à votre profil.
+              (Optionnel)
+            </Text>
+          ) : (
+            <Text color="gray" fontSize="16px" fontWeight="500">
+              Aucune expérience ajoutée
+            </Text>
+          )
         ) : (
           experiences.map((experience) => (
             <ExperienceFormContext.Provider value={context}>
@@ -71,6 +81,8 @@ export default function ExperienceCarousel({
                 key={experience.id}
                 updated={updated}
                 setUpdated={setUpdated}
+                freelancer={freelancer}
+                loggedUser={loggedUser}
               />
             </ExperienceFormContext.Provider>
           ))

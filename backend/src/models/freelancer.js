@@ -1,5 +1,18 @@
 const { PrismaClient } = require("@prisma/client");
 
+require("dotenv").config();
+const mysql = require("mysql2");
+
+const connection = mysql.createConnection({
+  host: process.env.DB_HOST, // address of the server
+  port: process.env.DB_PORT, // port of the DB server (mysql), not to be confused with the nodeJS server PORT !
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
+});
+
+const db = connection.promise();
+
 const prisma = new PrismaClient();
 
 exports.getAllFreelancers = async () => {
@@ -29,15 +42,6 @@ exports.findOneFreelancer = async (freelancerid) => {
   }
 };
 
-exports.findOneFreelancerByUserId = async (id) => {
-  try {
-    return await prisma.freelancer.findUnique({
-      where: { userId: id },
-    });
-  } finally {
-    await prisma.$disconnect();
-  }
-};
 exports.createOneFreelancer = async (freelancer) => {
   try {
     return await prisma.freelancer.create({
@@ -89,7 +93,30 @@ exports.getAllFreelancersProfileInfo = async (freelancerid) => {
   }
 };
 
-exports.getUserfromfreelancer = async (userId) => {
+exports.getOneFreelancerWithCity = (freelancerid) => {
+  return db
+    .query(
+      `select 
+      f.id,
+      f.displayName,
+      f.activityDescription,
+      f.zipCode,
+      f.acceptEmails,
+      f.available ,
+      c.ville_nom,
+      c.ville_nom_reel,
+      c.ville_code_postal,
+      c.ville_departement
+      from freelancer f 
+      join city c on f.zipCode = c.ville_code_commune where f.id =?`,
+      [freelancerid]
+    )
+    .then(([results]) => {
+      return results;
+    });
+};
+
+exports.getUserFromFreelancer = async (userId) => {
   try {
     return await prisma.user.findUnique({
       where: {
@@ -102,4 +129,78 @@ exports.getUserfromfreelancer = async (userId) => {
   } finally {
     await prisma.$disconnect();
   }
+};
+
+exports.getAllFreelancersWithinDist = (dist, cityCode) => {
+  return db
+    .query(
+      `select f.*,fc.distanceInMeters,fc.ville_nom
+      from freelancer f 
+      join (
+        SELECT * FROM (
+          SELECT
+          ville_id,
+          ville_nom,
+          ville_code_postal,
+          ville_code_commune,
+          (
+            ST_distance_sphere(city_geo_point, (select city_geo_point from city where ville_code_commune = ?))
+          ) AS distanceInMeters
+          FROM city
+          ORDER BY distanceInMeters ASC
+        ) as result
+        WHERE result.distanceInMeters < ?
+      ) as fc on f.zipCode = fc.ville_code_commune`,
+      [cityCode, dist]
+    )
+    .then(([results]) => {
+      return results;
+    });
+};
+
+exports.getAllFreelancersWithinFixedDistAndServices = (
+  cityCode,
+  serviceList
+) => {
+  return db
+    .query(
+      `SELECT 
+      f.id,
+      f.displayName,
+      f.activityDescription,
+      f.phone,
+      f.price,
+      f.description,
+      f.acceptEmails,
+      f.available,
+      f.picture,
+      group_concat(s.name separator ','),
+      fc.distanceInMeters,
+      fc.ville_nom
+            from freelancer f join freelancer_services fs on fs.freelancerId =f.id 
+            join services s on s.id =fs.serviceId 
+      
+            join (
+              SELECT * FROM (
+                SELECT
+                ville_id,
+                ville_nom,
+                ville_code_postal,
+                ville_code_commune,
+                (
+                  ST_distance_sphere(city_geo_point, (select city_geo_point from city where ville_code_commune = ?))
+                ) AS distanceInMeters
+                FROM city
+                ORDER BY distanceInMeters ASC
+              ) as result
+              WHERE result.distanceInMeters < 150000
+            ) as fc on f.zipCode = fc.ville_code_commune where s.name IN (?)
+      
+            group by f.id,f.displayName,f.activityDescription,f.phone,f.price,f.description,f.acceptEmails,f.available,f.picture,fc.distanceInMeters,fc.ville_nom
+            ORDER BY fc.distanceInMeters ASC`,
+      [cityCode, serviceList]
+    )
+    .then(([results]) => {
+      return results;
+    });
 };

@@ -1,10 +1,12 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 import {
   Flex,
   Text,
   VStack,
   Input,
   Select,
+  Link,
   Heading,
   Table,
   Thead,
@@ -15,22 +17,49 @@ import {
   Td,
   TableContainer,
   Button,
+  useDisclosure,
 } from "@chakra-ui/react";
 import dateFormat from "dateformat";
+import EditAnnonceModal from "../ProfilEmployer/Annonce/EditAnnonceModal";
+import backendAPI from "../../services/backendAPI";
 
 function EmployerSelect({ annonces }) {
   const [option, setOption] = useState("");
+  const [familyName, setFamilyName] = useState("");
+  const [families, setFamilies] = useState([]);
   const [input, setInput] = useState("");
+  const {
+    isOpen: isEditOpen,
+    onOpen: onEditOpen,
+    onClose: onEditClose,
+  } = useDisclosure();
+  const { employerId, coordinatorId, freelancerId } = useParams();
+
+  useEffect(() => {
+    if (coordinatorId) {
+      backendAPI
+        .get(`/api/coordinators/${coordinatorId}/familles`)
+        .then((res) => {
+          setFamilies(res.data);
+        });
+    }
+  }, []);
 
   const handleFilter = (e) => {
     setOption(e.target.value);
   };
+
+  const handleFilterFamily = (e) => {
+    setFamilyName(e.target.value);
+  };
+
   const handleChange = (e) => {
     setInput(e.target.value);
   };
   const handleReset = () => {
     setOption("");
     setInput("");
+    setFamilyName("");
   };
 
   return (
@@ -76,8 +105,29 @@ function EmployerSelect({ annonces }) {
             >
               <option>En suspens</option>
               <option>En cours</option>
+              <option>En attente de validation</option>
             </Select>
           </VStack>
+          {coordinatorId ? (
+            <VStack
+              w={{ base: "100%", lg: "38%" }}
+              alignItems="flex-start"
+              pt={{ base: "1rem", lg: "0" }}
+            >
+              <Text fontWeight="bold" color="purple.average" fontSize="1.5rem">
+                Famille
+              </Text>
+              <Select
+                placeholder="Choisissez une option"
+                w="100%"
+                onChange={handleFilterFamily}
+              >
+                {families.map((family) => (
+                  <option>{family?.lastname}</option>
+                ))}
+              </Select>
+            </VStack>
+          ) : null}
         </Flex>
         <Button
           color="pink.light"
@@ -110,7 +160,7 @@ function EmployerSelect({ annonces }) {
             fontWeight="700"
             fontSize="20px"
           >
-            Offres en cours
+            Annonces Ouvertes
           </Heading>
         </Flex>
 
@@ -118,12 +168,13 @@ function EmployerSelect({ annonces }) {
           <Table variant="simple">
             <Thead bgColor="gray.200">
               <Tr>
+                <Th> {coordinatorId && "Famille"}</Th>
                 <Th>Titre de l'annonce</Th>
                 <Th isNumeric>Nombre d'offres</Th>
                 <Th>Taux horaire</Th>
                 <Th>Date de création</Th>
                 <Th>État</Th>
-                <Th>Action</Th>
+                {freelancerId === undefined && <Th> </Th>}
               </Tr>
             </Thead>
             <Tbody>
@@ -131,21 +182,94 @@ function EmployerSelect({ annonces }) {
                 annonces
                   .filter(
                     (opt) =>
-                      opt.title.toLowerCase().includes(input) &&
-                      opt.status.includes(option)
+                      (opt.title?.toLowerCase().includes(input) &&
+                        opt.fk_family_id?.lastname?.includes(familyName) &&
+                        opt.status?.includes(option)) ||
+                      (opt.fk_annonce_id?.title
+                        ?.toLowerCase()
+                        .includes(input) &&
+                        opt.fk_annonce_id?.status?.includes(option))
                   )
                   .map((data) => (
                     <Tr key={data.id}>
-                      <Td>{data.title}</Td>
+                      <Td>
+                        {coordinatorId ? (
+                          <Link
+                            href={`/profil-coordinator/${coordinatorId}/famille/${data.familyId}`}
+                            _hover={{ color: "pink.light", fontWeight: "700" }}
+                          >
+                            {data.fk_family_id?.lastname}{" "}
+                          </Link>
+                        ) : null}
+                      </Td>
+                      <Td>
+                        {coordinatorId && (
+                          <Link
+                            href={`/profil-coordinator/${coordinatorId}/mes-annonces/${data.id}`}
+                            _hover={{ color: "pink.light", fontWeight: "700" }}
+                          >
+                            {data.title}{" "}
+                          </Link>
+                        )}
+                        {employerId && (
+                          <Link
+                            href={`/profil-employer/${employerId}/mes-annonces/${data.id}`}
+                            _hover={{ color: "pink.light", fontWeight: "700" }}
+                          >
+                            {data.title || data.fk_annonce_id?.title}{" "}
+                          </Link>
+                        )}
+                        {freelancerId && (
+                          <Link
+                            href={`/profil/${freelancerId}/mes-annonces/${data.fk_annonce_id?.id}`}
+                            _hover={{ color: "pink.light", fontWeight: "700" }}
+                          >
+                            {data.title || data.fk_annonce_id?.title}{" "}
+                          </Link>
+                        )}
+                      </Td>
+
                       <Td isNumeric>{data.annonce_offers?.length}</Td>
-                      <Td>{data.price} €</Td>
-                      <Td>{dateFormat(data.dateCreated, "dd/mm/yyyy")}</Td>
+                      <Td>{data.price || data.fk_annonce_id?.price} €</Td>
                       <Td>
-                        <Tag>{data.status}</Tag>
+                        {dateFormat(
+                          data.dateCreated || data.fk_annonce_id?.dateCreated,
+                          "dd/mm/yyyy"
+                        )}
                       </Td>
                       <Td>
-                        <Button variant="solid_PrimaryColor">Modifier</Button>
+                        <Tag>{data.status || data.fk_annonce_id?.status}</Tag>
                       </Td>
+                      {/* {data.status === "Brouillon" ? (
+                          <Tag colorScheme="gray">{data.status} </Tag>
+                        ) : null}
+                        {data.status === "Rejetée" ? (
+                          <Tag colorScheme="red">{data.status} </Tag>
+                        ) : null}
+                        {data.status === "Ouverte" ||
+                        data.status === "En cours" ? (
+                          <Tag colorScheme="green">{data.status} </Tag>
+                        ) : (
+                          <Tag>{data.status} </Tag>
+                        )} */}
+                      {freelancerId === undefined ||
+                        data.status === "Brouillon" ||
+                        (data.fk_annonce_id?.status === "Brouillon" && (
+                          <Td>
+                            <Button
+                              onClick={onEditOpen}
+                              variant="solid_PrimaryColor"
+                            >
+                              Modifier
+                            </Button>
+                            <EditAnnonceModal
+                              isOpen={isEditOpen}
+                              onOpen={onEditOpen}
+                              onClose={onEditClose}
+                              annonce={data}
+                            />
+                          </Td>
+                        ))}
                     </Tr>
                   ))}
             </Tbody>

@@ -17,21 +17,41 @@ import { getSubListforAnId } from "../services/ProfileProUtils";
 
 function ProAnnonces() {
   // const { freelancerId } = useParams();
-  const { employerId } = useParams();
+  const { employerId, coordinatorId, freelancerId } = useParams();
   const [annonces, setAnnonces] = useState([]);
 
   useEffect(() => {
-    getSubListforAnId("employers", employerId, "annonces").then((res) => {
-      setAnnonces(res.data);
-    });
+    if (employerId !== undefined) {
+      getSubListforAnId("employers", employerId, "annonces").then((res) => {
+        setAnnonces(res.data);
+      });
+    }
+    if (coordinatorId !== undefined) {
+      getSubListforAnId("coordinator", coordinatorId, "annonces").then(
+        (res) => {
+          setAnnonces(res.data);
+        }
+      );
+    }
+    if (freelancerId !== undefined) {
+      getSubListforAnId("freelancers", freelancerId, "match").then((res) => {
+        setAnnonces(res.data);
+      });
+    }
   }, []);
+
   const currentAnnonces = annonces.filter(
-    (annonce) => annonce.status !== "Terminé"
+    (annonce) =>
+      (annonce.status !== "Finie" && annonce.status !== "Brouillon") ||
+      (annonce.fk_annonce_id?.status !== "Finie" &&
+        annonce.fk_annonce_id?.status !== "Brouillon")
   );
 
   const oldAnnonces = annonces.filter(
-    (annonce) => annonce.status === "Terminé"
+    (annonce) =>
+      annonce.status === "Finie" || annonce.fk_annonce_id?.status !== "Finie"
   );
+
   return (
     <Box h="100vh">
       <Header onDark={false} isSticky={false} isStickyWhite />
@@ -53,7 +73,7 @@ function ProAnnonces() {
                 color: "pink.light",
               }}
             >
-              Annonces en cours
+              Annonces Ouvertes
             </Tab>
             <Tab
               fontWeight="bold"

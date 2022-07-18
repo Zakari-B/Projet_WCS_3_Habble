@@ -3,6 +3,7 @@ const jwt = require("../helpers/jwtHelper");
 const argon = require("../helpers/argonHelper");
 const { findOneFreelancerByUserId } = require("./freelancer");
 const { findOneEmployerByUserId } = require("./employer");
+const { findOneCoordinatorByUserId } = require("./coordinator");
 
 const prisma = new PrismaClient();
 
@@ -48,6 +49,9 @@ const login = async (userData) => {
   } else if (user.role === "employer") {
     fkId = await findOneEmployerByUserId(user.id);
     fkId = fkId.id;
+  } else if (user.role === "coordinator") {
+    fkId = await findOneCoordinatorByUserId(user.id);
+    fkId = fkId.id;
   }
 
   const accessToken = await jwt.signAccessToken({
@@ -70,6 +74,16 @@ const findOne = async (userId) => {
     return await prisma.user.findUnique({
       where: { id: userId },
       include: { freelancer: true },
+    });
+  } finally {
+    await prisma.$disconnect();
+  }
+};
+
+const findOneByEmail = async (userEmail) => {
+  try {
+    return await prisma.user.findUnique({
+      where: { email: userEmail },
     });
   } finally {
     await prisma.$disconnect();
@@ -103,5 +117,6 @@ module.exports = {
   updateOne,
   deleteOne,
   findOne,
+  findOneByEmail,
   findAll,
 };

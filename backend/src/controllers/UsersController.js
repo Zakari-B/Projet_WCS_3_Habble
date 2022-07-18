@@ -1,11 +1,22 @@
 const { Prisma } = require("@prisma/client");
-const { hashPassword, verifyPassword } = require("../helpers/argonHelper");
+const {
+  hashPassword,
+  verifyPassword,
+  verifyHash,
+} = require("../helpers/argonHelper");
+const { verifyAccessToken } = require("../helpers/jwtHelper");
 const user = require("../models/user");
+const employer = require("../models/employer");
+const freelancer = require("../models/freelancer");
+const coordinator = require("../models/coordinator");
+const token = require("../models/token");
 const { validateUser } = require("../utils/validate");
+const { sendMail } = require("../utils/mailer");
+const resetTemplateEnd = require("../templates/resetTemplateEnd");
 
 const createOne = async (req, res, next) => {
   const { firstname, lastname, email, password, role } = req.body;
-  const completedProfile = role !== "freelancer";
+  const completedProfile = role !== "freelancer" && role !== "coordinator";
   const error = validateUser({
     firstname,
     lastname,
@@ -16,7 +27,11 @@ const createOne = async (req, res, next) => {
   });
   if (error) {
     res.status(422).json(error);
-  } else if (role === "freelancer" || role === "employer") {
+  } else if (
+    role === "freelancer" ||
+    role === "employer" ||
+    role === "coordinator"
+  ) {
     try {
       const hashedPassword = await hashPassword(password);
       const message = await user.createOne({
@@ -82,6 +97,7 @@ const getAll = async (req, res) => {
     role: elem.role,
     profileIsComplete: elem.profileIsComplete,
     dateCreated: elem.dateCreated,
+    isAdmin: elem.isAdmin,
   }));
   res.status(200).json(newResults);
 };
@@ -103,8 +119,10 @@ const getOne = async (req, res) => {
 };
 
 const updateOne = async (req, res) => {
+  const userId = parseInt(req.params.id, 10);
+
   if (req.body.passwordChangeRequest) {
-    const userToVerify = await user.findOne(req.userId);
+    const userToVerify = await user.findOne(userId);
     const currentPasswordTest = await verifyPassword(
       req.body.passwordChangeRequest.currentPassword,
       userToVerify.hashedPassword
@@ -116,11 +134,11 @@ const updateOne = async (req, res) => {
       req.body.passwordChangeRequest.newPassword
     );
     delete req.body.passwordChangeRequest;
-    const result = await user.updateOne(req.userId, {
+    const result = await user.updateOne(userId, {
       hashedPassword: `${newHashedPassword}`,
     });
     if (result) {
-      // delete result.hashedPassword;
+      delete result.hashedPassword;
       res.status(200).json({ "Utilisateur mis jour :": { result } });
     } else {
       res.status(404).json({ Erreur: "L'utilisateur n'existe pas" });
@@ -128,7 +146,7 @@ const updateOne = async (req, res) => {
   } else if (req.body.password) {
     req.body.hashedPassword = await hashPassword(req.body.password);
     delete req.body.password;
-    const result = await user.updateOne(req.userId, req.body);
+    const result = await user.updateOne(userId, req.body);
     if (result) {
       delete result.hashedPassword;
       res.status(200).json({ "Utilisateur mis jour :": { result } });
@@ -136,7 +154,7 @@ const updateOne = async (req, res) => {
       res.status(404).json({ Erreur: "L'utilisateur n'existe pas" });
     }
   } else {
-    const result = await user.updateOne(req.userId, req.body);
+    const result = await user.updateOne(userId, req.body);
     if (result) {
       delete result.hashedPassword;
       res.status(200).json({ "Utilisateur mis jour :": { result } });
@@ -159,6 +177,62 @@ const deleteOne = async (req, res) => {
   }
 };
 
+const resetPassword = async (req, res) => {
+  const { userToken, userId, password } = req.body;
+  const passwordResetToken = await token.findOne(userId);
+  if (!passwordResetToken) {
+    return res.status(401).send("Token invalide ou expiré");
+  }
+  const expired = await verifyAccessToken(passwordResetToken.expiration);
+  if (Math.floor(Date.now() / 1000) > expired.exp) {
+    return res.status(401).send("Token invalide ou expiré");
+  }
+  const valid = await verifyHash(userToken, passwordResetToken.token);
+  if (!valid) {
+    return res.status(401).send("Token invalide ou expiré");
+  }
+  const newHashedPassword = await hashPassword(password);
+  await user.updateOne(userId, {
+    hashedPassword: `${newHashedPassword}`,
+  });
+  const userToReset = await user.findOne(userId);
+  sendMail(
+    {
+      firstname: "Habble",
+      lastname: "",
+      email: "no-reply@habble.com",
+      recipient: "habble",
+    },
+    resetTemplateEnd(userToReset.firstname)
+  );
+  // CHANGER HABBLE (utilisé pour les tests) PAR userToReset.email
+  await token.deleteOne(userId);
+  return res.status(200).json({ message: "Mot de passe réinitialisé." });
+};
+
+const getUserWithRole = async (req, res) => {
+  const userId = parseInt(req.params.id, 10);
+  let roleResult;
+  try {
+    const userResult = await user.findOne(userId);
+    delete userResult.hashedPassword;
+    if (userResult.role === "employer") {
+      roleResult = await employer.findOneEmployerByUserId(userId);
+    }
+    if (userResult.role === "freelancer") {
+      roleResult = await freelancer.findOneFreelancerByUserId(userId);
+    }
+    if (userResult.role === "coordinator") {
+      roleResult = await coordinator.findOneCoordinatorByUserId(userId);
+    }
+    return res.status(200).json({ userResult, roleResult });
+  } catch (e) {
+    return res
+      .status(500)
+      .json({ error: "Problème dans la requête à la base de données" });
+  }
+};
+
 module.exports = {
   createOne,
   login,
@@ -167,4 +241,6 @@ module.exports = {
   getOne,
   updateOne,
   deleteOne,
+  resetPassword,
+  getUserWithRole,
 };

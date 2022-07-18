@@ -11,10 +11,15 @@ It's pre-configured with a set of tools which'll help students produce industry-
 - Clone this repo, enter it
 - Run command `npm run setup`
 - _NB: To launch the backend server, you'll need an environment file with database credentials. You'll find a template one in `backend/.env.sample`_
+- (only if you already have an existing database that you want to get rid of) Go to backend execute `npm run migrate`
+- Go to backend and run command `npx prisma migrate dev` (only in development mode)
+- Go to backend and run command `npm run populate-city` to initialized the city table
 
 ### Available Commands
 
 - `setup` : Initialization of frontend and backend, as well as all toolings
+- `migrate` : Drop Database if exists and recreate one
+- `populate-city` : Will populate city table with geo coordinates to be able to search for professionales
 - `dev` : Starts both servers (frontend + backend) in one terminal
 - `dev-front` : Starts the React frontend server
 - `dev-back` : Starts the Express backend server

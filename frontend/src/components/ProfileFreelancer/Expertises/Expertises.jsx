@@ -5,21 +5,33 @@ import { useParams } from "react-router-dom";
 import backendAPI from "../../../services/backendAPI";
 
 export default function Expertises() {
-  const { freelancerId } = useParams();
+  const { freelancerId, coordinatorId } = useParams();
   const [expertiseList, setExpertiseList] = useState([]);
 
-  const getAllExpertisesByFreelancer = () => {
-    backendAPI
-      .get(`/api/freelancers/${freelancerId}/expertises`)
-      .then((response) => {
-        setExpertiseList(response.data.map((e) => e.fk_expertise_id));
-      })
-      .catch((error) => {
-        console.warn(error);
-      });
+  const getAllExpertisesByRole = () => {
+    if (freelancerId !== undefined) {
+      backendAPI
+        .get(`/api/freelancers/${freelancerId}/expertises`)
+        .then((response) => {
+          setExpertiseList(response.data.map((e) => e.fk_expertise_id));
+        })
+        .catch((error) => {
+          console.warn(error);
+        });
+    }
+    if (coordinatorId !== undefined) {
+      backendAPI
+        .get(`/api/coordinator/${coordinatorId}/expertises`)
+        .then((response) => {
+          setExpertiseList(response.data.map((e) => e.fk_expertise_id));
+        })
+        .catch((error) => {
+          console.warn(error);
+        });
+    }
   };
   useEffect(() => {
-    getAllExpertisesByFreelancer();
+    getAllExpertisesByRole();
   }, []);
 
   const category = expertiseList.map((e) => e.category);
@@ -76,6 +88,7 @@ export default function Expertises() {
                         bgColor="#f2f5f7"
                         fontSize="sm"
                         w="fit-content"
+                        key={element.id}
                       >
                         {element.name}
                       </Text>
@@ -111,6 +124,7 @@ export default function Expertises() {
                         bgColor="#f2f5f7"
                         fontSize="sm"
                         w="fit-content"
+                        key={element.id}
                       >
                         {element.name}
                       </Text>
@@ -146,6 +160,7 @@ export default function Expertises() {
                         bgColor="#f2f5f7"
                         fontSize="sm"
                         w="fit-content"
+                        key={element.id}
                       >
                         {element.name}
                       </Text>
@@ -181,6 +196,7 @@ export default function Expertises() {
                         bgColor="#f2f5f7"
                         fontSize="sm"
                         w="fit-content"
+                        key={element.id}
                       >
                         {element.name}
                       </Text>

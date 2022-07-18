@@ -1,10 +1,11 @@
+/* eslint-disable no-nested-ternary */
 import { Flex, Heading, Button, Text, Collapse } from "@chakra-ui/react";
 import { useState, useMemo } from "react";
 import MissionCard from "./MissionCard";
 import MissionForm from "./MissionForm";
 import MissionFormContext from "../../../contexts/MissionFormContext";
 
-export default function MissionCarousel() {
+export default function MissionCarousel({ loggedUser, freelancer }) {
   const [missionlist] = useState([
     {
       id: 1,
@@ -42,11 +43,12 @@ export default function MissionCarousel() {
         >
           Missions effectuées
         </Heading>
-        {!isVisible && (
-          <Button variant="outline_Pink" onClick={toggleForm}>
-            Ajouter
-          </Button>
-        )}
+        {!isVisible &&
+          (loggedUser.userId === freelancer.userId ? (
+            <Button variant="outline_Pink" onClick={toggleForm}>
+              Ajouter
+            </Button>
+          ) : null)}
       </Flex>
       <Collapse in={isVisible}>
         {isVisible && (
@@ -58,13 +60,24 @@ export default function MissionCarousel() {
 
       <Flex direction="column">
         {missionlist.length === 0 ? (
-          <Text color="gray" fontSize="16px" fontWeight="500">
-            Il n'y a pas encore d'activité.
-          </Text>
+          loggedUser.userId === freelancer.userId ? (
+            <Text color="gray" fontSize="16px" fontWeight="500">
+              Il n'y a pas encore d'activité.
+            </Text>
+          ) : (
+            <Text color="gray" fontSize="16px" fontWeight="500">
+              Aucune mission réalisée
+            </Text>
+          )
         ) : (
           missionlist.map((mission) => (
-            <MissionFormContext.Provider value={context}>
-              <MissionCard mission={mission} key={mission.id} />
+            <MissionFormContext.Provider value={context} key={mission?.id}>
+              <MissionCard
+                mission={mission}
+                key={mission.id}
+                freelancer={freelancer}
+                loggedUser={loggedUser}
+              />
             </MissionFormContext.Provider>
           ))
         )}

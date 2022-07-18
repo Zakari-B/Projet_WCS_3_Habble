@@ -19,7 +19,6 @@ const signupForm = () => {
   const [signupFirstname, setSignupFirstname] = useState("");
   const [signupLastname, setSignupLastname] = useState("");
   const [signupEmail, setSignupEmail] = useState("");
-  // const [signupNickname, setSignupNickname] = useState("");
   const [signupPassword, setSignupPassword] = useState("");
   const [signupPasswordRepeat, setSignupPasswordRepeat] = useState("");
   const [searchParams] = useSearchParams();
@@ -54,8 +53,8 @@ const signupForm = () => {
       .then((response) => {
         if (response) {
           toast({
-            title: "Vous avez bien créez votre compte.",
-            description: "Bienvenu chez nous !",
+            title: "Vous avez bien créé votre compte.",
+            description: "Bienvenue chez nous !",
             status: "success",
             duration: 7000,
             position: "bottom-right",
@@ -87,7 +86,8 @@ const signupForm = () => {
 
             if (
               newresponse.data.type !== "freelancer" ||
-              newresponse.data.type !== "employer"
+              newresponse.data.type !== "employer" ||
+              newresponse.data.type !== "coordinator"
             ) {
               navigate("/");
             }
@@ -99,12 +99,17 @@ const signupForm = () => {
             if (newresponse.data.type === "employer") {
               navigate(`/profil-employer/${newresponse.data.fkId}`);
             }
+            if (newresponse.data.type === "coordinator") {
+              return newresponse.data.profil
+                ? navigate(`/profil-coordinator/${newresponse.data.fkId}`)
+                : navigate(`/welcome-coordo/${newresponse.data.fkId}`);
+            }
             return null;
           })
           .catch((error) => {
             if (error) {
               toast({
-                title: "Une erreur est survenue lors du login",
+                title: "Une erreur est survenue lors de la connexion",
                 status: "error",
                 duration: 7000,
                 position: "bottom-right",
@@ -177,16 +182,6 @@ const signupForm = () => {
               onChange={(e) => setSignupEmail(e.target.value)}
             />
           </FormControl>
-          {/* <FormControl>
-            <Input
-              type="text"
-              id="signupNickname"
-              name="Pseudo"
-              placeholder="Pseudo"
-              value={signupNickname}
-              onChange={(e) => setSignupNickname(e.target.value)}
-            />
-          </FormControl> */}
           <FormControl>
             <Input
               type="password"

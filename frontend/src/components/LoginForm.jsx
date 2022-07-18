@@ -51,19 +51,26 @@ const loginForm = () => {
           }
           if (
             response.data.type !== "freelancer" ||
-            response.data.type !== "employer"
+            response.data.type !== "employer" ||
+            response.data.type !== "coordinator"
           ) {
             navigate("/");
           }
           if (response.data.type === "freelancer") {
             window.localStorage.setItem("role", "freelancer");
-            return response.data.profileIsComplete
+            return response.data.profil
               ? navigate(`/profil/${response.data.fkId}`)
               : navigate(`/register-onboarding-pro/${response.data.fkId}`);
           }
           if (response.data.type === "employer") {
             window.localStorage.setItem("role", "employer");
             navigate(`/profil-employer/${response.data.fkId}`);
+          }
+          if (response.data.type === "coordinator") {
+            window.localStorage.setItem("role", "coordinator");
+            return response.data.profil
+              ? navigate(`/profil-coordinator/${response.data.fkId}`)
+              : navigate(`/register-onboarding-coordo/${response.data.fkId}`);
           }
           return null;
         })

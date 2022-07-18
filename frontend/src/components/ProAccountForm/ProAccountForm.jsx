@@ -1,3 +1,4 @@
+import axios from "axios";
 import {
   Flex,
   Heading,
@@ -14,16 +15,25 @@ import {
   NumberInputStepper,
   NumberIncrementStepper,
   NumberDecrementStepper,
+  TagCloseButton,
   Textarea,
   Checkbox,
+  Tag,
+  TagLeftIcon,
   Link,
   useToast,
+  InputGroup,
+  IconButton,
+  InputLeftElement,
+  List,
+  ListItem,
 } from "@chakra-ui/react";
-
+import { Search2Icon } from "@chakra-ui/icons";
+import { MdRoom } from "react-icons/md";
 import { useParams, useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Services from "./Services";
-import Epertises from "./Expertises";
+import Expertises from "./Expertises";
 import PictureProfilePro from "./PictureProfilPro";
 import backendAPI from "../../services/backendAPI";
 
@@ -33,9 +43,9 @@ export default function ProAccountForm({ onModal = false, onClose }) {
   const { freelancerId } = useParams();
   // useState pour chaque input //
   const [user, setUser] = useState("");
+  const [freelancerPicture, setFreelancerPicture] = useState("");
   const [displayName, setDisplayName] = useState("");
   const [activityPro, setActivityPro] = useState("");
-  const [cityPro, setCityPro] = useState("");
   const [phonePro, setPhonePro] = useState("");
   const [experienceYearPro, setExperienceYearPro] = useState();
   const [pricePro, setPricePro] = useState();
@@ -43,44 +53,74 @@ export default function ProAccountForm({ onModal = false, onClose }) {
   const [acceptEmailPro, setAcceptEmailPro] = useState(false);
   const [siretPro, setSiretPro] = useState();
 
+  const [cityPro, setCityPro] = useState("");
+  const [cityProName, setCityProName] = useState("");
+  const [search, setSearch] = useState("");
+  const [addressList, setAddressList] = useState([]);
+  const getAddressList = (signal) => {
+    axios
+      .get(
+        `https://api-adresse.data.gouv.fr/search/?q=${search}&type=municipality&autocomplete=1&limit=3`,
+        { signal }
+      )
+      .then((response) => {
+        setAddressList(response.data.features);
+      });
+  };
+  const previousController = useRef();
+
+  useEffect(() => {
+    if (search.length >= 1) {
+      if (previousController.current) {
+        previousController.current.abort();
+      }
+      const controller = new AbortController();
+      const { signal } = controller;
+      previousController.current = controller;
+      getAddressList(signal);
+    }
+  }, [search]);
+  const handleSearch = (event) => {
+    setSearch(event.target.value);
+  };
   // Appel axios pour récuperer un user
 
   const getOneUser = () => {
     backendAPI.get(`/api/freelancers/${freelancerId}/user`).then((response) => {
       setUser(response.data);
+      setFreelancerPicture(response.data.freelancer.picture);
       setDisplayName(
-        response.data.freelancer[0].displayName === "undefined"
+        response.data.freelancer.displayName === "undefined"
           ? ""
-          : response.data.freelancer[0].displayName
+          : response.data.freelancer.displayName
       );
       setActivityPro(
-        response.data.freelancer[0].activityDescription === "undefined"
+        response.data.freelancer.activityDescription === "undefined"
           ? ""
-          : response.data.freelancer[0].activityDescription
+          : response.data.freelancer.activityDescription
       );
-      setCityPro(
-        response.data.freelancer[0].zipCode === "undefined"
-          ? ""
-          : response.data.freelancer[0].zipCode
-      );
-      setPhonePro(response.data.freelancer[0].phone);
+      setPhonePro(response.data.freelancer.phone);
       setExperienceYearPro(
-        response.data.freelancer[0].experienceYear === 0
+        response.data.freelancer.experienceYear === 0
           ? ""
-          : response.data.freelancer[0].experienceYear
+          : response.data.freelancer.experienceYear
       );
       setPricePro(
-        response.data.freelancer[0].price === 0
+        response.data.freelancer.price === 0
           ? ""
-          : response.data.freelancer[0].price
+          : response.data.freelancer.price
       );
       setDescriptionPro(
-        response.data.freelancer[0].description === "undefined"
+        response.data.freelancer.description === "undefined"
           ? ""
-          : response.data.freelancer[0].description
+          : response.data.freelancer.description
       );
-      setAcceptEmailPro(response.data.freelancer[0].acceptEmail);
-      setSiretPro(response.data.freelancer[0].siret);
+      setAcceptEmailPro(response.data.freelancer.acceptEmail);
+      setSiretPro(response.data.freelancer.siret);
+    });
+    backendAPI.get(`/api/freelancers/${freelancerId}/city`).then((response) => {
+      setCityPro(response.data[0].zipCode);
+      setCityProName(response.data[0].ville_nom);
     });
   };
 
@@ -90,8 +130,8 @@ export default function ProAccountForm({ onModal = false, onClose }) {
 
   // Appel axios pour mettre à jour le freelancer avec ses informations et le user associé si profil complet
 
-  const updateFreelancerCompletedProfile = (e) => {
-    e.preventDefault();
+  const updateFreelancerCompletedProfile = (event) => {
+    event.preventDefault();
     const userId = user.id;
     backendAPI
       .put(`/api/freelancers/${freelancerId}`, {
@@ -104,8 +144,6 @@ export default function ProAccountForm({ onModal = false, onClose }) {
         description: descriptionPro,
         acceptEmails: acceptEmailPro,
         siret: siretPro,
-        available: false,
-        // picture: picturePro,
       })
       .then((response) => {
         backendAPI.put(`/api/users/${userId}`, {
@@ -114,7 +152,6 @@ export default function ProAccountForm({ onModal = false, onClose }) {
         if (response) {
           toast({
             title: "Vos données ont bien été enregistrées.",
-            description: "Bienvenue sur votre profil !",
             status: "success",
             duration: 7000,
             position: "bottom-right",
@@ -122,21 +159,31 @@ export default function ProAccountForm({ onModal = false, onClose }) {
           });
           if (onModal === false) {
             navigate(`/profil/${freelancerId}`);
+          } else {
+            onClose();
           }
-          onClose();
         }
       })
-      .catch((error) => {
-        if (error) {
+      .catch((e) => {
+        console.error(e);
+        if (e.message === "Request failed with status code 422") {
           toast({
-            title: "Veuillez renseigner tous les champs obligatoires",
+            title: "Veuillez compléter tous les champs obligatoires",
             status: "error",
+            description: `${e.response.data[0].message}`,
             duration: 7000,
             position: "bottom-right",
             isClosable: true,
           });
+        } else {
+          toast({
+            title: "Votre compte n'a pas pu être créé",
+            status: "error",
+            position: "bottom-right",
+            duration: 7000,
+            isClosable: true,
+          });
         }
-        console.warn(error);
       });
   };
 
@@ -155,13 +202,11 @@ export default function ProAccountForm({ onModal = false, onClose }) {
         description: descriptionPro === "" ? "undefined" : descriptionPro,
         acceptEmails: acceptEmailPro,
         siret: siretPro,
-        available: false,
-        // picture: picturePro,
       })
       .then((response) => {
         if (response) {
           toast({
-            title: "Vos données ont bien été sauvgardées.",
+            title: "Vos données ont bien été sauvegardées.",
             description: "N'hésitez pas à revenir completer votre profil !",
             status: "success",
             duration: 7000,
@@ -169,7 +214,7 @@ export default function ProAccountForm({ onModal = false, onClose }) {
             isClosable: true,
           });
         }
-        navigate("/");
+        navigate("/logout");
       });
   };
 
@@ -258,19 +303,123 @@ export default function ProAccountForm({ onModal = false, onClose }) {
                 >
                   Code postal de votre lieu d'intervention *
                 </FormLabel>
-                <Input
-                  type="text"
-                  id="proFormCity"
-                  name="city"
-                  placeholder="Veuillez saisir un code postal et selectionnez une ville dans la liste"
-                  _placeholder={{
-                    fontSize: "0.8rem",
-                    fontWeight: "500",
-                    color: "gray",
-                  }}
-                  value={cityPro}
-                  onChange={(e) => setCityPro(e.target.value)}
-                />
+                {!cityProName ? (
+                  <Flex direction="column" w="100%">
+                    <InputGroup
+                      display="flex"
+                      alignItems="center"
+                      marginBottom="5px"
+                    >
+                      <InputLeftElement
+                        pointerEvents="none"
+                        display="flex"
+                        alignItems="center"
+                        h="100%"
+                      >
+                        <IconButton
+                          variant="unstyled"
+                          color="gray.500"
+                          aria-label="Search database"
+                          icon={<Search2Icon />}
+                        />
+                      </InputLeftElement>
+                      <Input
+                        type="search"
+                        id="proFormCity"
+                        name="city"
+                        variant="outline"
+                        autocomplete="off"
+                        bgColor="white"
+                        h="50px"
+                        placeholder="Veuillez saisir un code postal et selectionnez une ville dans la liste"
+                        value={search}
+                        onChange={handleSearch}
+                      />
+                    </InputGroup>
+
+                    {addressList.length !== 0 && search !== "" && (
+                      <List
+                        bg="white"
+                        width="100%"
+                        borderRadius="4px"
+                        overflow="hidden"
+                        zIndex="997"
+                        boxShadow="rgb(0 0 0 / 4%) 0px 2px 6px"
+                        border="1px solid #ededed"
+                      >
+                        <Flex direction="column" w="-webkit-fill-available">
+                          {addressList.map((city) => (
+                            <ListItem
+                              onClick={() => {
+                                if (city.properties.citycode) {
+                                  setCityPro(city.properties.citycode);
+                                  setCityProName(city.properties.name);
+                                  setSearch("");
+                                }
+                              }}
+                            >
+                              <Flex
+                                direction="row"
+                                p={5}
+                                w="100%"
+                                align="center"
+                              >
+                                <Flex
+                                  pl="20px"
+                                  justifyContent="space-between"
+                                  width="100%"
+                                  alignItems="center"
+                                >
+                                  <Flex
+                                    direction="column"
+                                    alignItems="flex-start"
+                                  >
+                                    <Text
+                                      fontSize="lg"
+                                      align="left"
+                                      color="purple.dark"
+                                      _groupHover={{
+                                        color: "pink.light",
+                                        fontWeight: "700",
+                                      }}
+                                    >
+                                      {city.properties.name} (
+                                      {city.properties.postcode})
+                                    </Text>
+                                    <Text
+                                      fontSize="md"
+                                      align="left"
+                                      color="purple.dark"
+                                    >
+                                      {city.properties.context}
+                                    </Text>
+                                  </Flex>
+                                </Flex>
+                              </Flex>
+                            </ListItem>
+                          ))}
+                        </Flex>
+                      </List>
+                    )}
+                  </Flex>
+                ) : (
+                  <Tag
+                    variant="solid"
+                    bgColor="pink.light"
+                    size="lg"
+                    w="fit-content"
+                  >
+                    <TagLeftIcon as={MdRoom} />
+                    {cityProName}
+                    <TagCloseButton
+                      onClick={() => {
+                        setCityPro("");
+                        setCityProName("");
+                        setSearch("");
+                      }}
+                    />
+                  </Tag>
+                )}
                 <FormLabel
                   htmlFor="phone"
                   fontSize="md"
@@ -294,7 +443,7 @@ export default function ProAccountForm({ onModal = false, onClose }) {
                 />
               </VStack>
             </FormControl>
-            <PictureProfilePro />
+            <PictureProfilePro freelancerPicture={freelancerPicture} />
           </Flex>
           <FormControl>
             <Flex direction="column" rowGap="5" mt="1rem">
@@ -433,7 +582,7 @@ export default function ProAccountForm({ onModal = false, onClose }) {
               que je propose
             </Text>
           </Checkbox>
-          <Epertises />
+          <Expertises />
           <FormLabel
             htmlFor="company"
             fontSize="md"
@@ -460,8 +609,8 @@ export default function ProAccountForm({ onModal = false, onClose }) {
               fontWeight: "500",
               color: "gray",
             }}
-            value={siretPro === 0 ? "" : siretPro}
-            onChange={(e) => setSiretPro(parseInt(e.target.value, 10))}
+            value={siretPro === "" ? "" : siretPro}
+            onChange={(e) => setSiretPro(e.target.value)}
           />
           <Text fontSize="xs" color="gray.light">
             Le numéro de Siret est un identifiant de 14 chiffres (exemple :

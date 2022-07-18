@@ -5,18 +5,50 @@ import {
   FormControl,
   Switch,
   FormLabel,
-  Avatar,
   Image,
   useDisclosure,
+  useToast,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import dateFormat from "dateformat";
 import ModalAccountForm from "./ModalAccountForm";
 import Services from "./Services";
+import { updateItem } from "../../../services/ProfileProUtils";
 
-export default function BannerProfile({ freelancer }) {
-  const [available, setAvailable] = useState(freelancer.available);
+export default function BannerProfile({
+  freelancer,
+  city,
+  updated,
+  setUpdated,
+  loggedUser,
+}) {
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const toast = useToast();
 
+  const updateFreelancer = (data) => {
+    updateItem("freelancers", freelancer.id, data)
+      .then(() =>
+        toast({
+          title: "Votre statut a bien été modifié",
+          status: "success",
+          position: "bottom-right",
+          duration: 7000,
+          isClosable: true,
+        })
+      )
+      .catch(() =>
+        toast({
+          title: "Votre statut n'a pas pu être modifié",
+          status: "error",
+          position: "bottom-right",
+          duration: 7000,
+          isClosable: true,
+        })
+      );
+  };
+  const handleSubmit = () => {
+    updateFreelancer({ available: !freelancer.available });
+    setUpdated(!updated);
+  };
   return (
     <Flex
       w={{ base: "95%", lg: "80%" }}
@@ -26,37 +58,42 @@ export default function BannerProfile({ freelancer }) {
       border="1px solid #ededed"
       borderRadius="25px"
     >
-      <Flex bgColor="white" p="1.5rem" borderRadius="25px 25px 0 0">
-        <FormControl display="flex" alignItems="center">
-          <Switch
-            colorScheme="pink"
-            id="availabilityToggle"
-            onChange={() => setAvailable(!available)}
-          />
-          <FormLabel htmlFor="availabilityToggle" mb="-1px">
-            {available ? (
-              <Flex alignItems="center" wrap="wrap" justifyContent="center">
-                <Text fontSize="1.2rem" fontWeight="700">
-                  &nbsp; Disponible{" "}
-                </Text>
-                <Text fontWeight="500" textAlign="center">
-                  &nbsp; - Vous pouvez être contacté et recevoir des demandes
-                </Text>
-              </Flex>
-            ) : (
-              <Flex alignItems="center" wrap="wrap" justifyContent="center">
-                <Text fontSize="1.2rem" fontWeight="700">
-                  &nbsp; Indisponible
-                </Text>
-                <Text fontWeight="500" textAlign="center">
-                  &nbsp; - Vous ne pouvez pas être contacté et recevoir des
-                  demandes
-                </Text>
-              </Flex>
-            )}
-          </FormLabel>
-        </FormControl>
-      </Flex>
+      {loggedUser.userId === freelancer.userId ? (
+        <Flex bgColor="white" p="1.5rem" borderRadius="25px 25px 0 0">
+          <FormControl display="flex" alignItems="center">
+            <Switch
+              colorScheme="pink"
+              id="availabilityToggle"
+              onChange={handleSubmit}
+              isChecked={!!freelancer.available}
+            />
+
+            <FormLabel htmlFor="availabilityToggle" mb="-1px">
+              {freelancer.available ? (
+                <Flex alignItems="center" wrap="wrap" justifyContent="center">
+                  <Text fontSize="1.2rem" fontWeight="700">
+                    &nbsp; Disponible{" "}
+                  </Text>
+                  <Text fontWeight="500" textAlign="center">
+                    &nbsp; - Vous pouvez être contacté et recevoir des demandes
+                  </Text>
+                </Flex>
+              ) : (
+                <Flex alignItems="center" wrap="wrap" justifyContent="center">
+                  <Text fontSize="1.2rem" fontWeight="700">
+                    &nbsp; Indisponible
+                  </Text>
+                  <Text fontWeight="500" textAlign="center">
+                    &nbsp; - Vous ne pouvez pas être contacté et recevoir des
+                    demandes
+                  </Text>
+                </Flex>
+              )}
+            </FormLabel>
+          </FormControl>
+        </Flex>
+      ) : null}
+
       <Flex bgColor="purple.average" minH="60%" p="10px" flexDir="column">
         <Flex flexDir={{ base: "column", md: "row" }}>
           <Flex
@@ -66,23 +103,19 @@ export default function BannerProfile({ freelancer }) {
             alignItems="center"
             justifyContent="center"
           >
-            {freelancer.picture ? (
-              <Image
-                src={freelancer.picture}
-                height="200px"
-                width="200px"
-                borderRadius="100%"
-                border="1px solid gray.200"
-              />
-            ) : (
-              <Avatar
-                src="https://bit.ly/broken-link"
-                height="200px"
-                width="200px"
-                maxW="200"
-                maxH="200"
-              />
-            )}
+            <Image
+              src={
+                freelancer.picture
+                  ? `${import.meta.env.VITE_BACKEND_URL}/uploads/${
+                      freelancer.picture
+                    }`
+                  : "https://secure.gravatar.com/avatar/c308ee24184a32cdf10650eb7e311157?s=125&d=mm&r=G"
+              }
+              height="200px"
+              width="200px"
+              borderRadius="100%"
+              border="1px solid gray.200"
+            />
           </Flex>
           <Flex
             direction="column"
@@ -98,13 +131,13 @@ export default function BannerProfile({ freelancer }) {
               {freelancer.displayName}
             </Text>
             <Text
-              fontSize="1.5rem"
+              fontSize="1.2rem"
               fontWeight="700"
               color="white"
-              marginBottom="1.2rem"
+              marginBottom="1rem"
               textAlign={{ base: "center", md: "left" }}
             >
-              {freelancer.activityDescription} à {freelancer.zipCode} [[VILLE]]
+              {`${freelancer.activityDescription} à ${city?.ville_nom} (${city?.ville_departement})`}
             </Text>
             <Text
               color="white"
@@ -118,8 +151,10 @@ export default function BannerProfile({ freelancer }) {
               marginBottom="1.2rem"
               textAlign={{ base: "center", md: "left" }}
             >
-              Membre depuis le {freelancer.dateCreated}
+              Membre depuis le{" "}
+              {dateFormat(freelancer.dateCreated, "dd/mm/yyyy")}
             </Text>
+            <Services />
 
             <Flex
               direction={{ base: "column", sm: "row" }}
@@ -129,21 +164,26 @@ export default function BannerProfile({ freelancer }) {
               w="auto"
               display={{ base: "flex", md: "none" }}
             >
-              <Button
-                marginTop="0.75rem"
-                variant="solid_PrimaryColor"
-                onClick={onOpen}
-              >
-                Modifier
-              </Button>
-              <ModalAccountForm
-                onOpen={onOpen}
-                isOpen={isOpen}
-                onClose={onClose}
-              />
-              <Button marginTop="0.75rem" variant="outlineWhite">
-                Voir mon profil en ligne
-              </Button>
+              {loggedUser.userId === freelancer.userId ? (
+                <>
+                  <Button
+                    marginTop="0.75rem"
+                    variant="solid_PrimaryColor"
+                    onClick={onOpen}
+                  >
+                    Modifier
+                  </Button>
+
+                  <ModalAccountForm
+                    onOpen={onOpen}
+                    isOpen={isOpen}
+                    onClose={onClose}
+                  />
+                  <Button marginTop="0.75rem" variant="outlineWhite">
+                    Voir mon profil en ligne
+                  </Button>
+                </>
+              ) : null}
             </Flex>
           </Flex>
           <Flex
@@ -154,17 +194,20 @@ export default function BannerProfile({ freelancer }) {
             w="auto"
             display={{ base: "none", md: "flex" }}
           >
-            <Button
-              marginTop="0.75rem"
-              variant="solid_PrimaryColor"
-              onClick={onOpen}
-            >
-              Modifier
-            </Button>
-            <Button variant="outlineWhite">Voir mon profil en ligne</Button>
+            {loggedUser.userId === freelancer.userId ? (
+              <>
+                <Button
+                  marginTop="0.75rem"
+                  variant="solid_PrimaryColor"
+                  onClick={onOpen}
+                >
+                  Modifier
+                </Button>
+                <Button variant="outlineWhite">Voir mon profil en ligne</Button>
+              </>
+            ) : null}
           </Flex>
         </Flex>
-        <Services />
       </Flex>
 
       <Flex

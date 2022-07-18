@@ -12,12 +12,20 @@ import Error from "./pages/Error";
 import SearchProfessionals from "./pages/SearchProfessionals";
 import Contact from "./pages/Contact";
 import RegisterOnboardingPro from "./pages/RegisterOnboardingPro";
+import RegisterOnboardingCoordo from "./pages/RegisterOnboardingCoordo";
 import WelcomeInscPro from "./pages/WelcomeInscPro";
+import WelcomeInscCoordo from "./pages/WelcomeInscCoordo";
 import AnnonceForm from "./components/ProfilEmployer/Annonce/AnnonceForm";
 import ProfilPageEmployer from "./pages/ProfilPageEmployer";
 import AnnoncesPageEmployer from "./pages/AnnoncesPageEmployer";
 import Logout from "./pages/Logout";
+import PasswordResetForm from "./pages/PasswordReset";
+import Administrator from "./pages/Administrator";
+import ProfilPageCoordinator from "./pages/ProfilPageCoordinator";
+import ProfilPageProfessionalCoord from "./pages/ProfilPageProfessionalCoord";
 import ProAnnonces from "./pages/ProAnnonces";
+import AnnonceFreelancerSearchForm from "./components/ProfilEmployer/Annonce/AnnonceFreelancerSearch";
+import FamilyOverview from "./pages/FamilyOverview";
 
 import "./App.css";
 
@@ -39,13 +47,52 @@ function App() {
           element={<ProfilPageProfessional />}
         />
         <Route
+          path="/profil-coordinator/:coordinatorId"
+          element={<ProfilPageCoordinator />}
+        />
+        <Route
+          path="/profil-coordinator-freelancer/:coordinatorId"
+          element={<ProfilPageProfessionalCoord />}
+        />
+
+        <Route
+          path="/profil-coordinator/:coordinatorId/famille/:familyId"
+          element={<FamilyOverview />}
+        />
+        <Route
           path="/register-onboarding-pro/:freelancerId"
           element={<RegisterOnboardingPro />}
+        />
+        <Route
+          path="/register-onboarding-coordo/:coordinatorId"
+          element={<RegisterOnboardingCoordo />}
         />
         <Route path="/profils" element={<SearchProfessionals />} />
         <Route path="/welcome-pro/:freelancerId" element={<WelcomeInscPro />} />
         <Route
+          path="/welcome-coordo/:coordinatorId"
+          element={<WelcomeInscCoordo />}
+        />
+
+        <Route
           path="/deposer-une-annonce/:employerId/annonce/:annonceId"
+          element={<AnnonceForm />}
+        />
+        <Route
+          path="/deposer-une-annonce-coordinateur/:coordinatorId/annonce/:annonceId"
+          element={<AnnonceForm />}
+        />
+        <Route
+          path="/deposer-une-annonce/:employerId/annonce/:annonceId/choix-professionnels"
+          element={<AnnonceFreelancerSearchForm />}
+        />
+        <Route
+          path="/deposer-une-annonce-coordinateur/:coordinatorId/annonce/:annonceId/choix-professionnels"
+          element={<AnnonceFreelancerSearchForm />}
+        />
+
+        <Route
+          path="/deposer-une-annonce/:coordinatorId/annonce/:annonceId"
           element={<AnnonceForm />}
         />
         <Route
@@ -61,13 +108,24 @@ function App() {
           element={<AnnoncesPageEmployer />}
         />
         <Route path="/logout" element={<Logout />} />
+
+        <Route path="/passwordReset" element={<PasswordResetForm />} />
+        <Route path="/habbleAdministrationPanel" element={<Administrator />} />
         <Route
-          path="/profil/:freelanderId/mes-annonces"
+          path="/profil/:freelancerId/mes-annonces"
           element={<ProAnnonces />}
         />
         <Route
           path="/profil-employer/:employerId/mes-annonces"
           element={<ProAnnonces />}
+        />
+        <Route
+          path="/profil-coordinator/:coordinatorId/mes-annonces"
+          element={<ProAnnonces />}
+        />
+        <Route
+          path="/profil-coordinator/:coordinatorId/mes-annonces/:id"
+          element={<AnnoncesPageEmployer />}
         />
         <Route path="*" element={<Error />} />
       </Routes>

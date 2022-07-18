@@ -3,23 +3,24 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import Header from "../components/Header/Header";
 import Footer from "../components/Footer";
-import BannerProfileEmployer from "../components/ProfilEmployer/BannerProfileEmployer";
+import BannerProfileEmployer from "../components/ProfilEmployer/InfoProfil/BannerProfileEmployer";
 import AnnonceCarousel from "../components/ProfilEmployer/Annonce/AnnonceCarousel";
 import AccountCard from "../components/ProfileFreelancer/Account/AccountCard";
 import backendAPI from "../services/backendAPI";
 
-export default function ProfilPageEmployer({ annonce }) {
+export default function ProfilPageEmployer() {
   const navigate = useNavigate();
-
   const { employerId } = useParams();
   const [user, setUser] = useState({});
   const [employer, setEmployer] = useState({});
+  const [updated, setUpdated] = useState(false);
+
   const getuser = () => {
     backendAPI
       .get(`/api/employers/${employerId}/user`)
       .then((response) => {
         setUser(response.data);
-        setEmployer(response.data.employer[0]);
+        setEmployer(response.data.employer);
       })
       .catch((error) => {
         console.warn(error);
@@ -39,11 +40,11 @@ export default function ProfilPageEmployer({ annonce }) {
     }
   }, []);
 
-  useEffect(() => getuser(), []);
+  useEffect(() => getuser(), [updated]);
 
   return (
     <Box h="100vh">
-      <Header onDark={false} isSticky={false} isStickyWhite isSignUp />
+      <Header onDark={false} isSticky={false} isStickyWhite />
       <Flex
         bgColor="background.gray"
         direction="column"
@@ -51,7 +52,12 @@ export default function ProfilPageEmployer({ annonce }) {
         paddingY="30px"
         paddingTop="150px"
       >
-        <BannerProfileEmployer employer={employer} />
+        <BannerProfileEmployer
+          employer={employer}
+          setEmployer={setEmployer}
+          updated={updated}
+          setUpdated={setUpdated}
+        />
         <Flex
           w={{ base: "95%", lg: "80%" }}
           gap="20px"
@@ -74,7 +80,7 @@ export default function ProfilPageEmployer({ annonce }) {
             direction="column"
             gap="20px"
           >
-            <AnnonceCarousel annonce={annonce} />
+            <AnnonceCarousel updated={updated} setUpdated={setUpdated} />
           </Flex>
         </Flex>
       </Flex>

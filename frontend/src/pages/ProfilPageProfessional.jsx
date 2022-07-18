@@ -13,7 +13,7 @@ import Expertises from "../components/ProfileFreelancer/Expertises/Expertises";
 import Verifications from "../components/ProfileFreelancer/Verifications";
 import Tarif from "../components/ProfileFreelancer/Tarif";
 import MissionCarousel from "../components/ProfileFreelancer/Mission/MissionCarousel";
-import { getListforAnId } from "../services/ProfileProUtils";
+import { getListforAnId, getSubListforAnId } from "../services/ProfileProUtils";
 import backendAPI from "../services/backendAPI";
 
 export default function ProfilPageProfessional() {
@@ -21,10 +21,14 @@ export default function ProfilPageProfessional() {
 
   const { freelancerId } = useParams();
   const [freelancer, setFreelancer] = useState({});
+  const [user, setUser] = useState({});
+
   const [updated, setUpdated] = useState(false);
   const [diplomes, setDiplomes] = useState([]);
   const [formations, setFormations] = useState([]);
   const [experiences, setExperiences] = useState([]);
+  const [cityInfo, setCityInfo] = useState([]);
+  const [loggedUser, setLoggedUser] = useState("");
 
   const getfreelancer = () => {
     getListforAnId("freelancers", freelancerId)
@@ -38,10 +42,23 @@ export default function ProfilPageProfessional() {
         console.warn(error);
         navigate("/error");
       });
+
+    getSubListforAnId("freelancers", parseInt(freelancerId, 10), "city").then(
+      (response) => {
+        setCityInfo(response.data[0]);
+      }
+    );
+
+    getSubListforAnId("freelancers", parseInt(freelancerId, 10), "user").then(
+      (response) => {
+        setUser(response.data);
+      }
+    );
   };
   useEffect(() => {
     if (JSON.parse(localStorage.getItem("isUserLoggedIn"))) {
       backendAPI.get("/api/auth/sessionControl").then((res) => {
+        setLoggedUser(res.data);
         if (res.code === "401") {
           navigate("/login");
         }
@@ -55,20 +72,9 @@ export default function ProfilPageProfessional() {
     getfreelancer();
   }, [updated]);
 
-  const fakeUser = {
-    id: 1,
-    firstname: "Lora",
-    lastname: "Perrichon",
-    email: "lora@gmail.com",
-    password: "jhnlzejbfalzebf",
-    pseudo: "LoraLala",
-    role: "freelancer",
-    profileIsComplete: true,
-  };
-
   return (
     <Box h="100vh">
-      <Header onDark={false} isSticky={false} isStickyWhite isSignUp />
+      <Header onDark={false} isSticky={false} isStickyWhite />
       <Flex
         bgColor="background.gray"
         direction="column"
@@ -76,7 +82,13 @@ export default function ProfilPageProfessional() {
         paddingY="30px"
         paddingTop="150px"
       >
-        <BannerProfile freelancer={freelancer} />
+        <BannerProfile
+          freelancer={freelancer}
+          city={cityInfo}
+          updated={updated}
+          setUpdated={setUpdated}
+          loggedUser={loggedUser}
+        />
         <Flex
           w={{ base: "95%", lg: "80%" }}
           gap="20px"
@@ -91,8 +103,10 @@ export default function ProfilPageProfessional() {
             gap="20px"
             flexDir="column"
           >
-            <AccountCard user={fakeUser} />
-            <Verifications />
+            {loggedUser.userId === freelancer.userId ? (
+              <AccountCard user={user} />
+            ) : null}
+            <Verifications freelancer={freelancer} loggedUser={loggedUser} />
             <Expertises freelancer={freelancer} />
             <Tarif freelancer={freelancer} />
           </Flex>
@@ -102,23 +116,32 @@ export default function ProfilPageProfessional() {
             direction="column"
             gap="20px"
           >
-            <DocumentCarousel updated={updated} setUpdated={setUpdated} />
+            {loggedUser.userId === freelancer.userId ? (
+              <DocumentCarousel updated={updated} setUpdated={setUpdated} />
+            ) : null}
+
             <FormationCarousel
               formations={formations}
               updated={updated}
               setUpdated={setUpdated}
+              freelancer={freelancer}
+              loggedUser={loggedUser}
             />
             <DiplomeCarousel
               diplomes={diplomes}
               updated={updated}
               setUpdated={setUpdated}
+              freelancer={freelancer}
+              loggedUser={loggedUser}
             />
             <ExperienceCarousel
               experiences={experiences}
               updated={updated}
               setUpdated={setUpdated}
+              freelancer={freelancer}
+              loggedUser={loggedUser}
             />
-            <MissionCarousel />
+            <MissionCarousel freelancer={freelancer} loggedUser={loggedUser} />
           </Flex>
         </Flex>
       </Flex>

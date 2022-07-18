@@ -10,12 +10,10 @@ import {
 import { CloseIcon } from "@chakra-ui/icons";
 
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
 
 import backendAPI from "../../../services/backendAPI";
 
 export default function Services({ annonce }) {
-  const { employerId } = useParams();
   const [servicesList, setServicesList] = useState([]);
   const [serviceName, setServiceName] = useState([]);
   const [serviceNumber, setServiceNumber] = useState([]);
@@ -35,7 +33,7 @@ export default function Services({ annonce }) {
   // axios qui va chercher les services d'un freelancer
   const getAllServicesByEmployer = () => {
     backendAPI
-      .get(`/api/employer/${employerId}/annonce/${annonce.id}/services`)
+      .get(`/api/annonce/${annonce.id}/services`)
       .then((response) => {
         setServiceName(response.data.map((e) => e.fk_service_id.name));
         setServiceNumber(response.data.map((e) => e.fk_service_id.id));
@@ -56,9 +54,7 @@ export default function Services({ annonce }) {
     if (nameService !== "" && !serviceName.includes(nameService)) {
       setServiceName([...serviceName, nameService]);
       setServiceNumber([...serviceNumber, e.target.value]);
-      backendAPI.post(
-        `/api/employer/${employerId}/annonce/${annonce.id}/services/${e.target.value}`
-      );
+      backendAPI.post(`/api/annonce/${annonce.id}/services/${e.target.value}`);
     }
   };
 

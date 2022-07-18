@@ -2,7 +2,6 @@ import {
   Flex,
   Input,
   Button,
-  Avatar,
   Box,
   Modal,
   ModalOverlay,
@@ -17,20 +16,46 @@ import {
 } from "@chakra-ui/react";
 
 import { useState } from "react";
+import { useParams } from "react-router-dom";
+import backendAPI from "../../services/backendAPI";
 
-export default function PictureProfilePro() {
+export default function PictureProfilePro({ freelancerPicture }) {
+  const { freelancerId } = useParams();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [picturePro, setPicturePro] = useState();
 
   // fonction d'enregistrement d'une nouvelle image //
   const handleRegisterPicture = () => {
-    setPicturePro(picturePro);
+    const formData = new FormData();
+
+    formData.append("file", picturePro[0]);
+
+    backendAPI.put(`/api/freelancers/${freelancerId}/picture`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
     onClose();
+  };
+
+  const handleRemovePicture = () => {
+    backendAPI.put(`/api/freelancers/${freelancerId}/removedPicture`);
   };
 
   return (
     <VStack align="center" alignSelf="center" mx="auto">
-      <Avatar src={picturePro} size="2xl" />
+      <Image
+        src={
+          freelancerPicture
+            ? `${import.meta.env.VITE_BACKEND_URL}/uploads/${freelancerPicture}`
+            : "https://secure.gravatar.com/avatar/c308ee24184a32cdf10650eb7e311157?s=125&d=mm&r=G"
+        }
+        height="150px"
+        width="150px"
+        borderRadius="100%"
+        border="1px solid gray.200"
+        objectFit="cover"
+      />
       <Button
         bg="none"
         _hover={{ bg: "none" }}
@@ -43,6 +68,21 @@ export default function PictureProfilePro() {
         {" "}
         Changer votre photo
       </Button>
+      {freelancerPicture && (
+        <Button
+          h="10px"
+          bg="none"
+          _hover={{ bg: "none" }}
+          color="gray"
+          fontWeight="400"
+          align="center"
+          fontSize={{ base: "md", md: "0.8rem" }}
+          onClick={handleRemovePicture}
+        >
+          {" "}
+          Supprimer votre avatar
+        </Button>
+      )}
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent
@@ -76,10 +116,22 @@ export default function PictureProfilePro() {
                   position="absolute"
                   h="150px"
                   w="150px"
-                  mx="40%"
+                  mx="38%"
                 />
-                <Box h="150px" w="150px" mx="40%">
-                  <Image src={picturePro} m="auto" h="150px" />
+                <Box h="150px" w="150px" mx="38%">
+                  <Image
+                    id="frame"
+                    src={
+                      freelancerPicture
+                        ? `${
+                            import.meta.env.VITE_BACKEND_URL
+                          }/uploads/${freelancerPicture}`
+                        : "https://secure.gravatar.com/avatar/c308ee24184a32cdf10650eb7e311157?s=125&d=mm&r=G"
+                    }
+                    m="auto"
+                    h="150px"
+                    objectFit="cover"
+                  />
                 </Box>
               </Box>
               <Flex direction="column" alignItems="center" mt="3rem" gap="5">
@@ -100,7 +152,11 @@ export default function PictureProfilePro() {
                     id="inputHandler"
                     name="picturePro"
                     display="none"
-                    onChange={(e) => setPicturePro(e.target.files)}
+                    onChange={(e) => {
+                      // eslint-disable-next-line no-undef
+                      frame.src = URL.createObjectURL(e.target.files[0]);
+                      setPicturePro(e.target.files);
+                    }}
                   />{" "}
                   Télécharger votre nouvelle photo
                 </Button>

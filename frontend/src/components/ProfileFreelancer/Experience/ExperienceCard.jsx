@@ -15,22 +15,41 @@ import { getOneItemOfList } from "../../../services/ProfileProUtils";
 
 import DeleteConfirmModal from "../../DeleteConfirmModal";
 
-export default function ExperienceCard({ experience, updated, setUpdated }) {
+export default function ExperienceCard({
+  experience,
+  updated,
+  setUpdated,
+  freelancer,
+  loggedUser,
+}) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { isVisible, setIsVisible, setCurrentExperience, currentExperience } =
     useContext(ExperienceFormContext);
-  const { freelancerId } = useParams();
+  const { freelancerId, coordinatorId } = useParams();
 
   const showForm = () => {
-    getOneItemOfList(
-      "freelancers",
-      "experiencePro",
-      freelancerId,
-      experience.id
-    ).then((res) => {
-      setCurrentExperience(res.data);
-      setIsVisible(!isVisible);
-    });
+    if (freelancerId !== undefined) {
+      getOneItemOfList(
+        "freelancers",
+        "experiencePro",
+        freelancerId,
+        experience.id
+      ).then((res) => {
+        setCurrentExperience(res.data);
+        setIsVisible(!isVisible);
+      });
+    }
+    if (coordinatorId !== undefined) {
+      getOneItemOfList(
+        "coordinator",
+        "experiencePro",
+        coordinatorId,
+        experience.id
+      ).then((res) => {
+        setCurrentExperience(res.data);
+        setIsVisible(!isVisible);
+      });
+    }
   };
   return (
     <Flex direction="column" gap="10px" paddingY="10px" key={experience.id}>
@@ -51,34 +70,50 @@ export default function ExperienceCard({ experience, updated, setUpdated }) {
         {experience.description}
       </Text>
       <Flex gap="20px">
-        <Button
-          leftIcon={<EditIcon />}
-          variant="text"
-          color="pink.light"
-          padding="0px"
-          onClick={showForm}
-        >
-          Modifier
-        </Button>
-        <Button
-          rightIcon={<DeleteIcon />}
-          variant="text"
-          color="pink.light"
-          padding="0px"
-          onClick={() => {
-            onOpen();
-            getOneItemOfList(
-              "freelancers",
-              "experiencePro",
-              freelancerId,
-              experience.id
-            ).then((res) => {
-              setCurrentExperience(res.data);
-            });
-          }}
-        >
-          Supprimer
-        </Button>
+        {loggedUser.userId === freelancer.userId ? (
+          <>
+            <Button
+              leftIcon={<EditIcon />}
+              variant="text"
+              color="pink.light"
+              padding="0px"
+              onClick={showForm}
+            >
+              Modifier
+            </Button>
+            <Button
+              rightIcon={<DeleteIcon />}
+              variant="text"
+              color="pink.light"
+              padding="0px"
+              onClick={() => {
+                onOpen();
+                if (freelancerId !== undefined) {
+                  getOneItemOfList(
+                    "freelancers",
+                    "experiencePro",
+                    freelancerId,
+                    experience.id
+                  ).then((res) => {
+                    setCurrentExperience(res.data);
+                  });
+                }
+                if (coordinatorId !== undefined) {
+                  getOneItemOfList(
+                    "coordinator",
+                    "experiencePro",
+                    coordinatorId,
+                    experience.id
+                  ).then((res) => {
+                    setCurrentExperience(res.data.id);
+                  });
+                }
+              }}
+            >
+              Supprimer
+            </Button>
+          </>
+        ) : null}
 
         <DeleteConfirmModal
           onOpen={onOpen}

@@ -12,7 +12,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import PropTypes from "prop-types";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 import { deleteItemList } from "../services/ProfileProUtils";
 
@@ -24,7 +24,8 @@ export default function DeleteConfirmModal({
   setUpdated,
   type,
 }) {
-  const { freelancerId } = useParams();
+  const { freelancerId, employerId, coordinatorId } = useParams();
+  const navigate = useNavigate();
   const toast = useToast();
   return (
     <Modal size="xl" isOpen={isOpen} onClose={onClose}>
@@ -66,27 +67,72 @@ export default function DeleteConfirmModal({
           <Button
             variant="solid_PrimaryColor"
             onClick={() => {
-              onClose();
-              deleteItemList("freelancers", type, freelancerId, item.id)
-                .then(() =>
-                  toast({
-                    title: `${type} supprimés(es).es avec succès`,
-                    status: "success",
-                    position: "bottom-right",
-                    duration: 7000,
-                    isClosable: true,
+              if (freelancerId) {
+                deleteItemList("freelancers", type, freelancerId, item)
+                  .then(() => {
+                    toast({
+                      title: `${type} supprimés(es).es avec succès`,
+                      status: "success",
+                      position: "bottom-right",
+                      duration: 7000,
+                      isClosable: true,
+                    });
+                    navigate(`/profil/${freelancerId}`);
                   })
-                )
-                .catch((e) =>
-                  toast({
-                    title: e.message,
-                    status: "error",
-                    position: "bottom-right",
-                    duration: 7000,
-                    isClosable: true,
+                  .catch((e) =>
+                    toast({
+                      title: e.message,
+                      status: "error",
+                      position: "bottom-right",
+                      duration: 7000,
+                      isClosable: true,
+                    })
+                  );
+              } else if (employerId) {
+                deleteItemList("employers", type, employerId, item)
+                  .then(() => {
+                    toast({
+                      title: `${type} supprimés(es).es avec succès`,
+                      status: "success",
+                      position: "bottom-right",
+                      duration: 7000,
+                      isClosable: true,
+                    });
+                    navigate(`/profil-employer/${employerId}`);
                   })
-                );
+                  .catch((e) =>
+                    toast({
+                      title: e.message,
+                      status: "error",
+                      position: "bottom-right",
+                      duration: 7000,
+                      isClosable: true,
+                    })
+                  );
+              } else if (coordinatorId) {
+                deleteItemList("coordinator", type, coordinatorId, item)
+                  .then(() => {
+                    toast({
+                      title: `${type} supprimés(es).es avec succès`,
+                      status: "success",
+                      position: "bottom-right",
+                      duration: 7000,
+                      isClosable: true,
+                    });
+                    navigate(`/profil-coordinator-freelancer/${coordinatorId}`);
+                  })
+                  .catch((e) =>
+                    toast({
+                      title: e.message,
+                      status: "error",
+                      position: "bottom-right",
+                      duration: 7000,
+                      isClosable: true,
+                    })
+                  );
+              }
               setUpdated(!updated);
+              onClose();
             }}
           >
             Confirmer

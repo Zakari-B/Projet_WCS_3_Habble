@@ -32,6 +32,9 @@ export function addToSubList(item1, item2, item3, item1Id, item2Id, data) {
     data
   );
 }
+export function updateItem(item1, item1Id, data) {
+  return backendAPI.put(`/api/${item1}/${item1Id}`, data);
+}
 
 export function updateItemList(item1, item2, item1Id, item2Id, data) {
   return backendAPI.put(`/api/${item1}/${item1Id}/${item2}/${item2Id}`, data);
@@ -47,6 +50,7 @@ export default {
   getOneItemOfList,
   addToList,
   addToSubList,
+  updateItem,
   updateItemList,
   deleteItemList,
   getSubListforAnId,

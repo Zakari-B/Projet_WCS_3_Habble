@@ -23,7 +23,7 @@ export default function Tarif({ freelancer }) {
           Tarif horaire
         </Heading>
         <Text color="purple.average" fontSize="14px">
-          {freelancer.price}/h* (indicatif)
+          {`${freelancer.price}€/h* (indicatif)`}
         </Text>
       </Flex>
     </Flex>
@@ -32,6 +32,6 @@ export default function Tarif({ freelancer }) {
 
 Tarif.propTypes = {
   freelancer: PropTypes.shape({
-    price: PropTypes.number.isRequired,
+    price: PropTypes.number,
   }).isRequired,
 };

@@ -1,6 +1,6 @@
+import axios from "axios";
 import {
   Flex,
-  Heading,
   Stack,
   VStack,
   FormControl,
@@ -22,20 +22,27 @@ import {
   Select,
   ListItem,
   IconButton,
+  InputGroup,
+  InputLeftElement,
+  Tag,
+  TagLeftIcon,
+  TagCloseButton,
   List,
 } from "@chakra-ui/react";
-import { CloseIcon } from "@chakra-ui/icons";
-import { useState, useEffect } from "react";
+import { CloseIcon, Search2Icon } from "@chakra-ui/icons";
+import { MdRoom } from "react-icons/md";
+import { useState, useEffect, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Header from "../../Header/Header";
 import Footer from "../../Footer";
 import backendAPI from "../../../services/backendAPI";
 
-export default function AnnonceForm() {
+export default function AnnonceForm({ updated, setUpdated }) {
   const toast = useToast();
   const navigate = useNavigate();
-
   const [title, setTitle] = useState("");
+  const [titlePlaceHolder, setTitlePlaceHolder] = useState("");
+
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState();
   const [locations, setLocations] = useState([]);
@@ -44,49 +51,183 @@ export default function AnnonceForm() {
   const [servicesList, setServicesList] = useState([]);
   const [serviceName, setServiceName] = useState([]);
   const [serviceNumber, setServiceNumber] = useState([]);
+  const [families, setFamilies] = useState([]);
+  const [currentFamily, setCurrentFamily] = useState(0);
 
-  const [status] = useState("En cours");
+  const { employerId, annonceId, coordinatorId } = useParams();
 
-  const { employerId, annonceId } = useParams();
+  const [cityPro, setCityPro] = useState("");
+  const [cityProName, setCityProName] = useState("");
+  const [search, setSearch] = useState("");
+  const [addressList, setAddressList] = useState([]);
+
+  const getAddressList = (signal) => {
+    axios
+      .get(
+        `https://api-adresse.data.gouv.fr/search/?q=${search}&type=municipality&autocomplete=1&limit=3`,
+        { signal }
+      )
+      .then((response) => {
+        setAddressList(response.data.features);
+      });
+  };
+  const previousController = useRef();
+
+  useEffect(() => {
+    if (search.length >= 1) {
+      if (previousController.current) {
+        previousController.current.abort();
+      }
+      const controller = new AbortController();
+      const { signal } = controller;
+      previousController.current = controller;
+      getAddressList(signal);
+    }
+  }, [search]);
+
+  const handleSearch = (event) => {
+    setSearch(event.target.value);
+  };
+
+  useEffect(() => {
+    backendAPI
+      .get(`api/annonces/${parseInt(annonceId, 10)}`)
+      .then((result) => setTitlePlaceHolder(result.data.title));
+  });
+
+  useEffect(() => {
+    backendAPI
+      .get(`/api/coordinators/${coordinatorId}/familles`)
+      .then((res) => {
+        setFamilies(res.data);
+      });
+  }, []);
 
   const updateEmergency = (e) => {
-    if (e.target.checked) {
-      setEmergency(true);
-    }
+    setEmergency(e.target.checked);
+  };
+
+  const addFamily = (e) => {
+    setCurrentFamily(parseInt(e.target.value, 10));
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    backendAPI
-      .put(`/api/employers/${employerId}/annonce/${annonceId}`, {
-        title,
-        description,
-        emergency,
-        price,
-        status,
-      })
-      .then(() => {
-        navigate(`/profil-employer/${employerId}`);
-      })
-      .then(() =>
-        toast({
-          title: "Votre annonce a bien été crée",
-          status: "success",
-          position: "bottom-right",
-          duration: 7000,
-          isClosable: true,
+    if (coordinatorId !== undefined) {
+      backendAPI
+        .put(`/api/coordinator/${coordinatorId}/annonce/${annonceId}`, {
+          title,
+          description,
+          zipCode: cityPro,
+          emergency,
+          price,
+          status: "Brouillon",
+          familyId: currentFamily,
         })
-      )
-      .catch((e) => {
-        console.error(e);
-        toast({
-          title: "Votre annonce n'a pas pu être ajoutée",
-          status: "error",
-          position: "bottom-right",
-          duration: 7000,
-          isClosable: true,
+        .then(() => {
+          navigate(
+            `/deposer-une-annonce-coordinateur/${coordinatorId}/annonce/${annonceId}/choix-professionnels`
+          );
+        })
+        .then(() =>
+          toast({
+            title: "Votre annonce a bien été crée",
+            status: "success",
+            position: "bottom-right",
+            duration: 7000,
+            isClosable: true,
+          })
+        )
+        .catch((e) => {
+          console.error(e);
+          toast({
+            title: "Votre annonce n'a pas pu être ajoutée",
+            status: "error",
+            position: "bottom-right",
+            duration: 7000,
+            isClosable: true,
+          });
         });
-      });
+      setUpdated(!updated);
+    }
+
+    if (employerId !== undefined) {
+      backendAPI
+        .put(`/api/employers/${employerId}/annonce/${annonceId}`, {
+          title,
+          description,
+          zipCode: cityPro,
+          emergency,
+          price,
+          status: "Brouillon",
+        })
+        .then(() => {
+          navigate(
+            `/deposer-une-annonce/${employerId}/annonce/${annonceId}/choix-professionnels`
+          );
+        })
+        .then(() =>
+          toast({
+            title: "Votre annonce a bien été crée",
+            status: "success",
+            position: "bottom-right",
+            duration: 7000,
+            isClosable: true,
+          })
+        )
+        .catch((e) => {
+          console.error(e);
+          toast({
+            title: "Votre annonce n'a pas pu être ajoutée",
+            status: "error",
+            position: "bottom-right",
+            duration: 7000,
+            isClosable: true,
+          });
+        });
+    }
+  };
+
+  const handleCancel = (event) => {
+    event.preventDefault();
+    if (employerId !== undefined) {
+      backendAPI
+        .delete(`/api/employers/${employerId}/annonce/${annonceId}`)
+        .then(() => {
+          navigate(`/profil-employer/${employerId}`);
+        })
+        .then(() =>
+          toast({
+            title: "Votre annonce n'a pas été crée",
+            status: "error",
+            position: "bottom-right",
+            duration: 7000,
+            isClosable: true,
+          })
+        )
+        .catch((e) => {
+          console.error(e);
+        });
+    }
+    if (coordinatorId !== undefined) {
+      backendAPI
+        .delete(`/api/coordinator/${coordinatorId}/annonce/${annonceId}`)
+        .then(() => {
+          navigate(`/profil-coordinator/${coordinatorId}`);
+        })
+        .then(() =>
+          toast({
+            title: "Votre annonce n'a pas été crée",
+            status: "error",
+            position: "bottom-right",
+            duration: 7000,
+            isClosable: true,
+          })
+        )
+        .catch((e) => {
+          console.error(e);
+        });
+    }
   };
 
   // axios qui va chercher la liste des services
@@ -104,7 +245,7 @@ export default function AnnonceForm() {
   // axios qui va chercher les services d'un freelancer
   const getAllServicesByAnnonce = () => {
     backendAPI
-      .get(`/api/employer/${employerId}/annonce/${annonceId}/services`)
+      .get(`/api/annonce/${annonceId}/services`)
       .then((response) => {
         setServiceName(response.data.map((e) => e.fk_services_id.name));
         setServiceNumber(response.data.map((e) => e.fk_services_id.id));
@@ -125,9 +266,8 @@ export default function AnnonceForm() {
     if (nameService !== "" && !serviceName.includes(nameService)) {
       setServiceName([...serviceName, nameService]);
       setServiceNumber([...serviceNumber, e.target.value]);
-      backendAPI.post(
-        `/api/employer/${employerId}/annonce/${annonceId}/services/${e.target.value}`
-      );
+
+      backendAPI.post(`/api/annonce/${annonceId}/services/${e.target.value}`);
     }
   };
 
@@ -152,14 +292,12 @@ export default function AnnonceForm() {
   const updateLocation = (e) => {
     if (e.target.checked && !locationList.includes(e.target.value)) {
       setLocationList([...locationList, e.target.value]);
-      backendAPI.post(
-        `/api/employer/${employerId}/annonce/${annonceId}/locations/${e.target.value}`
-      );
+      backendAPI.post(`/api/annonce/${annonceId}/locations/${e.target.value}`);
     } else if (!e.target.checked) {
       locationList.splice(locationList.indexOf(e.target.value), 1);
 
       backendAPI.delete(
-        `/api/employer/${employerId}/annonce/${annonceId}/locations/${e.target.value}`
+        `/api/annonce/${annonceId}/locations/${e.target.value}`
       );
     }
   };
@@ -176,34 +314,41 @@ export default function AnnonceForm() {
       });
   };
 
-  // axios qui va chercher les services d'un freelancer
-  // const getAllLocationsByAnnonce = () => {
-  //   backendAPI
-  //     .get(`/api/employer/${employerId}/annonce/${annonceId}/locations`)
-  //     .then((response) => {
-  //       setLocationList(
-  //         response.data.map((e) => e.fk_expertise_id.id.toString())
-  //       );
-  //     })
-  //     .catch((error) => {
-  //       console.warn(error);
-  //     });
-  // };
-
   useEffect(() => {
     getAllLocations();
-    // getAllLocationsByAnnonce();
   }, []);
 
   return (
     <Box h="100vh">
-      <Header onDark={false} isSticky={false} isStickyWhite={false} isSignUp />
-      <Flex bgColor="background.gray" direction="column" justify="flex-start">
+      <Header onDark={false} isSticky={false} isStickyWhite />
+      <Flex
+        bgColor="background.gray"
+        direction="column"
+        justify="flex-start"
+        paddingTop="150px"
+        paddingBottom="50px"
+        gap="50px"
+      >
+        <Flex direction="column" gap="10px" alignItems="center">
+          <Text
+            as="h2"
+            color="purple.average"
+            w={{ base: "95%", lg: "80%" }}
+            fontSize="1.5em"
+            fontWeight="700"
+            m="auto"
+            align="center"
+          >
+            Étape 1 : Détaillez votre annonce
+          </Text>
+          <Text color="purple.average">
+            Trouvez un professionnel du handicap adapté à vos besoins
+          </Text>
+        </Flex>
         <FormControl
           alignSelf="center"
           dir="column"
           mx="10%"
-          my="5%"
           className="employerForm"
           bgColor="white"
           maxWidth="900px"
@@ -219,16 +364,6 @@ export default function AnnonceForm() {
             margin="auto"
             maxW="95%"
           >
-            <Heading
-              as="h2"
-              textAlign="left"
-              fontSize="1.2rem"
-              fontWeight="600"
-              color="purple.average"
-            >
-              Détaillez votre besoin et trouvez un professionnel du handicap
-              adapté
-            </Heading>
             <VStack alignItems="left">
               <FormLabel
                 htmlFor="name"
@@ -242,7 +377,7 @@ export default function AnnonceForm() {
                 type="text"
                 id="title"
                 name="title"
-                placeholder="Résumez votre besoin ici"
+                placeholder={titlePlaceHolder || "Résumez votre besoin ici"}
                 _placeholder={{
                   fontSize: "0.8rem",
                   fontWeight: "500",
@@ -251,6 +386,24 @@ export default function AnnonceForm() {
                 value={title}
                 onChange={(e) => setTitle(e.target.value)}
               />
+
+              {coordinatorId && (
+                <Select
+                  type="text"
+                  id="formProService"
+                  name="Service"
+                  fontSize="0.8rem"
+                  fontWeight="500"
+                  color="gray"
+                  placeholder="Quelle est la famille concernée ?"
+                  onChange={addFamily}
+                >
+                  {families.map((family) => (
+                    <option value={family.id}>{family.lastname}</option>
+                  ))}
+                </Select>
+              )}
+
               <FormLabel
                 htmlFor="description"
                 fontSize="md"
@@ -279,7 +432,130 @@ export default function AnnonceForm() {
                 votre annonce : antécédents médicaux, maladies, prestations de
                 soins réalisés, résultats d’examens, traitements, handicap, etc.
               </Text>
+              <FormLabel
+                htmlFor="city"
+                fontSize="md"
+                fontWeight="800"
+                color="purple.average"
+              >
+                Où avez-vous besoin de soutien ? *{" "}
+              </FormLabel>
 
+              {!cityProName ? (
+                <Flex direction="column" w="100%">
+                  <InputGroup
+                    display="flex"
+                    alignItems="center"
+                    marginBottom="5px"
+                  >
+                    <InputLeftElement
+                      pointerEvents="none"
+                      display="flex"
+                      alignItems="center"
+                      h="100%"
+                    >
+                      <IconButton
+                        variant="unstyled"
+                        color="gray.500"
+                        aria-label="Search database"
+                        icon={<Search2Icon />}
+                      />
+                    </InputLeftElement>
+                    <Input
+                      type="search"
+                      id="proFormCity"
+                      name="city"
+                      variant="outline"
+                      autoComplete="off"
+                      bgColor="white"
+                      h="50px"
+                      fontSize="0.9rem"
+                      fontWeight="400"
+                      zIndex={100}
+                      placeholder="Veuillez saisir un code postal et selectionnez une ville dans la liste"
+                      value={search}
+                      onChange={handleSearch}
+                    />
+                  </InputGroup>
+
+                  {addressList.length !== 0 && search !== "" && (
+                    <List
+                      bg="white"
+                      width="100%"
+                      borderRadius="4px"
+                      overflow="hidden"
+                      boxShadow="rgb(0 0 0 / 4%) 0px 2px 6px"
+                      border="1px solid #ededed"
+                    >
+                      <Flex direction="column" w="-webkit-fill-available">
+                        {addressList.map((city) => (
+                          <ListItem
+                            key={city.id}
+                            onClick={() => {
+                              if (city.properties.citycode) {
+                                setCityProName(city.properties.name);
+                                setCityPro(city.properties.citycode);
+                                setSearch("");
+                              }
+                            }}
+                          >
+                            <Flex direction="row" p={5} w="100%" align="center">
+                              <Flex
+                                pl="20px"
+                                justifyContent="space-between"
+                                width="100%"
+                                alignItems="center"
+                              >
+                                <Flex
+                                  direction="column"
+                                  alignItems="flex-start"
+                                >
+                                  <Text
+                                    fontSize="lg"
+                                    align="left"
+                                    color="purple.dark"
+                                    _groupHover={{
+                                      color: "pink.light",
+                                      fontWeight: "700",
+                                    }}
+                                  >
+                                    {city.properties.name} (
+                                    {city.properties.postcode})
+                                  </Text>
+                                  <Text
+                                    fontSize="md"
+                                    align="left"
+                                    color="purple.dark"
+                                  >
+                                    {city.properties.context}
+                                  </Text>
+                                </Flex>
+                              </Flex>
+                            </Flex>
+                          </ListItem>
+                        ))}
+                      </Flex>
+                    </List>
+                  )}
+                </Flex>
+              ) : (
+                <Tag
+                  variant="solid"
+                  bgColor="pink.light"
+                  size="lg"
+                  w="fit-content"
+                >
+                  <TagLeftIcon as={MdRoom} />
+                  {cityProName}
+                  <TagCloseButton
+                    onClick={() => {
+                      setCityPro("");
+                      setCityProName("");
+                      setSearch("");
+                    }}
+                  />
+                </Tag>
+              )}
               <FormLabel
                 htmlFor="skills"
                 fontSize="md"
@@ -339,7 +615,9 @@ export default function AnnonceForm() {
                   }
                 >
                   {servicesList.map((element) => (
-                    <option value={element.id}>{element.name}</option>
+                    <option key={element.id} value={element.id}>
+                      {element.name}
+                    </option>
                   ))}
                 </Select>
               </Box>
@@ -408,7 +686,7 @@ export default function AnnonceForm() {
                 w="fit-content%"
               >
                 {locations.map((element) => (
-                  <CheckboxGroup>
+                  <CheckboxGroup key={element.id}>
                     <Checkbox
                       defaultChecked
                       iconColor="pink.light"
@@ -447,8 +725,8 @@ export default function AnnonceForm() {
                   colorScheme="white"
                   borderColor="gray"
                   _checked={{ borderColor: "pink.light" }}
-                  value="Urgence"
                   onChange={updateEmergency}
+                  isChecked={!!emergency}
                 >
                   <Text fontSize="sm">Oui</Text>
                 </Checkbox>
@@ -459,7 +737,15 @@ export default function AnnonceForm() {
                   marginTop="2rem"
                   onClick={handleSubmit}
                 >
-                  J'ai terminé, je dépose mon annonce
+                  Suivant{" "}
+                </Button>
+                <Button
+                  variant="outline_Pink"
+                  type="submit"
+                  marginTop="2rem"
+                  onClick={handleCancel}
+                >
+                  Annuler
                 </Button>
                 <Divider />
                 <Text
