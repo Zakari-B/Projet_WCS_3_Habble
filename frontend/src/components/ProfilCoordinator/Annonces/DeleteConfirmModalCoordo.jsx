@@ -24,7 +24,6 @@ export default function DeleteConfirmModalCoordo({
 }) {
   const { coordinatorId } = useParams();
   const toast = useToast();
-
   return (
     <Modal size="xl" isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
@@ -65,30 +64,33 @@ export default function DeleteConfirmModalCoordo({
           <Button
             variant="solid_PrimaryColor"
             onClick={() => {
-              onClose();
               backendAPI
                 .delete(
-                  `/api/coordinator/${coordinatorId}/annonce/${annonce.id}`
+                  `/api/coordinator/${coordinatorId}/annonce/${parseInt(
+                    annonce.id,
+                    10
+                  )}`
                 )
-                .then(() =>
+                .then(() => {
                   toast({
                     title: `Annonce supprimée avec succès`,
                     status: "success",
                     position: "bottom-right",
                     duration: 7000,
                     isClosable: true,
-                  })
-                )
-                .catch((e) =>
+                  });
+                  setUpdated(!updated);
+                })
+                .catch((e) => {
                   toast({
                     title: e.message,
                     status: "error",
                     position: "bottom-right",
                     duration: 7000,
                     isClosable: true,
-                  })
-                );
-              setUpdated(!updated);
+                  });
+                })
+                .finally(onClose());
             }}
           >
             Confirmer

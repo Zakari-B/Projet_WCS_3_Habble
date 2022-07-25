@@ -116,7 +116,10 @@ export default function ProfilPageProfessionalCoord() {
             gap="20px"
           >
             {loggedUser.userId === coordinator.userId ? (
-              <DocumentCarouselCoordo setUpdated={setUpdated} />
+              <DocumentCarouselCoordo
+                updated={updated}
+                setUpdated={setUpdated}
+              />
             ) : null}
 
             <FormationCarousel

@@ -90,7 +90,7 @@ export default function ProfilPageCoordinator() {
           >
             <AccountCard user={coordoUser} />
             <Verifications freelancer={coordinator} loggedUser={loggedUser} />
-            <Accompagnement />
+            <Accompagnement updated={updated} setUpdated={setUpdated} />
             <Expertises freelancer={coordinator} />
             <Tarif freelancer={coordinator} />
           </Flex>
@@ -100,7 +100,7 @@ export default function ProfilPageCoordinator() {
             direction="column"
             gap="20px"
           >
-            <DocumentCarouselCoordo setUpdated={setUpdated} />
+            <DocumentCarouselCoordo updated={updated} setUpdated={setUpdated} />
             <AnnonceCarouselCoordo updated={updated} setUpdated={setUpdated} />
           </Flex>
         </Flex>

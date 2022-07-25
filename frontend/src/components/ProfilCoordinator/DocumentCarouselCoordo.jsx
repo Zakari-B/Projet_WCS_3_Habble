@@ -13,6 +13,7 @@ import {
   ModalFooter,
   ModalBody,
   useDisclosure,
+  useToast,
   ModalCloseButton,
 } from "@chakra-ui/react";
 import UploadedDocsCoordo from "./UploadedDocsCoordo";
@@ -23,6 +24,8 @@ export default function DocumentCarouselCoordo({ updated, setUpdated }) {
   const [fileType, setFileType] = useState([]);
   const [profileCoordoDocuments, setProfileCoordoDocuments] = useState([]);
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const toast = useToast();
+
   const { coordinatorId } = useParams();
 
   useEffect(() => {
@@ -31,7 +34,7 @@ export default function DocumentCarouselCoordo({ updated, setUpdated }) {
       .then((res) => {
         setProfileCoordoDocuments(res.data);
       });
-  }, []);
+  }, [updated]);
 
   const handleForm = (e) => {
     e.preventDefault();
@@ -47,8 +50,28 @@ export default function DocumentCarouselCoordo({ updated, setUpdated }) {
           "Content-Type": "multipart/form-data",
         },
       })
-      .then((res) => {
-        console.warn(res);
+      .then(() => {
+        toast({
+          title: "Votre Document a bien été publié",
+          status: "success",
+          duration: 7000,
+          position: "bottom-right",
+          isClosable: true,
+        });
+      })
+      .catch((error) => {
+        if (error) {
+          toast({
+            title: "Une erreur est survenue lors de l'upload de votre document",
+            status: "error",
+            duration: 7000,
+            position: "bottom-right",
+            isClosable: true,
+          });
+        }
+      })
+      .finally(() => {
+        setUpdated(!updated);
         onClose();
       });
   };

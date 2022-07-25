@@ -266,7 +266,6 @@ const deleteOne = async (req, res) => {
 const deleteOneByCoordinatorId = async (req, res) => {
   const coordinatorId = parseInt(req.params.coordinatorId, 10);
   const annonceId = parseInt(req.params.id, 10);
-
   const annonce = await getOneAnnouncementByCoordinatorId(
     coordinatorId,
     annonceId
