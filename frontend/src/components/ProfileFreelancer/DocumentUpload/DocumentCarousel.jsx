@@ -14,6 +14,7 @@ import {
   ModalBody,
   useDisclosure,
   ModalCloseButton,
+  useToast,
 } from "@chakra-ui/react";
 import UploadedDocs from "./UploadedDocs";
 import backendAPI from "../../../services/backendAPI";
@@ -24,12 +25,13 @@ export default function DocumentCarousel({ updated, setUpdated }) {
   const [profileDocuments, setProfileDocuments] = useState([]);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { freelancerId } = useParams();
+  const toast = useToast();
 
   useEffect(() => {
     backendAPI.get(`api/freelancers/${freelancerId}/documents`).then((res) => {
       setProfileDocuments(res.data);
     });
-  }, []);
+  }, [updated]);
 
   const handleForm = (e) => {
     e.preventDefault();
@@ -46,7 +48,29 @@ export default function DocumentCarousel({ updated, setUpdated }) {
         },
       })
       .then((res) => {
-        console.warn(res);
+        toast({
+          title: "Votre Document a bien été publié",
+          status: "success",
+          duration: 7000,
+          position: "bottom-right",
+          isClosable: true,
+        });
+        if (res) {
+          setUpdated(!updated);
+        }
+      })
+      .catch((error) => {
+        if (error) {
+          toast({
+            title: "Une erreur est survenue lors de l'upload de votre document",
+            status: "error",
+            duration: 7000,
+            position: "bottom-right",
+            isClosable: true,
+          });
+        }
+      })
+      .finally(() => {
         onClose();
       });
   };

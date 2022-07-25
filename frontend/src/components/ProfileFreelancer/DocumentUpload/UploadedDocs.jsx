@@ -70,7 +70,7 @@ export default function UploadedDoc({ data, updated, setUpdated }) {
           onOpen={deletePopup.onOpen}
           isOpen={deletePopup.isOpen}
           onClose={deletePopup.onClose}
-          item={data}
+          item={parseInt(data.id, 10)}
           type="documents"
           updated={updated}
           setUpdated={setUpdated}

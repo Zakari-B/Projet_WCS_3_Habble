@@ -102,7 +102,11 @@ function FamilyOverview() {
             flexDir={{ base: "column", lg: "row" }}
             alignItems="center"
           >
-            <ModalUpdateFamily oneFamily={oneFamily} />
+            <ModalUpdateFamily
+              oneFamily={oneFamily}
+              updated={updated}
+              setUpdated={setUpdated}
+            />
             <ModalDeletionFamily />
           </Flex>
         </Box>

@@ -8,6 +8,7 @@ import {
   ModalCloseButton,
   Flex,
   ModalBody,
+  ModalHeader,
   useDisclosure,
   useToast,
 } from "@chakra-ui/react";
@@ -53,11 +54,21 @@ function ModalDeletionFamily() {
       >
         Supprimer
       </Button>
-      <Modal isOpen={isOpen} onClose={onClose}>
+      <Modal size="xl" isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
+
         <ModalContent maxWidth={{ base: "95%", lg: "50vw" }}>
           <ModalCloseButton />
-          <ModalBody p="1rem">
+          <ModalHeader
+            paddingY="30px"
+            color="purple.average"
+            fontWeight="600"
+            fontSize="lg"
+            bgColor="#FAFAFA"
+          >
+            Supprimer la famille
+          </ModalHeader>
+          <ModalBody paddingY="30px">
             <Flex flexDir="column">
               Êtes-vous sûr de vouloir supprimer cette famille ?
               <Flex
