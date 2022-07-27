@@ -67,7 +67,12 @@ export default function DeleteConfirmModal({
             variant="solid_PrimaryColor"
             onClick={() => {
               if (freelancerId) {
-                deleteItemList("freelancers", type, freelancerId, item)
+                deleteItemList(
+                  "freelancers",
+                  type,
+                  parseInt(freelancerId, 10),
+                  parseInt(item.id, 10)
+                )
                   .then(() => {
                     toast({
                       title: `${
