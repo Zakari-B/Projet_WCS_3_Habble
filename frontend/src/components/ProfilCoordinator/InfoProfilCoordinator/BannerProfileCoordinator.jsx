@@ -190,7 +190,9 @@ export default function BannerProfileCoordinator({
                   setUpdated={setUpdated}
                 />
                 {currentUrl ===
-                  `http://localhost:3000/profil-coordinator/${coordinator.id}` && (
+                  `${import.meta.env.VITE_FRONTEND_URL}/profil-coordinator/${
+                    coordinator.id
+                  }` && (
                   <Button
                     marginTop="0.75rem"
                     colorScheme="teal"
@@ -204,7 +206,9 @@ export default function BannerProfileCoordinator({
                   </Button>
                 )}
                 {currentUrl !==
-                  `http://localhost:3000/profil-coordinator/${coordinator.id}` && (
+                  `${import.meta.env.VITE_FRONTEND_URL}/profil-coordinator/${
+                    coordinator.id
+                  }` && (
                   <Button
                     marginTop="0.75rem"
                     colorScheme="purple"
