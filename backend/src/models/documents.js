@@ -88,6 +88,14 @@ const verifyOneDocument = async (docId, state) => {
   }
 };
 
+const getAllDocs = async () => {
+  try {
+    return await prisma.documents.findMany();
+  } finally {
+    await prisma.$disconnect();
+  }
+};
+
 module.exports = {
   getAllDocumentsByFreelancerId,
   getAllDocumentsByCoordinatorId,
@@ -97,4 +105,5 @@ module.exports = {
   getOneDocumentByCoordinatorIdAndFamilyId,
   deleteOneDocument,
   verifyOneDocument,
+  getAllDocs,
 };

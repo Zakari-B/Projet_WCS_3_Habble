@@ -649,10 +649,22 @@ router.get(
   UserController.getUserWithRole
 );
 router.post(
+  "/users/adminGetOneFromRole/",
+  authorization,
+  adminAuth,
+  UserController.getUserFromRole
+);
+router.post(
   "/users/:freelancerId/verify/:docId",
   authorization,
   adminAuth,
   DocumentsController.verify
+);
+router.get(
+  "/admin/getAllDocs",
+  authorization,
+  adminAuth,
+  DocumentsController.adminGetAll
 );
 
 // routes for locations
