@@ -22,7 +22,7 @@ import {
 } from "@chakra-ui/react";
 import { updateItemList } from "../../services/ProfileProUtils";
 
-function ModalUpdateFamily({ oneFamily }) {
+function ModalUpdateFamily({ oneFamily, setUpdated, updated }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { freelancerId } = useParams();
   const toast = useToast();
@@ -85,6 +85,7 @@ function ModalUpdateFamily({ oneFamily }) {
           duration: 7000,
           isClosable: true,
         });
+        setUpdated(!updated);
       })
       .catch(() => {
         toast({
@@ -107,8 +108,19 @@ function ModalUpdateFamily({ oneFamily }) {
     setDisability(oneFamily.disabilityType);
     setInformation(oneFamily.complementary_info);
     setAddress(oneFamily.address);
-  }, [oneFamily]);
+  }, [isOpen]);
 
+  const handleClose = () => {
+    setLastname("");
+    setFirstname("");
+    setGuardian("");
+    setAddress("");
+    setPhoneNumber("");
+    setEmail("");
+    setDisability("");
+    setInformation("");
+    onClose();
+  };
   return (
     <>
       <Button
@@ -317,7 +329,7 @@ function ModalUpdateFamily({ oneFamily }) {
             <Button variant="solid_PrimaryColor" mr={3} onClick={handleSubmit}>
               Enregistrer
             </Button>
-            <Button variant="ghost" fontWeight="700" onClick={onClose}>
+            <Button variant="ghost" fontWeight="700" onClick={handleClose}>
               Annuler
             </Button>
           </ModalFooter>

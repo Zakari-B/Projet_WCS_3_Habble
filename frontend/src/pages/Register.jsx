@@ -35,7 +35,7 @@ export default function Register() {
           <Flex
             direction="column"
             bgColor="white"
-            w={{ sm: "95%", lg: "55%" }}
+            w={{ sm: "95%", lg: "65%" }}
             m="auto"
             alignItems="center"
             boxShadow="0px 1px 1px 0px rgb(185 184 184 / 75%)"
@@ -53,19 +53,20 @@ export default function Register() {
               wrap={{ base: "wrap", lg: "nowrap" }}
             >
               <VStack
-                w={{ sm: "100%", lg: "33%" }}
+                w={{ sm: "100%", lg: "30%" }}
+                // h="200px"
                 p="20px"
                 alignItems="center"
                 borderRight={{ base: "none", lg: "1px solid #eee" }}
                 borderBottom={{ base: "1px solid #eee", lg: "none" }}
+                justify="space-between"
               >
                 <Text color="#415161" fontWeight="700">
                   Une aide
                 </Text>
-                <Text color="#415161">
-                  Déposez une annonce, recevez des propositions personnalisées,
-                  discutez par messagerie privée des détails, choisissez le ou
-                  les professionnel(s), profitez !
+                <Text color="#415161" align="center">
+                  Déposez une annonce, recevez des propositions personnalisées
+                  choisissez le ou les professionnel(s), profitez !
                 </Text>
                 <Link to="/register/?role=employer">
                   <Button
@@ -78,8 +79,9 @@ export default function Register() {
                 </Link>
               </VStack>
               <VStack
-                w={{ sm: "100%", lg: "33%" }}
+                w={{ sm: "100%", lg: "30%" }}
                 p="20px"
+                // h="200px"
                 alignItems="center"
                 borderRight={{ base: "none", lg: "1px solid #eee" }}
                 borderBottom={{ base: "1px solid #eee", lg: "none" }}
@@ -87,7 +89,7 @@ export default function Register() {
                 <Text color="#415161" fontWeight="700">
                   A coordoner
                 </Text>
-                <Text color="#415161">
+                <Text color="#415161" align="center">
                   Vous êtes un service de répit? Coordoner vos intervenants,
                   gérez les missions et recevez des demandes.
                 </Text>
@@ -103,13 +105,14 @@ export default function Register() {
               </VStack>
               <VStack
                 p="20px"
-                w={{ sm: "100%", lg: "33%" }}
+                w={{ sm: "100%", lg: "30%" }}
+                // h="200px"
                 alignItems="center"
               >
                 <Text color="#415161" fontWeight="700">
                   Un job
                 </Text>
-                <Text color="#415161">
+                <Text color="#415161" align="center">
                   Créer un compte professionnel pour trouver des projets de
                   compensation du handicap intéressants et travailler
                 </Text>

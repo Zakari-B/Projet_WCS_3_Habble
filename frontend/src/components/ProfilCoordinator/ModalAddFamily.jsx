@@ -22,7 +22,7 @@ import {
 } from "@chakra-ui/react";
 import { addToList } from "../../services/ProfileProUtils";
 
-function ModalAddFamily() {
+function ModalAddFamily({ updated, setUpdated }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { freelancerId } = useParams();
   const toast = useToast();
@@ -85,6 +85,15 @@ function ModalAddFamily() {
           duration: 7000,
           isClosable: true,
         });
+        setLastname("");
+        setFirstname("");
+        setGuardian("");
+        setAddress("");
+        setPhoneNumber("");
+        setEmail("");
+        setDisability("");
+        setInformation("");
+        setUpdated(!updated);
       })
       .catch(() => {
         toast({
