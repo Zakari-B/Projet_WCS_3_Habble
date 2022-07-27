@@ -20,7 +20,7 @@ export default function AdminCard({ user, updated, setUpdated }) {
       <Button
         alignSelf="center"
         variant="solid_PrimaryColor"
-        onClick={unsetAdmin}
+        onClick={() => unsetAdmin()}
         h="1.1rem"
       >
         {" "}

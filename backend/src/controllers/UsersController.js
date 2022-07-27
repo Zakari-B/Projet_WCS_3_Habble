@@ -13,6 +13,11 @@ const token = require("../models/token");
 const { validateUser } = require("../utils/validate");
 const { sendMail } = require("../utils/mailer");
 const resetTemplateEnd = require("../templates/resetTemplateEnd");
+const {
+  findOneFreelancer,
+  getUserFromFreelancer,
+} = require("../models/freelancer");
+const { getUserFromCoordinator } = require("../models/coordinator");
 
 const createOne = async (req, res, next) => {
   const { firstname, lastname, email, password, role } = req.body;
@@ -233,6 +238,31 @@ const getUserWithRole = async (req, res) => {
   }
 };
 
+const getUserFromRole = async (req, res) => {
+  const { roleName, roleId } = req.body;
+  try {
+    if (roleName === "freelancer") {
+      const freelancerToCheck = await findOneFreelancer(roleId);
+      const userToGet = await getUserFromFreelancer(freelancerToCheck.userId);
+      delete userToGet.hashedPassword;
+      return res.status(200).json({ userToGet });
+    }
+    if (roleName === "coordinator") {
+      const coordinatorToCheck = await coordinator.findOneCoordinatorByUserId(
+        roleId
+      );
+      const userToGet = await getUserFromCoordinator(coordinatorToCheck.userId);
+      delete userToGet.hashedPassword;
+      return res.status(200).json({ userToGet });
+    }
+    return res.sendStatus(204);
+  } catch (e) {
+    return res
+      .status(500)
+      .json({ error: "Problème dans la requête à la base de données" });
+  }
+};
+
 module.exports = {
   createOne,
   login,
@@ -243,4 +273,5 @@ module.exports = {
   deleteOne,
   resetPassword,
   getUserWithRole,
+  getUserFromRole,
 };
