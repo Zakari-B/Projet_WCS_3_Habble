@@ -181,7 +181,7 @@ function EmployerSelect({ annonces }) {
                   .filter(
                     (opt) =>
                       (opt.title?.toLowerCase().includes(input) &&
-                        opt.fk_family_id.lastname.includes(familyName) &&
+                        opt.fk_family_id?.lastname.includes(familyName) &&
                         opt.status?.includes(option)) ||
                       (opt.fk_annonce_id?.title
                         ?.toLowerCase()
