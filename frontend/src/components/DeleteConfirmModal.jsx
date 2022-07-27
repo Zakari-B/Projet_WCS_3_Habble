@@ -12,7 +12,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import PropTypes from "prop-types";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 import { deleteItemList } from "../services/ProfileProUtils";
 
@@ -25,7 +25,6 @@ export default function DeleteConfirmModal({
   type,
 }) {
   const { freelancerId, employerId, coordinatorId } = useParams();
-  const navigate = useNavigate();
   const toast = useToast();
   return (
     <Modal size="xl" isOpen={isOpen} onClose={onClose}>
@@ -68,16 +67,23 @@ export default function DeleteConfirmModal({
             variant="solid_PrimaryColor"
             onClick={() => {
               if (freelancerId) {
-                deleteItemList("freelancers", type, freelancerId, item)
+                deleteItemList(
+                  "freelancers",
+                  type,
+                  parseInt(freelancerId, 10),
+                  parseInt(item.id, 10)
+                )
                   .then(() => {
                     toast({
-                      title: `${type} supprimés(es).es avec succès`,
+                      title: `${
+                        type[0].toUpperCase() + type.substring(1)
+                      } supprimé(e) avec succès`,
                       status: "success",
                       position: "bottom-right",
                       duration: 7000,
                       isClosable: true,
                     });
-                    navigate(`/profil/${freelancerId}`);
+                    setUpdated(!updated);
                   })
                   .catch((e) =>
                     toast({
@@ -92,13 +98,15 @@ export default function DeleteConfirmModal({
                 deleteItemList("employers", type, employerId, item)
                   .then(() => {
                     toast({
-                      title: `${type} supprimés(es).es avec succès`,
+                      title: `${
+                        type[0].toUpperCase() + type.substring(1)
+                      } supprimé(e) avec succès`,
                       status: "success",
                       position: "bottom-right",
                       duration: 7000,
                       isClosable: true,
                     });
-                    navigate(`/profil-employer/${employerId}`);
+                    setUpdated(!updated);
                   })
                   .catch((e) =>
                     toast({
@@ -113,13 +121,15 @@ export default function DeleteConfirmModal({
                 deleteItemList("coordinator", type, coordinatorId, item)
                   .then(() => {
                     toast({
-                      title: `${type} supprimés(es).es avec succès`,
+                      title: `${
+                        type[0].toUpperCase() + type.substring(1)
+                      } supprimé(e) avec succès`,
                       status: "success",
                       position: "bottom-right",
                       duration: 7000,
                       isClosable: true,
                     });
-                    navigate(`/profil-coordinator-freelancer/${coordinatorId}`);
+                    setUpdated(!updated);
                   })
                   .catch((e) =>
                     toast({
@@ -131,7 +141,6 @@ export default function DeleteConfirmModal({
                     })
                   );
               }
-              setUpdated(!updated);
               onClose();
             }}
           >

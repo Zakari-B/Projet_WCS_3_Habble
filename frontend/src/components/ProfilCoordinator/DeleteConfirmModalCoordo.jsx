@@ -66,17 +66,18 @@ export default function DeleteConfirmModalCoordo({
           <Button
             variant="solid_PrimaryColor"
             onClick={() => {
-              onClose();
               deleteItemList("coordinator", type, coordinatorId, item.id)
-                .then(() =>
+                .then(() => {
                   toast({
                     title: `${type} supprimés(es).es avec succès`,
                     status: "success",
                     position: "bottom-right",
                     duration: 7000,
                     isClosable: true,
-                  })
-                )
+                  });
+
+                  setUpdated(!updated);
+                })
                 .catch((e) =>
                   toast({
                     title: e.message,
@@ -86,7 +87,7 @@ export default function DeleteConfirmModalCoordo({
                     isClosable: true,
                   })
                 );
-              setUpdated(!updated);
+              onClose();
             }}
           >
             Confirmer

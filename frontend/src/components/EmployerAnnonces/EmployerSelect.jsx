@@ -36,11 +36,13 @@ function EmployerSelect({ annonces }) {
   const { employerId, coordinatorId, freelancerId } = useParams();
 
   useEffect(() => {
-    backendAPI
-      .get(`/api/coordinators/${coordinatorId}/familles`)
-      .then((res) => {
-        setFamilies(res.data);
-      });
+    if (coordinatorId) {
+      backendAPI
+        .get(`/api/coordinators/${coordinatorId}/familles`)
+        .then((res) => {
+          setFamilies(res.data);
+        });
+    }
   }, []);
 
   const handleFilter = (e) => {
@@ -121,7 +123,7 @@ function EmployerSelect({ annonces }) {
                 onChange={handleFilterFamily}
               >
                 {families.map((family) => (
-                  <option>{family.lastname}</option>
+                  <option>{family?.lastname}</option>
                 ))}
               </Select>
             </VStack>
@@ -181,7 +183,7 @@ function EmployerSelect({ annonces }) {
                   .filter(
                     (opt) =>
                       (opt.title?.toLowerCase().includes(input) &&
-                        opt.fk_family_id?.lastname.includes(familyName) &&
+                        opt.fk_family_id?.lastname?.includes(familyName) &&
                         opt.status?.includes(option)) ||
                       (opt.fk_annonce_id?.title
                         ?.toLowerCase()

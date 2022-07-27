@@ -32,6 +32,7 @@ import wheelchairTransport from "../assets/wheelchair_transport.svg";
 import reCouleur from "../assets/logo_horizontal_re_couleur_nord.png";
 import logoEvident from "../assets/logo-evident.png";
 import icone3Couleur from "../assets/icone3-couleur.png";
+import LogoCommunaute from "../assets/Logo_communaute.png";
 
 const slideIn = keyframes`0% {background-position: 0% 0%} 50% {background-position: 100% 0%} 100% {background-position: 0% 0%}`;
 
@@ -658,31 +659,65 @@ function ProAccueil() {
             </Flex>
           </Box>
         </Flex>
-        <Box marginBottom="3rem">
+        <Flex
+          flexDirection="column"
+          justifyContent="space-between"
+          h="fit-content"
+          textAlign="start"
+          w="80%"
+          m="auto"
+          mt="2rem"
+        >
           <Text
-            variant="titleH5"
-            marginTop="5rem"
-            marginBottom="6rem"
-            textAlign="center"
+            bgGradient="linear(45deg, #4d1582 0%, #a7197f 20%)"
+            bgClip="text"
+            textAlign="left"
+            fontSize="4xl"
+            mb="1rem"
+            fontWeight="semibold"
+            marginY="3rem"
           >
             Partenaires et Soutiens
           </Text>
           <Flex
             direction={{ base: "column", md: "row" }}
             align="center"
-            height="10rem"
             justify={{ base: "space-between", md: "space-around" }}
             marginLeft={{ md: "20%" }}
             marginRight={{ md: "20%" }}
           >
-            <Box boxSize="10rem">
-              <Image src={reCouleur} alt="Réseau Entreprendre" />
-            </Box>
-            <Box boxSize="10rem">
-              <Image src={logoEvident} alt="Evident" />
-            </Box>
+            <Flex
+              justifyContent="space-around"
+              alignSelf="center"
+              flexWrap="wrap"
+              w="90%"
+            >
+              <Image
+                src={logoEvident}
+                alt="logo evident"
+                w="200px"
+                m="1rem"
+                h="100px"
+                alignSelf="center"
+              />
+
+              <Image
+                alignSelf="center"
+                src={reCouleur}
+                alt="logo reseau entreprendre"
+                w="216px"
+                h="56px"
+                m="1rem"
+              />
+              <Image
+                src={LogoCommunaute}
+                alt="logo evident"
+                w="120px"
+                m="1rem"
+              />
+            </Flex>
           </Flex>
-        </Box>
+        </Flex>
       </Box>
       <Footer />
     </Box>

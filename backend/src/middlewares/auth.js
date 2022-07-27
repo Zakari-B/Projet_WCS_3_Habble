@@ -84,7 +84,7 @@ const adminAuth = async (req, res, next) => {
 const sessionControl = async (req, res) => {
   const authToken = req.cookies.userToken;
   if (!authToken) {
-    res.status(401).json({
+    return res.status(401).json({
       sessionExpired: true,
     });
   }
@@ -95,7 +95,7 @@ const sessionControl = async (req, res) => {
         sessionExpired: true,
       });
     }
-    res.status(200).json({
+    return res.status(200).json({
       sessionExpired: false,
       userId: data.payload.user.id,
       userRole: data.payload.user.role,
@@ -106,6 +106,7 @@ const sessionControl = async (req, res) => {
     });
   } catch (e) {
     console.warn(e);
+    return res.sendStatus(500);
   }
 };
 

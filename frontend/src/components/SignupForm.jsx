@@ -43,6 +43,9 @@ const signupForm = () => {
             title:
               "Une erreur est survenue lors de la création de votre compte.",
             status: "error",
+            description: `${error.response.data.details.map(
+              (err) => err.message
+            )}`,
             duration: 7000,
             position: "bottom-right",
             isClosable: true,
@@ -111,6 +114,7 @@ const signupForm = () => {
               toast({
                 title: "Une erreur est survenue lors de la connexion",
                 status: "error",
+                description: `${error.response.data.message}`,
                 duration: 7000,
                 position: "bottom-right",
                 isClosable: true,

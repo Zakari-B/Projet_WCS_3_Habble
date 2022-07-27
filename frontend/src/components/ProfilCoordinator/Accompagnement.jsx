@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import backendAPI from "../../services/backendAPI";
 import ModalAddFamily from "./ModalAddFamily";
 
-export default function Accompagnement() {
+export default function Accompagnement({ updated, setUpdated }) {
   const navigate = useNavigate();
   const { coordinatorId } = useParams();
 
@@ -15,7 +15,7 @@ export default function Accompagnement() {
       .get(`/api/coordinators/${coordinatorId}/familles`)
       .then((res) => setFamily(res.data))
       .catch((err) => console.warn(err));
-  }, []);
+  }, [updated]);
 
   return (
     <Flex
@@ -65,7 +65,7 @@ export default function Accompagnement() {
             })
           )}
         </VStack>
-        <ModalAddFamily />
+        <ModalAddFamily updated={updated} setUpdated={setUpdated} />
       </Flex>
     </Flex>
   );

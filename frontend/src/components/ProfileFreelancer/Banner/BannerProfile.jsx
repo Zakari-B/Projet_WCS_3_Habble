@@ -179,9 +179,9 @@ export default function BannerProfile({
                     isOpen={isOpen}
                     onClose={onClose}
                   />
-                  <Button marginTop="0.75rem" variant="outlineWhite">
+                  {/* <Button marginTop="0.75rem" variant="outlineWhite">
                     Voir mon profil en ligne
-                  </Button>
+                  </Button> */}
                 </>
               ) : null}
             </Flex>
@@ -203,7 +203,7 @@ export default function BannerProfile({
                 >
                   Modifier
                 </Button>
-                <Button variant="outlineWhite">Voir mon profil en ligne</Button>
+                {/* <Button variant="outlineWhite">Voir mon profil en ligne</Button> */}
               </>
             ) : null}
           </Flex>

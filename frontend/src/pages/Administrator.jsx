@@ -443,9 +443,9 @@ export default function Administrator() {
                   <Button marginTop="0.75rem" variant="solid_PrimaryColor">
                     Modifier
                   </Button>
-                  <Button marginTop="0.75rem" variant="outlineWhite">
+                  {/* <Button marginTop="0.75rem" variant="outlineWhite">
                     Voir mon profil en ligne
-                  </Button>
+                  </Button> */}
                 </Flex>
               </Flex>
 

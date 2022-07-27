@@ -14,7 +14,7 @@ import {
 } from "@chakra-ui/react";
 
 import { useState, useEffect } from "react";
-import { ChevronDownIcon } from "@chakra-ui/icons";
+import { ChevronDownIcon, LockIcon } from "@chakra-ui/icons";
 import PropTypes from "prop-types";
 import { BiLogOut, BiChat, BiUser } from "react-icons/bi";
 import { GrAnnounce } from "react-icons/gr";
@@ -28,8 +28,6 @@ export default function Header({
   onDark = false,
   isSticky = false,
   isStickyWhite = false,
-  // employer,
-  // freelancer,
 }) {
   const [scrollPosition, setScrollPosition] = useState(0);
   const [isSignUp, setIsSignUp] = useState(
@@ -39,7 +37,7 @@ export default function Header({
   const [freelancerPicture, setFreelancerPicture] = useState();
   const [employerPicture, setEmployerPicture] = useState();
   const [coordinatorPicture, setCoordinatorPicture] = useState();
-
+  const [isAdmin, setIsAdmin] = useState(false);
   const navigate = useNavigate();
 
   const logout = () => {
@@ -67,17 +65,26 @@ export default function Header({
           if (res.data.userRole === "freelancer") {
             backendAPI
               .get(`/api/freelancers/${res.data.roleId}`)
-              .then((response) => setFreelancerPicture(response.data.picture));
+              .then((response) => {
+                setIsAdmin(response.data.fk_user_id.isAdmin);
+                setFreelancerPicture(response.data.picture);
+              });
           }
           if (res.data.userRole === "employer") {
             backendAPI
               .get(`/api/employers/${res.data.roleId}`)
-              .then((response) => setEmployerPicture(response.data.picture));
+              .then((response) => {
+                setIsAdmin(response.data.fk_user_id.isAdmin);
+                setEmployerPicture(response.data.picture);
+              });
           }
           if (res.data.userRole === "coordinator") {
             backendAPI
               .get(`/api/coordinators/${res.data.roleId}`)
-              .then((response) => setCoordinatorPicture(response.data.picture));
+              .then((response) => {
+                setIsAdmin(response.data.fk_user_id.isAdmin);
+                setCoordinatorPicture(response.data.picture);
+              });
           }
         })
         .catch((err) => console.error(err));
@@ -252,13 +259,25 @@ export default function Header({
                 </MenuGroup>
 
                 <MenuDivider />
-                <MenuItem
-                  onClick={logout}
-                  color="pink.light"
-                  icon={<BiLogOut />}
-                >
-                  DÉCONNEXION
-                </MenuItem>
+                <MenuGroup title="Compte" color="purple.dark">
+                  {isAdmin && (
+                    <MenuItem
+                      icon={<LockIcon />}
+                      onClick={() => {
+                        navigate(`/habbleAdministrationPanel`);
+                      }}
+                    >
+                      CONSOLE ADMIN
+                    </MenuItem>
+                  )}
+                  <MenuItem
+                    onClick={logout}
+                    color="pink.light"
+                    icon={<BiLogOut />}
+                  >
+                    DÉCONNEXION
+                  </MenuItem>
+                </MenuGroup>
               </MenuList>
             </Menu>
           ) : (

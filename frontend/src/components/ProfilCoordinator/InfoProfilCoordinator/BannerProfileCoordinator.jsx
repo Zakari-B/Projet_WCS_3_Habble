@@ -24,6 +24,7 @@ export default function BannerProfileCoordinator({
 }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
+  const currentUrl = document.location.href;
 
   const updateCoordinator = (data) => {
     updateItem("coordinators", coordinator.id, data)
@@ -96,104 +97,80 @@ export default function BannerProfileCoordinator({
         </Flex>
       ) : null}
 
-      <Flex bgColor="purple.average" minH="60%" p="10px" flexDir="column">
-        <Flex flexDir={{ base: "column", md: "row" }}>
+      <Flex
+        bgColor="purple.average"
+        minH="60%"
+        p="10px"
+        flexDir="column"
+        alignItems="center"
+        justify={{ base: "center", md: "center" }}
+      >
+        <Flex
+          flexDir={{ base: "column", md: "row" }}
+          w="100%"
+          justify="space-between"
+        >
           <Flex
-            my="2rem"
-            minW="250px"
-            w={{ base: "100%", md: "15%" }}
-            alignItems="center"
-            justifyContent="center"
+            gap={{ base: "0px", md: "50px" }}
+            direction={{ base: "column", md: "row" }}
           >
-            <Image
-              src={
-                coordinator.picture
-                  ? `${import.meta.env.VITE_BACKEND_URL}/uploads/${
-                      coordinator.picture
-                    }`
-                  : "https://secure.gravatar.com/avatar/c308ee24184a32cdf10650eb7e311157?s=125&d=mm&r=G"
-              }
-              height="200px"
-              width="200px"
-              borderRadius="100%"
-              border="1px solid gray.200"
-            />
-          </Flex>
-          <Flex
-            direction="column"
-            w={{ base: "95%", md: "40%" }}
-            margin="auto 0"
-          >
-            <Text
-              fontSize="2rem"
-              fontWeight="700"
-              color="white"
-              textAlign={{ base: "center", md: "left" }}
-            >
-              {coordinator.displayName}
-            </Text>
-            <Text
-              fontSize="1.2rem"
-              fontWeight="700"
-              color="white"
-              marginBottom="1rem"
-              textAlign={{ base: "center", md: "left" }}
-            >
-              {`${coordinator.activityDescription} à ${city?.ville_nom} (${city?.ville_departement})`}
-            </Text>
-            <Text
-              color="white"
-              marginBottom="1.2rem"
-              textAlign={{ base: "center", md: "left" }}
-            >
-              Membre depuis le{" "}
-              {dateFormat(coordinator.dateCreated, "dd/mm/yyyy")}
-            </Text>
             <Flex
-              direction={{ base: "column", sm: "row" }}
-              p="0.75rem"
-              gap={5}
-              margin="auto"
-              w="auto"
-              display={{ base: "flex", md: "none" }}
+              my="1rem"
+              minW="250px"
+              w={{ base: "100%", md: "15%" }}
+              alignItems="center"
+              justifyContent="center"
+              width="inherit"
             >
-              {loggedUser.userId === coordinator.userId ? (
-                <>
-                  <Button
-                    marginTop="0.75rem"
-                    variant="solid_PrimaryColor"
-                    onClick={onOpen}
-                  >
-                    Modifier
-                  </Button>
-
-                  <ModalAccountFormCoordinator
-                    updated={updated}
-                    setUpdated={setUpdated}
-                    city={city}
-                    onOpen={onOpen}
-                    isOpen={
-                      coordinator.activityDescription === "" ? true : isOpen
-                    }
-                    onClose={onClose}
-                    coordinator={coordinator}
-                  />
-                  <Link to={`/profil-coordinator-freelancer/${coordinator.id}`}>
-                    <Button marginTop="0.75rem" variant="outlineWhite">
-                      Voir mon profil professionnel
-                    </Button>
-                  </Link>
-                </>
-              ) : null}
+              <Image
+                src={
+                  coordinator.picture
+                    ? `${import.meta.env.VITE_BACKEND_URL}/uploads/${
+                        coordinator.picture
+                      }`
+                    : "https://secure.gravatar.com/avatar/c308ee24184a32cdf10650eb7e311157?s=125&d=mm&r=G"
+                }
+                height="200px"
+                width="200px"
+                borderRadius="100%"
+                border="1px solid gray.200"
+              />
+            </Flex>
+            <Flex direction="column" w="100%" margin="auto 0">
+              <Text
+                fontSize="2rem"
+                fontWeight="700"
+                color="white"
+                textAlign={{ base: "center", md: "left" }}
+              >
+                {coordinator.displayName}
+              </Text>
+              <Text
+                fontSize="1.2rem"
+                fontWeight="700"
+                color="white"
+                marginBottom="1rem"
+                textAlign={{ base: "center", md: "left" }}
+              >
+                {`${coordinator.activityDescription} à ${city?.ville_nom} (${city?.ville_departement})`}
+              </Text>
+              <Text
+                color="white"
+                marginBottom="1.2rem"
+                textAlign={{ base: "center", md: "left" }}
+              >
+                Membre depuis le{" "}
+                {dateFormat(coordinator.dateCreated, "dd/mm/yyyy")}
+              </Text>
             </Flex>
           </Flex>
           <Flex
             direction="column"
+            alignItems="center"
             p="0.75rem"
-            gap={5}
-            margin="0 0 0 auto"
+            gap={1}
             w="auto"
-            display={{ base: "none", md: "flex" }}
+            alignSelf={{ base: "center", md: "flex-start" }}
           >
             {loggedUser.userId === coordinator.userId ? (
               <>
@@ -201,14 +178,47 @@ export default function BannerProfileCoordinator({
                   marginTop="0.75rem"
                   variant="solid_PrimaryColor"
                   onClick={onOpen}
+                  w="-webkit-fill-available"
                 >
                   Modifier
                 </Button>
-                <Link to={`/profil-coordinator-freelancer/${coordinator.id}`}>
-                  <Button variant="outlineWhite">
-                    Voir mon profil professionnel
+                <ModalAccountFormCoordinator
+                  isOpen={isOpen}
+                  onClose={onClose}
+                  coordinator={coordinator}
+                  updated={updated}
+                  setUpdated={setUpdated}
+                />
+                {currentUrl ===
+                  `${import.meta.env.VITE_FRONTEND_URL}/profil-coordinator/${
+                    coordinator.id
+                  }` && (
+                  <Button
+                    marginTop="0.75rem"
+                    colorScheme="teal"
+                    w="-webkit-fill-available"
+                  >
+                    <Link
+                      to={`/profil-coordinator-freelancer/${coordinator.id}`}
+                    >
+                      Voir profil professionnel
+                    </Link>
                   </Button>
-                </Link>
+                )}
+                {currentUrl !==
+                  `${import.meta.env.VITE_FRONTEND_URL}/profil-coordinator/${
+                    coordinator.id
+                  }` && (
+                  <Button
+                    marginTop="0.75rem"
+                    colorScheme="purple"
+                    w="-webkit-fill-available"
+                  >
+                    <Link to={`/profil-coordinator/${coordinator.id}`}>
+                      Voir profil coordinateur
+                    </Link>
+                  </Button>
+                )}
               </>
             ) : null}
           </Flex>

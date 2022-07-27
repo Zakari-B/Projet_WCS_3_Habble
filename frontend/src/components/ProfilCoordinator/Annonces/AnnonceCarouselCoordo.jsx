@@ -4,20 +4,10 @@ import { useNavigate, useParams } from "react-router-dom";
 import AnnonceCardCoordo from "./AnnonceCardCoordo";
 import backendAPI from "../../../services/backendAPI";
 
-export default function AnnonceCarouselCoordo(updated, setUpdated) {
+export default function AnnonceCarouselCoordo({ updated, setUpdated }) {
   const { coordinatorId } = useParams();
   const navigate = useNavigate();
   const [announcements, setAnnouncements] = useState([]);
-
-  const getannouncements = () => {
-    backendAPI
-      .get(`/api/coordinator/${coordinatorId}/annonces`)
-      .then((response) => {
-        if (response.data !== "Il n'y a pas encore d'activité") {
-          setAnnouncements(response.data);
-        }
-      });
-  };
 
   const postAnnonce = () => {
     backendAPI
@@ -29,6 +19,7 @@ export default function AnnonceCarouselCoordo(updated, setUpdated) {
         price: 0,
         status: "Brouillon",
       })
+
       .then((response) => {
         backendAPI.put(
           `/api/coordinator/${coordinatorId}/annonce/${response.data.id}`,
@@ -45,8 +36,12 @@ export default function AnnonceCarouselCoordo(updated, setUpdated) {
   };
 
   useEffect(() => {
-    getannouncements();
-  }, []);
+    backendAPI
+      .get(`/api/coordinator/${coordinatorId}/annonces`)
+      .then((response) => {
+        setAnnouncements(response.data);
+      });
+  }, [updated]);
 
   return (
     <Flex

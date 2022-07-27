@@ -7,6 +7,7 @@ export default function Footer() {
     <Flex
       bgColor="purple.average"
       p="20px"
+      marginBottom="0px"
       justify="center"
       wrap={{ lg: "wrap", "2xl": "nowrap" }}
     >

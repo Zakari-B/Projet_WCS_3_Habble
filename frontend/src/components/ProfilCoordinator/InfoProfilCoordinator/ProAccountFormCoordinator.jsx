@@ -42,6 +42,8 @@ export default function ProAccountFormCoordinator({
   onModal = false,
   onClose,
   coordinator,
+  updated,
+  setUpdated,
 }) {
   const toast = useToast();
   const navigate = useNavigate();
@@ -97,8 +99,9 @@ export default function ProAccountFormCoordinator({
     setSiretPro(coordinator.siret);
     setExperienceYearPro(coordinator.experienceYear);
     setPricePro(coordinator.price);
+
     backendAPI
-      .get(`/api/coordinators/${coordinator.id}/city`)
+      .get(`/api/coordinators/${coordinatorId}/city`)
       .then((response) => {
         setCityPro(response.data[0].zipCode);
         setCityProName(response.data[0].ville_nom);
@@ -139,7 +142,7 @@ export default function ProAccountFormCoordinator({
         setDescriptionPro(
           response.data.coordinator.description === "undefined"
             ? ""
-            : response.data.freelcoordinatorancer.description
+            : response.data.coordinator.description
         );
         setAcceptEmailPro(response.data.coordinator.acceptEmail);
         setSiretPro(response.data.coordinator.siret);
@@ -154,7 +157,7 @@ export default function ProAccountFormCoordinator({
 
   useEffect(() => {
     getOneUser();
-  }, []);
+  }, [updated]);
 
   // Appel axios pour mettre à jour le coordinateur avec ses informations
 
@@ -190,6 +193,7 @@ export default function ProAccountFormCoordinator({
           } else {
             onClose();
           }
+          setUpdated(!updated);
         }
       })
       .catch((error) => {
@@ -231,6 +235,7 @@ export default function ProAccountFormCoordinator({
             isClosable: true,
           });
         }
+        setUpdated(!updated);
         navigate("/logout");
       });
   };
@@ -462,7 +467,11 @@ export default function ProAccountFormCoordinator({
                 />
               </VStack>
             </FormControl>
-            <PictureProfilCoordinator coordinator={coordinatorPicture} />
+            <PictureProfilCoordinator
+              coordinator={coordinatorPicture}
+              updated={updated}
+              setUpdated={setUpdated}
+            />
           </Flex>
           <FormControl>
             <FormLabel
