@@ -12,7 +12,7 @@ import ExperienceCarousel from "../components/ProfileFreelancer/Experience/Exper
 import Expertises from "../components/ProfileFreelancer/Expertises/Expertises";
 import Verifications from "../components/ProfileFreelancer/Verifications";
 import Tarif from "../components/ProfileFreelancer/Tarif";
-import MissionCarousel from "../components/ProfileFreelancer/Mission/MissionCarousel";
+// import MissionCarousel from "../components/ProfileFreelancer/Mission/MissionCarousel";
 import { getListforAnId, getSubListforAnId } from "../services/ProfileProUtils";
 import backendAPI from "../services/backendAPI";
 
@@ -141,7 +141,7 @@ export default function ProfilPageProfessional() {
               freelancer={freelancer}
               loggedUser={loggedUser}
             />
-            <MissionCarousel freelancer={freelancer} loggedUser={loggedUser} />
+            {/* <MissionCarousel freelancer={freelancer} loggedUser={loggedUser} /> */}
           </Flex>
         </Flex>
       </Flex>
