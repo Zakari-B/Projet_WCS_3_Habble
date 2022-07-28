@@ -51,7 +51,7 @@ export default function Administrator() {
 
   useEffect(() => {
     backendAPI.get("/api/users").then((res) => setUserList(res.data));
-  }, [updated, userList, selectedUser]);
+  }, [updated, selectedUser]);
 
   useEffect(() => {
     backendAPI

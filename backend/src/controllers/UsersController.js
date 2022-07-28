@@ -176,10 +176,9 @@ const deleteOne = async (req, res) => {
   const result = await user.deleteOne(userId);
   if (result) {
     delete result.hashedPassword;
-    res.status(200).json({ "Utilisateur supprimé :": { result } });
-  } else {
-    res.status(404).json({ Erreur: "L'utilisateur n'existe pas" });
+    return res.status(200).json({ "Utilisateur supprimé :": { result } });
   }
+  return res.status(404).json({ Erreur: "L'utilisateur n'existe pas" });
 };
 
 const resetPassword = async (req, res) => {
