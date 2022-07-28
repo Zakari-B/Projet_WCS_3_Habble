@@ -1,20 +1,12 @@
 import { useState, useEffect } from "react";
 
-import {
-  Flex,
-  Heading,
-  ListItem,
-  Text,
-  List,
-  Button,
-  Tag,
-} from "@chakra-ui/react";
+import { Flex, Heading, ListItem, Text, List, Tag } from "@chakra-ui/react";
 
 import { CheckIcon, CloseIcon } from "@chakra-ui/icons";
 
 import backendAPI from "../../services/backendAPI";
 
-export default function Verifications({ freelancer, loggedUser }) {
+export default function Verifications({ freelancer }) {
   const [itemList, setItemList] = useState([]);
   const [profileStatus, setProfileStatus] = useState({
     cni: false,
@@ -136,11 +128,6 @@ export default function Verifications({ freelancer, loggedUser }) {
             </ListItem>
           ))}
         </List>
-        {loggedUser.userId === freelancer.userId ? (
-          <Button marginTop="2rem" variant="solid_gradient">
-            Demander une vérification
-          </Button>
-        ) : null}
       </Flex>
     </Flex>
   );
