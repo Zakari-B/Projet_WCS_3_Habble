@@ -11,7 +11,12 @@ import {
 import PropTypes from "prop-types";
 import ProAccountForm from "../../ProAccountForm/ProAccountForm";
 
-export default function ModalAccountForm({ isOpen, onClose }) {
+export default function ModalAccountForm({
+  isOpen,
+  onClose,
+  updated,
+  setUpdated,
+}) {
   return (
     <Modal isOpen={isOpen} onClose={onClose} size="full">
       <ModalOverlay />
@@ -19,7 +24,12 @@ export default function ModalAccountForm({ isOpen, onClose }) {
         <ModalHeader>Modifier mes informations</ModalHeader>
         <ModalCloseButton />
         <ModalBody maxW="100%">
-          <ProAccountForm onClose={onClose} onModal />
+          <ProAccountForm
+            onClose={onClose}
+            onModal
+            updated={updated}
+            setUpdated={setUpdated}
+          />
         </ModalBody>
       </ModalContent>
     </Modal>

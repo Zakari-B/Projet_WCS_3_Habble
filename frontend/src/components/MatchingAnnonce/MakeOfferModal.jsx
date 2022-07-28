@@ -26,7 +26,12 @@ import {
 import PropTypes from "prop-types";
 import { addToSubList } from "../../services/ProfileProUtils";
 
-export default function MakeOfferModal({ isOpen, onClose }) {
+export default function MakeOfferModal({
+  isOpen,
+  onClose,
+  updated,
+  setUpdated,
+}) {
   const [price, setPrice] = useState("");
   const [time, setTime] = useState("");
   const [periodicity, setPeriodicity] = useState("");
@@ -61,19 +66,21 @@ export default function MakeOfferModal({ isOpen, onClose }) {
       availableIn: `${time} ${periodicity}`,
       description,
     })
-      .then(() =>
+      .then(() => {
+        setUpdated(!updated);
         toast({
           title: "Votre Proposition a bien été envoyée",
           status: "success",
           position: "bottom-right",
           duration: 7000,
           isClosable: true,
-        })
-      )
-      .catch(() =>
+        });
+      })
+      .catch((error) =>
         toast({
           title: "Votre proposition n'a pas pu être envoyée",
           status: "error",
+          description: `${error.response.data.map((err) => err.message)}`,
           position: "bottom-right",
           duration: 7000,
           isClosable: true,

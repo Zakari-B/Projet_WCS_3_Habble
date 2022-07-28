@@ -34,23 +34,28 @@ export default function PictureProfilCoordinator({
 
     formData.append("file", pictureCoordinator[0]);
 
-    backendAPI.put(
-      `/api/coordinators/${parseInt(coordinatorId, 10)}/picture`,
-      formData,
-      {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      }
-    );
-    onClose();
-    setUpdated(!updated);
+    backendAPI
+      .put(
+        `/api/coordinators/${parseInt(coordinatorId, 10)}/picture`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      )
+      .then(() => {
+        setUpdated(!updated);
+        onClose();
+      });
   };
 
   const handleRemovePicture = () => {
-    backendAPI.put(
-      `/api/coordinators/${parseInt(coordinatorId, 10)}/removedPicture`
-    );
+    backendAPI
+      .put(`/api/coordinators/${parseInt(coordinatorId, 10)}/removedPicture`)
+      .then(() => {
+        setUpdated(!updated);
+      });
   };
 
   return (

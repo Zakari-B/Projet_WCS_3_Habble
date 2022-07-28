@@ -80,15 +80,16 @@ export default function DiplomeForm({ updated, setUpdated }) {
         yearDelivered,
         description,
       })
-        .then(() =>
+        .then(() => {
+          setUpdated(!updated);
           toast({
             title: "Votre diplôme a bien été ajouté",
             status: "success",
             position: "bottom-right",
             duration: 7000,
             isClosable: true,
-          })
-        )
+          });
+        })
         .catch(() =>
           toast({
             title: "Votre diplôme n'a pas pu être ajouté",
@@ -107,15 +108,17 @@ export default function DiplomeForm({ updated, setUpdated }) {
         yearDelivered,
         description,
       })
-        .then(() =>
+        .then(() => {
+          setUpdated(!updated);
+
           toast({
             title: "Votre diplôme a bien été ajouté",
             status: "success",
             position: "bottom-right",
             duration: 7000,
             isClosable: true,
-          })
-        )
+          });
+        })
         .catch(() =>
           toast({
             title: "Votre diplôme n'a pas pu être ajouté",
@@ -129,7 +132,6 @@ export default function DiplomeForm({ updated, setUpdated }) {
 
     handleReset();
     setIsVisible(false);
-    setUpdated(!updated);
   };
 
   const handleUpdate = (event) => {
@@ -148,15 +150,16 @@ export default function DiplomeForm({ updated, setUpdated }) {
           description,
         }
       )
-        .then(() =>
+        .then(() => {
+          setUpdated(!updated);
           toast({
             title: "Votre diplôme a bien été modifié",
             status: "success",
             position: "bottom-right",
             duration: 7000,
             isClosable: true,
-          })
-        )
+          });
+        })
         .catch(() =>
           toast({
             title: "Votre diplôme n'a pas pu être modifié",
@@ -181,15 +184,16 @@ export default function DiplomeForm({ updated, setUpdated }) {
           description,
         }
       )
-        .then(() =>
+        .then(() => {
+          setUpdated(!updated);
           toast({
             title: "Votre diplôme a bien été modifié",
             status: "success",
             position: "bottom-right",
             duration: 7000,
             isClosable: true,
-          })
-        )
+          });
+        })
         .catch(() =>
           toast({
             title: "Votre diplôme n'a pas pu être modifié",
@@ -203,7 +207,6 @@ export default function DiplomeForm({ updated, setUpdated }) {
 
     handleReset();
     setIsVisible(false);
-    setUpdated(!updated);
   };
 
   useEffect(() => {

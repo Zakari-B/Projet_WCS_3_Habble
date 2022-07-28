@@ -6,6 +6,7 @@ import {
   Tag,
   IconButton,
   Divider,
+  useToast,
   useDisclosure,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
@@ -19,7 +20,7 @@ import {
   getSubListforAnId,
 } from "../../services/ProfileProUtils";
 
-export default function AnnonceRecap({ annonce, offers }) {
+export default function AnnonceRecap({ annonce, offers, updated, setUpdated }) {
   let tagColor = "";
   if (annonce.status === "Brouillon") {
     tagColor = "gray";
@@ -34,6 +35,7 @@ export default function AnnonceRecap({ annonce, offers }) {
   const { id } = useParams();
   const [services, setServices] = useState([]);
   const [cityAnnonce, setCityAnnonce] = useState({});
+  const toast = useToast();
 
   const { isOpen, onOpen, onClose } = useDisclosure();
   const {
@@ -42,19 +44,29 @@ export default function AnnonceRecap({ annonce, offers }) {
     onClose: onDeleteClose,
   } = useDisclosure();
 
-  const currentFreeOffer = offers.filter(
+  const currentFreeOffer = offers?.filter(
     (offer) => offer.freelancerId === parseInt(freelancerId, 10)
   );
 
   const role = localStorage.getItem("role");
-
   const handleDelete = () => {
     deleteItemList(
       "freelancers",
       "offers",
       freelancerId,
       currentFreeOffer[0].id
-    );
+    )
+      .then(() => {
+        setUpdated(!updated);
+        toast({
+          title: "Votre Proposition a bien été retirée",
+          status: "success",
+          position: "bottom-right",
+          duration: 7000,
+          isClosable: true,
+        });
+      })
+      .finally(window.location.reload());
   };
 
   useEffect(() => {
@@ -123,7 +135,7 @@ export default function AnnonceRecap({ annonce, offers }) {
                   fontWeight="700"
                   fontSize="14px"
                 >
-                  {offers.length}
+                  {offers?.length}
                 </Text>
               </Flex>
               <Flex direction="column" gap="3px">
@@ -236,21 +248,29 @@ export default function AnnonceRecap({ annonce, offers }) {
             onOpen={onDeleteOpen}
             isOpen={isDeleteOpen}
             onClose={onDeleteClose}
+            updated={updated}
+            setUpdated={setUpdated}
             type="annonce"
-            item={parseInt(id, 10)}
+            item={annonce}
           />
-          {role === "freelancer" && currentFreeOffer.length === 0 && (
+          {role === "freelancer" && currentFreeOffer?.length === 0 && (
             <Button variant="solid_PrimaryColor" onClick={onOpen}>
               Faire une Proposition
             </Button>
           )}
-          {role === "freelancer" && currentFreeOffer.length !== 0 && (
+          {role === "freelancer" && currentFreeOffer?.length !== 0 && (
             <Button variant="solid_PrimaryColor" onClick={handleDelete}>
               Retirer ma Proposition
             </Button>
           )}
         </Flex>
-        <MakeOfferModal isOpen={isOpen} onOpen={onOpen} onClose={onClose} />
+        <MakeOfferModal
+          isOpen={isOpen}
+          onOpen={onOpen}
+          onClose={onClose}
+          updated={updated}
+          setUpdated={setUpdated}
+        />
       </Flex>
     </Flex>
   );

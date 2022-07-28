@@ -86,6 +86,7 @@ exports.getAllFreelancersProfileInfo = async (freelancerid) => {
             dateCreated: "desc",
           },
         },
+        fk_user_id: { select: { isAdmin: true } },
       },
     });
   } finally {

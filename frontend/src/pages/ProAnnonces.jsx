@@ -42,7 +42,7 @@ function ProAnnonces() {
 
   const currentAnnonces = annonces.filter(
     (annonce) =>
-      (annonce.status !== "Finie" && annonce.status !== "Brouillon") ||
+      (annonce?.status !== "Finie" && annonce?.status !== "Brouillon") ||
       (annonce.fk_annonce_id?.status !== "Finie" &&
         annonce.fk_annonce_id?.status !== "Brouillon")
   );

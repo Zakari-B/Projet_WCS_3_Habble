@@ -37,7 +37,12 @@ import Expertises from "./Expertises";
 import PictureProfilePro from "./PictureProfilPro";
 import backendAPI from "../../services/backendAPI";
 
-export default function ProAccountForm({ onModal = false, onClose }) {
+export default function ProAccountForm({
+  onModal = false,
+  onClose,
+  updated,
+  setUpdated,
+}) {
   const navigate = useNavigate();
   const toast = useToast();
   const { freelancerId } = useParams();
@@ -88,7 +93,7 @@ export default function ProAccountForm({ onModal = false, onClose }) {
   const getOneUser = () => {
     backendAPI.get(`/api/freelancers/${freelancerId}/user`).then((response) => {
       setUser(response.data);
-      setFreelancerPicture(response.data.freelancer.picture);
+      setFreelancerPicture(response.data.freelancer?.picture);
       setDisplayName(
         response.data.freelancer.displayName === "undefined"
           ? ""
@@ -126,7 +131,7 @@ export default function ProAccountForm({ onModal = false, onClose }) {
 
   useEffect(() => {
     getOneUser();
-  }, []);
+  }, [updated]);
 
   // Appel axios pour mettre à jour le freelancer avec ses informations et le user associé si profil complet
 
@@ -162,6 +167,7 @@ export default function ProAccountForm({ onModal = false, onClose }) {
           } else {
             onClose();
           }
+          setUpdated(!updated);
         }
       })
       .catch((e) => {
@@ -214,6 +220,7 @@ export default function ProAccountForm({ onModal = false, onClose }) {
             isClosable: true,
           });
         }
+        setUpdated(!updated);
         navigate("/logout");
       });
   };
@@ -443,7 +450,11 @@ export default function ProAccountForm({ onModal = false, onClose }) {
                 />
               </VStack>
             </FormControl>
-            <PictureProfilePro freelancerPicture={freelancerPicture} />
+            <PictureProfilePro
+              freelancerPicture={freelancerPicture}
+              updated={updated}
+              setUpdated={setUpdated}
+            />
           </Flex>
           <FormControl>
             <Flex direction="column" rowGap="5" mt="1rem">

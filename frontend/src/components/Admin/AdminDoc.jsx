@@ -28,18 +28,15 @@ export default function AdminDoc({
   const [documentState, setDocumentState] = useState(false);
 
   const handleVerif = () => {
+    backendAPI.post(`/api/users/${data.freelancerId}/verify/${data.id}`, {
+      verified: !documentState,
+    });
     setDocumentState(!documentState);
   };
 
   useEffect(() => {
     setDocumentState(data.verified);
   }, []);
-
-  useEffect(() => {
-    backendAPI.post(`/api/users/${data.freelancerId}/verify/${data.id}`, {
-      verified: documentState,
-    });
-  }, [documentState]);
 
   return (
     <>

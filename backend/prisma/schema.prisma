@@ -50,16 +50,17 @@ model freelancer {
 }
 
 model employer {
-  id          Int       @id @default(autoincrement())
-  displayName String    @db.VarChar(100)
-  userId      Int       @unique
-  picture     String    @db.VarChar(1000)
-  dateCreated DateTime  @default(now()) @db.Timestamp(0)
-  available   Boolean   @default(false)
-  description String    @db.VarChar(1000)
-  phone       String?   @db.VarChar(30)
-  fk_user_id  user      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  annonce     annonce[]
+  id          Int      @id @default(autoincrement())
+  displayName String   @db.VarChar(100)
+  userId      Int      @unique
+  picture     String   @db.VarChar(1000)
+  dateCreated DateTime @default(now()) @db.Timestamp(0)
+  available   Boolean  @default(false)
+  description String   @db.VarChar(1000)
+  phone       String?  @db.VarChar(30)
+  fk_user_id  user     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  annonce annonce[]
 }
 
 model coordinator {
@@ -241,8 +242,6 @@ model diplomes {
   dateCreated    DateTime   @default(now()) @db.Timestamp(0)
   fk_id          freelancer @relation(fields: [freelancerId], references: [id], onDelete: Cascade)
 
-
-
   @@index([freelancerId], map: "diplomes_freelancerId_fkey")
 }
 
@@ -256,7 +255,6 @@ model diplomes_coordinator {
   coordinatorId     Int
   dateCreated       DateTime    @default(now()) @db.Timestamp(0)
   fk_coordinator_id coordinator @relation(fields: [coordinatorId], references: [id], onDelete: Cascade)
-
 
   @@index([coordinatorId], map: "diplomes_coordinator_coordinatorId_fkey")
 }
@@ -380,7 +378,7 @@ model family {
   disabilityType     String      @db.VarChar(100)
   complementary_info String      @db.Text
   coordinatorId      Int
-  coordinator        coordinator @relation(fields: [coordinatorId], references: [id])
+  coordinator        coordinator @relation(fields: [coordinatorId], references: [id], onDelete: Cascade)
   annonce            annonce[]
   documents          documents[]
 }

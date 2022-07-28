@@ -12,7 +12,7 @@ import ExperienceCarousel from "../components/ProfileFreelancer/Experience/Exper
 import Verifications from "../components/ProfileFreelancer/Verifications";
 import Tarif from "../components/ProfileFreelancer/Tarif";
 import Expertises from "../components/ProfileFreelancer/Expertises/Expertises";
-import MissionCarousel from "../components/ProfileFreelancer/Mission/MissionCarousel";
+// import MissionCarousel from "../components/ProfileFreelancer/Mission/MissionCarousel";
 import { getListforAnId, getSubListforAnId } from "../services/ProfileProUtils";
 import backendAPI from "../services/backendAPI";
 
@@ -73,7 +73,7 @@ export default function ProfilPageProfessionalCoord() {
 
   return (
     <Box h="100vh">
-      <Header onDark={false} isSticky={false} isStickyWhite />
+      <Header onDark={false} isSticky={false} isStickyWhite updated={updated} />
       <Flex
         bgColor="background.gray"
         direction="column"
@@ -105,7 +105,7 @@ export default function ProfilPageProfessionalCoord() {
             {loggedUser.userId === coordinator.userId ? (
               <AccountCard user={coordoUser} />
             ) : null}
-            <Verifications freelancer={coordinator} loggedUser={loggedUser} />
+            <Verifications freelancer={coordinator} />
             <Expertises freelancer={coordinator} />
             <Tarif freelancer={coordinator} />
           </Flex>
@@ -143,7 +143,7 @@ export default function ProfilPageProfessionalCoord() {
               freelancer={coordinator}
               loggedUser={loggedUser}
             />
-            <MissionCarousel freelancer={coordinator} loggedUser={loggedUser} />
+            {/* <MissionCarousel freelancer={coordinator} loggedUser={loggedUser} /> */}
           </Flex>
         </Flex>
       </Flex>

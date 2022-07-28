@@ -9,6 +9,7 @@ const {
   getOneDocumentByCoordinatorIdAndFamilyId,
   deleteOneDocument,
   verifyOneDocument,
+  getAllDocs,
 } = require("../models/documents");
 
 const getAll = async (req, res) => {
@@ -18,6 +19,16 @@ const getAll = async (req, res) => {
   }
   try {
     const docList = await getAllDocumentsByFreelancerId(freelancerId);
+    return res.status(200).send(docList);
+  } catch (e) {
+    console.error(e);
+    return res.status(500).json({ error: "Problème de lecture des documents" });
+  }
+};
+
+const adminGetAll = async (req, res) => {
+  try {
+    const docList = await getAllDocs();
     return res.status(200).send(docList);
   } catch (e) {
     console.error(e);
@@ -150,6 +161,7 @@ const verify = async (req, res) => {
 
 module.exports = {
   getAll,
+  adminGetAll,
   getAllByCoordinatorId,
   getAllByFamilyId,
   deleteOne,

@@ -16,6 +16,7 @@ exports.findOneEmployer = async (employerId) => {
   try {
     return await prisma.employer.findUnique({
       where: { id: employerId },
+      include: { fk_user_id: { select: { isAdmin: true } } },
     });
   } finally {
     await prisma.$disconnect();
