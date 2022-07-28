@@ -5,8 +5,8 @@ import {
   FormControl,
   Switch,
   FormLabel,
-  Image,
   useDisclosure,
+  Box,
   useToast,
 } from "@chakra-ui/react";
 import dateFormat from "dateformat";
@@ -103,18 +103,22 @@ export default function BannerProfile({
             alignItems="center"
             justifyContent="center"
           >
-            <Image
-              src={
+            <Box
+              height="200px"
+              width="200px"
+              bgSize="contain"
+              bgRepeat="no-repeat"
+              bgColor="white"
+              borderRadius="100%"
+              border="1px solid gray.200"
+              bgPosition="center"
+              bgImage={
                 freelancer.picture
                   ? `${import.meta.env.VITE_BACKEND_URL}/uploads/${
                       freelancer.picture
                     }`
                   : "https://secure.gravatar.com/avatar/c308ee24184a32cdf10650eb7e311157?s=125&d=mm&r=G"
               }
-              height="200px"
-              width="200px"
-              borderRadius="100%"
-              border="1px solid gray.200"
             />
           </Flex>
           <Flex
@@ -178,10 +182,9 @@ export default function BannerProfile({
                     onOpen={onOpen}
                     isOpen={isOpen}
                     onClose={onClose}
+                    updated={updated}
+                    setUpdated={setUpdated}
                   />
-                  {/* <Button marginTop="0.75rem" variant="outlineWhite">
-                    Voir mon profil en ligne
-                  </Button> */}
                 </>
               ) : null}
             </Flex>

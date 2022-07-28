@@ -117,7 +117,7 @@ export default function ProAccountFormCoordinator({
       .get(`/api/coordinator/${coordinatorId}/user`)
       .then((response) => {
         setUser(response.data);
-        setCoordinatorPicture(response.data.coordinator.picture);
+        setCoordinatorPicture(response.data.coordinator?.picture);
         setDisplayName(
           response.data.coordinator.displayName === "undefined"
             ? ""

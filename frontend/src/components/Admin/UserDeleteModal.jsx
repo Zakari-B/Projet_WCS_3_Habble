@@ -66,7 +66,6 @@ export default function UserDeleteModal({
           <Button
             variant="solid_PrimaryColor"
             onClick={() => {
-              onClose();
               backendAPI
                 .delete(`api/users/${userId}`)
                 .then(() =>
@@ -88,6 +87,7 @@ export default function UserDeleteModal({
                   })
                 );
               setUpdated(!updated);
+              onClose();
             }}
           >
             Supprimer

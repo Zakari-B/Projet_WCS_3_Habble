@@ -121,6 +121,7 @@ function EmployerSelect({ annonces }) {
                 placeholder="Choisissez une option"
                 w="100%"
                 onChange={handleFilterFamily}
+                value={familyName}
               >
                 {families.map((family) => (
                   <option>{family?.lastname}</option>
@@ -179,11 +180,95 @@ function EmployerSelect({ annonces }) {
             </Thead>
             <Tbody>
               {annonces &&
+                coordinatorId &&
                 annonces
                   .filter(
                     (opt) =>
                       (opt.title?.toLowerCase().includes(input) &&
                         opt.fk_family_id?.lastname?.includes(familyName) &&
+                        opt.status?.includes(option)) ||
+                      (opt.fk_annonce_id?.title
+                        ?.toLowerCase()
+                        .includes(input) &&
+                        opt.fk_annonce_id?.status?.includes(option))
+                  )
+                  .map((data) => (
+                    <Tr key={data.id}>
+                      <Td>
+                        {coordinatorId ? (
+                          <Link
+                            href={`/profil-coordinator/${coordinatorId}/famille/${data.familyId}`}
+                            _hover={{ color: "pink.light", fontWeight: "700" }}
+                          >
+                            {data.fk_family_id?.lastname}{" "}
+                          </Link>
+                        ) : null}
+                      </Td>
+                      <Td>
+                        {coordinatorId && (
+                          <Link
+                            href={`/profil-coordinator/${coordinatorId}/mes-annonces/${data.id}`}
+                            _hover={{ color: "pink.light", fontWeight: "700" }}
+                          >
+                            {data.title}{" "}
+                          </Link>
+                        )}
+                        {employerId && (
+                          <Link
+                            href={`/profil-employer/${employerId}/mes-annonces/${data.id}`}
+                            _hover={{ color: "pink.light", fontWeight: "700" }}
+                          >
+                            {data.title || data.fk_annonce_id?.title}{" "}
+                          </Link>
+                        )}
+                        {freelancerId && (
+                          <Link
+                            href={`/profil/${freelancerId}/mes-annonces/${data.fk_annonce_id?.id}`}
+                            _hover={{ color: "pink.light", fontWeight: "700" }}
+                          >
+                            {data.title || data.fk_annonce_id?.title}{" "}
+                          </Link>
+                        )}
+                      </Td>
+
+                      <Td isNumeric>{data.annonce_offers?.length}</Td>
+                      <Td>{data.price || data.fk_annonce_id?.price} €</Td>
+                      <Td>
+                        {dateFormat(
+                          data.dateCreated || data.fk_annonce_id?.dateCreated,
+                          "dd/mm/yyyy"
+                        )}
+                      </Td>
+                      <Td>
+                        <Tag>{data.status || data.fk_annonce_id?.status}</Tag>
+                      </Td>
+
+                      {freelancerId === undefined ||
+                        data.status === "Brouillon" ||
+                        (data.fk_annonce_id?.status === "Brouillon" && (
+                          <Td>
+                            <Button
+                              onClick={onEditOpen}
+                              variant="solid_PrimaryColor"
+                            >
+                              Modifier
+                            </Button>
+                            <EditAnnonceModal
+                              isOpen={isEditOpen}
+                              onOpen={onEditOpen}
+                              onClose={onEditClose}
+                              annonce={data}
+                            />
+                          </Td>
+                        ))}
+                    </Tr>
+                  ))}
+
+              {annonces &&
+                annonces
+                  .filter(
+                    (opt) =>
+                      (opt.title?.toLowerCase().includes(input) &&
                         opt.status?.includes(option)) ||
                       (opt.fk_annonce_id?.title
                         ?.toLowerCase()

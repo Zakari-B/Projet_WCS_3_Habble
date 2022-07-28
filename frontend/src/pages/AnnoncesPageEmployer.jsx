@@ -10,7 +10,7 @@ export default function AnnoncesPageEmployer() {
   const { id } = useParams();
 
   const [currentAnnonce, setCurrentAnnonce] = useState({});
-
+  const [updated, setUpdated] = useState(false);
   const [offers, setOffers] = useState([]);
 
   useEffect(() => {
@@ -21,7 +21,7 @@ export default function AnnoncesPageEmployer() {
       .catch((error) => {
         console.warn(error);
       });
-  }, []);
+  }, [updated, offers]);
 
   useEffect(() => {
     getSubListforAnId("annonces", id, "offers")
@@ -31,7 +31,7 @@ export default function AnnoncesPageEmployer() {
       .catch((error) => {
         console.warn(error);
       });
-  }, []);
+  }, [updated]);
 
   return (
     <Box h="100vh">
@@ -44,8 +44,17 @@ export default function AnnoncesPageEmployer() {
         paddingTop="150px"
         gap="20px"
       >
-        <AnnonceRecap annonce={currentAnnonce} offers={offers} />
-        <AnnonceOffers offers={offers} />
+        <AnnonceRecap
+          annonce={currentAnnonce}
+          offers={offers}
+          updated={updated}
+          setUpdated={setUpdated}
+        />
+        <AnnonceOffers
+          offers={offers}
+          updated={updated}
+          setUpdated={setUpdated}
+        />
       </Flex>
     </Box>
   );

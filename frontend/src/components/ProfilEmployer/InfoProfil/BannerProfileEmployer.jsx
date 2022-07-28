@@ -46,67 +46,44 @@ export default function BannerProfileEmployer({
             border="1px solid gray.200"
           />
         </Flex>
-        <Flex
-          direction="column"
-          w={{ base: "100%", md: "40%" }}
-          margin="auto 0"
-        >
-          <Text
-            fontSize="2rem"
-            fontWeight="700"
-            color="white"
-            textAlign={{ base: "center", md: "left" }}
-          >
-            {employer.displayName}
-          </Text>
-
-          <Text color="white" textAlign={{ base: "center", md: "left" }}>
-            Membre depuis le {dateFormat(employer.dateCreated, "dd/mm/yyyy")}
-          </Text>
+        <Flex justifyContent="space-between" w="-webkit-fill-available">
           <Flex
-            direction={{ base: "column", sm: "row" }}
-            p="0.75rem"
-            gap={5}
-            margin="auto"
-            w="30%"
-            display={{ base: "flex", md: "none" }}
-            justifyContent="center"
+            direction="column"
+            w={{ base: "95%", md: "40%" }}
+            margin="auto 0"
           >
-            <Button
-              marginTop="0.75rem"
-              variant="solid_PrimaryColor"
-              onClick={onOpen}
+            <Text
+              fontSize="2rem"
+              fontWeight="700"
+              color="white"
+              textAlign={{ base: "center", md: "left" }}
             >
-              Modifier
-            </Button>
-          </Flex>
-        </Flex>
+              {employer.displayName}
+            </Text>
 
-        <Flex
-          alignSelf="center"
-          direction="column"
-          p="0.75rem"
-          gap={5}
-          margin="0 0 0 auto"
-          w="30%"
-          display={{ base: "none", md: "flex" }}
-        >
+            <Text color="white" textAlign={{ base: "center", md: "left" }}>
+              Membre depuis le {dateFormat(employer.dateCreated, "dd/mm/yyyy")}
+            </Text>
+          </Flex>
+
           <Button
             marginTop="0.75rem"
             variant="solid_PrimaryColor"
             onClick={onOpen}
+            w="fit-content"
           >
             Modifier
           </Button>
-          <ModalProfilForm
-            onOpen={onOpen}
-            isOpen={isOpen}
-            onClose={onClose}
-            employer={employer}
-            updated={updated}
-            setUpdated={setUpdated}
-          />
         </Flex>
+
+        <ModalProfilForm
+          onOpen={onOpen}
+          isOpen={isOpen}
+          onClose={onClose}
+          employer={employer}
+          updated={updated}
+          setUpdated={setUpdated}
+        />
       </Flex>
       <Flex
         bgColor="lightgray"

@@ -166,7 +166,11 @@ export default function ModalProfilForm({
                       />
                     </VStack>
                   </FormControl>
-                  <PictureProfileEmployer employer={employer} />
+                  <PictureProfileEmployer
+                    employer={employer}
+                    updated={updated}
+                    setUpdated={setUpdated}
+                  />
                 </Flex>
                 <FormLabel
                   htmlFor="presentation"

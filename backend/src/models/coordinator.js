@@ -86,6 +86,7 @@ exports.getAllCoordinatorsProfileInfo = async (coordinatorid) => {
             dateCreated: "desc",
           },
         },
+        fk_user_id: { select: { isAdmin: true } },
       },
     });
   } finally {

@@ -141,7 +141,7 @@ exports.validateOfferCreation = (data, forCreation = true) => {
   const validationErrors = Joi.object({
     price: Joi.number().presence(presence).options({ convert: false }),
     description: Joi.string().max(500).presence(presence),
-    availableIn: Joi.string().max(500).presence(presence),
+    availableIn: Joi.string().min(2).max(500).presence(presence),
   }).validate(data, { abortEarly: false }).error;
   if (validationErrors) {
     return validationErrors;
@@ -154,7 +154,7 @@ exports.validateOfferUpdate = (data, forCreation = false) => {
   const validationErrors = Joi.object({
     price: Joi.number().presence(presence).options({ convert: false }),
     description: Joi.string().max(500).presence(presence),
-    availableIn: Joi.string().max(500).presence(presence),
+    availableIn: Joi.string().min(2).max(500).presence(presence),
     status: Joi.string().max(500).presence(presence),
   }).validate(data, { abortEarly: false }).error;
   if (validationErrors) {
