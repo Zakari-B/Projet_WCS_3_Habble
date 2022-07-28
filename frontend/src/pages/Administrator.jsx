@@ -35,6 +35,7 @@ export default function Administrator() {
   const [serviceList, setServiceList] = useState([]);
   const [updated, setUpdated] = useState(false);
   const [announcements, setAnnouncements] = useState([]);
+  const [documentList, setDocumentList] = useState([]);
 
   useEffect(() => {
     if (JSON.parse(localStorage.getItem("isUserLoggedIn"))) {
@@ -46,8 +47,16 @@ export default function Administrator() {
     } else {
       navigate("/error");
     }
+  }, []);
 
+  useEffect(() => {
     backendAPI.get("/api/users").then((res) => setUserList(res.data));
+  }, [updated, userList, selectedUser]);
+
+  useEffect(() => {
+    backendAPI
+      .get("/api/admin/getAllDocs")
+      .then((res) => setDocumentList(res.data));
   }, []);
 
   const changeUser = (e) => {
@@ -61,6 +70,33 @@ export default function Administrator() {
       setSelectorValue(["", id, ""]);
     } else {
       setSelectorValue(["", "", id]);
+    }
+  };
+
+  const changeUserByDoc = (elem) => {
+    if (elem.freelancerId) {
+      backendAPI
+        .post(`api/users/adminGetOneFromRole`, {
+          roleName: "freelancer",
+          roleId: elem.freelancerId,
+        })
+        .then((res) => {
+          setSelectedUser(res.data.userToGet.id);
+          setSelectorValue(["", "", res.data.userToGet.id]);
+        });
+      setSelectorValue(["", "", ""]);
+    } else if (elem.coordinatorId) {
+      backendAPI
+        .post(`api/users/adminGetOneFromRole`, {
+          roleName: "coordinator",
+          roleId: elem.coordinatorId,
+        })
+        .then((res) => {
+          setSelectedUser(res.data.userToGet.id);
+          setSelectorValue(["", res.data.userToGet.id, ""]);
+        });
+    } else {
+      setSelectorValue(["", "", ""]);
     }
   };
 
@@ -206,7 +242,87 @@ export default function Administrator() {
                       user={elem}
                       udpated={updated}
                       setUpdated={setUpdated}
+                      key={elem.lastname + elem.id}
                     />
+                  );
+                })}
+          </Flex>
+        </Flex>
+      </Flex>
+
+      {/* Documents a verifier */}
+      <Flex
+        bgColor="background.gray"
+        minHeight="100px"
+        flexDirection="column"
+        width="100%"
+        pb={{ base: "1rem" }}
+      >
+        <Flex
+          bgColor="white"
+          width="90%"
+          m="auto"
+          alignItems="center"
+          justifyContent="center"
+          flexDirection="column"
+          boxShadow="0px 1px 1px 0px rgb(185 184 184 / 75%)"
+          borderRadius="25px"
+          padding={{ base: "0", md: "20px", lg: "25px" }}
+          minHeight="120px"
+        >
+          <Heading
+            as="h2"
+            textAlign="left"
+            fontSize="1.4rem"
+            fontWeight="600"
+            color="purple.average"
+            mb="10px"
+          >
+            Vérifications nécessaires
+          </Heading>
+          <Flex w="100%" flexDirection="column" alignItems="center" gap="3">
+            {documentList &&
+              documentList
+                .filter((elem) => elem.verified === false)
+                .map((elem) => {
+                  return (
+                    <Flex
+                      justifyContent="center"
+                      alignSelf="center"
+                      w="90%"
+                      flexWrap="wrap"
+                      key={elem.id + elem.name}
+                    >
+                      <span style={{ fontWeight: "bold" }}>ID : &nbsp;</span>
+                      &nbsp;
+                      {elem.id} &nbsp;
+                      <span style={{ fontWeight: "bold" }}>Type : &nbsp;</span>
+                      {elem.name}
+                      &nbsp;
+                      <span style={{ fontWeight: "bold" }}>
+                        Utilisateur(s) associé :
+                      </span>
+                      &nbsp;
+                      {elem.freelancerId
+                        ? `Freelancer ID ${elem.freelancerId} `
+                        : null}{" "}
+                      {elem.coordinatorId
+                        ? `Coordinateur ID ${elem.coordinatorId} `
+                        : null}{" "}
+                      {elem.familyId
+                        ? ` et Famille ID ${elem.familyId} `
+                        : null}{" "}
+                      &nbsp;&nbsp;
+                      <Button
+                        alignSelf="center"
+                        variant="solid_PrimaryColor"
+                        onClick={() => changeUserByDoc(elem)}
+                        h="1.1rem"
+                      >
+                        {" "}
+                        Selectionner
+                      </Button>
+                    </Flex>
                   );
                 })}
           </Flex>
@@ -253,7 +369,7 @@ export default function Administrator() {
                   .filter((elem) => elem.role === "employer")
                   .map((elem) => {
                     return (
-                      <option value={elem.id}>
+                      <option key={elem.id + elem.lastname} value={elem.id}>
                         {elem.id} - {elem.firstname} {elem.lastname}
                       </option>
                     );
@@ -280,7 +396,7 @@ export default function Administrator() {
                   .filter((elem) => elem.role === "coordinator")
                   .map((elem) => {
                     return (
-                      <option value={elem.id}>
+                      <option key={elem.id + elem.lastname} value={elem.id}>
                         {elem.id} - {elem.firstname} {elem.lastname}
                       </option>
                     );
@@ -307,7 +423,7 @@ export default function Administrator() {
                   .filter((elem) => elem.role === "freelancer")
                   .map((elem) => {
                     return (
-                      <option value={elem.id}>
+                      <option key={elem.id + elem.lastname} value={elem.id}>
                         {elem.id} - {elem.firstname} {elem.lastname}
                       </option>
                     );
@@ -590,6 +706,7 @@ export default function Administrator() {
                       elem.familyId === null ? (
                         <AdminDoc
                           data={elem}
+                          key={elem.id}
                           roleType={userToAdministrate.userResult.role}
                           roleId={userToAdministrate.roleResult.id}
                         />
@@ -622,6 +739,7 @@ export default function Administrator() {
                           elem.familyId !== null ? (
                             <AdminDoc
                               data={elem}
+                              key={elem.id}
                               roleType={userToAdministrate.userResult.role}
                               roleId={userToAdministrate.roleResult.id}
                             />

@@ -105,7 +105,7 @@ export default function ProfilPageProfessionalCoord() {
             {loggedUser.userId === coordinator.userId ? (
               <AccountCard user={coordoUser} />
             ) : null}
-            <Verifications freelancer={coordinator} loggedUser={loggedUser} />
+            <Verifications freelancer={coordinator} />
             <Expertises freelancer={coordinator} />
             <Tarif freelancer={coordinator} />
           </Flex>
