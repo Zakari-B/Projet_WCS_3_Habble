@@ -26,7 +26,7 @@ import AcceptOfferModal from "./AcceptOfferModal";
 import OfferDetailModal from "./OfferDetailModal";
 import EditOfferModal from "./EditOfferModal";
 
-export default function AnnonceOffers({ offers }) {
+export default function AnnonceOffers({ offers, updated, setUpdated }) {
   const {
     isOpen: isAcceptOpen,
     onOpen: onAcceptOpen,
@@ -69,7 +69,7 @@ export default function AnnonceOffers({ offers }) {
         })
         .catch(() => setFreelancerCurrentOffer(""));
     }
-  }, []);
+  }, [updated]);
 
   return (
     <Flex
@@ -347,6 +347,8 @@ export default function AnnonceOffers({ offers }) {
                         isOpen={isEditOpen}
                         onOpen={onEditOpen}
                         onClose={onEditClose}
+                        updated={updated}
+                        setUpdated={setUpdated}
                       />
                     </Flex>
                   </Td>

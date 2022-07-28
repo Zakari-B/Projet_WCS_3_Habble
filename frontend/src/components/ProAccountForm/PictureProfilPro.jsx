@@ -19,7 +19,11 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 import backendAPI from "../../services/backendAPI";
 
-export default function PictureProfilePro({ freelancerPicture }) {
+export default function PictureProfilePro({
+  freelancerPicture,
+  updated,
+  setUpdated,
+}) {
   const { freelancerId } = useParams();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [picturePro, setPicturePro] = useState();
@@ -30,16 +34,25 @@ export default function PictureProfilePro({ freelancerPicture }) {
 
     formData.append("file", picturePro[0]);
 
-    backendAPI.put(`/api/freelancers/${freelancerId}/picture`, formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
-    onClose();
+    backendAPI
+      .put(`/api/freelancers/${freelancerId}/picture`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then(() => {
+        setUpdated(!updated);
+        onClose();
+      })
+      .finally(onClose());
   };
 
   const handleRemovePicture = () => {
-    backendAPI.put(`/api/freelancers/${freelancerId}/removedPicture`);
+    backendAPI
+      .put(`/api/freelancers/${freelancerId}/removedPicture`)
+      .then(() => {
+        setUpdated(!updated);
+      });
   };
 
   return (

@@ -29,7 +29,12 @@ import {
   getOneItemfromtwoLists,
 } from "../../services/ProfileProUtils";
 
-export default function EditOfferModal({ isOpen, onClose }) {
+export default function EditOfferModal({
+  isOpen,
+  onClose,
+  updated,
+  setUpdated,
+}) {
   const { freelancerId } = useParams();
   const { id } = useParams();
   const toast = useToast();
@@ -46,11 +51,11 @@ export default function EditOfferModal({ isOpen, onClose }) {
       freelancerId,
       id
     ).then((res) => {
-      setCurrentOffer(res.data[0]);
-      setPrice(res.data[0].price);
-      setTime(res.data[0].availableIn.split(" ")[0]);
-      setPeriodicity(res.data[0].availableIn.split(" ")[1]);
-      setDescription(res.data[0].description);
+      setCurrentOffer(res?.data[0]);
+      setPrice(res.data[0]?.price);
+      setTime(res.data[0].availableIn?.split(" ")[0]);
+      setPeriodicity(res.data[0].availableIn?.split(" ")[1]);
+      setDescription(res.data[0]?.description);
     });
   }, []);
 
@@ -78,15 +83,16 @@ export default function EditOfferModal({ isOpen, onClose }) {
       availableIn: `${time} ${periodicity}`,
       description,
     })
-      .then(() =>
+      .then(() => {
+        setUpdated(!updated);
         toast({
           title: "Votre Proposition a bien été modifiée",
           status: "success",
           position: "bottom-right",
           duration: 7000,
           isClosable: true,
-        })
-      )
+        });
+      })
       .catch(() =>
         toast({
           title: "Votre proposition n'a pas pu être modifiée",
@@ -203,7 +209,7 @@ export default function EditOfferModal({ isOpen, onClose }) {
             type="submit"
             onClick={handleSubmit}
           >
-            Envoyer la proposition
+            Modifier la proposition
           </Button>
           <Button color="gray.dark" mr={3} onClick={onClose} variant="link">
             Annuler

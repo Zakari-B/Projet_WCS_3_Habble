@@ -269,7 +269,11 @@ export default function ExperienceForm({ updated, setUpdated }) {
             Du
           </FormLabel>
           <HStack>
-            <SelectMonth onChange={handleFromMonthChange} value={startMonth} />
+            <SelectMonth
+              onChange={handleFromMonthChange}
+              value={startMonth}
+              defaultMonth={startMonth}
+            />
             <Select
               w={{ base: "45.8%", md: "32.1%" }}
               placeholder="Année"
@@ -290,7 +294,11 @@ export default function ExperienceForm({ updated, setUpdated }) {
             Au
           </FormLabel>
           <HStack>
-            <SelectMonth onChange={handleToMonthChange} value={endMonth} />
+            <SelectMonth
+              onChange={handleToMonthChange}
+              value={endMonth}
+              defaultMonth={endMonth}
+            />
             <Select
               w={{ base: "45.8%", md: "32.1%" }}
               placeholder="Année"

@@ -24,7 +24,6 @@ export default function FormationForm({ updated, setUpdated }) {
   const { setIsVisible, currentFormation } = useContext(FormationFormContext);
   const { isOpen, onToggle } = useDisclosure();
   const { freelancerId, coordinatorId } = useParams();
-
   const [level, setlevel] = useState(currentFormation.level);
   const [institution, setInstitution] = useState(currentFormation.institution);
   const [startMonth, setStartMonth] = useState(currentFormation.startMonth);
@@ -92,15 +91,17 @@ export default function FormationForm({ updated, setUpdated }) {
         endYear,
         description,
       })
-        .then(() =>
+        .then(() => {
+          setUpdated(!updated);
+
           toast({
             title: "Votre formation a bien été ajoutée",
             status: "success",
             position: "bottom-right",
             duration: 7000,
             isClosable: true,
-          })
-        )
+          });
+        })
         .catch((e) => {
           console.error(e);
           toast({
@@ -122,15 +123,17 @@ export default function FormationForm({ updated, setUpdated }) {
         endYear,
         description,
       })
-        .then(() =>
+        .then(() => {
+          setUpdated(!updated);
+
           toast({
             title: "Votre formation a bien été ajoutée",
             status: "success",
             position: "bottom-right",
             duration: 7000,
             isClosable: true,
-          })
-        )
+          });
+        })
         .catch((e) => {
           console.error(e);
           toast({
@@ -144,7 +147,6 @@ export default function FormationForm({ updated, setUpdated }) {
     }
     handleReset();
     setIsVisible(false);
-    setUpdated(!updated);
   };
 
   const handleUpdate = (event) => {
@@ -264,7 +266,11 @@ export default function FormationForm({ updated, setUpdated }) {
             Du
           </FormLabel>
           <HStack>
-            <SelectMonth onChange={handleFromMonthChange} value={startMonth} />
+            <SelectMonth
+              onChange={handleFromMonthChange}
+              value={startMonth}
+              defaultMonth={startMonth}
+            />
             <Select
               w={{ base: "45.8%", md: "32.1%" }}
               placeholder="Année"
@@ -286,7 +292,11 @@ export default function FormationForm({ updated, setUpdated }) {
             Au
           </FormLabel>
           <HStack>
-            <SelectMonth onChange={handleToMonthChange} value={endMonth} />
+            <SelectMonth
+              onChange={handleToMonthChange}
+              value={endMonth}
+              defaultMonth={endMonth}
+            />
 
             <Select
               w={{ base: "45.8%", md: "32.1%" }}

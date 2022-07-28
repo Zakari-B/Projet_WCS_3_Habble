@@ -18,7 +18,7 @@ import {
 import { useState } from "react";
 import backendAPI from "../../../services/backendAPI";
 
-export default function PictureProfilePro({ employer }) {
+export default function PictureProfilePro({ employer, updated, setUpdated }) {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [pictureEmployer, setPictureEmployer] = useState();
 
@@ -28,12 +28,17 @@ export default function PictureProfilePro({ employer }) {
 
     formData.append("file", pictureEmployer[0]);
 
-    backendAPI.put(`/api/employers/${employer.id}/picture`, formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
-    onClose();
+    backendAPI
+      .put(`/api/employers/${employer.id}/picture`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then(() => {
+        setUpdated(!updated);
+        onClose();
+      })
+      .finally(onClose());
   };
 
   const handleRemovePicture = () => {

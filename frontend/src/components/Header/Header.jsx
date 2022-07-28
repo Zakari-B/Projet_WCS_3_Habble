@@ -28,6 +28,7 @@ export default function Header({
   onDark = false,
   isSticky = false,
   isStickyWhite = false,
+  updated,
 }) {
   const [scrollPosition, setScrollPosition] = useState(0);
   const [isSignUp, setIsSignUp] = useState(
@@ -89,7 +90,7 @@ export default function Header({
         })
         .catch((err) => console.error(err));
     }
-  }, []);
+  }, [updated]);
 
   return (
     <Flex

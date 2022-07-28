@@ -73,7 +73,7 @@ export default function ProfilPageProfessionalCoord() {
 
   return (
     <Box h="100vh">
-      <Header onDark={false} isSticky={false} isStickyWhite />
+      <Header onDark={false} isSticky={false} isStickyWhite updated={updated} />
       <Flex
         bgColor="background.gray"
         direction="column"

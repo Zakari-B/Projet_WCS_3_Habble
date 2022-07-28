@@ -12,7 +12,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import PropTypes from "prop-types";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 
 import { deleteItemList } from "../services/ProfileProUtils";
 
@@ -26,6 +26,8 @@ export default function DeleteConfirmModal({
 }) {
   const { freelancerId, employerId, coordinatorId } = useParams();
   const toast = useToast();
+  const navigate = useNavigate();
+
   return (
     <Modal size="xl" isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
@@ -95,7 +97,12 @@ export default function DeleteConfirmModal({
                     })
                   );
               } else if (employerId) {
-                deleteItemList("employers", type, employerId, item)
+                deleteItemList(
+                  "employers",
+                  type,
+                  employerId,
+                  parseInt(item.id, 10)
+                )
                   .then(() => {
                     toast({
                       title: `${
@@ -116,7 +123,12 @@ export default function DeleteConfirmModal({
                       duration: 7000,
                       isClosable: true,
                     })
-                  );
+                  )
+                  .finally(() => {
+                    if (type === "annonce") {
+                      navigate(`/profil-employer/${employerId}`);
+                    }
+                  });
               } else if (coordinatorId) {
                 deleteItemList("coordinator", type, coordinatorId, item)
                   .then(() => {
